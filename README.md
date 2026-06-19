@@ -6,15 +6,18 @@
 2. [Guide Docs](#2-Guide-Docs)
 
 ## 1. Dev Setup
+| 파일 명 | 설명 | 생성일 | 수정일 |  
+| :--- | :--- | :-:  | :-:  | 
+| **[llama.cpp & aider](./setup/SETUP_llama-cpp_aider.md)** | 로컬 AI 구성 | 2026.06.19 | 2026.06.19 |
 
 ## 2. Guide Docs
 
-### Local AI 설정
-| 파일 명 | 설명 | 생성일 | 수정일 |
-| :--- | :--- | :-:  | :-:  | 
+### 2.1 Local AI 설정
+| 파일 명 | 설명 | 생성일 | 수정일 |  
+| :--- | :--- | :-:  | :-:  |  
 | **[Local AI Control](./docs/Guide_Local_Ai_Control.md)** | 로컬에서 사용해볼만한 구성 | 2026.06.19 | 2026.06.19 |
 
-### 파트 뭘로 할지 안정했다
+### 2.2 Project Setup
 
 | 파일 명 | 설명 | 생성일 | 수정일 |
 | :--- | :--- | :-:  | :-:  |
