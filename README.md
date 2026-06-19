@@ -9,6 +9,7 @@
 | 파일 명 | 설명 | 생성일 | 수정일 |  
 | :--- | :--- | :-:  | :-:  | 
 | **[llama.cpp & aider](./setup/SETUP_llama-cpp_aider.md)** | 로컬 AI 구성 | 2026.06.19 | 2026.06.19 |
+| **[Antigravity CLI](./agy/Guide_antigravity_cli.md)** | agy Setup | 2026.06.19 | 2026.06.19 |
 
 ## 2. Guide Docs
 
