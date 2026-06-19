@@ -15,6 +15,7 @@
 7. [Docker(도커) 설치 및 기본 세팅](#7-docker도커-설치-및-기본-세팅)
 8. [Docker를 이용한 크로스 플랫폼 빌드 가이드 (macOS 기준)](#8-docker를-이용한-크로스-플랫폼-빌드-가이드-macos-기준)
 9. [다양한 언어 개발 환경 및 격리 가이드 (C/C++, C#, Arduino, Flutter, Rust, Go, TS)](#9-다양한-언어-개발-환경-및-격리-가이드-cc-c-arduino-flutter-rust-go-ts)
+10. [운영체제별 셸 환경설정 및 필수 환경 변수(export/setx) 목록](#10-운영체제별-셸-환경설정-및-필수-환경-변수exportsetx-목록)
 
 ---
 
@@ -610,3 +611,102 @@ npx tsc --noEmit
    }
    ```
 3. VS Code에서 `Reopen in Container`를 실행하면, 프로젝트 코드가 도커 컨테이너 내부 샌드박스로 탑재되어 내 컴퓨터에는 아무 흔적도 남기지 않은 채 완벽하게 격리된 환경에서 개발/빌드/디버깅을 처리할 수 있습니다.
+
+---
+
+# 10. 운영체제별 셸 환경설정 및 필수 환경 변수(export/setx) 목록
+
+설치한 개발 도구의 명령어 실행 파일(PATH)을 운영체제가 인식하게 하거나, AI 연동 및 컴파일 옵션을 설정하기 위해 전역 또는 세션별로 환경 변수를 주입하는 방법입니다.
+
+---
+
+## 1) 🍎 macOS & 🐧 Linux 환경 변수 설정
+macOS(zsh 셸) 및 Linux(bash 셸)는 사용자의 홈 디렉토리 내부 숨김 파일에 설정 정보를 기록합니다.
+
+### ① 셸 프로파일 파일 편집 경로
+* **macOS (기본 zsh)**: `~/.zshrc`
+* **Linux (기본 bash)**: `~/.bashrc`
+```bash
+# VS Code로 열기
+code ~/.zshrc  # Linux는 code ~/.bashrc
+# 터미널 편집기(nano)로 열기
+nano ~/.zshrc
+```
+
+### ② 수정 사항 적용법
+설정을 저장한 후 터미널에 아래 명령어를 내려야 즉시 터미널 세션에 바인딩됩니다.
+```bash
+source ~/.zshrc   # Linux는 source ~/.bashrc
+```
+
+### ③ 필수 export 설정 스크립트 블록
+`~/.zshrc` 또는 `~/.bashrc` 가장 하단에 추가합니다.
+```bash
+# 1. Homebrew 바이너리 경로 (M칩 Mac 필수)
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# 2. Node.js (nvm) 초기화 및 실행 설정
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# 3. Python 사용자 패키지 실행 디렉토리 추가
+export PATH="$HOME/Library/Python/3.11/bin:$HOME/Library/Python/3.12/bin:$PATH"
+
+# 4. Rust (Cargo) 및 Go (Golang) 툴체인
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+
+# 5. Flutter 및 Android SDK
+export PATH="/opt/homebrew/Caskroom/flutter/latest/flutter/bin:$PATH"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+
+# 6. AI API 포트 환경변수 (Aider 자동화 연결용)
+export OPENAI_API_BASE="http://localhost:8080/v1"
+export OPENAI_API_KEY="no-key-needed"
+```
+
+---
+
+## 2) 🪟 Windows 환경 변수 설정
+Windows는 GUI 시스템 설정창을 이용하거나, **PowerShell CLI**를 사용하여 영구적 환경 변수 및 사용자 PATH 등록을 처리합니다.
+
+### ① PowerShell을 통한 영구 환경 변수 등록 (`setx` 사용)
+관리자 권한의 PowerShell 터미널을 열고 실행합니다.
+```powershell
+# 1. AI API 연동 환경 변수 영구 등록 (Aider용)
+setx OPENAI_API_BASE "http://localhost:8080/v1"
+setx OPENAI_API_KEY "no-key-needed"
+
+# 2. Go 모듈 경로 및 개발 디렉토리 지정
+setx GOPATH "$env:USERPROFILE\go"
+```
+
+### ② 특정 바이너리 폴더(PATH) 추가 설정
+사용자 환경 변수의 `Path` 컬렉션 뒤에 원하는 컴파일 디렉토리를 덧붙입니다.
+```powershell
+# 예시: 사용자 경로에 Flutter 및 Cargo 디렉토리 덧붙이기
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$newPaths = ";$env:USERPROFILE\.cargo\bin;C:\src\flutter\bin"
+[Environment]::SetEnvironmentVariable("Path", $userPath + $newPaths, "User")
+```
+> **Tip**: 변경 후 터미널 세션을 완전히 종료한 뒤 재부팅하여 확인하십시오.
+
+---
+
+## 3) 주입된 환경 변수 동작 검증
+```bash
+# macOS / Linux 환경 변수 목록 검색
+env | grep -E "OPENAI|PATH"
+
+# Windows PowerShell 환경 변수값 확인
+$env:OPENAI_API_BASE
+
+# PATH 등록 상태 자가진단 (모든 OS 공통)
+flutter --version
+rustc --version
+```
