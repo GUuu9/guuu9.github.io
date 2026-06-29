@@ -9,7 +9,7 @@
 ## 📌 목차 바로가기
 * [1. LM Studio 선정 및 모델 안내](#-1-lm-studio-선정-및-모델-안내)
   * [🧠 추천 AI 모델 (코딩 전용)](#-추천-ai-모델-코딩-전용)
-  * [⚙️ PC 성능별 모델 및 추론(Inference) 설정 예시](#-pc-성능별-모델-및-추론inference-설정-예시)
+  * [⚙️ PC 성능별 모델 및 추론(Inference) 설정 예시](#️-pc-성능별-모델-및-추론inference-설정-예시)
 * [2. macOS 환경 구축 가이드](#-2-macos-환경-구축-가이드)
   * [Apple Silicon Mac](#2-1-apple-silicon-mac-m1-m2-m3-m4-등)
   * [Intel Mac](#2-2-intel-mac-이전-세대-imac-macbook-pro-등)
@@ -31,7 +31,11 @@
   * [에이전트(models.json) 다중 모델 바인딩 예시](#7-3-에이전트modelsjson-다중-모델-바인딩-예시)
 * [8. 메인 모델 자율 오케스트레이터 구현 가이드 (Agentic Orchestrator)](#-8-메인-모델-자율-오케스트레이터-구현-가이드-agentic-orchestrator)
   * [동작 메커니즘 아키텍처](#8-1-동작-메커니즘-아키텍처)
-  * [Python FastAPI 기반 중재 라우터 예시 코드](#8-2-python-fastapi-기반-중재-라우터-예시-코드)
+  * [1단계: 필수 추가 프로그램 및 라이브러리 설치](#8-2-️-1단계-필수-추가-프로그램-및-라이브러리-설치)
+  * [2단계: LM Studio 다중 모델 서버 구동 (포트 분할)](#8-3--2단계-lm-studio-다중-모델-서버-구동-포트-분할)
+  * [3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)](#8-4-️-3단계-openai-규격-호환-중재-프록시-코드-작성-orchestratorpy)
+  * [4단계: Pi Coding Agent (`pi`) 연동 환경 설정](#8-5-️-4단계-pi-coding-agent-pi-연동-환경-설정)
+  * [5단계: 시스템 실행 및 확인 방법](#8-6--5단계-시스템-실행-및-확인-방법)
 
 ---
 
@@ -437,7 +441,31 @@ LM Studio와 Pi Coding Agent (`pi`)를 결합하여 **메인 모델(Orchestrator
 
 ---
 
-### 8-1. 🛠️ 1단계: 필수 추가 프로그램 및 라이브러리 설치
+### 8-1. 동작 메커니즘 아키텍처
+
+```mermaid
+sequenceDiagram
+    participant User as 사용자 / Pi Agent
+    participant Router as 중재 라우터 (Python FastAPI)
+    participant Main as 메인 모델 (Llama-3.1-8B: 포트 1234)
+    participant Sub as 하위 모델 (Qwen2.5-Coder: 포트 1235)
+
+    User->>Router: 1. 코딩 질문 또는 일반 명령 전달
+    Router->>Main: 2. 요청 유형 분류 분석 요청 (일반 대화 vs 코딩)
+    Main-->>Router: 3. 분류 결과 반환 ("코딩 작업 필요" 판정)
+    
+    rect rgb(240, 248, 255)
+        note right of Router: 판단 결과에 따라 하위 모델 라우팅 분기 처리
+        Router->>Sub: 4. 소스코드 작성 및 분석 작업 요청 전달
+        Sub-->>Router: 5. 최적화된 코드 답변 반환
+    end
+
+    Router->>Main: 6. 하위 모델의 소스코드 결과 피드백 및 최종 정제 요청
+    Main-->>Router: 7. 완벽한 설명이 동반된 최종 답변 구조화
+    Router-->>User: 8. 최종 정리된 답변 반환
+```
+
+### 8-2. 🛠️ 1단계: 필수 추가 프로그램 및 라이브러리 설치
 이 프록시 서버는 Python으로 작성되므로, Python 환경 및 API 통신용 라이브러리가 필요합니다.
 
 ```bash
@@ -455,7 +483,7 @@ pip install fastapi uvicorn httpx
 
 ---
 
-### 8-2. 🧠 2단계: LM Studio 다중 모델 서버 구동 (포트 분할)
+### 8-3. 🧠 2단계: LM Studio 다중 모델 서버 구동 (포트 분할)
 메인 모델과 하위 코더 모델을 서로 다른 포트에 각각 기동합니다.
 
 * **메인 모델 (Llama-3.1-8B-Instruct - 포트 `1234`)**: 질문을 분석하고 최종 피드백 및 정리를 수행합니다.
@@ -471,7 +499,7 @@ lms server start --port 1235 --model qwen2.5-coder-7b-instruct
 
 ---
 
-### 8-3. 🖥️ 3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)
+### 8-4. 🖥️ 3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)
 `pi` 에이전트가 보내는 OpenAI 규격의 API 호출을 그대로 가로채어(Intercept) 메인 모델에 의도 분류를 먼저 보내고, 분류 값에 따라 하청 모델로 분기한 후 결과를 가공해 다시 OpenAI 규격으로 돌려주는 Python 코드입니다.
 
 `~/local-ai-orchestrator/orchestrator.py`로 파일을 생성하고 다음 코드를 기입합니다.
@@ -569,7 +597,7 @@ if __name__ == "__main__":
 
 ---
 
-### 8-4. ⚙️ 4단계: Pi Coding Agent (`pi`) 연동 환경 설정
+### 8-5. ⚙️ 4단계: Pi Coding Agent (`pi`) 연동 환경 설정
 `pi` 에이전트가 로컬에 띄운 8000포트 중재 라우터를 바라보고 작동하게 바인딩합니다.
 
 #### 📁 설정 파일 경로
@@ -609,7 +637,7 @@ if __name__ == "__main__":
 
 ---
 
-### 8-5. 🚀 5단계: 시스템 실행 및 확인 방법
+### 8-6. 🚀 5단계: 시스템 실행 및 확인 방법
 총 4개의 터미널 혹은 프로세스를 띄워 검증을 시작합니다.
 
 1. **메인 모델 기동**: `lms server start --port 1234 --model llama-3.1-8b-instruct`
