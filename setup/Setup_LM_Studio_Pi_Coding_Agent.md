@@ -25,6 +25,13 @@
   * [호스트 PC 설정](#6-1-호스트-pc-설정-lm-studio-구동-pc)
   * [클라이언트 PC 설정](#6-2-클라이언트-pc-설정-pi-에이전트-구동-pc)
   * [다중 접속 및 동시성 주의사항](#6-3-️-다중-접속-및-동시성concurrency-주의사항)
+* [7. 로컬 다중 모델 오케스트레이션 구성 가이드 (AGY 스타일)](#-7-로컬-다중-모델-오케스트레이션-구성-가이드-agy-스타일)
+  * [LM Studio 다중 서버 실행 (포트 분할)](#7-1-방법-a-lm-studio-다중-서버-실행-포트-분할)
+  * [LiteLLM 프록시 라우터 구성](#7-2-방법-b-litellm-프록시-라우터-구성)
+  * [에이전트(models.json) 다중 모델 바인딩 예시](#7-3-에이전트modelsjson-다중-모델-바인딩-예시)
+* [8. 메인 모델 자율 오케스트레이터 구현 가이드 (Agentic Orchestrator)](#-8-메인-모델-자율-오케스트레이터-구현-가이드-agentic-orchestrator)
+  * [동작 메커니즘 아키텍처](#8-1-동작-메커니즘-아키텍처)
+  * [Python FastAPI 기반 중재 라우터 예시 코드](#8-2-python-fastapi-기반-중재-라우터-예시-코드)
 
 ---
 
@@ -352,6 +359,271 @@ pi --model qwen2.5-coder-7b-instruct
    * 기본 설정상 LM Studio는 물리 메모리(VRAM/RAM)에 **단 하나의 모델 인스턴스**만 로드하여 서비스합니다.
    * A 사용자가 `Qwen2.5-Coder-7B` 모델을 사용 중인데 B 사용자가 `Llama-3.1-8B` 등 다른 모델을 요청하면, 기존 모델을 언로드(Unload)하고 새 모델을 로드하는 과정이 발생해 매우 긴 대기 시간이 필요하거나 메모리 부족(OOM) 에러로 백엔드 서버가 강제 종료될 수 있습니다.
 3. **권장 해결책**:
-   * 팀 단위 등 다인 환경에서 로컬 GPU 자원을 공유해야 하는 경우, 병렬 요청 처리가 보다 유연한 **Ollama**나 **vLLM** 같은 전문 서빙 엔진의 도입을 검토하는 것이 좋습니다. (LM Studio는 기본적으로 1인 개발 및 로컬 테스트 환경에 최적화되어 설계된 툴입니다.)
+   * 팀 단위 등 다인 환경에서 로컬 GPU 자원을 공유해야 하는 경우, 병렬 요청 처리가 보다 유연한 **vLLM** 같은 전문 서빙 엔진의 도입을 검토하는 것이 좋습니다. (LM Studio는 기본적으로 1인 개발 및 로컬 테스트 환경에 최적화되어 설계된 툴입니다.)
+
+---
+
+## 🎻 7. 로컬 다중 모델 오케스트레이션 구성 가이드 (AGY 스타일)
+
+Pi Coding Agent나 Antigravity(AGY)처럼 **역할군별로 다른 로컬 모델(예: 기획/플래너 모델, 코드 생성 모델, 도구 호출 모델)을 조합하여 오케스트레이션**하는 것은 로컬 환경에서도 충분히 가능합니다. 이를 구현하기 위한 2가지 접근 방법을 안내합니다.
+
+### 7-1. 방법 A: LM Studio 다중 서버 실행 (포트 분할)
+단일 LM Studio GUI 앱에서는 기본적으로 한 번에 하나의 모델만 서비스하지만, 포트를 분리하여 여러 프로세스를 실행하면 다중 모델을 동시에 띄울 수 있습니다.
+* **구성 예시**:
+  * **포트 `1234`**: `Llama-3.1-8B-Instruct` (전체 작업 기획 및 자연어 추론용 플래너 모델)
+  * **포트 `1235`**: `Qwen2.5-Coder-7B-Instruct` (실제 소스코드 작성 및 분석용 코더 모델)
+* **설정 방식**:
+  LM Studio CLI(`lms`) 명령어를 활용하여 포트를 다르게 주어 서버를 기동합니다.
+  ```bash
+  # 1번 서버 기동 (플래너용 - 1234 포트)
+  lms server start --port 1234 --model llama-3.1-8b-instruct
+  
+  # 2번 서버 기동 (코더용 - 1235 포트)
+  lms server start --port 1235 --model qwen2.5-coder-7b-instruct
+  ```
+
+### 7-2. 방법 B: LiteLLM 프록시 라우터 구성
+여러 포트나 프로바이더로 분산된 로컬 모델들을 하나의 깔끔한 OpenAI 규격 API 엔드포인트로 묶어주는 **LiteLLM 프록시**를 앞단에 구성하는 방식입니다.
+* **`config.yaml` 예시**:
+  ```yaml
+  model_list:
+    - model_name: planner-model # 플래너용 모델 정의
+      litellm_params:
+        api_base: http://localhost:1234/v1
+        api_key: lm-studio
+    - model_name: coder-model # 코더용 모델 정의
+      litellm_params:
+        api_base: http://localhost:1235/v1
+        api_key: lm-studio
+  ```
+* **실행**:
+  ```bash
+  # LiteLLM 프록시 서버 실행 (포트 8000번)
+  litellm --config config.yaml --port 8000
+  ```
+
+### 7-3. 에이전트(`models.json`) 다중 모델 바인딩 예시
+오케스트레이션으로 구성된 엔드포인트를 에이전트 설정에 적용합니다.
+```json
+{
+  "providers": {
+    "local-orchestra": {
+      "baseUrl": "http://127.0.0.1:8000/v1",
+      "api": "openai-completions",
+      "apiKey": "not-needed",
+      "models": [
+        {
+          "id": "planner-model",
+          "name": "Planner Llama",
+          "supportsToolCalling": false
+        },
+        {
+          "id": "coder-model",
+          "name": "Coder Qwen",
+          "supportsToolCalling": true
+        }
+      ]
+    }
+  }
+}
+```
+---
+
+## 🤖 8. 메인 모델 자율 오케스트레이터 구현 가이드 (Agentic Orchestrator)
+
+LM Studio와 Pi Coding Agent (`pi`)를 결합하여 **메인 모델(Orchestrator/Router)이 질문의 종류를 스스로 판단한 뒤, 자신이 직접 응답하거나 하위 모델(예: Coder 전문 모델)을 호출해 결과를 얻은 후 최종 조율하여 응답하는 자율 오케스트레이터 환경**을 완벽하게 구축하는 단계별 가이드입니다.
+
+이를 위해서는 OpenAI 호환 API 요청을 가로채어 모델 간의 호출을 조율해 줄 **중재 프록시 프로그램**이 추가로 필요합니다.
+
+---
+
+### 8-1. 🛠️ 1단계: 필수 추가 프로그램 및 라이브러리 설치
+이 프록시 서버는 Python으로 작성되므로, Python 환경 및 API 통신용 라이브러리가 필요합니다.
+
+```bash
+# 1. 작업 디렉토리 생성 및 이동
+mkdir -p ~/local-ai-orchestrator
+cd ~/local-ai-orchestrator
+
+# 2. Python 가상환경 생성 및 활성화
+python3 -m venv venv
+source venv/bin/activate  # Windows 환경인 경우: venv\Scripts\activate
+
+# 3. 필수 패키지 설치
+pip install fastapi uvicorn httpx
 ```
 
+---
+
+### 8-2. 🧠 2단계: LM Studio 다중 모델 서버 구동 (포트 분할)
+메인 모델과 하위 코더 모델을 서로 다른 포트에 각각 기동합니다.
+
+* **메인 모델 (Llama-3.1-8B-Instruct - 포트 `1234`)**: 질문을 분석하고 최종 피드백 및 정리를 수행합니다.
+* **하위 모델 (Qwen2.5-Coder-7B-Instruct - 포트 `1235`)**: 실제 소스코드 작성 및 분석을 전담합니다.
+
+```bash
+# [터미널 A] 메인 기획용 모델 기동 (1234 포트)
+lms server start --port 1234 --model llama-3.1-8b-instruct
+
+# [터미널 B] 하청 코딩용 모델 기동 (1235 포트)
+lms server start --port 1235 --model qwen2.5-coder-7b-instruct
+```
+
+---
+
+### 8-3. 🖥️ 3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)
+`pi` 에이전트가 보내는 OpenAI 규격의 API 호출을 그대로 가로채어(Intercept) 메인 모델에 의도 분류를 먼저 보내고, 분류 값에 따라 하청 모델로 분기한 후 결과를 가공해 다시 OpenAI 규격으로 돌려주는 Python 코드입니다.
+
+`~/local-ai-orchestrator/orchestrator.py`로 파일을 생성하고 다음 코드를 기입합니다.
+
+```python
+import uvicorn
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse
+import httpx
+import json
+
+app = FastAPI(title="Pi Agent용 로컬 오케스트레이션 프록시")
+
+# 로컬에 띄워진 LM Studio 서버 주소 매핑
+MAIN_SERVER = "http://localhost:1234/v1/chat/completions"
+CODER_SERVER = "http://localhost:1235/v1/chat/completions"
+
+@app.post("/v1/chat/completions")
+async def handle_chat_completions(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="잘못된 JSON 바디 요청입니다.")
+
+    messages = body.get("messages", [])
+    if not messages:
+        raise HTTPException(status_code=400, detail="messages 필드가 비어있습니다.")
+
+    # 가장 최근에 들어온 유저의 질문 추출
+    user_prompt = messages[-1].get("content", "")
+
+    # 1. 메인 모델(1234)에 질문 의도 판단 의뢰
+    decision_prompt = (
+        "아래 사용자 요청이 '코딩(소스코드 작성, 버그 수정, 알고리즘 구현 등)'에 해당하는지 판단하세요.\n"
+        "다른 군더더기 설명 없이 오직 한 단어로만 [CODE] 또는 [GENERAL] 중 하나만 대답하십시오.\n\n"
+        f"요청: {user_prompt}"
+    )
+
+    headers = {"Content-Type": "application/json"}
+    
+    async with httpx.AsyncClient() as client:
+        # 메인 모델에 판정 의뢰
+        main_check = await client.post(MAIN_SERVER, json={
+            "model": "main-model",
+            "messages": [{"role": "user", "content": decision_prompt}],
+            "temperature": 0.0
+        }, headers=headers, timeout=30.0)
+
+        if main_check.status_code != 200:
+            raise HTTPException(status_code=500, detail="메인 모델 판정 응답 실패")
+        
+        decision = main_check.json()["choices"][0]["message"]["content"].strip()
+        print(f"[오케스트레이터] 분류 결과: {decision}")
+
+        # 2. 판정에 따른 분기 처리
+        if "[CODE]" in decision:
+            print("[오케스트레이터] 코더 모델(1235포트)로 작업을 전달합니다.")
+            # 하위 코더 전문 모델 호출
+            coder_resp = await client.post(CODER_SERVER, json={
+                "model": "coder-model",
+                "messages": messages, # 대화 맥락 전체 전달
+                "temperature": 0.2
+            }, headers=headers, timeout=60.0)
+
+            if coder_resp.status_code != 200:
+                raise HTTPException(status_code=500, detail="하위 코더 모델 응답 실패")
+            
+            raw_code_result = coder_resp.json()["choices"][0]["message"]["content"]
+
+            # 3. 코딩 결과물을 다시 메인 모델에 보내 최종 정제 및 설명 추가
+            refine_prompt = (
+                "아래는 코딩 전문 모델이 작성한 코드입니다. 코드의 정합성을 검토하고, "
+                "사용자가 바로 적용할 수 있도록 친근하고 정돈된 가이드와 함께 완성된 형태의 결과물을 출력해 주세요.\n\n"
+                f"작성된 코드:\n{raw_code_result}"
+            )
+
+            final_resp = await client.post(MAIN_SERVER, json={
+                "model": "main-model",
+                "messages": [{"role": "user", "content": refine_prompt}],
+                "temperature": 0.3
+            }, headers=headers, timeout=45.0)
+
+            return JSONResponse(content=final_resp.json(), status_code=200)
+
+        else:
+            print("[오케스트레이터] 메인 모델(1234포트)이 직접 일반 요청에 응답합니다.")
+            # 일반 질문인 경우 메인 모델이 즉시 응답 처리
+            general_resp = await client.post(MAIN_SERVER, json=body, headers=headers, timeout=45.0)
+            return JSONResponse(content=general_resp.json(), status_code=200)
+
+if __name__ == "__main__":
+    # 중재 프록시 서버를 8000 포트에 기동
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+```
+
+---
+
+### 8-4. ⚙️ 4단계: Pi Coding Agent (`pi`) 연동 환경 설정
+`pi` 에이전트가 로컬에 띄운 8000포트 중재 라우터를 바라보고 작동하게 바인딩합니다.
+
+#### 📁 설정 파일 경로
+* **전역 설정**: `~/.pi/agent/models.json`
+* **프로젝트 설정**: 작업 폴더 내 `.pi/models.json`
+
+위 경로에 아래 설정을 입력하여, 에이전트가 호출할 `orchestra-model`이 중재 프록시(8000포트)를 향하도록 고정합니다.
+
+```json
+{
+  "providers": {
+    "local-orchestrator": {
+      "baseUrl": "http://127.0.0.1:8000/v1",
+      "api": "openai-completions",
+      "apiKey": "orchestrator-key-not-needed",
+      "models": [
+        {
+          "id": "orchestra-model",
+          "name": "Local Agentic Orchestra",
+          "contextWindow": 16384,
+          "maxTokens": 4096,
+          "supportsToolCalling": true
+        }
+      ]
+    }
+  }
+}
+```
+
+그리고 사용을 위해 `~/.pi/agent/settings.json` 파일을 열어 `defaultProvider`와 `defaultModel`을 갱신합니다.
+```json
+{
+  "defaultProvider": "local-orchestrator",
+  "defaultModel": "orchestra-model"
+}
+```
+
+---
+
+### 8-5. 🚀 5단계: 시스템 실행 및 확인 방법
+총 4개의 터미널 혹은 프로세스를 띄워 검증을 시작합니다.
+
+1. **메인 모델 기동**: `lms server start --port 1234 --model llama-3.1-8b-instruct`
+2. **하위 모델 기동**: `lms server start --port 1235 --model qwen2.5-coder-7b-instruct`
+3. **중재 프록시 서버 기동**: 
+   ```bash
+   cd ~/local-ai-orchestrator
+   source venv/bin/activate
+   python orchestrator.py
+   ```
+4. **Pi Coding Agent 실행 및 검증**:
+   새로운 프로젝트 폴더를 열고 `pi` 에이전트를 가동합니다.
+   ```bash
+   # 테스트용 pi 가동
+   pi "파이썬으로 소수(Prime Number)를 판별하는 효율적인 함수를 짜줘"
+   ```
+   *이 경우 중재 프록시 터미널 로그에 `[오케스트레이터] 분류 결과: [CODE]`가 잡히고 1235번 포트의 Qwen-Coder를 거쳐가는 흐름을 육안으로 확인하실 수 있습니다.*
