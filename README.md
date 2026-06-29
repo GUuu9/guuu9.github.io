@@ -8,7 +8,7 @@
 ## 1. Dev Setup
 | 파일 명 | 설명 | 생성일 | 수정일 |  
 | :--- | :--- | :-:  | :-:  | 
-| **[llama.cpp & aider](./setup/SETUP_llama-cpp_aider.md)** | 로컬 AI 구성 | 2026.06.19 | 2026.06.19 |
+| **[PI_LM_STUDIO](./setup/Setup_LM_Studio_Pi_Coding_Agent.md)** | 로컬 AI 구성 | 2026.06.19 | 2026.06.19 |
 | **[Antigravity CLI](./agy/Guide_antigravity_cli.md)** | agy Setup | 2026.06.19 | 2026.06.19 |
 
 ## 2. Guide Docs
