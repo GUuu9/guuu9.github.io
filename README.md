@@ -10,7 +10,7 @@
 | :--- | :--- | :-:  | :-:  | 
 | **[PI_LM_STUDIO](./setup/Setup_LM_Studio_Pi_Coding_Agent.md)** | 로컬 AI 구성 | 2026.06.19 | 2026.06.19 |
 | **[Antigravity CLI](./agy/Guide_antigravity_cli.md)** | agy Setup | 2026.06.19 | 2026.06.19 |
-| **[VS_Code_Docker_DevContainer](./agy/Setup_DevContainer.md)** | SSH Server Setup | 2026.06.30 | 2026.06.30 |
+| **[VS_Code_Docker_DevContainer](./setup/Setup_DevContainer.md)** | SSH Server Setup | 2026.06.30 | 2026.06.30 |
 
 ## 2. Guide Docs
 
