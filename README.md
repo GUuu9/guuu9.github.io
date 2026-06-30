@@ -13,8 +13,8 @@
 | **[VS_Code_Docker_DevContainer](./setup/Setup_DevContainer.md)** | SSH Server Setup | 2026.06.30 | 2026.06.30 |
 
 ### 1-1 DevContainer
-**[Ubuntu 22.04](./setup/devcontainer/ubuntu_22_04.md)**
-**[Ubuntu 22.04 + flutter](./setup/devcontainer/flutter.md)**
+- **[Ubuntu 22.04](./setup/devcontainer/ubuntu_22_04.md)**
+- **[Ubuntu 22.04 + flutter](./setup/devcontainer/flutter.md)**
 
 ## 2. Guide Docs
 
