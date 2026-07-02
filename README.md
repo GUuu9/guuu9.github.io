@@ -22,8 +22,8 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🛠️ **[OS Development Setting](./setup/_OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
-| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/_LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
+| 🛠️ **[OS Development Setting](./setup/_OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/_LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -32,7 +32,7 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🚀 **[Google Antigravity Cli](./antigravity/_antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
+| 🚀 **[Google Antigravity Cli](./antigravity/_antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -41,8 +41,8 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🌐 **[Docker Remote Dev Env](./docker/_docker_remote_dev_env.md)** | 원격 Docker 서버 구축 및 셋업 가이드 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
-| 📦 **[Docker Devcontainer](./docker/_dev_container.md)** | VS Code Devcontainer를 활용한 개발 환경 일괄 구성 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
+| 🌐 **[Docker Remote Dev Env](./docker/_docker_remote_dev_env.md)** | 원격 Docker 서버 구축 및 셋업 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 📦 **[Docker Devcontainer](./docker/_dev_container.md)** | VS Code Devcontainer를 활용한 개발 환경 일괄 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 ### 🛠️ Devcontainer Templates
 개발 목적별 즉시 사용 가능한 Devcontainer 환경입니다.
@@ -56,8 +56,8 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🐙 **[GITHUB Guide](./docs/Guide_Github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.06.19` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
-| 🐍 **[VENV Guide](./docs/Guide_Venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
+| 🐙 **[GITHUB Guide](./docs/_github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🐍 **[VENV Guide](./docs/_venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
