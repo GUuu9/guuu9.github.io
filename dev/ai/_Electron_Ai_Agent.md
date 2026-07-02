@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # TypeScript + Electron 기반 로컬 AI 에이전트 앱 구축 가이드
 
 ---

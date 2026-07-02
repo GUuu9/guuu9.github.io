@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # Ubuntu 22.04 LTS 기반 Dev Container 구축 가이드
 
 이 가이드는 공식 Ubuntu 22.04 LTS Docker 이미지를 베이스로 사용하고, 외부 원격 SSH 연결 환경과 기본적인 개발 환경을 구축하기 위한 설정 가이드입니다.
@@ -65,8 +66,8 @@ RUN mkdir -p /var/run/sshd && chmod 0755 /var/run/sshd
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
 # 6. 사용자 및 루트 비밀번호 설정 (원격 PC SSH 로그인용)
-RUN echo 'root:rootpassword' | chpasswd && \
-    echo 'developer:developerpassword' | chpasswd
+RUN echo 'root:rootd' | chpasswd && \
+    echo 'developer:developer' | chpasswd
 
 # 7. SSH 로그인 정책 변경 (루트 및 패스워드 인증 활성화)
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \

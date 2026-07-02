@@ -1,0 +1,47 @@
+name: Update README Dates and Versions
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'setup/**/*.md'
+      - 'antigravity/**/*.md'
+      - 'docker/**/*.md'
+      - 'docs/**/*.md'
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Git 히스토리를 모두 가져와야 마지막 커밋 날짜를 제대로 알 수 있습니다.
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run update script
+        run: python dev/update_readme.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # 변경사항이 있는지 확인
+          if git diff --quiet README.md; then
+            echo "No changes to README.md"
+          else
+            git add README.md
+            git commit -m "docs: Auto-update README.md with latest dates & versions [skip ci]"
+            git push
+          fi

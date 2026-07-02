@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # 💻 Pi Coding Agent 연동을 위한 로컬 AI 백엔드 구축 가이드 (LM Studio 전용)
 
 이 가이드는 **Pi Coding Agent (`pi`)**에 연결하여 사용할 수 있는 오프라인 로컬 AI 백엔드 서버를 **LM Studio** 기준으로 구축하는 방법을 정리한 문서입니다.

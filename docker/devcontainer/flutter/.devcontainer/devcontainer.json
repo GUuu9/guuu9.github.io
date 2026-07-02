@@ -1,0 +1,31 @@
+{
+  "name": "Flutter 개발 환경",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+  
+  // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컨테이너와 연동합니다.
+  "appPort": [
+    "5037:5037"
+  ],
+
+  // 컨테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
+  "runArgs": [
+    "--privileged",
+    "--net=host" // 호스트의 네트워크 스택을 공유하여 로컬 에뮬레이터 탐색에 용이하게 설정
+  ],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "dart-code.dart-code",     // Dart 언어 공식 확장
+        "dart-code.flutter"        // Flutter 프레임워크 공식 확장
+      ]
+    }
+  }
+}

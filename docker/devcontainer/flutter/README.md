@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # Flutter 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 Flutter SDK와 Android SDK를 구성하고, 호스트 PC에 연결된 실제 기기 또는 에뮬레이터를 연동하여 앱을 개발 및 디버깅하는 방법을 다룹니다.

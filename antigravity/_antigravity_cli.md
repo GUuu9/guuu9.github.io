@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # Antigravity CLI (agy-cli) 가이드라인
 
 Antigravity CLI(`agy-cli`)는 Google DeepMind 팀이 설계한 강력한 에이전트 기반 코딩 어시스턴트입니다. 이 문서에서는 초기 설치부터 스킬(Skills), 사용자 정의 에이전트(Subagents) 등록, 그리고 플랜(Plan) 모드에서의 최적의 모델 분할 설정법까지 다룹니다.
