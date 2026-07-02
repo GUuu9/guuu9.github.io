@@ -66,7 +66,7 @@ RUN mkdir -p /var/run/sshd && chmod 0755 /var/run/sshd
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
 # 6. 사용자 및 루트 비밀번호 설정 (원격 PC SSH 로그인용)
-RUN echo 'root:rootd' | chpasswd && \
+RUN echo 'root:root' | chpasswd && \
     echo 'developer:developer' | chpasswd
 
 # 7. SSH 로그인 정책 변경 (루트 및 패스워드 인증 활성화)
@@ -143,4 +143,4 @@ Host Ubuntu-DevContainer
 ### 2단계: 연결 시도
 1. 클라이언트 PC B의 VS Code에서 `F1` 키를 눌러 **`Remote-SSH: Connect to Host...`**를 검색합니다.
 2. 목록에서 **`Ubuntu-DevContainer`**를 클릭합니다.
-3. 새로운 창이 열리면 운영체제로 `Linux`를 선택하고, 암호 입력창에 `developerpassword`를 기입하여 접속합니다.
+3. 새로운 창이 열리면 운영체제로 `Linux`를 선택하고, 암호 입력창에 `developer`를 기입하여 접속합니다.

@@ -1,0 +1,35 @@
+{
+  "name": "Python 개발 환경",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+
+  // 컨테이너 생성 후 가상 환경(.venv)을 자동으로 초기화합니다.
+  "postCreateCommand": "python3 -m venv .venv",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // 가상 환경 내부의 Python 인터프리터를 기본값으로 지정
+        "python.defaultInterpreterPath": "./.venv/bin/python",
+        // 저장 시 자동 포매팅 활성화
+        "editor.formatOnSave": true,
+        // 기본 포매터로 Black 지정
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        }
+      },
+      "extensions": [
+        "ms-python.python",           // Python 언어 공식 확장
+        "ms-python.pylint",           // 정적 코드 분석 (Pylint)
+        "ms-python.black-formatter",  // 코드 자동 포매터 (Black)
+        "ms-python.isort"             // import 구문 자동 정렬 (isort)
+      ]
+    }
+  },
+
+  // 로컬 컴퓨터로 포워딩할 포트 목록 (Flask/Django 기본 개발 서버 포트)
+  "forwardPorts": [8000]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Go 개발 환경",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+
+  // Go 개발 서버 혹은 애플리케이션 기본 포트(8080)를 호스트와 연결합니다.
+  "forwardPorts": [8080],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",  // 기본 터미널을 bash로 설정
+        "editor.formatOnSave": true                         // 저장 시 자동 포맷 활성화
+      },
+      "extensions": [
+        "golang.go"                                         // Go 언어 지원 확장 패키지
+      ]
+    }
+  }
+}

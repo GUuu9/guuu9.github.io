@@ -1,0 +1,30 @@
+{
+  "name": "Node.js 개발 환경",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+
+  // 컨테이너 생성 후 package.json이 존재할 경우 의존성을 자동으로 설치합니다.
+  "postCreateCommand": "[ -f package.json ] && npm install || true",
+
+  // Node.js 개발 서버 기본 포트(3000)를 호스트와 연결합니다.
+  "forwardPorts": [3000],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",  // 기본 터미널을 bash로 설정
+        "editor.formatOnSave": true,                         // 저장 시 자동 포맷 활성화
+        "editor.defaultFormatter": "esbenp.prettier-vscode"  // 기본 포매터를 Prettier로 지정
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",           // ESLint: JavaScript/TypeScript 코드 품질 검사
+        "esbenp.prettier-vscode",           // Prettier: 코드 자동 포맷터
+        "ms-vscode.vscode-typescript-next", // TypeScript 최신 언어 서버 지원
+        "christian-kohler.npm-intellisense" // npm 패키지 자동완성 지원
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Rust 개발 환경",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+
+  // 컨테이너 생성 후 rustfmt, clippy 컴포넌트 자동 추가
+  "postCreateCommand": "rustup component add rustfmt clippy",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // 컨테이너 내 VS Code 기본 터미널을 bash로 지정
+        "terminal.integrated.defaultProfile.linux": "bash",
+        // 저장 시 자동 포맷 활성화 (rustfmt 연동)
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "rust-lang.rust-analyzer",  // Rust 공식 언어 서버 확장
+        "serayuzgur.crates",        // Cargo.toml 의존성 버전 관리
+        "tamasfe.even-better-toml", // TOML 파일 문법 강조 및 편집 지원
+        "vadimcn.vscode-lldb"       // LLDB 기반 Rust 네이티브 디버거
+      ]
+    }
+  },
+
+  // 로컬 컴퓨터로 포워딩할 포트 목록 (예: 웹 서버 개발 시 사용)
+  "forwardPorts": [8080]
+}

@@ -46,8 +46,18 @@
 
 ### 🛠️ Devcontainer Templates
 개발 목적별 즉시 사용 가능한 Devcontainer 환경입니다.
-* 📱 **[Flutter](./docker/devcontainer/flutter/README.md)** (최근 점검: `2026.07.02`)
-* 🐧 **[Ubuntu 22.04](./docker/devcontainer/ubuntu/README.md)** (최근 점검: `2026.07.02`)
+
+| 템플릿 | 설명 | 포트 | 최근 점검 |
+| :--- | :--- | :-: | :-: |
+| 📱 **[Flutter](./docker/devcontainer/flutter/README.md)** | Flutter + Android SDK + ADB 연동 | `5037` | `2026.07.02` |
+| 🐧 **[Ubuntu 22.04](./docker/devcontainer/ubuntu/README.md)** | 순수 Ubuntu 기반, SSH 원격 연결 지원 | `2224` | `2026.07.02` |
+| 🐍 **[Python](./docker/devcontainer/python/README.md)** | Python 3 + venv + Black/Pylint | `8000` | `2026.07.02` |
+| 🦀 **[Rust](./docker/devcontainer/rust/README.md)** | Rust + Cargo + rust-analyzer | `8080` | `2026.07.02` |
+| 🟢 **[Node.js](./docker/devcontainer/nodejs/README.md)** | Node.js (nvm) + ESLint + Prettier | `3000` | `2026.07.02` |
+| ⚡ **[TypeScript](./docker/devcontainer/typescript/README.md)** | TypeScript + nvm + Node.js + ts-node | `3000` | `2026.07.02` |
+| 🐹 **[Go](./docker/devcontainer/go/README.md)** | Go + go.mod + Language Server | `8080` | `2026.07.02` |
+
+
 
 <br />
 

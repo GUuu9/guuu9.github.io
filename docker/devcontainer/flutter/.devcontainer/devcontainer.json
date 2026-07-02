@@ -5,17 +5,15 @@
     "context": "."
   },
   "remoteUser": "developer",
-  
-  // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컨테이너와 연동합니다.
-  "appPort": [
-    "5037:5037"
+
+  // 컴테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
+  // ⚠️ --net=host 는 Linux 전용 옵션입니다. macOS / Windows에서는 동작하지 않으니 제거하세요.
+  "runArgs": [
+    "--privileged"
   ],
 
-  // 컨테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
-  "runArgs": [
-    "--privileged",
-    "--net=host" // 호스트의 네트워크 스택을 공유하여 로컬 에뮬레이터 탐색에 용이하게 설정
-  ],
+  // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컴테이너와 연동합니다.
+  "forwardPorts": [5037],
 
   "customizations": {
     "vscode": {

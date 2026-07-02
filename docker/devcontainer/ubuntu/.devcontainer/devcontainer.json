@@ -1,0 +1,36 @@
+{
+  "name": "Ubuntu 22.04 개발 환경",
+  
+  // Dockerfile 위치 지정 및 빌드 옵션
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+
+  // Dockerfile에 정의된 ENTRYPOINT(entrypoint.sh) 유지
+  "overrideCommand": false,
+
+  // VS Code 내부 환경에서 일반 사용자(developer) 계정으로 안전하게 접근하도록 명시
+  "remoteUser": "developer",
+
+  // 컨테이너 내부에서 실행할 VS Code 확장 프로그램 목록
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // 컨테이너 내 VS Code 기본 터미널을 bash로 지정
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  },
+
+  // 호스트와 컨테이너 포트 매핑 (호스트 2224 -> 컨테이너 22)
+  "appPort": [
+    "2224:22"
+  ],
+
+  // 로컬 컴퓨터로 포워딩할 포트 목록
+  "forwardPorts": [22]
+}
