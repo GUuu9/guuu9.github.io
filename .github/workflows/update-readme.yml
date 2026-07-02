@@ -30,7 +30,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run update script
-        run: python dev/update_readme.py
+        run: python update_readme.py
 
       - name: Commit and push changes
         run: |
