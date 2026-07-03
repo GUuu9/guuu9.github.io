@@ -22,8 +22,8 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🛠️ **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🛠️ **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -67,9 +67,9 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🐙 **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🐙 **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 | 🤖 **[GitHub Actions Guide](./docs/github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🐍 **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🐍 **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
