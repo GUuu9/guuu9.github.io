@@ -1,7 +1,7 @@
-<!-- version: v1.0.0 -->
-# Ubuntu 22.04 LTS 기반 Dev Container 구축 가이드
+<!-- version: v1.0.1 -->
+# Ubuntu 26.04 LTS 기반 Dev Container 구축 가이드
 
-이 가이드는 공식 Ubuntu 22.04 LTS Docker 이미지를 베이스로 사용하고, 외부 원격 SSH 연결 환경과 기본적인 개발 환경을 구축하기 위한 설정 가이드입니다.
+이 가이드는 공식 Ubuntu 26.04 LTS Docker 이미지를 베이스로 사용하고, 외부 원격 SSH 연결 환경과 기본적인 개발 환경을 구축하기 위한 설정 가이드입니다.
 
 ---
 
@@ -13,7 +13,7 @@
 my-ubuntu-project/
 └── .devcontainer/
     ├── devcontainer.json   # Dev Container 설정 파일
-    ├── Dockerfile          # Ubuntu 22.04 베이스 이미지 정의
+    ├── Dockerfile          # Ubuntu 26.04 베이스 이미지 정의
     └── entrypoint.sh       # 컨테이너 구동 시 SSH 서비스를 켜는 스크립트
 ```
 
@@ -25,7 +25,7 @@ my-ubuntu-project/
 ```bash
 #!/bin/bash
 # ==========================================
-# Ubuntu 22.04 SSH 서비스 자동 기동 스크립트
+# Ubuntu 26.04 SSH 서비스 자동 기동 스크립트
 # ==========================================
 
 # 1. SSH 백그라운드 서비스 시작
@@ -37,11 +37,11 @@ tail -f /dev/null
 ```
 
 ### 2) `Dockerfile` 작성
-순수 `ubuntu:22.04` 기본 이미지 위에서 표준 빌드 도구(`build-essential`)와 SSH 관련 패키지들을 설치하고, 권한이 제약된 안전한 개발용 계정(`developer`)을 생성합니다.
+순수 `ubuntu:26.04` 기본 이미지 위에서 표준 빌드 도구(`build-essential`)와 SSH 관련 패키지들을 설치하고, 권한이 제약된 안전한 개발용 계정(`developer`)을 생성합니다.
 
 ```dockerfile
-# 1. 우분투 22.04 LTS 공식 이미지 지정
-FROM ubuntu:22.04
+# 1. 우분투 26.04 LTS 공식 이미지 지정
+FROM ubuntu:26.04
 
 # 2. apt 패키지 설치 시 대화형 프롬프트가 뜨는 것을 방지
 ENV DEBIAN_FRONTEND=noninteractive
@@ -85,11 +85,11 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 ```
 
 ### 3) `devcontainer.json` 작성
-컨테이너 빌드 후 기본 원격 사용자를 `developer`로 설정하여 권한 안정성을 확보하고, 호스트의 `2224` 포트를 컨테이너의 `22` 포트로 연결하도록 구성합니다.
+컨테이너 빌드 후 기본 원격 사용자를 `developer`로 설정하여 권한 안정성을 확보하고, 호스트의 프로젝트 폴더가 `developer` 홈 하위의 `workspace` 디렉토리에 정확하게 마운트되도록 구성합니다.
 
 ```json
 {
-  "name": "Ubuntu 22.04 개발 환경",
+  "name": "Ubuntu 26.04 개발 환경",
   
   // Dockerfile 위치 지정 및 빌드 옵션
   "build": {
@@ -102,6 +102,10 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
   // VS Code 내부 환경에서 일반 사용자(developer) 계정으로 안전하게 접근하도록 명시
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 내부에서 실행할 VS Code 확장 프로그램 목록
   "customizations": {

@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Python 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 Python 3 개발 환경을 구성하고, 가상 환경(venv)을 활용하여 패키지를 격리 관리하며, Flask/Django 등 웹 서버를 로컬에서 실행하는 방법을 다룹니다.
@@ -17,11 +17,11 @@ my-python-project/
 ```
 
 ### 1) `Dockerfile` 작성
-순수 `ubuntu:22.04` 기본 이미지 위에서 Python 3 인터프리터, pip, venv, 헤더 파일(`python3-dev`)과 표준 빌드 도구(`build-essential`)를 설치하고, 권한이 제약된 안전한 개발용 계정(`developer`)을 생성합니다.
+순수 `ubuntu:26.04` 기본 이미지 위에서 Python 3 인터프리터, pip, venv, 헤더 파일(`python3-dev`)과 표준 빌드 도구(`build-essential`)를 설치하고, 권한이 제약된 안전한 개발용 계정(`developer`)을 생성합니다.
 
 ```dockerfile
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 # 2. apt 패키지 설치 시 대화형 프롬프트가 뜨는 것을 방지
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,8 +31,10 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
-    sudo \
     build-essential \
+    openssh-server \
+    sudo \
+    tar \
     python3 \
     python3-pip \
     python3-venv \
@@ -42,21 +44,16 @@ RUN apt-get update && apt-get install -y \
 # 4. 개발 전용 사용자(developer) 생성 및 sudo 권한 할당
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
-# 5. 사용자 비밀번호 설정
-RUN echo 'developer:developer' | chpasswd
-
-# 6. sudo 실행 시 패스워드 입력 생략 설정
-RUN echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# 5. 비밀번호 및 보안 설정
+RUN echo 'developer:developer' | chpasswd && \
+    echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER developer
 WORKDIR /home/developer
-
-# 7. pip로 설치한 스크립트(~/.local/bin)를 PATH에 추가
-ENV PATH=$PATH:/home/developer/.local/bin
 ```
 
 ### 2) `devcontainer.json` 작성
-컨테이너 생성 직후 Python 가상 환경(`.venv`)을 자동으로 초기화하고, Python 공식 확장 및 Black 포매터를 탑재합니다. 또한 Flask/Django 등 웹 개발 서버의 기본 포트인 `8000`번을 로컬로 포워딩합니다.
+컨테이너 실행 후 가상 환경(`.venv`)을 자동 생성하고, 지정 인터프리터로 설정하며 Black(포매터)과 Pylint 등의 유용한 개발 확장을 미리 활성화하도록 구성합니다.
 
 ```json
 {
@@ -66,6 +63,10 @@ ENV PATH=$PATH:/home/developer/.local/bin
     "context": "."
   },
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 생성 후 가상 환경(.venv)을 자동으로 초기화합니다.
   "postCreateCommand": "python3 -m venv .venv",

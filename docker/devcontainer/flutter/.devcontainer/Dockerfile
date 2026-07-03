@@ -1,5 +1,5 @@
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 

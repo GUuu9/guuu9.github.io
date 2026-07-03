@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Flutter 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 Flutter SDK와 Android SDK를 구성하고, 호스트 PC에 연결된 실제 기기 또는 에뮬레이터를 연동하여 앱을 개발 및 디버깅하는 방법을 다룹니다.
@@ -20,8 +20,8 @@ my-flutter-project/
 Ubuntu 환경을 기반으로 OpenJDK 17, Android SDK Command-line Tools, 그리고 Flutter SDK를 자동으로 설치하고 환경 변수를 등록하는 설정 파일입니다.
 
 ```dockerfile
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -58,14 +58,13 @@ RUN mkdir -p $ANDROID_SDK_ROOT/cmdline-tools && \
     rm sdk.zip && \
     mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
-# 6. Android 라이선스 동의 및 필수 플랫폼 도구 설치 (adb 등)
+# 6. Android SDK 컴포넌트 라이선스 동의 및 필수 컴포넌트 추가
 RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
-# 7. Flutter SDK 다운로드 및 설치
+# 7. Flutter SDK 설치
 ENV FLUTTER_HOME=/home/developer/flutter
 ENV PATH=$PATH:$FLUTTER_HOME/bin
-
 RUN git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_HOME
 
 # 8. Flutter 기본 진단 및 빌드 사전 체크
@@ -83,6 +82,10 @@ RUN flutter doctor
     "context": "."
   },
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
   // ⚠️ --net=host 는 Linux 전용 옵션입니다. macOS / Windows에서는 동작하지 않으니 제거하세요.

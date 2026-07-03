@@ -1,5 +1,5 @@
-# 1. 우분투 22.04 LTS 공식 이미지 지정
-FROM ubuntu:22.04
+# 1. 우분투 26.04 LTS 공식 이미지 지정
+FROM ubuntu:26.04
 
 # 2. apt 패키지 설치 시 대화형 프롬프트가 뜨는 것을 방지
 ENV DEBIAN_FRONTEND=noninteractive

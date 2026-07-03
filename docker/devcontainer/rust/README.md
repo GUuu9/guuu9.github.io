@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Rust 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 Rust 툴체인(rustup, cargo)을 구성하고, `rust-analyzer`를 활용한 코드 자동 완성 및 `rustfmt`·`clippy`를 통한 코드 품질 관리 환경을 구축하는 방법을 다룹니다.
@@ -17,11 +17,11 @@ my-rust-project/
 ```
 
 ### 1) `Dockerfile` 작성
-`ubuntu:22.04`를 베이스로 필수 빌드 도구와 SSL 라이브러리를 설치한 뒤, `developer` 계정으로 `rustup`을 통해 Rust 툴체인을 자동으로 설치하고 PATH에 등록하는 설정 파일입니다.
+`ubuntu:26.04`를 베이스로 필수 빌드 도구와 SSL 라이브러리를 설치한 뒤, `developer` 계정으로 `rustup`을 통해 Rust 툴체인을 자동으로 설치하고 PATH에 등록하는 설정 파일입니다.
 
 ```dockerfile
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -30,33 +30,31 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
-    sudo \
     build-essential \
-    pkg-config \
     libssl-dev \
-    ca-certificates \
+    pkg-config \
+    openssh-server \
+    sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. 개발용 사용자(developer) 생성 및 권한 설정
-RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
-RUN echo 'developer:developer' | chpasswd
+RUN useradd -m -s /bin/bash developer && \
+    echo "developer:developer" | chpasswd && \
+    adduser developer sudo
 RUN echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER developer
 WORKDIR /home/developer
 
-# 4. rustup을 통한 Rust 툴체인 설치
+# 4. rustup을 이용한 Rust 툴체인 자동 설치
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-# 5. Cargo 및 rustup 바이너리 경로를 PATH에 등록
-ENV PATH=/home/developer/.cargo/bin:$PATH
-
-# 6. Cargo 환경 변수 소싱
-RUN echo '. $HOME/.cargo/env' >> /home/developer/.bashrc
+# 5. Rust 환경 변수 등록
+ENV PATH="/home/developer/.cargo/bin:${PATH}"
 ```
 
 ### 2) `devcontainer.json` 작성
-컨테이너 생성 직후 `rustfmt`와 `clippy` 컴포넌트를 자동으로 추가하고, `rust-analyzer` 등 Rust 개발에 필요한 VS Code 확장을 탑재합니다.
+개발 전용 계정을 지정하고, 컨테이너 최초 구성 완료 시 `rustfmt` 및 `clippy` 린터/포매터 컴포넌트를 설치하며, 디버깅 도구(`lldb`)와 분석기(`rust-analyzer`)를 탑재합니다.
 
 ```json
 {
@@ -66,6 +64,10 @@ RUN echo '. $HOME/.cargo/env' >> /home/developer/.bashrc
     "context": "."
   },
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 생성 후 rustfmt, clippy 컴포넌트 자동 추가
   "postCreateCommand": "rustup component add rustfmt clippy",

@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Go 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 우분투 22.04 LTS를 기반으로 Go 개발 환경을 구축하는 방법을 다룹니다. Go 최신 안정 버전 설치와 더불어 개발에 유용한 VS Code 확장 패키지 및 기본 설정을 자동으로 적용합니다.
@@ -17,11 +17,11 @@ my-go-project/
 ```
 
 ### 1) `Dockerfile` 작성
-Ubuntu 22.04를 베이스로 Go 개발에 필수적인 도구 및 Go v1.22.4 버전을 다운로드하여 설치하고 PATH를 등록하는 설정 파일입니다.
+Ubuntu 26.04를 베이스로 Go 개발에 필수적인 도구 및 Go v1.22.4 버전을 다운로드하여 설치하고 PATH를 등록하는 설정 파일입니다.
 
 ```dockerfile
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 # 2. apt 패키지 설치 시 대화형 프롬프트가 뜨는 것을 방지
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,20 +31,20 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
-    sudo \
     build-essential \
+    openssh-server \
+    sudo \
     tar \
-    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. 개발 전용 사용자(developer) 생성 및 sudo 권한 할당
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
-# 5. 사용자 비밀번호 설정 및 NOPASSWD sudo 권한 부여
+# 5. 비밀번호 및 보안 설정
 RUN echo 'developer:developer' | chpasswd && \
     echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# 6. Go 다운로드 및 설치 (v1.22.4)
+# 6. Go 툴체인 다운로드 및 설치
 RUN wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz && \
     rm go1.22.4.linux-amd64.tar.gz
@@ -59,7 +59,7 @@ ENV PATH=$PATH:/usr/local/go/bin:/home/developer/go/bin
 ```
 
 ### 2) `devcontainer.json` 작성
-개발 서버 포트(8080)를 호스트와 연결하며 VS Code의 Go 전용 공식 확장(`golang.go`)을 설치하고 저장 시 자동 포맷 설정을 구성합니다.
+개발 전용 계정 지정을 하고, Go 서버 포트(`8080`) 연결과 공식 Go 확장을 활성화하도록 설정합니다.
 
 ```json
 {
@@ -69,6 +69,10 @@ ENV PATH=$PATH:/usr/local/go/bin:/home/developer/go/bin
     "context": "."
   },
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // Go 개발 서버 혹은 애플리케이션 기본 포트(8080)를 호스트와 연결합니다.
   "forwardPorts": [8080],

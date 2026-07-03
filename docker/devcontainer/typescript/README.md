@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # TypeScript 개발을 위한 Dev Container 구축 가이드
 
 이 가이드는 VS Code Dev Containers 환경 내부에서 nvm(Node Version Manager)을 통해 Node.js LTS(v20)를 구성하고, TypeScript 및 ts-node를 전역 설치하여 ESLint · Prettier · TypeScript 확장이 탑재된 표준화된 개발 환경을 구축하는 방법을 다룹니다.
@@ -17,11 +17,11 @@ my-typescript-project/
 ```
 
 ### 1) `Dockerfile` 작성
-Ubuntu 22.04를 베이스로 nvm을 설치한 뒤 Node.js LTS(v20)를 설치하고, TypeScript와 ts-node를 전역 설치하여 셸 환경에서 바로 컴파일하고 실행할 수 있도록 설정한 파일입니다.
+Ubuntu 26.04를 베이스로 nvm을 설치한 뒤 Node.js LTS(v20)를 설치하고, TypeScript와 ts-node를 전역 설치하여 셸 환경에서 바로 컴파일하고 실행할 수 있도록 설정한 파일입니다.
 
 ```dockerfile
-# 1. 베이스 이미지로 우분투 22.04 LTS 사용
-FROM ubuntu:22.04
+# 1. 베이스 이미지로 우분투 26.04 LTS 사용
+FROM ubuntu:26.04
 
 # 2. apt 패키지 설치 시 대화형 프롬프트가 뜨는 것을 방지
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,16 +31,16 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
-    sudo \
     build-essential \
-    unzip \
+    openssh-server \
+    sudo \
     tar \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. 개발 전용 사용자(developer) 생성 및 sudo 권한 할당
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
-# 5. 사용자 비밀번호 설정 및 NOPASSWD sudo 권한 부여
+# 5. 비밀번호 및 보안 설정
 RUN echo 'developer:developer' | chpasswd && \
     echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -48,17 +48,18 @@ RUN echo 'developer:developer' | chpasswd && \
 USER developer
 WORKDIR /home/developer
 
-# 7. nvm(Node Version Manager) 설치
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-# 8. nvm 환경 변수 설정 및 Node.js LTS(v20) 설치
+# 7. nvm 및 Node.js LTS(v20) 설치
 ENV NVM_DIR=/home/developer/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install 20 && nvm alias default 20 && nvm use default
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && \
+    . $NVM_DIR/nvm.sh && \
+    nvm install 20 && \
+    nvm use 20 && \
+    nvm alias default 20
 
-# 9. node, npm, nvm 명령을 셸 환경에서 바로 사용할 수 있도록 PATH 등록
-ENV PATH=$NVM_DIR/versions/node/v20/bin:$PATH
+# 8. Node.js 실행 PATH 설정
+ENV PATH=$PATH:/home/developer/.nvm/versions/node/v20.14.0/bin
 
-# 10. TypeScript 및 ts-node 전역 설치
+# 9. TypeScript 및 ts-node 전역 설치
 RUN npm install -g typescript ts-node
 ```
 
@@ -73,6 +74,10 @@ RUN npm install -g typescript ts-node
     "context": "."
   },
   "remoteUser": "developer",
+
+  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
+  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 생성 후 package.json이 존재할 경우 의존성을 자동으로 설치합니다.
   "postCreateCommand": "[ -f package.json ] && npm install || true",
