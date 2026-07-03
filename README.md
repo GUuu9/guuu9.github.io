@@ -32,7 +32,7 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🚀 **[Google Antigravity Cli](./antigravity/_antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🚀 **[Google Antigravity Cli](./antigravity/_antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
