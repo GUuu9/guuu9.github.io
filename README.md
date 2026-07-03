@@ -68,6 +68,7 @@
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
 | 🐙 **[GITHUB Guide](./docs/_github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🤖 **[GitHub Actions Guide](./docs/_github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 | 🐍 **[VENV Guide](./docs/_venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />

@@ -349,9 +349,9 @@ sudo ufw status numbered
 
 ## 📌 다음 단계 바로가기
 
-* [2편: 컨테이너 개발 환경 구축 가이드 (_docker_container_setup.md)](file:///Users/knetzmac2/Desktop/guuu9.github.io/docker/_docker_container_setup.md)
+* [2편: 컨테이너 개발 환경 구축 가이드](./_docker_container_setup.md)
   * Linux SSH 개발 서버 구축, VS Code Remote SSH 연결, 브라우저 기반의 code-server, Windows(Wine/QEMU) 컨테이너 가이드를 담고 있습니다.
-* [3편: Docker 운영, 보안 및 트러블슈팅 가이드 (_docker_management_ops.md)](file:///Users/knetzmac2/Desktop/guuu9.github.io/docker/_docker_management_ops.md)
+* [3편: Docker 운영, 보안 및 트러블슈팅 가이드](./_docker_management_ops.md)
   * 커스텀 네트워크/볼륨 관리, Portainer 설치, 보안 강화(SSH 키 인증, Fail2ban), 컨테이너 백업, 다중 프로젝트 병렬 운용 및 생명 주기 제어, 장애 해결법을 다룹니다.
 
 ---

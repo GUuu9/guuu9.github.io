@@ -30,7 +30,7 @@ curl -fsSL https://antigravity.google/cli/install.cmd -o install.cmd && install.
 
 ### 2) 앱 데이터 경로
 에이전트의 작동 로그, 아티팩트 및 로컬 학습 설정은 다음 디렉토리에 캐싱됩니다.
-* **macOS 경로**: `/Users/knetzmac2/.gemini/antigravity-cli`
+* **macOS 경로**: `/Users/<UserName>/.gemini/antigravity-cli`
 * **Windows 경로**: `C:\Users\<UserName>\.gemini\antigravity-cli`
 
 ---
@@ -64,12 +64,12 @@ description: "Docker를 사용하여 타겟 크로스 컴파일을 수행할 때
 ### 2) 스킬 자동 발견 (Auto-Discovery)
 스킬은 다음과 같은 예약된 디렉토리에 배치하면 **별도의 수동 등록 없이 자동으로 로드**됩니다.
 * **프로젝트(작업 공간)별 스킬**: 프로젝트 루트 폴더의 `.agents/skills/`
-* **글로벌 스킬 (모든 프로젝트 적용)**: `/Users/knetzmac2/.gemini/config/skills/`
+* **글로벌 스킬 (모든 프로젝트 적용)**: `/Users/<UserName>/.gemini/config/skills/`
 
 > **실전 예시 (hello-helper)**:
 > 현재 로컬 프로젝트의 `.agents/skills/hello-helper/` 경로에 헬퍼 스킬 및 스크립트를 구현하여 로드해 두었습니다:
-> * [hello-helper SKILL.md](file:///Users/knetzmac2/Desktop/dd/.agents/skills/hello-helper/SKILL.md)
-> * [greet.sh 헬퍼 스크립트](file:///Users/knetzmac2/Desktop/dd/.agents/skills/hello-helper/scripts/greet.sh)
+> * [hello-helper SKILL.md](file:///Users/<UserName>/Desktop/dd/.agents/skills/hello-helper/SKILL.md)
+> * [greet.sh 헬퍼 스크립트](file:///Users/<UserName>/Desktop/dd/.agents/skills/hello-helper/scripts/greet.sh)
 
 ---
 
@@ -169,12 +169,12 @@ plan-temperature: 0.3
 특정 스타일 가이드나 절대로 지켜야 하는 코딩 컨벤션 규칙이 있다면 `AGENTS.md` 파일에 기록하여 에이전트 행동을 바인딩합니다.
 
 * **적용 위치**:
-  * **전역 규칙**: `/Users/knetzmac2/.gemini/config/AGENTS.md`
+  * **전역 규칙**: `/Users/<UserName>/.gemini/config/AGENTS.md`
   * **프로젝트(작업 공간) 규칙**: 프로젝트 루트 폴더 `.agents/AGENTS.md`
 
 > **실전 예시 (AGENTS.md)**:
 > 현재 로컬 프로젝트 루트 `.agents/AGENTS.md` 파일에 아래 규칙을 임의 정의하여 적용해 두었습니다.
-> * [작업 공간용 AGENTS.md 설정](file:///Users/knetzmac2/Desktop/dd/.agents/AGENTS.md)
+> * [작업 공간용 AGENTS.md 설정](file:///Users/<UserName>/Desktop/dd/.agents/AGENTS.md)
 >   ```markdown
 >   # Antigravity CLI Custom Rules (테스트용 규칙)
 >
