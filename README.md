@@ -22,8 +22,8 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🛠️ **[OS Development Setting](./setup/_OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/_LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🛠️ **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -32,7 +32,7 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🚀 **[Google Antigravity Cli](./antigravity/_antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🚀 **[Google Antigravity Cli](./antigravity/antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -41,9 +41,9 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🌐 **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/_docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.03` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
-| 📦 **[Docker Container Setup (2편: 개발 환경)](./docker/_docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| ⚙️ **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/_docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🌐 **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.03` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
+| 📦 **[Docker Container Setup (2편: 개발 환경)](./docker/docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| ⚙️ **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 ### 🛠️ Devcontainer Templates
 개발 목적별 즉시 사용 가능한 Devcontainer 환경입니다.
@@ -67,9 +67,9 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🐙 **[GITHUB Guide](./docs/_github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🤖 **[GitHub Actions Guide](./docs/_github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🐍 **[VENV Guide](./docs/_venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🐙 **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🤖 **[GitHub Actions Guide](./docs/github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| 🐍 **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.02` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 

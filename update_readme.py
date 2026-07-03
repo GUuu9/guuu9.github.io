@@ -65,7 +65,7 @@ def update_readme():
         content = f.read()
 
     # 테이블 행에서 링크와 날짜, 버전을 추출/수정하기 위한 정규식
-    # 예시: | 🛠️ **[OS Development Setting](./setup/_OS_Dev_Setting.md)** | 설명 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
+    # 예시: | 🛠️ **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 설명 | `2026.07.02` | ![Version v0.0.0](https://img.shields.io/badge/version-v0.0.0-blue?style=flat-square) |
     # 캡처 그룹: 1=아이콘, 2=이름, 3=경로, 4=설명, 5=기존 날짜, 6=기존 버전
     row_pattern = re.compile(
         r"(\|\s*[^|]*\s*\*\*\[([^\]]+)\]\(([^)]+\.md)\)\*\*\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*!\[Version v[^\]]+\]\(https://img\.shields\.io/badge/version-v([\d\.]+)-blue\?style=flat-square\)\s*\|)"

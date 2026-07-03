@@ -415,5 +415,5 @@ docker run -d \
 > **⚠️ 주의**: Windows를 사용하려면 정식 라이선스가 필요합니다.
 
 ---
-* [1편: 호스트 및 Docker Desktop 설치 가이드](./_docker_remote_dev_env.md)
-* [3편: Docker 운영, 보안 및 트러블슈팅 가이드](./_docker_management_ops.md)
+* [1편: 호스트 및 Docker Desktop 설치 가이드](./docker_remote_dev_env.md)
+* [3편: Docker 운영, 보안 및 트러블슈팅 가이드](./docker_management_ops.md)

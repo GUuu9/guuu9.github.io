@@ -269,5 +269,5 @@ docker exec ubuntu-dev ping -c 3 code-server
   ```
 
 ---
-* [1편: 호스트 및 Docker Desktop 설치 가이드](./_docker_remote_dev_env.md)
-* [2편: 컨테이너 개발 환경 구축 가이드](./_docker_container_setup.md)
+* [1편: 호스트 및 Docker Desktop 설치 가이드](./docker_remote_dev_env.md)
+* [2편: 컨테이너 개발 환경 구축 가이드](./docker_container_setup.md)
