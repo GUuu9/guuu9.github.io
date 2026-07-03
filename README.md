@@ -41,7 +41,7 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🌐 **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/_docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.02` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
+| 🌐 **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/_docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.03` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
 | 📦 **[Docker Container Setup (2편: 개발 환경)](./docker/_docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 | ⚙️ **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/_docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
