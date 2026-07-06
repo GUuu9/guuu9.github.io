@@ -73,7 +73,6 @@ ENV PATH=$PATH:/home/developer/.nvm/versions/node/v20.14.0/bin
   "remoteUser": "developer",
 
   // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
   "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 생성 후 package.json이 존재할 경우 의존성을 자동으로 설치합니다.

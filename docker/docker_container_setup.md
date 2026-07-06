@@ -94,53 +94,73 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-### 1-3. docker-compose.yml 작성
-```yaml
-# ~/docker-envs/ubuntu-dev/docker-compose.yml
-version: "3.9"
-
-services:
-  ubuntu-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        DEV_USER: developer
-        DEV_PASSWORD: developer
-    container_name: ubuntu-dev
-    hostname: ubuntu-dev-container
-    restart: unless-stopped
-    ports:
-      - "2222:22"
-    volumes:
-      - projects_data:/home/developer/projects
-      - ./ssh_keys:/home/developer/.ssh:ro
-    environment:
-      - TZ=Asia/Seoul
-    networks:
-      - dev-network
-    security_opt:
-      - no-new-privileges:true
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 4G
-
-volumes:
-  projects_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /data/projects
-
-networks:
-  dev-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
+### 1-3. docker-compose.json 작성
+```json
+// ~/docker-envs/ubuntu-dev/docker-compose.json
+{
+  "version": "3.9",
+  "services": {
+    "ubuntu-dev": {
+      "build": {
+        "context": ".",
+        "dockerfile": "Dockerfile",
+        "args": {
+          "DEV_USER": "developer",
+          "DEV_PASSWORD": "developer"
+        }
+      },
+      "container_name": "ubuntu-dev",
+      "hostname": "ubuntu-dev-container",
+      "restart": "unless-stopped",
+      "ports": [
+        "2222:22"
+      ],
+      "volumes": [
+        "projects_data:/home/developer/projects",
+        "./ssh_keys:/home/developer/.ssh:ro"
+      ],
+      "environment": [
+        "TZ=Asia/Seoul"
+      ],
+      "networks": [
+        "dev-network"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "deploy": {
+        "resources": {
+          "limits": {
+            "cpus": "2",
+            "memory": "4G"
+          }
+        }
+      }
+    }
+  },
+  "volumes": {
+    "projects_data": {
+      "driver": "local",
+      "driver_opts": {
+        "type": "none",
+        "o": "bind",
+        "device": "/data/projects"
+      }
+    }
+  },
+  "networks": {
+    "dev-network": {
+      "driver": "bridge",
+      "ipam": {
+        "config": [
+          {
+            "subnet": "172.20.0.0/16"
+          }
+        ]
+      }
+    }
+  }
+}
 ```
 
 ### 1-4. 공유 디렉토리 및 SSH 키 설정
@@ -162,14 +182,14 @@ chmod 600 ~/docker-envs/ubuntu-dev/ssh_keys/authorized_keys
 cd ~/docker-envs/ubuntu-dev
 
 # 이미지 빌드
-docker compose build
+docker compose -f docker-compose.json build
 
 # 컨테이너 백그라운드 실행
-docker compose up -d
+docker compose -f docker-compose.json up -d
 
 # 실행 상태 확인
-docker compose ps
-docker compose logs -f ubuntu-dev
+docker compose -f docker-compose.json ps
+docker compose -f docker-compose.json logs -f ubuntu-dev
 ```
 
 ### 1-6. 외부 PC에서 SSH 접속 테스트
@@ -241,43 +261,53 @@ cd ~/docker-envs/code-server
 vim config/config.yaml
 ```
 
-```yaml
-# config/config.yaml
-bind-addr: 0.0.0.0:8080
-auth: password
-password: your_secure_password_here   # 강력한 비밀번호로 변경
-cert: false
+```json
+// config/config.json
+{
+  "bind-addr": "0.0.0.0:8080",
+  "auth": "password",
+  "password": "your_secure_password_here",
+  "cert": false
+}
 ```
 
-### 3-2. docker-compose.yml 작성
-```yaml
-# ~/docker-envs/code-server/docker-compose.yml
-version: "3.9"
-
-services:
-  code-server:
-    image: codercom/code-server:latest
-    container_name: code-server
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    volumes:
-      - code_server_data:/home/coder/.local/share/code-server
-      - /data/projects:/home/coder/projects
-      - ./config:/home/coder/.config/code-server
-    environment:
-      - TZ=Asia/Seoul
-    networks:
-      - dev-network
-    user: "1000:1000"
-
-volumes:
-  code_server_data:
-
-networks:
-  dev-network:
-    external: true
-    name: ubuntu-dev_dev-network
+### 3-2. docker-compose.json 작성
+```json
+// ~/docker-envs/code-server/docker-compose.json
+{
+  "version": "3.9",
+  "services": {
+    "code-server": {
+      "image": "codercom/code-server:latest",
+      "container_name": "code-server",
+      "restart": "unless-stopped",
+      "ports": [
+        "8080:8080"
+      ],
+      "volumes": [
+        "code_server_data:/home/coder/.local/share/code-server",
+        "/data/projects:/home/coder/projects",
+        "./config:/home/coder/.config/code-server"
+      ],
+      "environment": [
+        "TZ=Asia/Seoul"
+      ],
+      "networks": [
+        "dev-network"
+      ],
+      "user": "1000:1000"
+    }
+  },
+  "volumes": {
+    "code_server_data": null
+  },
+  "networks": {
+    "dev-network": {
+      "external": true,
+      "name": "ubuntu-dev_dev-network"
+    }
+  }
+}
 ```
 
 ### 3-3. 실행 및 접속
@@ -352,34 +382,42 @@ websockify --web=/usr/share/novnc/ 6080 localhost:5900 &
 wait
 ```
 
-**docker-compose.yml**
-```yaml
-version: "3.9"
-
-services:
-  wine-env:
-    build: .
-    container_name: wine-env
-    restart: unless-stopped
-    ports:
-      - "2223:22"     # SSH
-      - "5900:5900"   # VNC
-      - "6081:6080"   # noVNC 웹 접속
-    volumes:
-      - wine_data:/home/winuser/.wine
-      - /data/projects:/home/winuser/projects
-    environment:
-      - TZ=Asia/Seoul
-    networks:
-      - dev-network
-
-volumes:
-  wine_data:
-
-networks:
-  dev-network:
-    external: true
-    name: ubuntu-dev_dev-network
+**docker-compose.json**
+```json
+{
+  "version": "3.9",
+  "services": {
+    "wine-env": {
+      "build": ".",
+      "container_name": "wine-env",
+      "restart": "unless-stopped",
+      "ports": [
+        "2223:22",
+        "5900:5900",
+        "6081:6080"
+      ],
+      "volumes": [
+        "wine_data:/home/winuser/.wine",
+        "/data/projects:/home/winuser/projects"
+      ],
+      "environment": [
+        "TZ=Asia/Seoul"
+      ],
+      "networks": [
+        "dev-network"
+      ]
+    }
+  },
+  "volumes": {
+    "wine_data": null
+  },
+  "networks": {
+    "dev-network": {
+      "external": true,
+      "name": "ubuntu-dev_dev-network"
+    }
+  }
+}
 ```
 
 ```bash
@@ -413,6 +451,136 @@ docker run -d \
 ```
 
 > **⚠️ 주의**: Windows를 사용하려면 정식 라이선스가 필요합니다.
+
+---
+
+## 5. Dev Container 구축 가이드 및 설정 파일 구성 비교
+
+VS Code 등을 통해 개발 컨테이너 환경을 구성할 때, 프로젝트 요건에 따라 **`devcontainer.json` 단독(Dockerfile 기반) 구성** 방식과 **`devcontainer.json` + `docker-compose.json` 연동** 방식 중 선택할 수 있습니다.
+
+### 5-1. 두 방식의 역할 차이
+* **`devcontainer.json`**: 개발 도구(IDE) 레벨의 환경 정의 (VS Code 확장 프로그램 자동 설치, 개발용 remoteUser 권한 지정, 개발 디렉토리 지정 등)
+* **`docker-compose.json`**: Docker 엔진 레벨의 다중 컨테이너 및 인프라 구조 정의 (웹 서버, 데이터베이스, 네트워크, 외부 볼륨 매핑 등)
+
+---
+
+### 💡 [방식 1] Dockerfile 기반 단일 컨테이너 구성 (Single Container)
+추가 서비스(DB, Redis 등) 없이 독립된 하나의 가상 리눅스 환경만 구축하여 개발할 때 유용하며, 설정이 단순합니다.
+
+#### 📁 폴더 구성
+```text
+my-project/
+└── .devcontainer/
+    ├── devcontainer.json   # Dockerfile을 빌드하고 마운트할 정보 기술
+    ├── Dockerfile          # 우분투 패키지 등 기본 개발 도구 정의
+    └── entrypoint.sh       # 컨테이너 실행 직후 SSH 기동 등을 위한 엔트리포인트
+```
+
+#### 📄 `devcontainer.json` 예시
+```json
+{
+  "name": "Ubuntu Single Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "developer",
+  "workspaceFolder": "/home/developer/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  }
+}
+```
+
+---
+
+### 💡 [방식 2] Docker Compose 기반 다중 컨테이너 구성 (Multi-Container Stack)
+코드를 실행하는 개발용 컨테이너와 함께 데이터베이스(MySQL, PostgreSQL)나 캐시(Redis) 등을 병렬로 구동하여 통합 테스트가 필요한 실무 환경에 적합합니다.
+
+#### 📁 폴더 구성
+```text
+my-project/
+└── .devcontainer/
+    ├── devcontainer.json   # docker-compose.json 위치와 메인 개발 서비스를 지정
+    ├── docker-compose.json # 다중 컨테이너 스택 정의 (App, DB 등)
+    ├── Dockerfile          # 개발자가 들어가서 코딩할 App 컨테이너 구성 정의
+    └── entrypoint.sh
+```
+
+#### 📄 `docker-compose.json` 예시
+```json
+{
+  "version": "3.9",
+  "services": {
+    "app": {
+      "build": {
+        "context": ".",
+        "dockerfile": "Dockerfile"
+      },
+      "container_name": "dev-app-container",
+      "restart": "unless-stopped",
+      "volumes": [
+        "..:/workspace:cached"
+      ],
+      "networks": [
+        "dev-network"
+      ]
+    },
+    "db": {
+      "image": "mysql:8.0",
+      "container_name": "dev-db-container",
+      "restart": "always",
+      "environment": {
+        "MYSQL_ROOT_PASSWORD": "root_password",
+        "MYSQL_DATABASE": "test_db"
+      },
+      "ports": [
+        "3306:3306"
+      ],
+      "networks": [
+        "dev-network"
+      ]
+    }
+  },
+  "networks": {
+    "dev-network": {
+      "driver": "bridge"
+    }
+  }
+}
+```
+
+#### 📄 `devcontainer.json` 예시 (Compose 연동)
+```json
+{
+  "name": "Ubuntu with DB Service (Compose)",
+  // Docker Compose 구성 파일 경로 지정
+  "dockerComposeFile": "docker-compose.json",
+  // IDE 접속 대상인 메인 개발 서비스 이름 지정
+  "service": "app",
+  // 컨테이너 내부 개발 영역 디렉토리 경로 지정
+  "workspaceFolder": "/workspace",
+  // 컨테이너 접속 계정을 개발 사용자 계정으로 세팅
+  "remoteUser": "developer",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  }
+}
+```
 
 ---
 * [1편: 호스트 및 Docker Desktop 설치 가이드](./docker_remote_dev_env.md)

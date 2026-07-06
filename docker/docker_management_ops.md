@@ -103,17 +103,25 @@ sudo fail2ban-client status sshd
 ```
 
 ### 2-3. 컨테이너 리소스 제한
-```yaml
-services:
-  ubuntu-dev:
-    deploy:
-      resources:
-        limits:
-          cpus: "2.0"
-          memory: 4G
-        reservations:
-          cpus: "0.5"
-          memory: 512M
+```json
+{
+  "services": {
+    "ubuntu-dev": {
+      "deploy": {
+        "resources": {
+          "limits": {
+            "cpus": "2.0",
+            "memory": "4G"
+          },
+          "reservations": {
+            "cpus": "0.5",
+            "memory": "512M"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 ### 2-4. 정기 보안 업데이트 자동화

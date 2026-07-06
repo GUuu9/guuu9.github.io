@@ -7,7 +7,6 @@
   "remoteUser": "developer",
 
   // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
   "workspaceFolder": "/home/developer/workspace",
 
   // 컴테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정

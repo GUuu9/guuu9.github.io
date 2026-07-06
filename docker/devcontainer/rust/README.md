@@ -66,7 +66,6 @@ ENV PATH="/home/developer/.cargo/bin:${PATH}"
   "remoteUser": "developer",
 
   // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
   "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 생성 후 rustfmt, clippy 컴포넌트 자동 추가

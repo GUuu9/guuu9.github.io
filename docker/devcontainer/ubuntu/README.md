@@ -104,7 +104,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "remoteUser": "developer",
 
   // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/workspace,type=bind",
   "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 내부에서 실행할 VS Code 확장 프로그램 목록
