@@ -75,7 +75,7 @@ npx node-llama-cpp download \
 │  fs/promises  child_process  @nut-tree/nut-js            │
 └─────────────────────────────────────────────────────────┘
 
-⚠️ node-llama-cpp는 반드시 Main Process에서만 사용
+node-llama-cpp는 반드시 Main Process에서만 사용
    Renderer에서 직접 사용하면 앱이 크래시됨
 ```
 
@@ -116,7 +116,7 @@ export async function initLLM() {
     `
   });
 
-  console.log("✅ LLM 초기화 완료");
+  console.log("LLM 초기화 완료");
 }
 
 export async function chat(

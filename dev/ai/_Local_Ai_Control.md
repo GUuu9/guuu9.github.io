@@ -133,7 +133,7 @@
 
 ## 5. OS별 백엔드 설치 가이드
 
-### 🍎 macOS (Apple Silicon — M1/M2/M3/M4)
+### macOS (Apple Silicon — M1/M2/M3/M4)
 
 ```bash
 # Homebrew 설치 (미설치 시)
@@ -151,7 +151,7 @@ ollama run qwen2.5vl:7b   # Qwen2.5-VL: UI 파악, 화면 설명에 탁월
 ollama run llava:13b       # LLaVA: 범용 이미지 분석
 ```
 
-### 🍏 macOS (Intel)
+### macOS (Intel)
 
 ```bash
 brew install ollama
@@ -162,7 +162,7 @@ ollama run llava:7b
 ollama run moondream      # 매우 경량 (1.6B), 화면 설명 특화
 ```
 
-### 🪟 Windows
+### Windows
 
 ```powershell
 winget install Ollama.Ollama
@@ -173,7 +173,7 @@ ollama run qwen2.5vl:7b
 ollama run llava:7b
 ```
 
-### 🐧 Linux
+### Linux
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
@@ -427,7 +427,7 @@ pyautogui.drag(100, 200, 400, 200, duration=0.5)
 
 ## 7. OS별 추천 조합표 — GUI 제어 포함
 
-### 🍎 Apple Silicon macOS — 화면 인식 + GUI 제어
+### Apple Silicon macOS — 화면 인식 + GUI 제어
 
 | 목적 | 백엔드 | 에이전트/도구 | 모델 | 설명 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -437,7 +437,7 @@ pyautogui.drag(100, 200, 400, 200, duration=0.5)
 | **경량 화면 설명** | Ollama | PyAutoGUI + moondream | moondream:1.8b | 화면 내용 설명, 가벼운 CPU 실행 |
 | **다중 앱 자동화** | Ollama | Agent S | qwen2.5vl:7b | 여러 앱을 넘나드는 복잡한 자동화 |
 
-### 🍏 Intel macOS — 화면 인식 + GUI 제어
+### Intel macOS — 화면 인식 + GUI 제어
 
 | 목적 | 백엔드 | 에이전트/도구 | 모델 | 설명 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -445,7 +445,7 @@ pyautogui.drag(100, 200, 400, 200, duration=0.5)
 | **기본 GUI 자동화** | Ollama | Open Interpreter (--vision) | llava:7b | 속도는 느리지만 다양한 작업 가능 |
 | **이미지 인식 자동화** | — | PyAutoGUI (이미지 매칭) | — | LLM 없이 이미지 패턴 매칭으로 클릭 |
 
-### 🪟 Windows — 화면 인식 + GUI 제어
+### Windows — 화면 인식 + GUI 제어
 
 | 목적 | 백엔드 | 에이전트/도구 | 모델 | 설명 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -455,7 +455,7 @@ pyautogui.drag(100, 200, 400, 200, duration=0.5)
 | **GPU없는 기본 자동화** | Ollama (CPU) | PyAutoGUI + llava:7b | llava:7b | NVIDIA 없어도 동작 (속도 느림) |
 | **스크립트 자동화** | — | AutoHotkey + PyAutoGUI | — | LLM 없이 매크로 기반 제어 |
 
-### 🐧 Linux — 화면 인식 + GUI 제어
+### Linux — 화면 인식 + GUI 제어
 
 | 목적 | 백엔드 | 에이전트/도구 | 모델 | 설명 |
 | :--- | :--- | :--- | :--- | :--- |
