@@ -85,7 +85,7 @@ sudo apt install -y build-essential curl wget git libssl-dev libffi-dev python3-
 
 어느 OS에서든 프로젝트별로 다른 언어 버전을 다루고 라이브러리 간 충돌을 방지하기 위해 사용합니다.
 
-### 🟢 Node.js 버전 관리: NVM (Node Version Manager)
+### Node.js 버전 관리: NVM (Node Version Manager)
 
 nvm은 프로젝트마다 다른 버전의 Node.js를 스위칭할 수 있도록 돕습니다.
 
@@ -118,7 +118,7 @@ nvm alias default 20.11.0
 
 ---
 
-### 🟡 Python 독립 개발 환경: venv
+### Python 독립 개발 환경: venv
 
 OS에 전역으로 라이브러리를 설치하면 버전 충돌 문제가 발생하기 쉽습니다. 프로젝트 단위로 가상환경을 구성해 사용합니다.
 
@@ -157,7 +157,7 @@ source .venv/bin/activate
 
 ---
 
-## 🟢 Node.js 패키지 매니저: NPM (Node Package Manager)
+## Node.js 패키지 매니저: NPM (Node Package Manager)
 
 ### 1) NPM 설치 방법
 NPM은 Node.js를 설치할 때 세트로 자동 설치됩니다. 따라서 앞 단계의 `NVM`을 통해 Node.js를 설치했다면 이미 사용 준비가 완료되어 있습니다.
@@ -187,7 +187,7 @@ npm -v
 
 ---
 
-## 🟡 Python 패키지 매니저: pip (Preferred Installer Program)
+## Python 패키지 매니저: pip (Preferred Installer Program)
 
 ### 1) pip 설치 및 최신화 방법
 Python 3.4 이상의 공식 배포판(macOS python.org 빌드, Windows winget 빌드)에는 `pip`가 기본 내장되어 있습니다. 다만 리눅스나 초기화 후의 일부 환경에는 없을 수 있으므로 아래 방법으로 설치/최신화합니다.
@@ -421,7 +421,7 @@ docker build --platform linux/amd64 -t app-image:latest .
 
 ---
 
-## 💻 C/C++ 개발 환경
+## C/C++ 개발 환경
 C/C++ 빌드 및 디버깅 툴체인입니다.
 
 ### 1) OS별 핵심 툴체인 설치 (macOS 중심)
@@ -437,7 +437,7 @@ C/C++ 빌드 및 디버깅 툴체인입니다.
 
 ---
 
-## 🟣 C# / .NET SDK 개발 환경
+## C# / .NET SDK 개발 환경
 크로스 플랫폼 앱 및 서버 개발용 닷넷 환경입니다.
 
 ### 1) OS별 SDK 설치 방법
@@ -462,7 +462,7 @@ C/C++ 빌드 및 디버깅 툴체인입니다.
 
 ---
 
-## 🔌 Arduino (아두이노) 개발 환경
+## Arduino (아두이노) 개발 환경
 IoT 하드웨어 펌웨어 제어를 위한 임베디드 툴체인입니다.
 
 ### 1) 툴킷 설치 (macOS / Windows 공통)
@@ -490,7 +490,7 @@ arduino-cli compile --fqbn arduino:avr:uno --build-path ./build ./MyProject
 
 ---
 
-## 🦋 Flutter (플러터) 개발 환경
+## Flutter (플러터) 개발 환경
 Android / iOS / Desktop 다중 타겟 크로스 플랫폼 프레임워크입니다.
 
 ### 1) 설치 순서 (macOS 기준 - 모바일/데스크톱 빌드 최적화)
@@ -521,7 +521,7 @@ fvm flutter run
 
 ---
 
-## 🦀 Rust 개발 환경
+## Rust 개발 환경
 메모리 안전성이 확보된 고성능 시스템 언어입니다.
 
 ### 1) OS별 설치 방법
@@ -542,7 +542,7 @@ fvm flutter run
 
 ---
 
-## 🐹 Go (Golang) 개발 환경
+## Go (Golang) 개발 환경
 동시성 처리가 뛰어난 클라우드 백엔드용 컴파일 언어입니다.
 
 ### 1) OS별 설치 방법
@@ -570,7 +570,7 @@ go mod vendor
 
 ---
 
-## ⚡ TypeScript (TS) 개발 환경
+## TypeScript (TS) 개발 환경
 안정적인 대형 JS 애플리케이션 개발을 위한 타입 정적 제어 언어입니다.
 
 ### 1) 설치 방법
@@ -592,7 +592,7 @@ npx tsc --noEmit
 
 ---
 
-## 🏗️ 극단적 환경 격리가 필요할 때: Dev Containers 활용
+## 극단적 환경 격리가 필요할 때: Dev Containers 활용
 로컬 OS에 그 어떤 언어 툴체인(Java, Go, C#, C++ 등)도 직접 설치하고 싶지 않은 경우, **VS Code의 Dev Containers 확장**을 활용합니다.
 
 1. VS Code에서 `Dev Containers` 확장 기능을 설치합니다.
@@ -621,7 +621,7 @@ npx tsc --noEmit
 
 ---
 
-## 1) 🍎 macOS & 🐧 Linux 환경 변수 설정
+## 1) macOS & Linux 환경 변수 설정
 macOS(zsh 셸) 및 Linux(bash 셸)는 사용자의 홈 디렉토리 내부 숨김 파일에 설정 정보를 기록합니다.
 
 ### ① 셸 프로파일 파일 편집 경로
@@ -673,7 +673,7 @@ export OPENAI_API_KEY="no-key-needed"
 
 ---
 
-## 2) 🪟 Windows 환경 변수 설정
+## 2) Windows 환경 변수 설정
 Windows는 GUI 시스템 설정창을 이용하거나, **PowerShell CLI**를 사용하여 영구적 환경 변수 및 사용자 PATH 등록을 처리합니다.
 
 ### ① PowerShell을 통한 영구 환경 변수 등록 (`setx` 사용)

@@ -1,11 +1,11 @@
 <!-- version: v1.0.0 -->
-# 🐳 Docker 원격 개발 환경 구성 가이드 - 2편: 컨테이너 개발 환경 구축
+# Docker 원격 개발 환경 구성 가이드 - 2편: 컨테이너 개발 환경 구축
 
 이 가이드는 호스트 서버(ubuntu26.04-desktop)에 Docker Desktop이 완비된 후, 목적에 맞는 다양한 개발 환경 컨테이너(Linux, Browser-based IDE, Windows)를 올리고 설정하는 과정을 상세히 다룹니다.
 
 ---
 
-## 📋 목차
+## 목차
 1. [SSH 기반 원격 접근 컨테이너 구성 (Linux 개발 환경)](#1-ssh-기반-원격-접근-컨테이너-구성-linux-개발-환경)
 2. [Browser 기반 접근: code-server 컨테이너](#2-browser-기반-접근-code-server-컨테이너)
 3. [Windows 개발 환경 컨테이너 구성 (Wine / QEMU)](#3-windows-개발-환경-컨테이너-구성-wine--qemu)
@@ -450,7 +450,7 @@ docker run -d \
     dockurr/windows:latest
 ```
 
-> **⚠️ 주의**: Windows를 사용하려면 정식 라이선스가 필요합니다.
+> **주의**: Windows를 사용하려면 정식 라이선스가 필요합니다.
 
 ---
 
@@ -464,10 +464,10 @@ VS Code 등을 통해 개발 컨테이너 환경을 구성할 때, 프로젝트 
 
 ---
 
-### 💡 [방식 1] Dockerfile 기반 단일 컨테이너 구성 (Single Container)
+### [방식 1] Dockerfile 기반 단일 컨테이너 구성 (Single Container)
 추가 서비스(DB, Redis 등) 없이 독립된 하나의 가상 리눅스 환경만 구축하여 개발할 때 유용하며, 설정이 단순합니다.
 
-#### 📁 폴더 구성
+#### 폴더 구성
 ```text
 my-project/
 └── .devcontainer/
@@ -476,7 +476,7 @@ my-project/
     └── entrypoint.sh       # 컨테이너 실행 직후 SSH 기동 등을 위한 엔트리포인트
 ```
 
-#### 📄 `devcontainer.json` 예시
+#### `devcontainer.json` 예시
 ```json
 {
   "name": "Ubuntu Single Dev Container",
@@ -501,10 +501,10 @@ my-project/
 
 ---
 
-### 💡 [방식 2] Docker Compose 기반 다중 컨테이너 구성 (Multi-Container Stack)
+### [방식 2] Docker Compose 기반 다중 컨테이너 구성 (Multi-Container Stack)
 코드를 실행하는 개발용 컨테이너와 함께 데이터베이스(MySQL, PostgreSQL)나 캐시(Redis) 등을 병렬로 구동하여 통합 테스트가 필요한 실무 환경에 적합합니다.
 
-#### 📁 폴더 구성
+#### 폴더 구성
 ```text
 my-project/
 └── .devcontainer/
@@ -514,7 +514,7 @@ my-project/
     └── entrypoint.sh
 ```
 
-#### 📄 `docker-compose.json` 예시
+#### `docker-compose.json` 예시
 ```json
 {
   "version": "3.9",
@@ -557,7 +557,7 @@ my-project/
 }
 ```
 
-#### 📄 `devcontainer.json` 예시 (Compose 연동)
+#### `devcontainer.json` 예시 (Compose 연동)
 ```json
 {
   "name": "Ubuntu with DB Service (Compose)",

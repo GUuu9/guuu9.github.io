@@ -1,5 +1,5 @@
 <!-- version: v1.0.0 -->
-# 💻 Pi Coding Agent 연동을 위한 로컬 AI 백엔드 구축 가이드 (LM Studio 전용)
+# Pi Coding Agent 연동을 위한 로컬 AI 백엔드 구축 가이드 (LM Studio 전용)
 
 이 가이드는 **Pi Coding Agent (`pi`)**에 연결하여 사용할 수 있는 오프라인 로컬 AI 백엔드 서버를 **LM Studio** 기준으로 구축하는 방법을 정리한 문서입니다.
 
@@ -7,10 +7,10 @@
 
 ---
 
-## 📌 목차 바로가기
+## 목차 바로가기
 * [1. LM Studio 선정 및 모델 안내](#-1-lm-studio-선정-및-모델-안내)
-  * [🧠 추천 AI 모델 (코딩 전용)](#-추천-ai-모델-코딩-전용)
-  * [⚙️ PC 성능별 모델 및 추론(Inference) 설정 예시](#️-pc-성능별-모델-및-추론inference-설정-예시)
+  * [추천 AI 모델 (코딩 전용)](#-추천-ai-모델-코딩-전용)
+  * [PC 성능별 모델 및 추론(Inference) 설정 예시](#️-pc-성능별-모델-및-추론inference-설정-예시)
 * [2. macOS 환경 구축 가이드](#-2-macos-환경-구축-가이드)
   * [Apple Silicon Mac](#2-1-apple-silicon-mac-m1-m2-m3-m4-등)
   * [Intel Mac](#2-2-intel-mac-이전-세대-imac-macbook-pro-등)
@@ -40,20 +40,20 @@
 
 ---
 
-## 🔍 1. LM Studio 선정 및 모델 안내
+## 1. LM Studio 선정 및 모델 안내
 
 **LM Studio**는 GUI가 매우 강력하고 모델 탐색, 다운로드, 추론 테스트가 시각적으로 직관적인 로컬 AI 실행 도구입니다.
 
-### 🧠 추천 AI 모델 (코딩 전용)
+### 추천 AI 모델 (코딩 전용)
 Pi Coding Agent와 연동하여 안정적인 소스코드 분석 및 수정을 수행하려면 **도구 호출(Tool Calling/Function Calling)** 성능이 우수한 아래 모델을 추천합니다.
 *   **Qwen2.5-Coder-7B-Instruct** (또는 저사양 구성을 위한 **Qwen2.5-Coder-3B-Instruct**)
 *   **Llama-3.1-8B-Instruct** (범용 코딩 및 추론에 우수)
 
-> ⚠️ **도구 호출(Tool Call) 실패 이슈 주의**:
+> **도구 호출(Tool Call) 실패 이슈 주의**:
 > `pi` 에이전트 실행 시 파일 쓰기/수정 도구를 작동시키지 못하고 `{"name": "write", ...}` 형태의 Raw JSON 텍스트만 출력되는 오작동이 일어난다면, 모델이 도구 사용 지시를 이해하지 못하고 있는 상태입니다. 
 > 반드시 모델 태그명에 **`-instruct`**가 명시된 전용 지시어 튜닝 모델을 설치해 사용해야 합니다.
 
-### ⚙️ PC 성능별 모델 및 추론(Inference) 설정 예시
+### PC 성능별 모델 및 추론(Inference) 설정 예시
 
 PC 사양에 맞춰 원활한 동작 속도를 확보하기 위한 LM Studio 우측 설정(Inference Parameters) 권장 가이드라인입니다.
 
@@ -67,7 +67,7 @@ PC 사양에 맞춰 원활한 동작 속도를 확보하기 위한 LM Studio 우
 
 ---
 
-## 🍎 2. macOS 환경 구축 가이드
+## 2. macOS 환경 구축 가이드
 
 macOS는 CPU 아키텍처에 따라 지원 라이브러리 및 하드웨어 가속 방식이 다르므로, 본인의 시스템 사양에 맞는 옵션을 선택해야 합니다.
 
@@ -92,7 +92,7 @@ M 시리즈 칩은 통합 메모리(Unified Memory)를 통해 GPU 가속을 완�
 
 ---
 
-## 🐧 3. Linux 환경 구축 가이드
+## 3. Linux 환경 구축 가이드
 
 Linux 환경은 GUI가 탑재된 데스크톱 환경과 터미널 위주의 헤드리스(Headless) 서버 환경으로 나뉩니다. 상황에 맞게 다음 중 하나의 방법으로 설치하고 기동하십시오.
 
@@ -159,7 +159,7 @@ LM Studio 공식 GUI가 전혀 필요 없고 백그라운드 데몬 및 CLI 형�
 
 ---
 
-## 🪟 4. Windows 환경 구축 가이드
+## 4. Windows 환경 구축 가이드
 
 Windows 환경은 LM Studio 기본 앱을 활용하여 손쉽게 로컬 AI 서버를 구성할 수 있습니다.
 
@@ -170,7 +170,7 @@ Windows 환경은 LM Studio 기본 앱을 활용하여 손쉽게 로컬 AI 서�
 
 ---
 
-## 🔌 5. LM Studio 환경 설정 및 Pi Coding Agent 연동 방법
+## 5. LM Studio 환경 설정 및 Pi Coding Agent 연동 방법
 
 LM Studio 로컬 AI 백엔드 엔진을 구동할 때와 이를 Pi Coding Agent에 연결할 때는 **환경 변수(Environment Variable)** 및 **설정 파일**이 핵심적인 역할을 합니다.
 
@@ -180,14 +180,14 @@ LM Studio 로컬 AI 백엔드 엔진을 구동할 때와 이를 Pi Coding Agent�
 
 Pi Coding Agent를 연동하기에 앞서, 아래 명령어를 실행하여 로컬 시스템에 에이전트를 설치해야 합니다.
 
-#### 🪟 Windows (PowerShell) 환경
+#### Windows (PowerShell) 환경
 PowerShell에서 아래 스크립트를 실행하여 편리하게 자동 설치를 진행할 수 있습니다.
 ```powershell
 # Windows용 설치 스크립트 실행
 powershell -c "irm https://pi.dev/install.ps1 | iex"
 ```
 
-#### 🍎🐧 macOS / Linux 환경 (npm 활용)
+#### macOS / Linux 환경 (npm 활용)
 Node.js가 설치된 환경에서 `npm` 패키지 관리자를 사용해 설치를 진행합니다.
 ```bash
 # 글로벌 npm 패키지로 설치 (스크립트 실행 무시 플래그 적용)
@@ -202,11 +202,11 @@ npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 
 ---
 
-### 5-2. Pi Coding Agent (`pi`) 자동 인식 설정 (추천 ⭐)
+### 5-2. Pi Coding Agent (`pi`) 자동 인식 설정 
 
 `pi` 에이전트가 로컬에서 동작 중인 LM Studio 백엔드를 자동으로 탐지하고 정상 통신하도록 설정 파일들을 변경합니다.
 
-#### 1️⃣ `config.json` 설정 파일 갱신
+#### `config.json` 설정 파일 갱신
 `~/.pi/agent/settings.json` (혹은 프로젝트 폴더 내 `.pi/settings.json`) 파일을 열어 `defaultProvider`와 `defaultModel`을 LM Studio 사양에 맞게 다음과 같이 수정합니다.
 
 ```json
@@ -228,11 +228,11 @@ npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 
 LM Studio가 불러오는 기본 목록 대신, 사용자가 특정 로컬 모델의 세부 사양(이름, 역할, 호출 토큰 한계 등)을 강제로 Pi 에이전트에 선언하고 사용하고 싶을 경우 **`models.json`** 파일을 직접 만들어서 바인딩할 수 있습니다.
 
-#### 📁 `models.json` 작성 경로
+#### `models.json` 작성 경로
 * **전역 설정 경로**: `~/.pi/agent/models.json`
 * **프로젝트 설정 경로**: 현재 작업 디렉터리의 `.pi/models.json`
 
-#### 📄 `models.json` 모델 정의 명세 구조
+#### `models.json` 모델 정의 명세 구조
 
 ```json
 {
@@ -279,7 +279,7 @@ pi --model qwen2.5-coder-7b-instruct
 
 ---
 
-## 🌐 6. 원격 서버 연동 가이드 (다른 PC에서 실행 및 pi 연결)
+## 6. 원격 서버 연동 가이드 (다른 PC에서 실행 및 pi 연결)
 
 LM Studio를 특정 PC(호스트 서버)에 구동시켜 두고, 네트워크상의 다른 PC(클라이언트)에서 `pi` Coding Agent를 실행하여 원격으로 로컬 AI 자원을 공유하여 사용할 수 있습니다.
 
@@ -353,7 +353,7 @@ pi --model qwen2.5-coder-7b-instruct
 
 ---
 
-### 6-3. ⚠️ 다중 접속 및 동시성(Concurrency) 주의사항
+### 6-3. 다중 접속 및 동시성(Concurrency) 주의사항
 
 원격 네트워크를 개방하여 여러 사용자가 동시에 하나의 LM Studio 백엔드 인스턴스에 접속할 때 아래와 같은 동작 방식과 제약 사항이 있습니다.
 
@@ -368,7 +368,7 @@ pi --model qwen2.5-coder-7b-instruct
 
 ---
 
-## 🎻 7. 로컬 다중 모델 오케스트레이션 구성 가이드 (AGY 스타일)
+## 7. 로컬 다중 모델 오케스트레이션 구성 가이드 (AGY 스타일)
 
 Pi Coding Agent나 Antigravity(AGY)처럼 **역할군별로 다른 로컬 모델(예: 기획/플래너 모델, 코드 생성 모델, 도구 호출 모델)을 조합하여 오케스트레이션**하는 것은 로컬 환경에서도 충분히 가능합니다. 이를 구현하기 위한 2가지 접근 방법을 안내합니다.
 
@@ -434,7 +434,7 @@ Pi Coding Agent나 Antigravity(AGY)처럼 **역할군별로 다른 로컬 모델
 ```
 ---
 
-## 🤖 8. 메인 모델 자율 오케스트레이터 구현 가이드 (Agentic Orchestrator)
+## 8. 메인 모델 자율 오케스트레이터 구현 가이드 (Agentic Orchestrator)
 
 LM Studio와 Pi Coding Agent (`pi`)를 결합하여 **메인 모델(Orchestrator/Router)이 질문의 종류를 스스로 판단한 뒤, 자신이 직접 응답하거나 하위 모델(예: Coder 전문 모델)을 호출해 결과를 얻은 후 최종 조율하여 응답하는 자율 오케스트레이터 환경**을 완벽하게 구축하는 단계별 가이드입니다.
 
@@ -466,7 +466,7 @@ sequenceDiagram
     Router-->>User: 8. 최종 정리된 답변 반환
 ```
 
-### 8-2. 🛠️ 1단계: 필수 추가 프로그램 및 라이브러리 설치
+### 8-2. 1단계: 필수 추가 프로그램 및 라이브러리 설치
 이 프록시 서버는 Python으로 작성되므로, Python 환경 및 API 통신용 라이브러리가 필요합니다.
 
 ```bash
@@ -484,7 +484,7 @@ pip install fastapi uvicorn httpx
 
 ---
 
-### 8-3. 🧠 2단계: LM Studio 다중 모델 서버 구동 (포트 분할)
+### 8-3. 2단계: LM Studio 다중 모델 서버 구동 (포트 분할)
 메인 모델과 하위 코더 모델을 서로 다른 포트에 각각 기동합니다.
 
 * **메인 모델 (Llama-3.1-8B-Instruct - 포트 `1234`)**: 질문을 분석하고 최종 피드백 및 정리를 수행합니다.
@@ -500,7 +500,7 @@ lms server start --port 1235 --model qwen2.5-coder-7b-instruct
 
 ---
 
-### 8-4. 🖥️ 3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)
+### 8-4. 3단계: OpenAI 규격 호환 중재 프록시 코드 작성 (`orchestrator.py`)
 `pi` 에이전트가 보내는 OpenAI 규격의 API 호출을 그대로 가로채어(Intercept) 메인 모델에 의도 분류를 먼저 보내고, 분류 값에 따라 하청 모델로 분기한 후 결과를 가공해 다시 OpenAI 규격으로 돌려주는 Python 코드입니다.
 
 `~/local-ai-orchestrator/orchestrator.py`로 파일을 생성하고 다음 코드를 기입합니다.
@@ -598,7 +598,7 @@ if __name__ == "__main__":
 
 ---
 
-### 8-5. ⚙️ 4단계: Pi Coding Agent (`pi`) 연동 환경 설정
+### 8-5. 4단계: Pi Coding Agent (`pi`) 연동 환경 설정
 `pi` 에이전트가 로컬에 띄운 8000포트 중재 라우터를 바라보고 작동하게 바인딩합니다.
 
 #### 📁 설정 파일 경로
@@ -638,7 +638,7 @@ if __name__ == "__main__":
 
 ---
 
-### 8-6. 🚀 5단계: 시스템 실행 및 확인 방법
+### 8-6. 5단계: 시스템 실행 및 확인 방법
 총 4개의 터미널 혹은 프로세스를 띄워 검증을 시작합니다.
 
 1. **메인 모델 기동**: `lms server start --port 1234 --model llama-3.1-8b-instruct`

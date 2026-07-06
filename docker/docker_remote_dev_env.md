@@ -1,11 +1,11 @@
 <!-- version: v1.0.1 -->
-# 🐳 Ubuntu 26.04 기반 Docker 원격 개발 환경 구성 가이드 (종합)
+# Ubuntu 26.04 기반 Docker 원격 개발 환경 구성 가이드 (종합)
 
 > **목표**: Ubuntu 26.04 Desktop (ubuntu26.04-desktop) GUI 호스트 서버에 Docker Desktop을 설치하고, 외부 PC에서 SSH / VS Code Remote / 브라우저 등 다양한 방법으로 컨테이너(Linux · Windows 개발 환경)에 접근하는 호스트 환경을 단계별로 구성한다.
 
 ---
 
-## 📋 목차
+## 목차
 
 1. [사전 준비 및 환경 확인](#1-사전-준비-및-환경-확인)
 2. [Ubuntu 26.04 Desktop 초기 설정](#2-ubuntu-2604-desktop-초기-설정)
@@ -344,7 +344,7 @@ sudo ufw status numbered
 
 ---
 
-## 📌 다음 단계 바로가기
+## 다음 단계 바로가기
 
 * [2편: 컨테이너 개발 환경 구축 가이드](./docker_container_setup.md)
   * Linux SSH 개발 서버 구축, VS Code Remote SSH 연결, 브라우저 기반의 code-server, Windows(Wine/QEMU) 컨테이너 가이드를 담고 있습니다.

@@ -84,7 +84,7 @@ description: "Docker를 사용하여 타겟 크로스 컴파일을 수행할 때
 ### 1) [Step 1] 서브에이전트의 역할 정의 (`define_subagent`)
 이 단계는 에이전트의 '종류(템플릿)'를 등록하는 작업입니다. 특정 프롬프트 권한과 도구(Read/Write)를 지정하여 메인 세션에 선언해 둡니다.
 
-#### 🛠️ CLI 도구/API 호출 예시 (정의)
+#### CLI 도구/API 호출 예시 (정의)
 ```json
 {
   "name": "db-debugger",
@@ -101,7 +101,7 @@ description: "Docker를 사용하여 타겟 크로스 컴파일을 수행할 때
 ### 2) [Step 2] 정의된 서브에이전트 실제 호출 (`invoke_subagent`)
 정의(Define)가 완료되어 목록에 등록된 서브에이전트에게 **실제 구체적인 명령(Prompt)을 내려서 일꾼을 스폰(Spawn)시키는 작업**입니다.
 
-#### 🚀 호출 예시 (실행 지시)
+#### 호출 예시 (실행 지시)
 ```json
 {
   "Subagents": [
@@ -130,7 +130,7 @@ description: "Docker를 사용하여 타겟 크로스 컴파일을 수행할 때
 
 효율적인 사용량 관리 및 토큰 한도 절약을 위해, **파일의 단순 읽기/쓰기 작업에는 가볍고 속도가 빠른 Flash 모델**을 지정하고, **고도의 사고와 추론 및 전체 계획 설계에는 Pro 또는 Claude Sonnet 모델**을 사용량(토큰 한도) 상황에 맞게 유동적으로 교체하는 구성을 제안합니다.
 
-### ⚙️ 추천 모델 분할 구성 파일 (`.aider.conf.yml` 또는 `antigravity.json`)
+### 추천 모델 분할 구성 파일 (`.aider.conf.yml` 또는 `antigravity.json`)
 
 #### 예시 A: [기본/추천] Gemini 3.5 Flash + Gemini Pro 분할 구성
 무료 사용 쿼터가 넉넉하고 빠른 Flash 모델과 복잡한 분석용 Pro 모델을 분할 매핑하는 구성입니다.

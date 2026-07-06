@@ -4,7 +4,7 @@
 
 <br />
 
-## 🗺️ Quick Links (바로가기)
+## Quick Links (바로가기)
 
 <table>
   <tr>
@@ -17,65 +17,65 @@
 
 ---
 
-## 💻 PC Setup
+## PC Setup
 > 로컬 컴퓨터 및 AI 개발 환경을 처음 설정할 때 참고하는 가이드입니다.
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🛠️ **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🤖 **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
-## 🌌 Antigravity
+## Antigravity
 > Google Antigravity 개발 도구 사용을 위한 가이드입니다.
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🚀 **[Google Antigravity Cli](./antigravity/antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[Google Antigravity Cli](./antigravity/antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
-## 🐳 Docker
+## Docker
 > Docker 및 Devcontainer 환경 구축, 운영 관리에 대한 가이드 모음입니다.
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🌐 **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.03` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
-| 📦 **[Docker Container Setup (2편: 개발 환경)](./docker/docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| ⚙️ **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.03` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
+| **[Docker Container Setup (2편: 개발 환경)](./docker/docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
-### 🛠️ Devcontainer Templates
+### Devcontainer Templates
 개발 목적별 즉시 사용 가능한 Devcontainer 환경입니다.
 
 | 템플릿 | 설명 | 포트 | 최근 점검 |
 | :--- | :--- | :-: | :-: |
-| 📱 **[Flutter](./docker/devcontainer/flutter/README.md)** | Flutter + Android SDK + ADB 연동 | `5037` | `2026.07.03` |
-| 🐧 **[Ubuntu 26.04](./docker/devcontainer/ubuntu/README.md)** | 순수 Ubuntu 기반, SSH 원격 연결 지원 | `2224` | `2026.07.03` |
-| 🐍 **[Python](./docker/devcontainer/python/README.md)** | Python 3 + venv + Black/Pylint | `8000` | `2026.07.03` |
-| 🦀 **[Rust](./docker/devcontainer/rust/README.md)** | Rust + Cargo + rust-analyzer | `8080` | `2026.07.03` |
-| 🟢 **[Node.js](./docker/devcontainer/nodejs/README.md)** | Node.js (nvm) + ESLint + Prettier | `3000` | `2026.07.03` |
-| ⚡ **[TypeScript](./docker/devcontainer/typescript/README.md)** | TypeScript + nvm + Node.js + ts-node | `3000` | `2026.07.03` |
-| 🐹 **[Go](./docker/devcontainer/go/README.md)** | Go + go.mod + Language Server | `8080` | `2026.07.03` |
+| **[Flutter](./docker/devcontainer/flutter/README.md)** | Flutter + Android SDK + ADB 연동 | `5037` | `2026.07.03` |
+| **[Ubuntu 26.04](./docker/devcontainer/ubuntu/README.md)** | 순수 Ubuntu 기반, SSH 원격 연결 지원 | `2224` | `2026.07.03` |
+| **[Python](./docker/devcontainer/python/README.md)** | Python 3 + venv + Black/Pylint | `8000` | `2026.07.03` |
+| **[Rust](./docker/devcontainer/rust/README.md)** | Rust + Cargo + rust-analyzer | `8080` | `2026.07.03` |
+| **[Node.js](./docker/devcontainer/nodejs/README.md)** | Node.js (nvm) + ESLint + Prettier | `3000` | `2026.07.03` |
+| **[TypeScript](./docker/devcontainer/typescript/README.md)** | TypeScript + nvm + Node.js + ts-node | `3000` | `2026.07.03` |
+| **[Go](./docker/devcontainer/go/README.md)** | Go + go.mod + Language Server | `8080` | `2026.07.03` |
 
 
 
 <br />
 
-## 📄 Docs
+## Docs
 > 버전 관리 및 가상 환경 등 일반적인 개발 도구 관련 가이드입니다.
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| 🐙 **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🤖 **[GitHub Actions Guide](./docs/github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| 🐍 **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[GitHub Actions Guide](./docs/github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.03` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
 ---
 
-## ⚙️ README 수동 업데이트 가이드
+## README 수동 업데이트 가이드
 
 이 보드(README.md)는 커밋 충돌 방지 및 히스토리 정합성을 위해 GitHub Actions를 통한 자동 커밋 대신 **수동 업데이트 방식**으로 관리됩니다.
 
