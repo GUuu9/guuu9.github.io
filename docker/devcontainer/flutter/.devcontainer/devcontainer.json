@@ -4,16 +4,18 @@
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "remoteUser": "developer",
-
-  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceFolder": "/home/developer/workspace",
-
+  
   // 컴테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
   // ⚠️ --net=host 는 Linux 전용 옵션입니다. macOS / Windows에서는 동작하지 않으니 제거하세요.
-  "runArgs": [
-    "--privileged"
+  "runArgs" : [
+    "--network=brige",
+    "--privileged",
+    "--name", "Flutter-DevContainer"
   ],
+
+  "remoteUser": "developer",
+
+  
 
   // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컴테이너와 연동합니다.
   "forwardPorts": [5037],

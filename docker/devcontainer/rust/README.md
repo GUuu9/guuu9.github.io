@@ -63,10 +63,13 @@ ENV PATH="/home/developer/.cargo/bin:${PATH}"
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "remoteUser": "developer",
 
-  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceFolder": "/home/developer/workspace",
+  "runArgs" : [
+    "--network=brige",
+    "--name", "Rust-DevContainer",
+  ],
+
+  "remoteUser": "developer",
 
   // 컨테이너 생성 후 rustfmt, clippy 컴포넌트 자동 추가
   "postCreateCommand": "rustup component add rustfmt clippy",

@@ -97,14 +97,16 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
     "context": "."
   },
 
+  "runArgs" : [
+    "--network=brige",
+    "--name", "Ubuntu-DevContainer"
+  ],
+
   // Dockerfile에 정의된 ENTRYPOINT(entrypoint.sh) 유지
   "overrideCommand": false,
 
   // VS Code 내부 환경에서 일반 사용자(developer) 계정으로 안전하게 접근하도록 명시
   "remoteUser": "developer",
-
-  // 호스트 프로젝트 디렉토리를 developer 홈 아래의 workspace 폴더로 바인드 마운트
-  "workspaceFolder": "/home/developer/workspace",
 
   // 컨테이너 내부에서 실행할 VS Code 확장 프로그램 목록
   "customizations": {

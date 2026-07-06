@@ -74,9 +74,6 @@ ip addr show
 ```bash
 # 패키지 목록 갱신 및 전체 업그레이드
 sudo apt update && sudo apt upgrade -y
-
-# 불필요한 패키지 제거
-sudo apt autoremove -y
 ```
 
 ### 2-2. 필수 패키지 설치
