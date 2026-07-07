@@ -38,11 +38,19 @@ RUN apt-get update && apt-get install -y \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
+# SSH 서비스 기동을 위한 디렉토리 사전 확보 및 권한 설정
+RUN mkdir -p /var/run/sshd && chmod 0755 /var/run/sshd
+
 # 3. 개발용 사용자(developer) 생성 및 권한 설정
 RUN useradd -ms /bin/bash developer && \
-    echo "developer:developer" | chpasswd && \
+    echo 'root:root' | chpasswd && \
+    echo 'developer:developer' | chpasswd && \
     adduser developer sudo
 RUN echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# SSH 로그인 정책 변경 (루트 및 패스워드 인증 활성화)
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 USER developer
 WORKDIR /home/developer
@@ -58,17 +66,30 @@ RUN mkdir -p $ANDROID_SDK_ROOT/cmdline-tools && \
     rm sdk.zip && \
     mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
-# 6. Android SDK 컴포넌트 라이선스 동의 및 필수 컴포넌트 추가
+# 6. Android 라이선스 동의 및 필수 플랫폼 도구 설치 (adb 등)
 RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
-# 7. Flutter SDK 설치
+# 7. Flutter SDK 다운로드 및 설치
 ENV FLUTTER_HOME=/home/developer/flutter
 ENV PATH=$PATH:$FLUTTER_HOME/bin
+
 RUN git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_HOME
 
 # 8. Flutter 기본 진단 및 빌드 사전 체크
 RUN flutter doctor
+
+# 진입점 자동 시작 스크립트(entrypoint.sh) 복사 및 실행권한 부여
+USER root
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# 포트 설정 (SSH 및 개발용 포트)
+EXPOSE 22 5037
+
+# 컨테이너 시작 시 실행될 진입점 스크립트 지정
+USER developer
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 ```
 
 ### 2) `devcontainer.json` 작성
@@ -81,19 +102,27 @@ RUN flutter doctor
     "dockerfile": "Dockerfile",
     "context": "."
   },
-
+  
   // 컴테이너 내부에서 기기 검출 및 연결을 안정화하기 위한 실행 인수 설정
   // ⚠️ --net=host 는 Linux 전용 옵션입니다. macOS / Windows에서는 동작하지 않으니 제거하세요.
   "runArgs" : [
-    "--network=brige",
+    "--network=bridge",
     "--privileged",
-    "--name", "Flutter-DevContainer"
+    "--name", "Flutter-DevContainer",
+    "-p",
+    "2220:22",
+    "-p",
+    "5037:5037"
   ],
+
+  "overrideCommand": false,
 
   "remoteUser": "developer",
 
-  // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컨테이너와 연동합니다.
-  "forwardPorts": [5037],
+  
+
+  // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컴테이너와 연동합니다.
+  "forwardPorts": [22, 5037],
 
   "customizations": {
     "vscode": {

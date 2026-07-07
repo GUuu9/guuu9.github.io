@@ -31,33 +31,53 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
-    build-essential \
     openssh-server \
     sudo \
+    build-essential \
+    unzip \
     tar \
     && rm -rf /var/lib/apt/lists/*
+
+# 3.5. SSH 서비스 기동을 위한 디렉토리 사전 확보 및 권한 설정
+RUN mkdir -p /var/run/sshd && chmod 0755 /var/run/sshd
 
 # 4. 개발 전용 사용자(developer) 생성 및 sudo 권한 할당
 RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 developer
 
-# 5. 비밀번호 및 보안 설정
-RUN echo 'developer:developer' | chpasswd && \
+# 5. 사용자 비밀번호 설정 및 NOPASSWD sudo 권한 부여
+RUN echo 'root:root' | chpasswd && \
+    echo 'developer:developer' | chpasswd && \
     echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# 5.5. SSH 로그인 정책 변경 (루트 및 패스워드 인증 활성화)
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 # 6. developer 사용자로 전환하여 nvm 설치
 USER developer
 WORKDIR /home/developer
 
-# 7. nvm 및 Node.js LTS(v20) 설치
-ENV NVM_DIR=/home/developer/.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && \
-    . $NVM_DIR/nvm.sh && \
-    nvm install 20 && \
-    nvm use 20 && \
-    nvm alias default 20
+# 7. nvm(Node Version Manager) 설치
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
-# 8. Node.js 실행 PATH 설정
-ENV PATH=$PATH:/home/developer/.nvm/versions/node/v20.14.0/bin
+# 8. nvm 환경 변수 설정 및 Node.js LTS(v20) 설치
+ENV NVM_DIR=/home/developer/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install 20 && nvm alias default 20 && nvm use default
+
+# 9. node, npm, nvm 명령을 셸 환경에서 바로 사용할 수 있도록 PATH 등록
+ENV PATH=$NVM_DIR/versions/node/v20/bin:$PATH
+
+# 10. 진입점 자동 시작 스크립트(entrypoint.sh) 복사 및 실행권한 부여
+USER root
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# 11. 포트 설정 (SSH: 22, Node 서버: 3000, WebUI: 443)
+EXPOSE 22 3000 80 443
+
+# 12. 컨테이너 시작 시 실행될 진입점 스크립트 지정
+USER developer
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 ```
 
 ### 2) `devcontainer.json` 작성
@@ -72,17 +92,27 @@ ENV PATH=$PATH:/home/developer/.nvm/versions/node/v20.14.0/bin
   },
 
   "runArgs" : [
-    "--network=brige",
-    "--name", "Nodejs-DevContainer"
+    "--network=bridge",
+    "--name", "Nodejs-DevContainer",
+    "-p",
+    "2222:22",
+    "-p",
+    "3000:3000",
+    "-p",
+    "80:80",
+    "-p",
+    "443:443"
   ],
+
+  "overrideCommand": false,
 
   "remoteUser": "developer",
 
   // 컨테이너 생성 후 package.json이 존재할 경우 의존성을 자동으로 설치합니다.
   "postCreateCommand": "[ -f package.json ] && npm install || true",
 
-  // Node.js 개발 서버 기본 포트(3000)를 호스트와 연결합니다.
-  "forwardPorts": [3000],
+  // SSH(22), Node.js 개발 서버 기본 포트(3000), WebUI 포트(443) 등을 호스트와 연결합니다.
+  "forwardPorts": [22, 3000, 80, 443],
 
   "customizations": {
     "vscode": {

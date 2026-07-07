@@ -6,9 +6,15 @@
   },
 
   "runArgs" : [
-    "--network=brige",
+    "--network=bridge",
     "--name", "TypeScript-DevContainer",
+    "-p",
+    "2226:22",
+    "-p",
+    "3000:3000"
   ],
+
+  "overrideCommand": false,
 
   "remoteUser": "developer",
 
@@ -16,7 +22,7 @@
   "postCreateCommand": "[ -f package.json ] && npm install || true",
 
   // Node.js/TypeScript 개발 서버 기본 포트(3000)를 호스트와 연결합니다.
-  "forwardPorts": [3000],
+  "forwardPorts": [22, 3000],
 
   "customizations": {
     "vscode": {

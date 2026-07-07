@@ -6,17 +6,27 @@
   },
 
   "runArgs" : [
-    "--network=brige",
-    "--name", "Nodejs-DevContainer"
+    "--network=bridge",
+    "--name", "Nodejs-DevContainer",
+    "-p",
+    "2222:22",
+    "-p",
+    "3000:3000",
+    "-p",
+    "80:80",
+    "-p",
+    "443:443"
   ],
+
+  "overrideCommand": false,
 
   "remoteUser": "developer",
 
   // 컨테이너 생성 후 package.json이 존재할 경우 의존성을 자동으로 설치합니다.
   "postCreateCommand": "[ -f package.json ] && npm install || true",
 
-  // Node.js 개발 서버 기본 포트(3000)를 호스트와 연결합니다.
-  "forwardPorts": [3000],
+  // SSH(22), Node.js 개발 서버 기본 포트(3000), WebUI 포트(443) 등을 호스트와 연결합니다.
+  "forwardPorts": [22, 3000, 80, 443],
 
   "customizations": {
     "vscode": {

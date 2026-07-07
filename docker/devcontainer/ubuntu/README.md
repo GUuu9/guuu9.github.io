@@ -89,7 +89,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 ```json
 {
-  "name": "Ubuntu 26.04 개발 환경",
+  "name": "Ubuntu 22.04 개발 환경",
   
   // Dockerfile 위치 지정 및 빌드 옵션
   "build": {
@@ -98,8 +98,10 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   "runArgs" : [
-    "--network=brige",
-    "--name", "Ubuntu-DevContainer"
+    "--network=bridge",
+    "--name", "Ubuntu-DevContainer",
+    "-p",
+    "2224:22"
   ],
 
   // Dockerfile에 정의된 ENTRYPOINT(entrypoint.sh) 유지
@@ -120,11 +122,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
       ]
     }
   },
-
-  // 호스트와 컨테이너 포트 매핑 (호스트 2224 -> 컨테이너 22)
-  "appPort": [
-    "2224:22"
-  ],
 
   // 로컬 컴퓨터로 포워딩할 포트 목록
   "forwardPorts": [22]
