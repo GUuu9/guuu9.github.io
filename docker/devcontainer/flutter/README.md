@@ -109,8 +109,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
     "--network=bridge",
     "--privileged",
     "--name", "Flutter-DevContainer",
-    "2220:22",
-    "5037:5037",
     "-p",
     "2220:22",
     "-p",
@@ -124,7 +122,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   
 
   // 중요: 호스트의 ADB 연결 정보(포트 5037)를 컴테이너와 연동합니다.
-  "forwardPorts": [22, 5037],
+  "forwardPorts": [5037],
 
   "customizations": {
     "vscode": {

@@ -90,7 +90,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Python-DevContainer",
-    "2223:22",
     "-p",
     "2223:22",
     "-p",
@@ -126,7 +125,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   // 로컬 컴퓨터로 포워딩할 포트 목록 (Flask/Django 기본 개발 서버 포트)
-  "forwardPorts": [22, 8000]
+  "forwardPorts": [8000]
 }
 ```
 

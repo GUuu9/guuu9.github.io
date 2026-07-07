@@ -97,7 +97,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "TypeScript-DevContainer",
-    "2226:22",
     "-p",
     "2226:22",
     "-p",
@@ -112,7 +111,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "postCreateCommand": "[ -f package.json ] && npm install || true",
 
   // Node.js/TypeScript 개발 서버 기본 포트(3000)를 호스트와 연결합니다.
-  "forwardPorts": [22, 3000],
+  "forwardPorts": [3000],
 
   "customizations": {
     "vscode": {

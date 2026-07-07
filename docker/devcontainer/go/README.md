@@ -93,7 +93,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Go-DevContainer",
-    "2221:22",
     "-p",
     "2221:22",
     "-p",
@@ -105,7 +104,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "remoteUser": "developer",
 
   // Go 개발 서버 혹은 애플리케이션 기본 포트(8080)를 호스트와 연결합니다.
-  "forwardPorts": [22, 8080],
+  "forwardPorts": [080],
 
   "customizations": {
     "vscode": {

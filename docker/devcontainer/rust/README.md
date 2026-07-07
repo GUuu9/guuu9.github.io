@@ -90,7 +90,6 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Rust-DevContainer",
-    "2225:22",
     "-p",
     "2225:22",
     "-p",
@@ -122,7 +121,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   // 로컬 컴퓨터로 포워딩할 포트 목록 (예: 웹 서버 개발 시 사용)
-  "forwardPorts": [22, 8080]
+  "forwardPorts": [8080]
 }
 ```
 

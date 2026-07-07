@@ -124,7 +124,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   // 로컬 컴퓨터로 포워딩할 포트 목록
-  "forwardPorts": [22]
+  "forwardPorts": []
 }
 ```
 

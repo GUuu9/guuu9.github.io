@@ -112,7 +112,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "postCreateCommand": "[ -f package.json ] && npm install || true",
 
   // SSH(22), Node.js 개발 서버 기본 포트(3000), WebUI 포트(443) 등을 호스트와 연결합니다.
-  "forwardPorts": [22, 3000, 80, 443],
+  "forwardPorts": [3000],
 
   "customizations": {
     "vscode": {
