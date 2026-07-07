@@ -8,6 +8,7 @@
   "runArgs" : [
     "--network=bridge",
     "--name", "Go-DevContainer",
+    "2221:22",
     "-p",
     "2221:22",
     "-p",

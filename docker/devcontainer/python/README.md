@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     python3-venv \
-    python3-dev \
+    python3-dev \ 
     openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
@@ -69,7 +69,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # 포트 설정 (SSH 및 개발용 포트)
-EXPOSE 22
+EXPOSE 22 8000
 
 # 컨테이너 시작 시 실행될 진입점 스크립트 지정
 USER developer
@@ -90,8 +90,11 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Python-DevContainer",
+    "2223:22",
     "-p",
-    "2223:22"
+    "2223:22",
+    "-p",
+    "8000:8000"
   ],
 
   "overrideCommand": false,
@@ -123,7 +126,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   // 로컬 컴퓨터로 포워딩할 포트 목록 (Flask/Django 기본 개발 서버 포트)
-  "forwardPorts": [22]
+  "forwardPorts": [22, 8000]
 }
 ```
 

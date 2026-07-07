@@ -47,7 +47,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # 포트 설정 (SSH 및 개발용 포트)
-EXPOSE 22
+EXPOSE 22 8080
 
 # 컨테이너 시작 시 실행될 진입점 스크립트 지정
 USER developer

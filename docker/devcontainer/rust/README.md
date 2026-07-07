@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
     libssl-dev \
-    ca-certificates \
+    ca-certificates \ 
     openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
@@ -69,7 +69,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # 포트 설정 (SSH 및 개발용 포트)
-EXPOSE 22
+EXPOSE 22 8080
 
 # 컨테이너 시작 시 실행될 진입점 스크립트 지정
 USER developer
@@ -90,8 +90,11 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Rust-DevContainer",
+    "2225:22",
     "-p",
-    "2225:22"
+    "2225:22",
+    "-p",
+    "8080:8080"
   ],
 
   "overrideCommand": false,
@@ -119,7 +122,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   },
 
   // 로컬 컴퓨터로 포워딩할 포트 목록 (예: 웹 서버 개발 시 사용)
-  "forwardPorts": [22]
+  "forwardPorts": [22, 8080]
 }
 ```
 

@@ -97,6 +97,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "TypeScript-DevContainer",
+    "2226:22",
     "-p",
     "2226:22",
     "-p",

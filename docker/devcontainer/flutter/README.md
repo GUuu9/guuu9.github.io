@@ -109,6 +109,8 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
     "--network=bridge",
     "--privileged",
     "--name", "Flutter-DevContainer",
+    "2220:22",
+    "5037:5037",
     "-p",
     "2220:22",
     "-p",

@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
     build-essential \
     tar \
-    ca-certificates \
+    ca-certificates \ 
     openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
@@ -93,6 +93,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
   "runArgs" : [
     "--network=bridge",
     "--name", "Go-DevContainer",
+    "2221:22",
     "-p",
     "2221:22",
     "-p",
