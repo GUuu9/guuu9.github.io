@@ -8,10 +8,10 @@
 
 <table>
   <tr>
-    <td align="center"><a href="#-pc-setup">💻<br><b>PC Setup</b></a></td>
-    <td align="center"><a href="#-antigravity">🌌<br><b>Antigravity</b></a></td>
-    <td align="center"><a href="#-docker">🐳<br><b>Docker</b></a></td>
-    <td align="center"><a href="#-docs">📄<br><b>General Docs</b></a></td>
+    <td align="center"><a href="#-pc-setup"><b>PC Setup</b></a></td>
+    <td align="center"><a href="#-antigravity"><b>Antigravity</b></a></td>
+    <td align="center"><a href="#-docker"><b>Docker</b></a></td>
+    <td align="center"><a href="#-docs"><b>General Docs</b></a></td>
   </tr>
 </table>
 

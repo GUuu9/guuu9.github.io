@@ -7,6 +7,7 @@
 - When the user asks you to write, edit, create, delete, or read a file, or run a bash command, you **MUST** call the corresponding tool (`read`,`write`, `edit`, `bash`). Do not just display code blocks in markdown.
 - **Do not overwrite full files unless necessary**: For editing existing files, target only the specific lines or blocks needing modification to prevent context bloat and code loss.
 - **Verify after editing**: After writing or modifying code, proactively run validation commands (such as linters, tests, or build commands) using the bash tool to ensure the changes did not break the project.
+- **User Approval Required**: Write, edit, create, delete 파일 또는 bash 명령 실행 전 반드시 사용자에게 작업 내용을 명확히 설명하고 승인을 받아야 합니다. 승인 없이 임의의 파일 수정이나 시스템 명령 실행은 금지됩니다.
 
 ## Software Design (SRP, DI, MVVM)
 - **Single Responsibility Principle (SRP) 준수**:
