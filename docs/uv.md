@@ -1,3 +1,4 @@
+<!-- version: v1.0.0 -->
 # uv: Rust 기반의 초고속 Python 패키지 및 프로젝트 관리 도구 가이드
 
 `uv`는 Astral(Ruff 개발사)에서 개발한 Rust 기반의 차세대 Python 패키지 설치(Installer), 의존성 해결(Resolver), 그리고 프로젝트 관리 도구입니다. 기존 `pip`, `pip-tools`, `virtualenv`, 심지어 `poetry`나 `rye`와 같은 도구들의 영역까지 통합하며 개발 환경의 생산성을 비약적으로 향상시킵니다.
@@ -14,7 +15,7 @@
 
 ---
 
-## 🛠️ 2. 설치 방법 (Installation)
+## 2. 설치 방법 (Installation)
 
 `uv`는 별도의 Python 환경 없이 독립적인 바이너리로 설치하는 것을 권장합니다.
 
@@ -35,7 +36,7 @@ brew install uv
 
 ---
 
-## ✨ 3. 주요 기능 및 파트별 명령어 (Key Features & Commands)
+## 3. 주요 기능 및 파트별 명령어 (Key Features & Commands)
 
 `uv`는 크게 두 가지 방식으로 사용됩니다. 
 1. **`uv pip` 계열:** 기존 `pip`의 명령어를 완전 대체하는 하위 호환 모드
@@ -97,7 +98,7 @@ uv run main.py
 
 ---
 
-## 🆚 4. pip 대비 장점 (Advantages)
+## 4. pip 대비 장점 (Advantages)
 
 1. **콜드/웜 캐시 처리 속도:**
    * 로컬 캐시가 전혀 없는 상태(Cold)에서도 병렬 네트워크 다운로드로 속도가 매우 빠릅니다.
