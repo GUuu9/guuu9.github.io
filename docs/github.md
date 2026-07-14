@@ -1,4 +1,4 @@
-<!-- version: v1.0.1 -->
+<!-- version: v1.0.2 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
 본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
@@ -182,7 +182,7 @@ export default defineConfig({
   git tag -d v0.0.0
   ```
 
-### 7.2 원격 저장소(GitHub)로 태그 전송 (Push)
+### 7.2 원격 저장소 (GitHub) 로 태그 전송 (Push)
 기본 `git push` 명령은 태그를 자동으로 업로드하지 않기 때문에 별도의 명령어를 사용해야 합니다.
 * **특정 태그 푸시**:
   ```bash
@@ -196,3 +196,61 @@ export default defineConfig({
   ```bash
   git push origin --delete v0.0.0
   ```
+
+### 7.3 원격 태그 목록 조회 및 코드 다운로드
+원격 저장소의 모든 태그를 확인하고, 특정 시점의 코드를 내려받을 수 있습니다.
+
+#### **원격 태그 목록 확인**
+```bash
+# 원격 저장소에서 모든 태그 정보 조회 (태그명 + commit hash)
+git ls-remote --tags origin
+
+# 간단하게 태그 이름만 보기
+git ls-remote --tags origin
+```
+
+**출력 예시:**
+```
+tags/v1.0.0	refs/tags/v1.0.0	sha1_hash_of_commit_v1.0.0
+tags/v1.0.1	refs/tags/v1.0.1	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+```
+
+#### **특정 시점의 태그 코드 다운로드**
+원격 저장소의 특정 태그로 체크아웃하여 해당 시점의 코드를 로컬에서 내려받을 수 있습니다.
+
+```bash
+# 1. 먼저 원격 태그 가져오기 (fetch)
+git fetch origin tags/tag-name:refs/remotes/origin/tags/tag-name
+
+# 2. 태그로 체크아웃 - 로컬 디렉토리 상태를 해당 버전으로 변경
+git checkout --quiet tags/tag-name
+
+# 3. 또는 새 브랜치로 체크아웃 (병렬 작업 가능)
+git checkout -b tag-name-branch origin/tags/tag-name
+```
+
+**실전 사용 예시:**
+```bash
+# v1.0.0 시점의 코드 다운로드
+cd /path/to/local-repo
+
+# 태그 가져오기
+git fetch origin tags/v1.0.0:refs/remotes/origin/tags/v1.0.0
+
+# 해당 버전으로 체크아웃 (로컬 현재 브랜치는 유지)
+git checkout --quiet tags/v1.0.0
+
+# 또는 새 브랜치 생성하여 체크아웃
+git checkout -b v1.0.0-branch origin/tags/v1.0.0
+```
+
+**주의사항:**
+- `git clone -b <tag>`는 **올바르지 않은 사용법**입니다. `-b`는 브랜치를 지정하는 플래그입니다.
+- 태그를 내려받을 때는 반드시 `git fetch` 후 `git checkout tags/<tag-name>`로 체크아웃해야 합니다.
+
+#### **특정 커밋 시점으로 이동 (태그 없이)**
+```bash
+# 특정 커밋으로 이동
+git fetch origin main:refs/remotes/origin/main
+git checkout FETCH_HEAD  # 마지막 푸시 받은 커밋
+```
