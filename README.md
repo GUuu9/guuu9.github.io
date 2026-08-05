@@ -9,7 +9,6 @@
 <table>
   <tr>
     <td align="center"><a href="#-pc-setup"><b>PC Setup</b></a></td>
-    <td align="center"><a href="#-antigravity"><b>Antigravity</b></a></td>
     <td align="center"><a href="#-docker"><b>Docker</b></a></td>
     <td align="center"><a href="#-docs"><b>General Docs</b></a></td>
   </tr>
@@ -24,15 +23,7 @@
 | :--- | :--- | :--- | :--- |
 | **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 | **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-
-<br />
-
-## Antigravity
-> Google Antigravity 개발 도구 사용을 위한 가이드입니다.
-
-| 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
-| :--- | :--- | :--- | :--- |
-| **[Google Antigravity Cli](./antigravity/antigravity_cli.md)** | AGY CLI 사용법 및 주요 명령어 가이드 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[Dev AGENTS.md](./setup/AGENTS.md)** | AI 사용시 LLM 지시사항 | `2026.08.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
 <br />
 
@@ -67,8 +58,7 @@
 
 | 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
 | :--- | :--- | :--- | :--- |
-| **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.13` | ![Version v1.0.2](https://img.shields.io/badge/version-v1.0.2-blue?style=flat-square) |
-| **[GitHub Actions Guide](./docs/github_actions.md)** | GitHub Actions 핵심 개념, YAML 문법 및 실전 활용 예시 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+| **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.14` | ![Version v1.0.2](https://img.shields.io/badge/version-v1.0.2-blue?style=flat-square) |
 | **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 | **[UV Guide](./docs/uv.md)** | Python 가상환경(uv) 생성 및 관리 가이드 | `2026.07.14` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
 
