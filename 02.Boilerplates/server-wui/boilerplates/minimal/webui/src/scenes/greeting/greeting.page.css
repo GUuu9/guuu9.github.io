@@ -1,0 +1,7 @@
+body { margin: 0; background: #f3f7f6; color: #183c35; font: 16px system-ui; }
+main { max-width: 640px; margin: 48px auto; padding: 24px; background: white; border: 1px solid #cbdcd7; border-radius: 8px; }
+form { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+input, button { box-sizing: border-box; height: 32px; padding: 4px 10px; border: 1px solid #729c8f; border-radius: 4px; font: inherit; }
+button { background: #17674f; color: white; cursor: pointer; }
+:disabled { opacity: .6; cursor: wait; }
+[role=alert] { color: #b42318; }

@@ -1,0 +1,31 @@
+{
+  "name": "server-wui-minimal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "dev:server": "tsx watch server/src/index.ts",
+    "dev:webui": "vite --config webui/vite.config.ts",
+    "check": "tsc --noEmit",
+    "test": "tsx --test server/test/*.test.ts webui/test/*.test.ts",
+    "build": "npm run check && tsc -p server/tsconfig.json && node scripts/copy-config.mjs && vite build --config webui/vite.config.ts",
+    "start": "node dist/server/index.js"
+  },
+  "dependencies": {
+    "express": "5.2.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "26.2.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}
