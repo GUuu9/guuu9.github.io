@@ -1,92 +1,65 @@
-# 📑 DevGuide Portal
-> **개발 중 자주 필요하거나 잊어버리기 쉬운 초기 셋업 및 가이드 모음집입니다.**  
-> 필요한 가이드를 신속하게 찾아 적용할 수 있도록 카테고리별로 정리되어 있습니다.
+# 개발 환경·작업 가이드
 
-<br />
+주로 사용하는 개발 환경, 도구 사용법, 프로젝트 규칙과 서버 운영 절차를 기록하는 개인 문서 저장소입니다.
 
-## Quick Links (바로가기)
+## 문서 선택
 
-<table>
-  <tr>
-    <td align="center"><a href="#-pc-setup"><b>PC Setup</b></a></td>
-    <td align="center"><a href="#-docker"><b>Docker</b></a></td>
-    <td align="center"><a href="#-docs"><b>General Docs</b></a></td>
-  </tr>
-</table>
+| 폴더 | 목적 | 시작 문서 |
+| :--- | :--- | :--- |
+| 00.Setup | PC 초기화 후 개발 환경 설치·복원·업데이트 | [OS별 설정](./00.Setup/OS_Dev_Setting.md) |
+| 01.Tools | 개발 도구의 용도·사용법·버전 관리 | [도구 목록](./01.Tools/README.md) |
+| 02.Boilerplates | 프로젝트 구조·파일명·개발 규칙·AGENTS.md | 유형별 폴더 준비 단계 |
+| 03.Utilities | 편의 앱의 설치·실행·업데이트 | [유틸리티 목록](./03.Utilities/README.md) |
+| 04.Servers | 외부 서버 구축·작업 영역 제공·운영 | [서버 목록](./04.Servers/README.md) |
 
----
+## 00.Setup — PC 개발 환경
 
-## PC Setup
-> 로컬 컴퓨터 및 AI 개발 환경을 처음 설정할 때 참고하는 가이드입니다.
+- macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 개발 도구](./00.Setup/macOS_Common_Dev_Setting.md)
+- [Windows 11](./00.Setup/Windows_Dev_Setting.md)
+- [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
 
-| 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
-| :--- | :--- | :--- | :--- |
-| **[OS Development Setting](./setup/OS_Dev_Setting.md)** | 개발 PC 초기 OS 셋업 및 기본 구성 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| **[LM Studio & Pi Coding Agent Setting](./setup/LM_Studio_Pi_Coding_Agent.md)** | 로컬 LLM 및 코딩 어시스턴트(AI) 구성 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| **[Dev AGENTS.md](./setup/AGENTS.md)** | AI 사용시 LLM 지시사항 | `2026.08.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+기존 프로젝트의 요구 버전과 잠금 파일을 우선해 실행·빌드 가능한 환경을 복원합니다.
 
-<br />
+## 01.Tools — 개발 도구
 
-## Docker
-> Docker 및 Devcontainer 환경 구축, 운영 관리에 대한 가이드 모음입니다.
+| 관리 대상 | 가이드 |
+| :--- | :--- |
+| OS 패키지·앱 | [Homebrew](./01.Tools/brew.md) |
+| Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
+| Flutter SDK 버전 | [FVM](./01.Tools/fvm.md) |
+| Python 버전·패키지·가상환경 | [uv](./01.Tools/uv.md) · [venv](./01.Tools/venv.md) |
+| 컨테이너·이미지 공유·데이터 보존 | [Docker·Compose](./01.Tools/docker.md) |
+| Rust 툴체인 버전 | [rustup](./01.Tools/rustup.md) |
+| C/C++ 컴파일러·SDK·빌드 환경 | [C/C++ 툴체인](./01.Tools/cpp-toolchain.md) |
+| 소스 기록·협업·복구 | [Git·GitHub](./01.Tools/github.md) |
 
-| 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
-| :--- | :--- | :--- | :--- |
-| **[Docker Remote Dev Env (1편: 호스트 설정)](./docker/docker_remote_dev_env.md)** | Ubuntu 26.04 기반 호스트 OS 및 Docker Desktop 설치 | `2026.07.06` | ![Version v1.0.1](https://img.shields.io/badge/version-v1.0.1-blue?style=flat-square) |
-| **[Docker Container Setup (2편: 개발 환경)](./docker/docker_container_setup.md)** | Linux, code-server, Windows 등 개발 컨테이너 구축 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| **[Docker Management & Ops (3편: 운영 및 장애 대응)](./docker/docker_management_ops.md)** | 포트포워딩, 백업, 보안설정 및 VS Code 연동 에러 트러블슈팅 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+## 02.Boilerplates — 프로젝트 규칙
 
-### Devcontainer Templates
-개발 목적별 즉시 사용 가능한 Devcontainer 환경입니다.
+[mobile-app](./02.Boilerplates/mobile-app/) · [server](./02.Boilerplates/server/) · [server-wui](./02.Boilerplates/server-wui/) · [electron-app](./02.Boilerplates/electron-app/)
 
-| 템플릿 | 설명 | 포트 | 최근 점검 |
-| :--- | :--- | :-: | :-: |
-| **[Flutter](./docker/devcontainer/flutter/README.md)** | Flutter + Android SDK + ADB 연동 | `2220` (SSH), `5037` (ADB) | - |
-| **[Ubuntu 26.04](./docker/devcontainer/ubuntu/README.md)** | 순수 Ubuntu 기반, SSH 원격 연결 지원 | `2224` (SSH) | `2026.07.07` |
-| **[Python](./docker/devcontainer/python/README.md)** | Python 3 + venv + Black/Pylint | `2223` (SSH), `8000` (Web) | - |
-| **[Rust](./docker/devcontainer/rust/README.md)** | Rust + Cargo + rust-analyzer | `2225` (SSH), `8080` (Web) | - |
-| **[Node.js](./docker/devcontainer/nodejs/README.md)** | Node.js (nvm) + ESLint + Prettier | `2222` (SSH), `3000` (Web), `80`, `443` | `2026.07.07` |
-| **[TypeScript](./docker/devcontainer/typescript/README.md)** | TypeScript + nvm + Node.js + ts-node | `2226` (SSH), `3000` (Web) | - |
-| **[Go](./docker/devcontainer/go/README.md)** | Go + go.mod + Language Server | `2221` (SSH), `8080` (Web) | - |
+[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 유형별 실제 내용과 프로젝트 README·AGENTS·docs 설명서와 독립 실행·테스트 가능한 boilerplates 샘플는 대상 프로젝트 조사 후 추가합니다.
 
+## 03.Utilities — 편의 앱
 
+- [ComfyUI](./03.Utilities/comfyui.md): GitHub 설치·모델 환경·실행·업데이트
+- [Craft 도구](./03.Utilities/craft.md): PhotoCraft·VectorCraft·EffectCraft·FilmCraft 공통 관리
+- [Firefox·Chrome](./03.Utilities/browsers.md): OS별 설치·실행·업데이트
 
-<br />
+## 04.Servers — 외부 서버
 
-## Docs
-> 버전 관리 및 가상 환경 등 일반적인 개발 도구 관련 가이드입니다.
+[Docker 작업 영역 서버](./04.Servers/docker-server/README.md)는 서버용 PC의 관리자가 사용자별 컨테이너를 만들고, 사용자가 개인 PC의 SSH·VS Code로 접속하는 구성입니다.
 
-| 가이드 문서 | 설명 | 마지막 업데이트 | 버전 |
-| :--- | :--- | :--- | :--- |
-| **[GITHUB Guide](./docs/github.md)** | Git/GitHub 사용 시 자주 쓰거나 유용한 기능 정리 | `2026.07.14` | ![Version v1.0.2](https://img.shields.io/badge/version-v1.0.2-blue?style=flat-square) |
-| **[VENV Guide](./docs/venv.md)** | Python 가상환경(venv) 생성 및 관리 가이드 | `2026.07.06` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
-| **[UV Guide](./docs/uv.md)** | Python 가상환경(uv) 생성 및 관리 가이드 | `2026.07.14` | ![Version v1.0.0](https://img.shields.io/badge/version-v1.0.0-blue?style=flat-square) |
+1. [서버 준비](./04.Servers/docker-server/guides/docker_remote_dev_env.md)
+2. [사용자 작업 영역 생성·접속](./04.Servers/docker-server/guides/docker_container_setup.md)
+3. [작업 영역 종류·이미지 선택](./04.Servers/docker-server/workspace-types.md): RStudio·JupyterLab·브라우저 IDE·Android
+4. [버전·업데이트·백업·복구](./04.Servers/docker-server/operations.md)
 
-<br />
+실행 설정은 공통 [Dockerfile](./04.Servers/docker-server/Dockerfile)과 [Compose](./04.Servers/docker-server/compose.yaml)를 기준으로 사용합니다. 언어별 설정은 서버 안내의 환경 목록에서 선택합니다.
 
----
+## 문서 관리
 
-## README 수동 업데이트 가이드
+저장소를 수정하는 에이전트는 [AGENTS.md](./AGENTS.md)의 문서 관리 규칙을 따릅니다.
 
-이 보드(README.md)는 커밋 충돌 방지 및 히스토리 정합성을 위해 GitHub Actions를 통한 자동 커밋 대신 **수동 업데이트 방식**으로 관리됩니다.
+문서는 해당 주제의 폴더에서 수정하고, 파일 이동·삭제 시 연결된 상대 링크도 갱신합니다. 공통 실행 설정은 한 곳에서 관리하며 문서에서 참조합니다. 문서 상단의 확인일·버전은 해당 내용을 갱신할 때 함께 수정합니다.
 
-### 1. 가이드 버전 표기 방법
-각 가이드 문서(`.md`)의 상단(첫 30줄 이내)에 버전을 아래 형식 중 하나로 기록해 두면 업데이트 스크립트가 이를 감지하여 반영합니다.
-* **표기 형식 예시**:
-  ```markdown
-  <!-- version: v1.1.0 -->
-  ```
-  또는
-  ```markdown
-  version: v1.1.0
-  ```
-  또는
-  ```markdown
-  # Version v1.1.0
-  ```
-
-### 2. 업데이트 실행 방법
-가이드 문서를 새로 생성하거나 내용을 수정한 후, **커밋 및 푸시를 진행하기 전에** 로컬 터미널에서 아래 스크립트를 실행해 주세요. 스크립트가 각 문서의 최근 수정 날짜와 버전을 분석하여 README.md의 테이블을 최신화합니다.
-```bash
-python update_readme.py
-```
+설치·업데이트 명령은 프로젝트 요구 버전과 현재 공식 지원 조건을 확인한 뒤 사용합니다. 문서·Compose 정적 검사와 실제 설치·접속·데이터 복원 검증은 구분합니다. 서버 템플릿의 실제 빌드·접속·복원 검증은 아직 완료하지 않았습니다.
