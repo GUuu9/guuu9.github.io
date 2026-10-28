@@ -1,4 +1,4 @@
-<!-- version: v1.2.1 -->
+<!-- version: v1.2.2 -->
 # 1. 적용 범위
 
 이 패키지는 server-wui 유형의 독립 실행 샘플이다. [진입 README](../README.md), [작업 지침 보관본](../project-agents.md), [샘플 실행 안내](../boilerplates/minimal/README.md)가 함께 포함된다.
@@ -11,14 +11,14 @@
 
 | 기준 파일 | 내용과 책임 |
 | --- | --- |
-| `package.json` | 샘플 버전 1.0.0, ESM, Node >=24.22.1 <25, 실제 scripts와 정확한 직접 패키지 버전 |
+| `package.json` | 샘플 버전 1.0.1, ESM, Node >=24.22.1 <25, 실제 scripts와 정확한 직접 패키지 버전 |
 | `package-lock.json` | npm이 생성한 전체 의존 트리·무결성·플랫폼별 선택 의존성. 손으로 작성하지 않음 |
 | `.nvmrc` | 개발 Node 24.22.1 |
 | `tsconfig.json` | ES2022·NodeNext·strict·react-jsx, 기본 noEmit |
 | `server/tsconfig.json` | 서버 JS 출력만 dist/server로 생성 |
 | `webui/vite.config.ts` | WUI 개발·프록시·dist/webui 빌드 |
 
-Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5를 사용한다. Node 타입은 26.2.0이지만 실행 런타임 요구는 Node 24.x다. 새 API를 추가하면 이 런타임에서 실행 가능 여부를 확인한다.
+Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5를 사용한다. Node 타입은 실행 런타임 Node 24.x에 맞춘 24.19.2다. 새 API를 추가하면 이 런타임에서 실행 가능 여부를 확인한다.
 
 # 3. 폴더·파일명과 전체 역할 목록
 
@@ -337,3 +337,7 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 - 브라우저 UI·다른 OS/CPU·빌드 서버 재기동은 이번 보강에서 검사하지 않았다. 위 대조표의 기존 실행 결과와 구분한다.
 
 갱신 날짜·변경 이유·버전 전후·적용/복귀·검증 이력은 [update.md](../update.md)에서 관리합니다.
+
+## 보안·버전 점검 (2026-10-29)
+
+앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(7개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. 실행 기준에 맞춰 Node 타입을 24.19.2로 정렬했고 나머지 직접 의존성은 유지했습니다. 실제 브라우저·다른 OS는 이번에 확인하지 않았습니다. 버전 변경 이유·적용/복귀는 [update.md](../update.md)에서 관리합니다.

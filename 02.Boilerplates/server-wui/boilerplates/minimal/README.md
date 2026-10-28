@@ -1,11 +1,11 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Minimal Server-WUI
 
 Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
 
 ## 필요한 환경과 버전
 
-Node 24.22.1 이상 24.x와 npm이 필요하다. 개발 Node는 `.nvmrc`, 샘플 버전은 `package.json`의 1.0.0, 설치 버전은 npm이 생성한 `package-lock.json` 기준이다. TypeScript 7.0.2, Express 5.2.1, React 19.3.0, Vite 8.3.5를 사용한다. 별도 SDK·DB·전역 빌드 도구는 필요하지 않다. macOS x86_64에서 검증하며 Linux·Windows/다른 CPU는 미검증이다. npm의 플랫폼별 Vite 의존성 설치가 필요하다.
+Node 24.22.1 이상 24.x와 npm이 필요하다. 개발 Node는 `.nvmrc`, 샘플 버전은 `package.json`의 1.0.1, 설치 버전은 npm이 생성한 `package-lock.json` 기준이다. TypeScript 7.0.2, Express 5.2.1, React 19.3.0, Vite 8.3.5를 사용한다. 별도 SDK·DB·전역 빌드 도구는 필요하지 않다. macOS x86_64에서 검증하며 Linux·Windows/다른 CPU는 미검증이다. npm의 플랫폼별 Vite 의존성 설치가 필요하다.
 
 ## 복사·설치·빌드 실행
 
@@ -103,3 +103,7 @@ HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 
 ## 오류 처리 보강 검증 (2026-10-28)
 
 독립 복사본에서 Node 24.22.1·npm 11.19.1로 캐시 기반 npm ci, 테스트 7개, 타입 검사·빌드를 통과했다. 공통 500 응답의 내부 상세 비노출, 통신 실패 후 입력 보존·loading 해제·재시도, 비JSON 응답 거부를 검사했다. 타임아웃은 오류 주입으로 검사했으며 실제 5초 경과·브라우저·다른 OS는 이번에 검증하지 않았다.
+
+## 보안·버전 점검 (2026-10-29)
+
+앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(7개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. 실행 기준에 맞춰 Node 타입을 24.19.2로 정렬했고 나머지 직접 의존성은 유지했습니다. 실제 브라우저·다른 OS는 이번에 확인하지 않았습니다. 버전 변경 이유·적용/복귀는 유형 폴더의 update.md에서 관리합니다.
