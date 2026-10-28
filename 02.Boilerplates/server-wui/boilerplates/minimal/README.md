@@ -1,3 +1,4 @@
+<!-- version: v1.0.2 -->
 # Minimal Server-WUI
 
 Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
@@ -56,7 +57,7 @@ http://127.0.0.1:5173 에 접속한다. `/api` 요청은 Vite가 127.0.0.1:3101�
 | `npm run dev:server` | tsx watch 서버 |
 | `npm run dev:webui` | Vite 개발 화면·API 프록시 |
 
-테스트는 server/test·webui/test에 있고 Node test runner와 tsx를 사용한다. 로컬 임의 포트만 열며 제품 서버를 호출하지 않는다. 설치에는 npm registry 또는 채워진 npm 캐시가 필요하다. 로컬 소켓을 금지하는 환경에서는 HTTP/tsx 검사가 차단될 수 있다.
+테스트는 server/test·webui/test에 있고 Node test runner와 tsx를 사용한다. 로컬 임의 포트에서 테스트 서버를 실행한다. 설치에는 npm registry 또는 채워진 npm 캐시가 필요하다. 로컬 소켓을 금지하는 환경에서는 HTTP/tsx 검사가 차단될 수 있다.
 
 ## API 확인
 
@@ -87,10 +88,14 @@ FileService는 I/O, util은 I/O 없는 함수, Repository는 데이터 소유·�
 
 ## 독립 범위와 제외 사항
 
-HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·업무 규칙·장비·제품 자산·외부 DB는 없다. 운영용 서버 설정을 대신하지 않는다. 원본의 객체 조립·역할 접미사·상태 구독·응답 검증 패턴을 축소했으며 제품 소스 자체를 복사한 것이 아니다. 단일 package와 dist 출력, NodeNext의 `.js` import, 서버 config 복사·추적 테스트는 독립 예제를 위한 선택이다.
+HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 DB는 없다. 운영용 서버 설정을 대신하지 않는다. 단일 package와 dist 출력, NodeNext의 `.js` import, 서버 config 복사·추적 테스트는 독립 예제를 위한 선택이다.
 
 ## 검증 상태
 
 2026-10-28, macOS 13.7.8 (Darwin), x86_64, Node v24.22.1·npm 11.19.1에서 유형 폴더 전체를 임시 위치로 복사해 검증했다. 복사본 샘플에서 npm ci(검증 캐시 사용), 테스트 6개, 타입 검사·빌드를 통과했다. 실제 클라이언트 상태→API→서버→성공/오류 상태, 빌드 서버의 API·HTML·JS/CSS 제공, 개발 모드 프록시, SIGTERM/SIGINT 종료를 확인했다. npm 설치에 esbuild/fsevents install-script 승인 경고가 있었지만 현재 플랫폼의 빌드·실행은 통과했다. 다른 플랫폼 설치 시 해당 정책을 확인한다.
 
 브라우저 접근 호스트가 사용 불가여서 실제 화면 렌더링·클릭·오류 표시의 GUI 검증은 하지 못했다. HTTP·비UI 검사로 화면 확인을 대신했다고 주장하지 않는다. Linux·Windows와 다른 CPU는 미검증이다. 이 README의 실행 안내에는 상위 문서가 필요하지 않다.
+
+## 이번 문서 보완 범위
+
+유형 폴더의 설명서에 실제 폴더·계층 대응, 허용·금지 의존, 조립·수명주기, 정상·오류 흐름과 구조도·요구사항 대조표를 보완했다. 샘플 실행 코드·의존성·설정은 변경하지 않았다. 위 실행 기록은 기존 검증 결과이며 이번 문서 수정으로 새 브라우저·플랫폼 실행을 검증한 것은 아니다.
