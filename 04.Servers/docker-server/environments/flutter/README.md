@@ -1,7 +1,7 @@
 <!-- version: v2.0.0 -->
 # 서버 Flutter·Android 빌드 작업 영역
 
-이 문서는 **서버 관리자가 만든 SSH 컨테이너에 접속한 developer 사용자**가 실행하는 언어 설정입니다. 개인 PC의 로컬 Docker·Reopen in Container 절차가 아닙니다. 서버 생성·포트·키·볼륨은 [공통 구성](../../guides/docker_container_setup.md)을 따릅니다. 
+이 문서는 **서버 관리자가 만든 SSH 컨테이너에 접속한 developer 사용자**가 실행하는 언어 설정입니다. 개인 PC의 로컬 Docker·Reopen in Container 절차가 아닙니다. 서버 생성·포트·키·볼륨은 [공통 구성](../../guides/docker_container_setup.md)을 따릅니다.
 
 
 ## 범위
@@ -35,4 +35,3 @@ fvm flutter doctor -v
 ## 실기기
 
 개인 PC 실기기 실행은 로컬 Flutter·Android Studio를 우선합니다. 원격 연결이 필요하면 인증된 네트워크·ADB 서버 연결 대상·터널·기기 승인을 따로 설계해야 합니다. -p 5037:5037은 호스트 adb를 컨테이너로 연결하는 설정이 아닙니다. [ADB 공식 구조](https://developer.android.com/tools/adb)
-
