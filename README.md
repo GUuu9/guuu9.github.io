@@ -35,9 +35,11 @@
 
 ## 02.Boilerplates — 프로젝트 규칙
 
+[특정 유형만 Git으로 내려받기](./02.Boilerplates/README.md#특정-보일러플레이트만-내려받기)
+
 [mobile-app](./02.Boilerplates/mobile-app/) · [server](./02.Boilerplates/server/) · [server-wui](./02.Boilerplates/server-wui/) · [electron-app](./02.Boilerplates/electron-app/)
 
-[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 유형별 실제 내용과 프로젝트 README·AGENTS·docs 설명서와 독립 실행·테스트 가능한 boilerplates 샘플는 대상 프로젝트 조사 후 추가합니다.
+[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 현재 server-wui의 독립 실행 샘플과 설명서·작업 지침을 제공합니다. 다른 유형은 대상 프로젝트 조사 후 추가합니다.
 
 ## 03.Utilities — 편의 앱
 
