@@ -1,4 +1,4 @@
-<!-- version: v1.0.2 -->
+<!-- version: v1.0.3 -->
 # TypeScript · React · Phaser · Electron 게임 보일러플레이트
 
 역할별 폴더와 프로세스 경계를 갖춘 독립 Electron 샘플입니다. React Renderer에서 연결 확인 버튼을 누르면 고정된 플레이어 이름을 Preload API와 IPC로 Main에 보내고, Main이 요청을 검증해 인사말 또는 오류를 돌려줍니다.
@@ -35,7 +35,7 @@ npm run electron:dev
 
 - 기준 환경: macOS 13 x64, Node.js 24.22.1, npm 11.19.1
 - 버전 기준: `boilerplates/minimal/.nvmrc`, `package.json`, `package-lock.json`
-- 기술: Electron 41, React 19, Phaser 4.2.1, Vite 6, TypeScript 5, Vitest 3
+- 기술: Electron 45.1.0, React 19, Phaser 4.2.1, Vite 6.4.5, TypeScript 5, Vitest 5.0.5
 - 구조: `src/backend/{core,bridge,services}`, `src/renderer/src`, `src/shared/ipc`
 - 핵심 흐름: React App → Renderer API → Preload Bridge → Main Usecase → Greeting Service → React 결과 출력
 - 프로세스 경계·의존 구조·수명주기: [상세 문서 4절](docs/boilerplate.md#4-아키텍처-의존-방향과-대표-데이터-흐름)
@@ -62,6 +62,10 @@ npm run electron:dev
 
 ## 현재 반입 검토 결과 (2026-10-28)
 
-저장 기능을 포함한 독립 복사본에서 테스트 3개·타입 검사·빌드를 통과했습니다. 실제 Electron 창·게임 조작·재실행 후 점수 복원은 이번 검토에서 확인하지 않았습니다. npm audit가 취약 패키지 5개(critical 2개 포함)를 보고했으므로 사용 전 의존성 갱신·재검증이 필요합니다. 버전은 이번 반입에서 변경하지 않았습니다.
+저장 기능을 포함한 독립 복사본에서 테스트 3개·타입 검사·빌드를 통과했습니다. 실제 Electron 창·게임 조작·재실행 후 점수 복원은 이번 검토에서 확인하지 않았습니다. 당시 npm audit는 취약 패키지 5개(critical 2개 포함)를 보고했습니다. 이 과거 결과는 2026-10-29 보안 갱신 전 기록입니다. 현재 결과는 아래 보안 갱신 기록을 참고합니다.
 
 변경 날짜·이유·버전 및 검증 이력은 [update.md](update.md)를 참고합니다.
+
+## 보안·버전 점검 (2026-10-29)
+
+앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(3개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. Electron 45.1.0·Vite 6.4.5·Vitest 5.0.5와 Node 타입 24.19.2를 사용합니다. Electron 45.1.0의 창 기동·종료, preload IPC 인사말, 임시 userData의 저장·조회, Phaser 캔버스 생성은 자동 점검했습니다. 직접 게임 클릭·앱 재실행 후 저장 복원·다른 OS는 미검증입니다. 버전 변경 이유·적용/복귀는 [update.md](update.md)에서 관리합니다.

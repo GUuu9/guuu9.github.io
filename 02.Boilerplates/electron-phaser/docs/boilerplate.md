@@ -1,4 +1,4 @@
-<!-- version: v1.0.2 -->
+<!-- version: v1.0.3 -->
 # 로컬 전용 Electron React 최소 보일러플레이트
 
 ## 1. 적용 범위
@@ -15,7 +15,8 @@
 
 - 확인 환경: macOS 13 Ventura (`Darwin 22.6.0`), x86_64, Node.js `v24.22.1`, npm `11.19.1`.
 - Phaser `4.2.1`이 게임 렌더링·입력을 담당합니다.
-- 직접 의존성: Electron `41.10.3`, React/React DOM `19.1.1`, TypeScript `5.9.3`, Vite `6.4.3`, Vitest `3.2.7`, esbuild `0.25.12`, cross-env `7.0.3`.
+- 직접 의존성: Electron `45.1.0`, React/React DOM `19.1.1`, TypeScript `5.9.3`, Vite `6.4.5`, Vitest `5.0.5`, esbuild `0.25.12`, cross-env `7.0.3`.
+- 앱 package 버전: `1.0.1`. Node 타입은 Electron 내장 Node와 개발 Node 24 기준의 `@types/node 24.19.2`입니다.
 - React 타입 패키지: `@types/react 19.1.10`, `@types/react-dom 19.1.7`.
 - 버전 기준 파일은 `boilerplates/minimal/.nvmrc`, `package.json`, `package-lock.json`입니다. 직접 의존성은 정확한 버전으로 고정합니다.
 
@@ -367,3 +368,7 @@ resource/assets.ts가 이미지 URL·텍스처 키를 소유합니다. LoadingSc
 저장은 단일 앱 프로세스 내부에서만 순차 처리됩니다. 같은 저장 파일을 사용하는 다중 앱 실행 간 충돌 방지는 구현되지 않았습니다. 설치 시 Electron·esbuild·fsevents의 install-script 승인 경고가 있었으며 GUI 바이너리 설치·실행 성공으로 해석하지 않습니다.
 
 갱신 날짜·변경 이유·버전 전후·적용/복귀·검증 이력은 [update.md](../update.md)에서 관리합니다.
+
+## 보안·버전 점검 (2026-10-29)
+
+앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(3개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. Electron 45.1.0·Vite 6.4.5·Vitest 5.0.5와 Node 타입 24.19.2를 사용합니다. Electron 45.1.0의 창 기동·종료, preload IPC 인사말, 임시 userData의 저장·조회, Phaser 캔버스 생성은 자동 점검했습니다. 직접 게임 클릭·앱 재실행 후 저장 복원·다른 OS는 미검증입니다. 버전 변경 이유·적용/복귀는 [update.md](../update.md)에서 관리합니다.
