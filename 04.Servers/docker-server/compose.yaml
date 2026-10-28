@@ -1,0 +1,34 @@
+services:
+  workspace:
+    build: .
+    image: ${WORKSPACE_IMAGE:?Set WORKSPACE_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "${BIND_ADDRESS:?Set BIND_ADDRESS}:${SSH_PORT:?Set SSH_PORT}:22"
+    volumes:
+      - home:/home/developer
+      - type: bind
+        source: ./access/authorized_keys
+        target: /home/developer/.ssh/authorized_keys
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./access/host_key
+        target: /etc/workspace-ssh/host_key
+        read_only: true
+        bind:
+          create_host_path: false
+    cpus: 2
+    mem_limit: 4g
+    pids_limit: 512
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  home:
