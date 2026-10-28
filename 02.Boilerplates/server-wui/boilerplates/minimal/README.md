@@ -1,4 +1,4 @@
-<!-- version: v1.0.2 -->
+<!-- version: v1.1.0 -->
 # Minimal Server-WUI
 
 Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
@@ -78,7 +78,7 @@ curl -i 'http://127.0.0.1:3101/api/greeting?name='
 {"success":false,"payload":"Name must contain 1–40 characters."}
 ```
 
-없는 API는 404다. WUI HTTP 제한 시간은 5초다.
+없는 API는 404다. 요청 처리 중 예상하지 못한 예외는 서버 로그에 기록하고 HTTP 500과 `{"success":false,"payload":"Internal server error."}`를 반환한다. 내부 오류 상세는 응답에 포함하지 않는다. WUI HTTP 제한 시간은 5초다.
 
 ## Services·Utils·Config의 연결
 
@@ -99,3 +99,7 @@ HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 
 ## 이번 문서 보완 범위
 
 유형 폴더의 설명서에 실제 폴더·계층 대응, 허용·금지 의존, 조립·수명주기, 정상·오류 흐름과 구조도·요구사항 대조표를 보완했다. 샘플 실행 코드·의존성·설정은 변경하지 않았다. 위 실행 기록은 기존 검증 결과이며 이번 문서 수정으로 새 브라우저·플랫폼 실행을 검증한 것은 아니다.
+
+## 오류 처리 보강 검증 (2026-10-28)
+
+독립 복사본에서 Node 24.22.1·npm 11.19.1로 캐시 기반 npm ci, 테스트 7개, 타입 검사·빌드를 통과했다. 공통 500 응답의 내부 상세 비노출, 통신 실패 후 입력 보존·loading 해제·재시도, 비JSON 응답 거부를 검사했다. 타임아웃은 오류 주입으로 검사했으며 실제 5초 경과·브라우저·다른 OS는 이번에 검증하지 않았다.

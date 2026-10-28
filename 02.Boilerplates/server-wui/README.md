@@ -1,9 +1,9 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.0 -->
 # Server-WUI 최소 보일러플레이트
 
 ## 1. 목적과 핵심 동작
 
-Express 서버와 React WUI를 독립 실행하는 작은 TypeScript 예제다. Name에 이름을 입력하고 Send를 누르면 서버에서 `Hello, World!`를 받아 표시한다. 잘못된 요청은 화면에 오류로 표시하며 입력은 보존한다. FileService·순수 util·JSON config도 같은 흐름에 포함한다.
+Express 서버와 React WUI를 독립 실행하는 작은 TypeScript 예제다. Name에 이름을 입력하고 Send를 누르면 서버에서 `Hello, World!`를 받아 표시한다. 잘못된 요청은 화면에 오류로 표시하며 입력은 보존한다. 예상하지 못한 요청 처리 예외는 내부 상세를 노출하지 않는 공통 500 응답으로 처리한다. FileService·순수 util·JSON config도 같은 흐름에 포함한다.
 
 이 `server-wui` 폴더 하나를 다른 저장소의 `02.Boilerplates/` 아래에 그대로 복사할 수 있다. 설치와 실행에 필요한 파일이 모두 포함되어 있다.
 

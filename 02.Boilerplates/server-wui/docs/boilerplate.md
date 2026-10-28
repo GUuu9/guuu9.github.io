@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.0 -->
 # 1. 적용 범위
 
 이 패키지는 server-wui 유형의 독립 실행 샘플이다. [진입 README](../README.md), [작업 지침 보관본](../project-agents.md), [샘플 실행 안내](../boilerplates/minimal/README.md)가 함께 포함된다.
@@ -49,7 +49,7 @@ Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5
 | --- | --- | --- |
 | `server/src/index.ts` | createApp 호출, port 3101 loopback 수신, 수신 오류 처리, SIGINT/SIGTERM 중복 종료 방지·close | dev:server, 빌드 후 start |
 | `server/src/core/DI.ts` | createDI: FileService로 JSON 읽기 → Repository 검증/보관 → Usecase/Bridge 생성 | createApp |
-| `server/src/core/web-server.ts` | createApp: Express 앱·Bridge 마운트·API 404 envelope·dist/webui 정적 제공 | index.ts, HTTP 테스트 |
+| `server/src/core/web-server.ts` | createApp: Express 앱·Bridge 마운트·API 404·공통 500 envelope·dist/webui 정적 제공 | index.ts, HTTP 테스트 |
 | `server/src/bridge/greeting/greeting.bridge.ts` | GreetingBridge: query.name → parseName → 400 오류 또는 usecase 결과의 200 envelope | createDI → createApp |
 | `server/src/bridge/greeting/greeting.usecase.ts` | GreetingUsecase.greet: 검증된 name + Repository prefix → Greeting 객체 | GreetingBridge |
 | `server/src/bridge/greeting/greeting.model.ts` | Greeting: message 문자열 계약 | GreetingUsecase 반환 타입 |
@@ -141,7 +141,7 @@ SIGINT/SIGTERM은 중복 처리하지 않고 server.close로 HTTP 서버를 닫�
 6. Api는 HTTP·envelope를, Service는 message 문자열을 검사한다. 오류 응답·통신 오류·잘못된 payload는 throw로 ViewModel까지 전달된다.
 7. ViewModel은 성공 시 message, 실패 시 error를 갱신한다. name과 이전 message는 실패에도 유지하고 finally에서 loading을 해제한다. Observable 알림으로 Page가 status·alert를 표시한다.
 
-없는 /api 경로는 web-server.ts에서 404 envelope로 처리한다. 파일 부팅 실패는 요청 오류와 다른 경로이며 화면에 API 오류로 반환되지 않는다.
+없는 /api 경로는 web-server.ts에서 404 envelope로 처리한다. 요청 처리 중 예상하지 못한 예외는 공통 오류 처리기가 서버 콘솔에 기록하고 HTTP 500과 `{ success: false, payload: "Internal server error." }`를 반환한다. 응답이 이미 시작되었다면 Express의 후속 오류 처리로 넘긴다. 내부 예외 메시지는 응답에 포함하지 않는다. 파일 부팅 실패는 요청 오류와 다른 경로이며 화면에 API 오류로 반환되지 않는다.
 
 ## 구조도와 설계 선택
 
@@ -328,3 +328,9 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 | 패키지 외부 파일 의존 | 내부 링크·샘플 import·파일 읽기 경로 | 외부 필수 문서 링크를 패키지 안으로 정리 | 충족 |
 
 실행 결과를 갖춘 현재 샘플을 문서화한 상태이며, 미검증 항목까지 전체 검증이 완료된 것은 아니다.
+
+## 간단 보강 검증 (2026-10-28)
+
+- 공통 500 처리와 내부 오류 비노출·서버 로그 검사를 추가했다. 네트워크/타임아웃 실패 후 입력 보존·loading 해제·재시도 성공, 비JSON 응답 거부도 검사한다. 타임아웃 검사는 주입한 요청 함수가 TimeoutError를 발생시키며 실제 5초 대기를 검증하지 않는다.
+- 유형 폴더 전체의 독립 임시 복사본에서 Node 24.22.1·npm 11.19.1로 `npm ci --offline --cache <검증용 캐시>`, `npm test`(7개 통과), `npm run build`(타입 검사 포함)를 실행했다.
+- 브라우저 UI·다른 OS/CPU·빌드 서버 재기동은 이번 보강에서 검사하지 않았다. 위 대조표의 기존 실행 결과와 구분한다.

@@ -43,3 +43,27 @@ test('ViewModel blocks duplicate submissions and preserves input on failure', as
   assert.equal(failed.getSnapshot().error, 'Unavailable');
   assert.equal(failed.getSnapshot().loading, false);
 });
+
+test('Communication failures release loading and allow retry', async () => {
+  for (const failure of [new TypeError('Network unavailable'), new DOMException('Timed out', 'TimeoutError')]) {
+    let calls = 0;
+    const api = new Api(async (_path, options) => {
+      assert(options?.signal instanceof AbortSignal);
+      if (calls++ === 0) throw failure;
+      return new Response(JSON.stringify({ success: true, payload: { message: 'Recovered' } }));
+    });
+    const vm = new GreetingViewModel(new GreetingService(api));
+    vm.setName('Draft');
+    await vm.submit();
+    assert.equal(vm.getSnapshot().loading, false);
+    assert.equal(vm.getSnapshot().name, 'Draft');
+    assert.equal(vm.getSnapshot().error, failure.message);
+    await vm.submit();
+    assert.equal(vm.getSnapshot().message, 'Recovered');
+    assert.equal(vm.getSnapshot().error, '');
+    assert.equal(vm.getSnapshot().loading, false);
+  }
+  await assert.rejects(new Api(async () => new Response('<html>Error</html>', {
+    status: 502,
+  })).get('/greeting'), SyntaxError);
+});

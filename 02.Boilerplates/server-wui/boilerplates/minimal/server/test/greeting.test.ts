@@ -13,7 +13,7 @@ import { Api } from '../../webui/src/api/api.js';
 import { GreetingService } from '../../webui/src/scenes/greeting/greeting.service.js';
 import { GreetingViewModel } from '../../webui/src/scenes/greeting/greeting.viewmodel.js';
 
-test('HTTP greeting validates requests and returns success/error envelopes', async () => {
+test('HTTP greeting validates requests and returns success/error envelopes', async (context) => {
   const server = createApp().listen(0, '127.0.0.1');
   await once(server, 'listening');
   try {
@@ -42,6 +42,22 @@ test('HTTP greeting validates requests and returns success/error envelopes', asy
     await vm.submit();
     assert.equal(vm.getSnapshot().error, 'Name must contain 1–40 characters.');
     assert.equal(vm.getSnapshot().name, '');
+    const failure = new Error('Private configuration details');
+    const log = context.mock.method(console, 'error', () => {});
+    const prefix = context.mock.method(GreetingRepository.prototype, 'getPrefix', () => {
+      throw failure;
+    });
+    try {
+      const failed = await fetch(`${base}/api/greeting?name=World`);
+      assert.equal(failed.status, 500);
+      assert.deepEqual(await failed.json(), {
+        success: false, payload: 'Internal server error.',
+      });
+      assert.equal(log.mock.calls[0]?.arguments[0], failure);
+    } finally {
+      prefix.mock.restore();
+      log.mock.restore();
+    }
   } finally {
     await new Promise<void>((resolve, reject) => {
       server.close((error) => error ? reject(error) : resolve());
