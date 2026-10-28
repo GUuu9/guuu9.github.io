@@ -22,9 +22,9 @@
 
 - 루트 README.md는 위 순서의 탐색 입구로 유지합니다. 상세 명령을 복제하지 않고 해당 문서로 연결합니다.
 - 공통 사용법은 Tools, OS별 설치 차이는 Setup, 실제 서버 적용은 Servers에 둡니다. 같은 설명을 여러 곳에 복사하지 않습니다.
-- `02.Boilerplates`는 mobile-app·server·server-wui·electron-app으로 구분합니다. 사용자가 자료 작성을 요청하기 전에는 준비된 빈 폴더를 임의로 채우지 않습니다.
+- `02.Boilerplates`는 mobile-app·server·server-wui·electron-app·electron-phaser로 구분합니다. 사용자가 자료 작성을 요청하기 전에는 준비된 빈 폴더를 임의로 채우지 않습니다.
 - `02.Boilerplates` 작성은 [추출·작성 규칙](./02.Boilerplates/authoring-rules.md)을 따릅니다. 대상 프로젝트의 AGENTS.md는 이 저장소에서 project-agents.md로 보관하고 적용 시 AGENTS.md로 사용합니다. 저장소 관리 지침과 제품 작업 지침의 적용 범위를 혼합하지 않습니다.
-- 보일러플레이트는 원본 프로젝트의 boilerplate-export/유형명/ 안에 독립 패키지로 작성합니다. README.md·project-agents.md·docs 설명서·boilerplates/ 실행 샘플을 포함하며 유형명 폴더 하나를 그대로 반입할 수 있어야 합니다. 원본 제품 파일은 변경하지 않습니다.
+- 보일러플레이트는 원본 프로젝트의 boilerplate-export/유형명/ 안에 독립 패키지로 작성합니다. README.md·project-agents.md·update.md 갱신 이력·docs 설명서·boilerplates/ 실행 샘플을 포함하며 유형명 폴더 하나를 그대로 반입할 수 있어야 합니다. 원본 제품 파일은 변경하지 않습니다.
 - 비슷한 앱은 Craft 가이드처럼 공통 절차를 묶고 차이만 표로 기록합니다. 실제 지원 조건까지 같다고 가정하지 않습니다.
 
 ## 3. 파일명·이동·정리

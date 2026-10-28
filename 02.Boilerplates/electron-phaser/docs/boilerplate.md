@@ -1,4 +1,4 @@
-<!-- version: v1.0.1 -->
+<!-- version: v1.0.2 -->
 # 로컬 전용 Electron React 최소 보일러플레이트
 
 ## 1. 적용 범위
@@ -321,6 +321,7 @@ npm run build
 
 | 요구사항 | 실제 파일·절 위치 | 검증 방법·결과 | 상태 |
 |---|---|---|---|
+| 갱신 이력 | update.md | 확인 가능한 커밋·버전·검증 결과 및 현재 문서 변경 기록 | 충족 |
 | 유형 폴더에 목적 README·보관용 지침·상세 문서·샘플 | 유형 폴더 `README.md`, `project-agents.md`, `docs/boilerplate.md`, `boilerplates/minimal/` | 산출물 경로 및 파일 존재 대조 | 충족 |
 | 샘플 전체 직접 관리 파일 역할 | 3절 직접 관리 파일 표 | 샘플 파일 트리와 표 대조 | 충족 |
 | 폴더·파일 이름 규칙 | 3절 이름 규칙 | 실제 파일명 및 접미사 대조 | 충족 |
@@ -364,3 +365,5 @@ resource/assets.ts가 이미지 URL·텍스처 키를 소유합니다. LoadingSc
 `npm audit`는 취약 패키지 5개(moderate 1, high 2, critical 2)를 보고했습니다. 대상은 Electron·Vite·Vitest·@vitest/mocker·tinypool입니다. 개발 의존성으로 분류된 Electron도 실제 앱 런타임이므로 개발 도구만의 문제로 판단하지 않습니다. [Vitest 공지](https://github.com/advisories/GHSA-82fw-gwwq-j7x9), [tinypool 공지](https://github.com/advisories/GHSA-85c8-ppgw-ccpr), [Electron 공지](https://github.com/advisories/GHSA-hq2x-r82h-9wj4), [Vite 공지](https://github.com/advisories/GHSA-rq7h-c2jc-7f22)를 참고하고 사용 전 버전 갱신·재검증이 필요합니다. 검토·반입 범위에서 manifest와 lockfile 버전은 변경하지 않았으며 `npm audit fix --force`도 실행하지 않았습니다.
 
 저장은 단일 앱 프로세스 내부에서만 순차 처리됩니다. 같은 저장 파일을 사용하는 다중 앱 실행 간 충돌 방지는 구현되지 않았습니다. 설치 시 Electron·esbuild·fsevents의 install-script 승인 경고가 있었으며 GUI 바이너리 설치·실행 성공으로 해석하지 않습니다.
+
+갱신 날짜·변경 이유·버전 전후·적용/복귀·검증 이력은 [update.md](../update.md)에서 관리합니다.

@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.2.1 -->
 # 1. 적용 범위
 
 이 패키지는 server-wui 유형의 독립 실행 샘플이다. [진입 README](../README.md), [작업 지침 보관본](../project-agents.md), [샘플 실행 안내](../boilerplates/minimal/README.md)가 함께 포함된다.
@@ -74,7 +74,7 @@ Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5
 | `webui/src/scenes/greeting/greeting.page.css` | Greeting 화면·입력·버튼·오류·disabled 스타일 | GreetingPage import |
 | `webui/test/greeting.test.ts` | Node test: URL encoding·응답 파싱·오류 envelope·중복 제출·실패 입력 보존 | npm test |
 
-이 표 외 샘플 패키지의 직접 관리 파일은 루트 README.md, project-agents.md, 이 docs/boilerplate.md다. 각각 안내·보관용 지침·전체 설명을 맡으며 샘플 실행에는 필요하지 않다.
+이 표 외 샘플 패키지의 직접 관리 파일은 루트 README.md, project-agents.md, update.md, 이 docs/boilerplate.md다. 각각 안내·보관용 지침·갱신 이력·전체 설명을 맡으며 샘플 실행에는 필요하지 않다.
 
 # 4. 아키텍처와 대표 데이터 흐름
 
@@ -302,6 +302,7 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 
 | 요구사항 | 실제 파일·절 위치 | 검증 방법·결과 | 상태 |
 | --- | --- | --- | --- |
+| 갱신 이력 | update.md | 확인 가능한 커밋·버전·검증 결과 및 현재 문서 변경 기록 | 충족 |
 | 패키지 소개 README | README.md 1~9절 | 샘플 목적·버전·구조·기능 추가·링크 확인 | 충족 |
 | 작업 지침 보관본 | project-agents.md 1~6절 | 샘플 경계·작업 루트·실제 scripts 대조 | 충족 |
 | 상세 설명서 | docs/boilerplate.md 1~9절 | 고정 절·샘플 기능·재사용 범위 확인 | 충족 |
@@ -334,3 +335,5 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 - 공통 500 처리와 내부 오류 비노출·서버 로그 검사를 추가했다. 네트워크/타임아웃 실패 후 입력 보존·loading 해제·재시도 성공, 비JSON 응답 거부도 검사한다. 타임아웃 검사는 주입한 요청 함수가 TimeoutError를 발생시키며 실제 5초 대기를 검증하지 않는다.
 - 유형 폴더 전체의 독립 임시 복사본에서 Node 24.22.1·npm 11.19.1로 `npm ci --offline --cache <검증용 캐시>`, `npm test`(7개 통과), `npm run build`(타입 검사 포함)를 실행했다.
 - 브라우저 UI·다른 OS/CPU·빌드 서버 재기동은 이번 보강에서 검사하지 않았다. 위 대조표의 기존 실행 결과와 구분한다.
+
+갱신 날짜·변경 이유·버전 전후·적용/복귀·검증 이력은 [update.md](../update.md)에서 관리합니다.

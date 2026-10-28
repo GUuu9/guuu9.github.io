@@ -47,6 +47,7 @@ npm start
 ```text
 유형명/
 ├── README.md
+├── update.md
 ├── project-agents.md
 ├── docs/
 │   └── boilerplate.md
@@ -59,6 +60,7 @@ npm start
 | 파일 | 책임 |
 | :--- | :--- |
 | README.md | 샘플 소개·구조·버전·빠른 시작·기능 추가 방식·문서 안내 |
+| update.md | 날짜·변경 이유·버전 전후·적용/복귀·검증 이력 |
 | project-agents.md | 샘플을 수정하는 에이전트의 규칙. 새 프로젝트 적용 시 AGENTS.md로 사용 |
 | docs/boilerplate.md | 전체 직접 관리 폴더·파일의 이름·역할·주요 구성·연결, 상세 개발·재사용 방법 |
 | boilerplates/minimal/ | 독립 복사해 실행·테스트할 수 있는 최소 프로젝트 |
@@ -76,3 +78,5 @@ project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아�
 | [electron-phaser](./electron-phaser/) | Electron + React + Phaser 로컬 게임·점수 저장 |
 
 server-wui와 electron-phaser에는 실행 샘플이 있으며, 다른 유형은 준비 단계입니다. 새 반출본은 검증 후 반입합니다.
+
+각 실행 샘플의 갱신 이력은 [server-wui/update.md](server-wui/update.md), [electron-phaser/update.md](electron-phaser/update.md)에 기록합니다. 앞으로의 작성·갱신 기준은 [작성 규칙 10절](authoring-rules.md#10-updatemd-갱신-이력)을 따릅니다.
