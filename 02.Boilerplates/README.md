@@ -24,7 +24,7 @@ npm start
 
 --depth 1은 가져올 이력을 줄이고 --filter=blob:none은 파일 본문을 필요할 때 받도록 요청합니다. 전체 저장소 메타데이터까지 유형별로 분리하는 기능은 아닙니다. 서버가 filter를 지원하지 않으면 전송량이 줄지 않을 수 있습니다.
 
-다른 유형을 받으려면 sparse-checkout set의 경로를 아래 표에서 선택합니다. 현재 실행 샘플이 있는 유형은 server-wui입니다. 원격 저장소에 해당 변경이 push된 이후에 받을 수 있습니다.
+다른 유형을 받으려면 sparse-checkout set의 경로를 아래 표에서 선택합니다. 현재 실행 샘플이 있는 유형은 server-wui와 electron-phaser입니다. 원격 저장소에 해당 변경이 push된 이후에 받을 수 있습니다.
 
 | 유형 | 선택 경로 | 현재 상태 |
 | :--- | :--- | :--- |
@@ -32,6 +32,7 @@ npm start
 | server | `02.Boilerplates/server` | 준비 중 |
 | server-wui | `02.Boilerplates/server-wui` | 실행 샘플 포함, 실제 브라우저·다른 OS 미검증 |
 | electron-app | `02.Boilerplates/electron-app` | 준비 중 |
+| electron-phaser | `02.Boilerplates/electron-phaser` | Electron·React·Phaser 로컬 게임, GUI·다른 OS 미검증 |
 
 다운로드 저장소 루트에서 `git sparse-checkout add 다른경로`로 추가할 수 있습니다. set은 선택 목록을 교체하므로 수정한 파일이 있다면 먼저 보존합니다. 갱신은 같은 저장소에서 변경 상태를 확인한 뒤 `git pull --ff-only`로 진행합니다.
 
@@ -72,5 +73,6 @@ project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아�
 | [server](./server/) | 독립 TypeScript 서버 |
 | [server-wui](./server-wui/) | TypeScript 서버 + React 웹 UI |
 | [electron-app](./electron-app/) | Electron + React + TypeScript 앱 |
+| [electron-phaser](./electron-phaser/) | Electron + React + Phaser 로컬 게임·점수 저장 |
 
-server-wui에는 검토한 샘플이 있으며, 다른 유형은 준비 단계입니다. 새 반출본은 검증 후 반입합니다.
+server-wui와 electron-phaser에는 실행 샘플이 있으며, 다른 유형은 준비 단계입니다. 새 반출본은 검증 후 반입합니다.
