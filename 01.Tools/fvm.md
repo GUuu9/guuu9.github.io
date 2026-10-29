@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # FVM 사용 가이드
 
 확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -32,6 +32,26 @@ fvm flutter devices
 버전 기록이 없다면 README·CI·이전 개발 PC에서 실제 사용하던 Flutter 버전을 확인해 `fvm use 버전`으로 도입합니다. pubspec.yaml의 Dart 범위만으로 정확한 Flutter 버전을 결정할 수는 없습니다. 기존 프로젝트에 곧바로 최신 stable을 지정하지 않습니다.
 
 새 프로젝트를 stable로 시작하려면 `fvm use stable`로 선택한 뒤 생성된 `.fvmrc`와 실제 버전을 확인합니다. 재현성이 필요하면 구체적인 릴리스 버전으로 고정합니다.
+
+## Intel MacBook의 Flutter 버전 고정
+
+사용 중인 Intel MacBook은 macOS·개발 도구 업데이트 지원 제약으로 **Flutter SDK 3.35.7**을 복원 기준으로 사용합니다(2026-10-30 사용자 환경 기준). `3.35.7`은 FVM 자체 버전이 아니라 FVM으로 관리하는 Flutter 버전입니다. 이 환경에서는 `stable`이나 최신 버전으로 자동 전환하지 않습니다.
+
+FVM 설치 후 해당 Flutter 프로젝트 루트에서 실행합니다.
+
+```bash
+fvm install 3.35.7
+fvm use 3.35.7
+fvm flutter --version
+fvm flutter pub get
+fvm flutter doctor -v
+fvm flutter analyze
+fvm flutter test
+```
+
+`.fvmrc`의 선택 버전과 `fvm flutter --version`이 3.35.7인지 확인하고 Android·iOS 실기기 빌드도 확인합니다. 기존 프로젝트가 다른 SDK를 요구하면 `.fvmrc`를 곧바로 덮어쓰지 않고 Dart·패키지·Xcode 호환성을 확인한 뒤 전환합니다. VS Code도 아래 SDK 경로 설정을 사용합니다.
+
+이 고정은 해당 MacBook의 환경 기준이며 모든 Intel Mac의 공식 최종 지원 버전을 뜻하지 않습니다. OS·Xcode 환경을 바꿔 버전을 올릴 때는 실기기 검증 후 고정을 변경합니다. [Flutter SDK 아카이브](https://docs.flutter.dev/install/archive), [FVM 버전 선택 명령](https://fvm.app/documentation/guides/basic-commands).
 
 ## Git에 보관할 파일
 
