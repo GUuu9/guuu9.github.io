@@ -1,7 +1,9 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
+
+2026-10-30 확인: 최신 공식 macOS 설치 스크립트는 Apple Silicon만 허용하므로 Intel Mac에서는 해당 명령으로 신규 설치·재설치할 수 없습니다. 기존 설치의 지원 일정과 구분하며 [Intel Mac 안내](../00.Setup/macOS_Intel_Dev_Setting.md#신규-설치와-기존-환경-보존)를 따릅니다. 아래 brew 명령은 실행 가능한 기존 설치가 있다는 전제입니다. [공식 설치 스크립트](https://github.com/Homebrew/install/blob/HEAD/install.sh).
 
 ## 용도와 관리 범위
 

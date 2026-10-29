@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.4.0 -->
 # macOS Intel 개발 환경 복원
 
 확인일: 2026-10-28. 초기화 후 기존 프로젝트를 내려받아 개발·빌드할 수 있는 환경을 구성합니다. GitHub·SSH 인증 설정은 다루지 않습니다.
@@ -22,21 +22,19 @@ xcode-select --install
 
 ### Intel 지원 범위와 버전 선택
 
-2026-10-28 확인 기준으로 Intel Mac은 Tier 3이며, 공식 정책은 2026년 9월 이후 Intel CI와 신규 bottle(사전 빌드 패키지) 제공 중단, 2027년 9월 이후 Intel에서 Homebrew 실행 지원 중단을 예고합니다. 현재 Intel에서 설치하기 위해 특정 구버전을 지정해야 한다는 공식 안내는 없습니다. **brew 자체 버전 고정만으로 패키지 정의·의존성·bottle까지 과거 상태로 복원되지는 않습니다.** [공식 지원 일정](https://brew.sh/2025/11/12/homebrew-5.0.0/), [지원 등급](https://docs.brew.sh/Support-Tiers)
+2026-10-30 재확인 기준으로 Intel Mac은 Tier 3이며, 공식 정책은 2026년 9월 이후 Intel CI와 신규 bottle(사전 빌드 패키지) 제공 중단, 2027년 9월 이후 Intel에서 Homebrew 실행 지원 중단을 예고합니다. 현재 Intel에서 설치하기 위해 특정 구버전을 지정해야 한다는 공식 안내는 없습니다. **brew 자체 버전 고정만으로 패키지 정의·의존성·bottle까지 과거 상태로 복원되지는 않습니다.** [공식 지원 일정](https://brew.sh/2025/11/12/homebrew-5.0.0/), [지원 등급](https://docs.brew.sh/Support-Tiers)
 
-따라서 아래 최신 설치 스크립트는 현재 Intel에서 실행 가능한 범위의 절차입니다. 실행 지원 중단 이후에도 그대로 사용할 수 있는 영구 복원 방법은 아닙니다. 설치 시점에 지원 정책을 다시 확인합니다. 지원 중단을 이유로 임의의 과거 태그를 “마지막 Intel 지원 버전”으로 지정하지 않습니다.
+**기존 Homebrew의 실행 지원 일정과 최신 설치 스크립트의 CPU 제한은 별개입니다.** 2026-10-30 확인한 `HEAD/install.sh`는 macOS에서 `arm64`만 허용하며 Intel에서는 `Homebrew on macOS is only supported on Apple Silicon processors!` 메시지로 종료합니다. 따라서 `/bin/bash -c`로 최신 스크립트를 실행하는 방식은 Intel Mac의 신규 설치·재설치 절차로 사용하지 않습니다. [공식 설치 스크립트](https://github.com/Homebrew/install/blob/HEAD/install.sh). 지원 중단을 우회하기 위해 아키텍처 검사를 삭제하거나 임의의 과거 태그를 “마지막 Intel 지원 버전”으로 지정하지 않습니다.
 
 기존에 검증한 구버전 환경을 반드시 보존해야 하면 `brew --version`, macOS·Command Line Tools 버전, 패키지 버전과 설치 파일을 함께 기록합니다. brew만 과거 버전으로 바꾸거나 자동 업데이트만 끄는 방법으로 재현을 보장하지 않습니다. 공식 배포판으로 설치 가능한 VS Code·uv·CMake 등은 Homebrew 없이 설치하는 경로도 검토합니다.
 
-### 현재 설치 절차
+### 신규 설치와 기존 환경 보존
 
-설치가 끝난 뒤 [Homebrew 공식 설치 안내](https://brew.sh/)의 스크립트를 실행합니다. Intel에서는 Apple Silicon 전용 `.pkg` 대신 아래 셸 설치 방식을 사용합니다.
+초기화한 Intel Mac에서는 Homebrew 설치를 필수 선행 단계로 두지 않습니다. 공통 문서의 `brew install`·`brew install --cask` 명령을 그대로 실행하지 말고 도구별 공식 Intel 배포판·설치 방법을 사용합니다. Node는 nvm, Flutter는 FVM으로 SDK를 선택하고 macOS·CPU 지원 범위를 별도로 확인합니다. 대체 패키지 관리자가 필요하면 Homebrew 지원 문서에서 안내하는 [MacPorts](https://www.macports.org/)의 지원 환경을 확인합니다. 여기서는 MacPorts 설치나 기존 패키지 자동 이전을 수행하지 않습니다.
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+이미 Homebrew가 설치되어 있다면 재설치를 위해 삭제하지 않습니다. 먼저 `command -v brew`와 `brew --version`으로 상태를 확인합니다. 아래 PATH 설정·진단은 **기존 `/usr/local/bin/brew`가 있는 경우에만** 적용합니다.
 
-설치 결과의 Next steps를 우선합니다. 기본 설치 경로는 `/usr/local`입니다. `~/.zprofile`에 아래 한 줄을 한 번만 추가하고 새 터미널을 엽니다.
+기존 Intel Homebrew의 기본 설치 경로는 `/usr/local`입니다. `~/.zprofile`에 아래 한 줄을 한 번만 추가하고 새 터미널을 엽니다.
 
 ```bash
 eval "$(/usr/local/bin/brew shellenv)"
@@ -54,6 +52,8 @@ clang --version
 ## 3. 개발 도구 설치와 프로젝트 복원
 
 이후 [macOS 공통 개발 도구 설정](./macOS_Common_Dev_Setting.md)을 순서대로 진행합니다.
+
+사용 중인 Intel MacBook의 업데이트 지원 제약으로 Flutter는 **3.35.7**에 고정합니다(2026-10-30 사용자 환경 기준). 공통 안내에서 FVM을 설치한 다음 [Intel MacBook 버전 고정 절차](../01.Tools/fvm.md#intel-macbook의-flutter-버전-고정)를 따라 프로젝트에서 `fvm use 3.35.7`을 적용합니다. FVM 자체 버전과 구분하며 `stable`로 자동 갱신하지 않습니다.
 
 Docker Desktop·Android Studio·Unity Editor·Flutter SDK를 직접 다운로드할 때는 **Intel용**을 선택합니다. Apple Silicon과 Intel 사이에서 `node_modules`, `.venv`, 네이티브 빌드 결과를 복사하지 않고 대상 Mac에서 다시 설치합니다.
 

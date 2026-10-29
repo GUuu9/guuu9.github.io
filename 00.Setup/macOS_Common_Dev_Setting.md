@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.2 -->
 # macOS 공통 개발 도구 설정
 
 확인일: 2026-10-28. 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설치를 완료합니다.
@@ -9,6 +9,8 @@
 - Node.js는 nvm, Python은 uv와 프로젝트별 `.venv`, Flutter는 FVM, Rust는 rustup, Unity는 Hub로 버전을 관리합니다.
 - React·TypeScript·Electron은 프로젝트 의존성으로 설치합니다. 전역 TypeScript나 별도의 React 설치는 필요하지 않습니다.
 - 아래 명령은 해당 프로젝트의 루트에서 실행합니다. 프로젝트별 명령이 다르면 README를 따릅니다.
+
+Intel Mac 신규 복원 시 최신 Homebrew 설치 스크립트는 사용할 수 없습니다. 이 문서의 brew 설치 명령은 기존 Homebrew가 실행 가능한 경우에만 적용하고, 그 외에는 [Intel 신규 설치 안내](./macOS_Intel_Dev_Setting.md#신규-설치와-기존-환경-보존)에 따라 공식 Intel 배포판을 사용합니다.
 
 ## 1. VS Code와 기본 도구
 
@@ -114,6 +116,8 @@ curl -fsSL https://fvm.app/install.sh | bash
 ```
 
 설치 결과의 PATH 안내를 적용하고 새 터미널에서 `fvm --version`을 확인합니다.
+
+사용 중인 Intel MacBook은 업데이트 지원 제약으로 Flutter **3.35.7**을 사용합니다. 해당 환경에서는 [Intel MacBook 버전 고정 절차](../01.Tools/fvm.md#intel-macbook의-flutter-버전-고정)를 우선하며 최신 `stable`로 전환하지 않습니다.
 
 기존 `.fvmrc`가 있는 프로젝트는:
 
