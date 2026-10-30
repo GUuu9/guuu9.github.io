@@ -1,4 +1,4 @@
-<!-- version: v1.1.2 -->
+<!-- version: v1.1.3 -->
 # macOS 공통 개발 도구 설정
 
 확인일: 2026-10-28. 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설치를 완료합니다.
@@ -10,7 +10,7 @@
 - React·TypeScript·Electron은 프로젝트 의존성으로 설치합니다. 전역 TypeScript나 별도의 React 설치는 필요하지 않습니다.
 - 아래 명령은 해당 프로젝트의 루트에서 실행합니다. 프로젝트별 명령이 다르면 README를 따릅니다.
 
-Intel Mac 신규 복원 시 최신 Homebrew 설치 스크립트는 사용할 수 없습니다. 이 문서의 brew 설치 명령은 기존 Homebrew가 실행 가능한 경우에만 적용하고, 그 외에는 [Intel 신규 설치 안내](./macOS_Intel_Dev_Setting.md#신규-설치와-기존-환경-보존)에 따라 공식 Intel 배포판을 사용합니다.
+Intel Mac 신규 복원 시 최신 Homebrew 설치 스크립트는 사용할 수 없습니다. 이 문서의 brew 패키지 설치 명령은 기존 Homebrew 또는 [과거 설치기 절차](./macOS_Intel_Dev_Setting.md#과거-공식-설치-스크립트로-신규-설치-시도)로 구성한 Homebrew가 실행 가능한 경우에만 적용하고, 그 외에는 [Intel 신규 설치 안내](./macOS_Intel_Dev_Setting.md#신규-설치와-기존-환경-보존)에 따라 공식 Intel 배포판을 사용합니다.
 
 ## 1. VS Code와 기본 도구
 
