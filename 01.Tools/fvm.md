@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.3.0 -->
 # FVM 사용 가이드
 
 확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -98,15 +98,17 @@ USB 디버깅과 연결 허용을 확인한 뒤 `fvm flutter doctor --android-li
 
 ### iOS
 
-CocoaPods가 필요한 프로젝트에 Gemfile이 있으면 해당 Ruby·Bundler 버전을 사용합니다. 없다면 실행 가능한 Homebrew 환경에서 brew install cocoapods로 설치할 수 있으며 시스템 Ruby에 sudo gem install하는 방식을 기본으로 사용하지 않습니다. Homebrew가 없으면 프로젝트의 Ruby·CocoaPods 구성 방법부터 확인합니다.
+CocoaPods는 Homebrew 대신 [공식 RubyGems·Bundler 방식](https://guides.cocoapods.org/using/getting-started.html)을 사용합니다. macOS 시스템 Ruby가 아닌 프로젝트와 호환되는 별도 Ruby 환경을 먼저 준비합니다. 기존 프로젝트가 지정한 Ruby 버전·관리자를 우선하며, 없다면 공식 가이드에서 안내하는 [rbenv](https://github.com/rbenv/rbenv#installation)의 Git 설치 방법으로 Homebrew 없이 구성할 수 있습니다. Ruby 선택을 마친 뒤 Gemfile·Gemfile.lock이 있으면 그 버전으로 Bundler를 준비하고 프로젝트 루트에서 bundle install·bundle exec pod install을 사용합니다.
+
+Gemfile이 없는 프로젝트는 선택한 별도 Ruby 환경에서 gem install cocoapods로 설치할 수 있습니다. ruby --version·command -v ruby·pod --version을 확인하며 시스템 Ruby에 sudo gem install하거나 curl로 받은 비공식 CocoaPods 설치기를 실행하지 않습니다.
 
 iPhone의 컴퓨터 신뢰·Developer Mode를 확인하고 Xcode에서 개발 계정·Signing Team을 선택합니다. 계정·인증서는 문서에 기록하지 않습니다. 위 일상 작업의 doctor·devices·run 명령으로 실기기 연결·플러그인 빌드·서명을 확인합니다. [iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
 
-Android SDK 갱신은 SDK Manager에서 필요한 버전을 추가하며 기존 SDK·NDK를 먼저 삭제하지 않습니다. JDK·Gradle·Android Gradle Plugin은 호환되는 조합으로 바꿉니다. CocoaPods 갱신은 Homebrew 설치면 brew upgrade cocoapods, Gemfile 관리면 bundle update cocoapods로 목표 변경을 검토합니다. Podfile.lock 삭제로 전체 갱신을 강제하지 않습니다.
+Android SDK 갱신은 SDK Manager에서 필요한 버전을 추가하며 기존 SDK·NDK를 먼저 삭제하지 않습니다. JDK·Gradle·Android Gradle Plugin은 호환되는 조합으로 바꿉니다. CocoaPods 갱신은 같은 Ruby 환경에서 Gemfile 관리면 bundle update cocoapods로 목표 변경을 검토하고, 별도 gem 설치라면 목표 버전을 정해 다시 gem install합니다. Podfile.lock 삭제로 전체 갱신을 강제하지 않습니다.
 
 ## 업데이트와 되돌리기
 
-FVM 자체는 설치 경로에 맞춰 갱신합니다. 독립 설치 스크립트는 다시 실행하고 Windows 독립 패키지는 공식 새 패키지로 교체합니다. Homebrew 설치는 해당 formula를 upgrade합니다. 여러 설치 방식을 중복 적용하지 않습니다.
+FVM 자체는 설치 경로에 맞춰 갱신합니다. macOS 독립 설치는 `curl -fsSL https://fvm.app/install.sh | bash`로 다시 실행하며 fvm --version을 확인합니다. 목표 FVM 버전이 있으면 공식 설치 안내의 버전 인자를 사용합니다. Windows 독립 패키지는 공식 새 패키지로 교체합니다. Homebrew 설치는 해당 formula를 upgrade합니다. 여러 설치 방식을 중복 적용하지 않습니다.
 
 Flutter 변경은 현재 버전을 기록한 뒤 `fvm use 목표버전`으로 적용합니다. pub get·analyze·test·Android/iOS 실기기 실행을 확인하고 `.fvmrc`, pubspec.lock, 네이티브 프로젝트 변경을 검토합니다. 실패하면 `fvm use 이전버전`과 업데이트 전 프로젝트 파일로 돌아갑니다. SDK 캐시 내부에서 flutter upgrade를 실행해 고정 버전을 바꾸지 않습니다.
 

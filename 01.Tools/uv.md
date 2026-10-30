@@ -1,11 +1,13 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # uv 사용 가이드
 
 확인일: 2026-10-28. uv는 Python 버전, 가상환경, 패키지 의존성, 잠금 파일과 CLI 도구 환경을 관리합니다. 기존 requirements.txt 방식과 pyproject.toml·uv.lock 방식 중 프로젝트가 사용하는 흐름을 따릅니다. pip와 유사한 명령이 있지만 모든 동작·옵션이 완전히 같지는 않습니다.
 
 ## 설치와 역할 구분
 
-설치는 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다. macOS Homebrew 설치는 `brew upgrade uv`, 독립 설치는 `uv self update`로 갱신합니다. 두 경로를 중복 관리하지 않습니다.
+설치는 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다. macOS는 공식 독립 설치를 기본으로 하며 `uv self update`로 갱신합니다. 목표 버전 고정이 필요하면 공식 설치 안내의 버전 URL로 재설치합니다. Homebrew로 이미 설치한 uv만 기존 관리 방식인 brew upgrade uv를 사용하며 두 경로로 중복 관리하지 않습니다.
+
+macOS 13에서 brew install uv가 실패하면 Homebrew 경로와 uv 자체의 지원 범위를 구분합니다. uv는 [macOS 13 이상을 지원](https://docs.astral.sh/uv/reference/policies/platforms/#macos-versions)하며 공식 0.13.6 Intel 바이너리의 버전 명령을 macOS 13.7.8에서 확인했습니다(2026-10-30). 설치는 [macOS 독립 설치 절차](../00.Setup/macOS_Common_Dev_Setting.md#3-python-관리-도구-uv)를 따릅니다. Python 배포판과 프로젝트 패키지의 OS 지원은 별도로 확인합니다.
 
 | 요소 | 역할 |
 | :--- | :--- |

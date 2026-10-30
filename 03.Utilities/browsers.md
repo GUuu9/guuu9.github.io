@@ -1,15 +1,11 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # Firefox·Google Chrome 설치·실행·업데이트
 
 확인일: 2026-10-28. 웹 개발 결과를 서로 다른 브라우저에서 확인하고 일반 웹 작업에 사용합니다. [Firefox 공식 배포](https://www.mozilla.org/firefox/)와 [Chrome 공식 배포](https://www.google.com/chrome/)에서 OS·CPU 지원 조건을 확인합니다. 브라우저 바이너리는 임의의 GitHub 미러에서 받지 않습니다.
 
 ## macOS
 
-공식 dmg를 받아 Applications에 설치하거나 Homebrew 한 가지 방식으로 관리합니다.
-
-```bash
-brew install --cask firefox google-chrome
-```
+공식 dmg를 받아 Applications에 설치합니다. Homebrew는 기본 설치 경로로 사용하지 않습니다. 사용하는 macOS·CPU가 지원되는지 공식 배포 페이지에서 확인하고 별도의 비공식 curl 설치기를 사용하지 않습니다.
 
 응용 프로그램 목록에서 실행합니다. 터미널에서는:
 
@@ -18,7 +14,7 @@ open -a Firefox http://localhost:3000
 open -a "Google Chrome" http://localhost:3000
 ```
 
-Homebrew 관리 앱의 수동 갱신은 `brew update` 후 `brew upgrade --cask firefox google-chrome`입니다. 앱의 자동 업데이트로 이미 최신이면 별도 갱신이 필요하지 않을 수 있습니다.
+앱의 자동 업데이트 또는 아래 정보 화면의 업데이트·재시작 기능으로 관리합니다. 기존 Homebrew 설치를 유지한다면 [선택용 brew 가이드](../01.Tools/brew.md)를 따르고 두 방식으로 같은 앱을 중복 설치하지 않습니다.
 
 ## Windows
 

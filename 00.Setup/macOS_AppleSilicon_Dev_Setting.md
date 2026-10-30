@@ -1,4 +1,4 @@
-<!-- version: v2.0.1 -->
+<!-- version: v2.1.0 -->
 # macOS Apple Silicon 개발 환경 복원
 
 확인일: 2026-10-28. 초기화 후 기존 프로젝트를 내려받아 개발·빌드할 수 있는 환경을 구성합니다. GitHub·SSH 인증 설정은 다루지 않습니다.
@@ -12,34 +12,23 @@ uname -m
 
 기대 아키텍처는 `arm64`입니다. 터미널과 VS Code는 Apple Silicon 네이티브로 실행합니다. Rosetta 터미널에서 설치한 x86_64 도구와 혼용하지 않습니다. 오래된 Intel 전용 프로젝트가 필요할 때만 Rosetta 환경을 별도로 구성합니다.
 
-OS 업데이트는 해당 Mac에서 지원하며 프로젝트 도구와 호환되는 버전으로 진행합니다. [Homebrew 지원 조건](https://docs.brew.sh/Installation)과 [Xcode 지원 조건](https://developer.apple.com/support/xcode/)을 확인합니다.
+OS 업데이트는 해당 Mac에서 지원하며 프로젝트 도구와 호환되는 버전으로 진행합니다. [Xcode 지원 조건](https://developer.apple.com/support/xcode/)을 확인합니다.
 
-## 2. Command Line Tools와 Homebrew
+## 2. Command Line Tools
 
 ```bash
 xcode-select --install
 ```
 
-설치가 끝난 뒤 [Homebrew 공식 설치 안내](https://brew.sh/)의 스크립트를 실행합니다.
+설치 후 확인합니다. iOS 개발용 전체 Xcode는 공통 설치 가이드에서 준비합니다.
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-설치 결과의 Next steps를 우선합니다. 기본 설치 경로는 `/opt/homebrew`입니다. `~/.zprofile`에 아래 한 줄을 한 번만 추가하고 새 터미널을 엽니다.
-
-```bash
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-```bash
-brew --prefix
-brew doctor
+xcode-select -p
 git --version
 clang --version
 ```
 
-`brew --prefix`가 `/opt/homebrew`인지 확인합니다. `brew doctor`의 경고는 내용을 읽고 해당 항목을 해결합니다.
+Homebrew는 초기 설치에 필요하지 않습니다. 도구는 공식 스크립트·배포판으로 설치합니다. 기존 Homebrew를 유지하거나 과거 Intel 설치기가 필요한 경우에만 [선택용 Homebrew 가이드](../01.Tools/brew.md)를 참고합니다.
 
 ## 3. 공통 도구 초기 설치
 

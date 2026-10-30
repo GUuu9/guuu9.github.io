@@ -25,7 +25,7 @@
 
 | 관리 대상 | 가이드 |
 | :--- | :--- |
-| OS 패키지·앱 | [Homebrew](./01.Tools/brew.md) |
+| 기존 OS 패키지·앱 관리(선택) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
 | Flutter SDK 버전 | [FVM](./01.Tools/fvm.md) |
 | Python 버전·패키지·가상환경 | [uv](./01.Tools/uv.md) · [venv](./01.Tools/venv.md) |
