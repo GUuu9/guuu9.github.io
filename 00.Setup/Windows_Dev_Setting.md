@@ -1,29 +1,42 @@
-<!-- version: v1.0.0 -->
-# Windows 개발 환경 복원·업데이트
+<!-- version: v2.0.0 -->
+# Windows 개발 도구 초기 설치
 
-확인일: 2026-10-28. Windows 11 x64·PowerShell·Windows 네이티브 개발을 기준으로 합니다. ARM Windows는 각 도구·네이티브 모듈·Unity의 지원 여부를 별도 확인합니다. Linux 서버 환경이 필요한 작업은 WSL2 또는 Docker로 구분합니다.
+**Windows 11 x64·PowerShell·Windows 네이티브 개발**을 기준으로 합니다. macOS와 동일하게 **0~8절 초기 설치 → 도구 인식 확인 → 프로젝트 작업 안내 → 업데이트** 순서입니다. 별도 표시가 없으면 개인 PC의 일반 사용자 PowerShell에서 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더·가상환경·잠금 파일이 필요하지 않습니다.
 
-## 1. Windows·Git·VS Code·빌드 도구
+ARM Windows는 별도 지원 확인이 필요하며 특히 Android Studio의 Windows ARM 지원을 전제하지 않습니다. Linux 서버용 개발이 필요하면 WSL2를 별도 선택합니다. Windows·WSL의 도구·인증·프로젝트 의존성을 혼용하지 않습니다.
 
-Windows Update로 지원되는 업데이트를 적용하고 필요한 재시작을 완료합니다. 대규모 OS 변경 전 작업과 데이터를 백업합니다. App Installer가 제공하는 `winget --version`을 확인합니다.
+## 0. Windows·터미널·Git·폰트 준비
+
+설정 → 시스템 → 정보에서 Windows 버전·CPU를 확인합니다. Windows Update의 필요한 재시작을 마치고 Windows Terminal의 PowerShell을 엽니다. App Installer가 제공하는 `winget --version`을 확인합니다. 기존 도구는 `Get-Command`·`where.exe`로 설치 경로를 먼저 확인합니다.
 
 ```powershell
+winget --version
 winget install --id Git.Git -e --source winget
-winget install --id Microsoft.VisualStudioCode -e --source winget
-winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget
 ```
 
-Visual Studio Installer에서 **Desktop development with C++** 워크로드와 프로젝트에 맞는 Windows SDK·MSVC·CMake 도구를 선택합니다. Build Tools 설치 명령만으로 워크로드가 모두 구성되지는 않습니다. C/C++·Rust MSVC·Electron 네이티브 모듈에 필요합니다.
+설치기가 권한을 요구하면 해당 설치에 한해 승인합니다. 새 PowerShell에서 `git --version`을 확인합니다. Windows Terminal이 없다면 [Microsoft 공식 배포처](https://learn.microsoft.com/en-us/windows/terminal/install)에서 설치합니다. Terminal은 창·프로파일을 제공하며 PowerShell은 셸입니다. Oh My Zsh는 Windows 네이티브 PowerShell에 설치하지 않고, 필요하면 WSL의 Linux zsh 환경에서만 선택합니다.
 
-새 PowerShell에서 `git --version`, `code --version`을 확인합니다. C/C++는 Developer PowerShell에서 프로젝트 CMake 프리셋을 사용합니다. 일반 CMake 프로젝트는 `cmake -S . -B build`, `cmake --build build --config Debug`로 확인합니다.
+### D2Coding 설치·터미널 적용
 
-VS Code 확장은 ESLint·Prettier·Python·Flutter·C/C++·CMake Tools·rust-analyzer·Unity 중 필요한 것만 설치합니다. 앱은 업데이트 기능 또는 `winget upgrade --id Microsoft.VisualStudioCode -e`로, 확장은 Extensions 화면에서 갱신합니다. Git은 `winget upgrade --id Git.Git -e`, MSVC·SDK는 Visual Studio Installer로 업데이트합니다. 전체 `winget upgrade --all`보다 대상별 업데이트를 우선합니다.
+[NAVER 공식 릴리스](https://github.com/naver/d2-coding-font/releases)에서 사용하던 D2Coding Ver 1.x 배포본을 받아 압축을 풉니다. 사용할 TTF 또는 TTC를 열어 설치하고 설정 → 개인 설정 → 글꼴에서 실제 패밀리 이름·버전을 확인합니다. 같은 패밀리의 TTF·TTC·서로 다른 버전을 중복 설치하지 않습니다. [Microsoft 폰트 설치 안내](https://support.microsoft.com/en-us/windows/experience/personalization/manage-fonts-in-windows).
+
+Windows Terminal의 **설정 → 기본값(Defaults) 또는 사용할 프로파일 → 모양(Appearance) → 글꼴(Font face)**에서 D2Coding을 선택하고 저장합니다. 크기는 14를 시작값으로 조절합니다. PowerShell·WSL 프로파일이 개별 설정으로 덮어쓰는지도 확인합니다. GUI를 렌더링하는 Windows에 폰트를 설치하며, WSL 터미널용이라고 WSL에만 설치하지 않습니다. 앱 재시작 후 한글·영문·숫자를 확인하고 원본 폰트·기존 설정을 보관합니다. [Terminal 폰트 설정](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-appearance).
+
+## 1. VS Code
+
+개인 PC PowerShell에서 설치하거나 [공식 Windows 설치 프로그램](https://code.visualstudio.com/docs/setup/windows)을 사용합니다. 같은 앱을 두 경로로 중복 설치하지 않습니다.
+
+```powershell
+winget install --id Microsoft.VisualStudioCode -e --source winget
+```
+
+새 PowerShell에서 `code --version`을 확인하고 [공통 편집기 설정](../01.Tools/editor-setup.md)에 따라 `Ctrl+Shift+P`의 표시 언어 구성으로 한국어를 선택합니다. D2Coding은 편집기·통합 터미널에 각각 적용합니다.
+
+ESLint·Prettier·Python·Python Debugger·Flutter·C/C++·CMake Tools·rust-analyzer·Unity·Dev Containers 확장은 필요한 작업만 선택합니다. 포맷·린트는 프로젝트 설정을 우선합니다.
 
 ## 2. Node.js: nvm-windows + npm
 
-[nvm-windows 공식 Releases](https://github.com/coreybutler/nvm-windows/releases)에서 설치 프로그램을 내려받습니다. 기존 단독 Node.js가 있다면 필요한 버전·전역 패키지를 기록하고 공식 마이그레이션 안내에 따라 정리합니다. 기존 Node 설치 경로와 NVM의 심볼릭 링크 경로가 충돌하지 않도록 합니다. [Microsoft Node.js 안내](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows)
-
-새 PowerShell에서 확인합니다. 버전 전환이 권한을 요구하면 관리자 PowerShell을 사용합니다.
+[nvm-windows 공식 Releases](https://github.com/coreybutler/nvm-windows/releases)의 설치 프로그램을 사용합니다. 기존 단독 Node가 있다면 버전·전역 패키지를 기록하고 [공식 마이그레이션 안내](https://github.com/coreybutler/nvm-windows#installation--upgrades)에 따라 설치 경로·심볼릭 링크 충돌을 정리합니다. 새 PowerShell에서 확인합니다.
 
 ```powershell
 nvm version
@@ -32,41 +45,77 @@ nvm install lts
 nvm list
 ```
 
-설치된 정확한 버전을 `nvm use 버전`으로 선택한 뒤 `node --version`, `npm --version`을 확인합니다. 기존 프로젝트는 `.nvmrc`·README·engines·CI의 버전을 직접 확인해 설치·선택합니다. **nvm-windows는 Unix nvm과 별개이며 `nvm alias default`나 `.nvmrc` 자동 적용을 전제하지 않습니다.** 버전 전환은 다른 Windows 셸에도 영향을 줄 수 있습니다.
+목록에 표시되는 **정확한 설치 버전**으로 `nvm use 버전`을 실행합니다. 심볼릭 링크 변경에 권한이 필요하면 이 명령을 관리자 PowerShell에서 실행합니다. 이후 새 일반 PowerShell에서 `node --version`·`npm --version`을 확인합니다. LTS는 프로젝트가 없는 초기 기본값이며 프로젝트별 버전은 [nvm Windows 흐름](../01.Tools/nvm.md#windows-기본-흐름)에서 선택합니다.
 
-nvm-windows 자체는 공식 새 설치 프로그램으로 갱신합니다. Node는 `nvm install 목표버전`, `nvm use 목표버전`으로 추가·검증합니다. 문제 발생 시 `nvm use 이전버전`으로 돌아갑니다. 검증 후 프로젝트 버전 파일과 CI를 함께 변경합니다.
+nvm-windows는 Unix nvm과 별개입니다. `nvm alias default`·`.nvmrc` 자동 적용을 전제하지 않으며 전환은 다른 Windows 셸에도 영향을 줄 수 있습니다. `npm.ps1`이 정책으로 차단되면 `npm.cmd`를 사용하고 조직의 실행 정책을 전역 해제하지 않습니다. [Microsoft Node.js 안내](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
 
-PowerShell에서 npm.ps1 실행이 정책으로 차단되면 `npm.cmd`를 사용합니다. 조직의 실행 정책을 전역 해제하지 않습니다.
+## 3. Python 관리 도구: uv
 
-## 3. uv·FVM·Rust·Codex CLI
-
-### uv
-
-[uv 공식 PowerShell 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)를 사용합니다.
+[공식 독립 PowerShell 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)를 사용합니다.
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.13.6/install.ps1 | iex"
 ```
 
-설치 결과의 사용자 PATH 안내를 적용하고 새 터미널에서 `uv --version`을 확인합니다. 위 실행 정책 옵션은 설치 프로세스에 한정합니다. 독립 설치한 uv는 `uv self update`로 갱신합니다.
+설치기의 사용자 PATH 안내를 적용하고 새 PowerShell에서 `Get-Command uv`·`uv --version`을 확인합니다. 실행 정책 옵션은 설치 프로세스에 한정합니다. 아직 특정 Python·`.venv`를 만들지 않고 시스템 Python을 변경하지 않습니다. 복원은 [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md)를 따릅니다.
 
-가상환경 활성화는 `..venvScriptsActivate.ps1`, 종료는 `deactivate`입니다. 정책 때문에 활성화할 수 없으면 uv 명령 또는 `..venvScriptspython.exe`를 직접 사용합니다. 시스템 Python을 변경하지 않습니다.
+프로젝트 복원 후 가상환경 활성화는 `.\.venv\Scripts\Activate.ps1`, 종료는 `deactivate`입니다. 정책으로 차단되면 uv 명령 또는 `.\.venv\Scripts\python.exe`를 직접 사용합니다.
 
-### FVM
+## 4. Flutter 도구: FVM·Android Studio
 
-[FVM 공식 설치 페이지](https://fvm.app/documentation/getting-started/installation)에서 연결된 공식 Releases의 Windows·CPU에 맞는 독립 패키지를 사용합니다. 사용자 쓰기 권한이 있는 경로에 압축을 풀고 실행 파일이 있는 폴더를 사용자 PATH에 추가한 뒤 `fvm --version`을 확인합니다. 업데이트는 같은 경로의 실행 파일을 새 공식 패키지로 교체합니다.
+[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에서 연결된 공식 Releases의 Windows·CPU에 맞는 독립 패키지를 사용합니다. 사용자 쓰기 권한이 있는 경로에 풀고 실행 파일이 있는 폴더를 사용자 PATH에 추가합니다. 새 PowerShell에서 `fvm --version`을 확인합니다.
 
-SDK 링크 생성이 권한을 요구하면 Windows 개발자 모드의 심볼릭 링크 지원과 FVM 안내를 확인합니다. SDK 캐시와 `.fvmrc`를 업데이트 과정에서 삭제하지 않습니다.
+SDK 링크 생성에 권한이 필요하면 Windows 개발자 모드의 심볼릭 링크 지원과 FVM 안내를 확인합니다. SDK 사전 다운로드는 요구 버전으로 `fvm install 버전`을 사용하되 프로젝트가 없는 폴더에서 `fvm use`로 `.fvmrc`를 만들지 않습니다. Intel Mac 전용 Flutter 3.35.7 고정을 Windows 전체에 적용하지 않습니다.
 
-Android 실기기 연결에 필요한 제조사 USB 드라이버는 Android Studio·기기 제조사 공식 안내로 설치합니다. SDK·Gradle 작업은 Windows에 두고 WSL의 adb·JDK와 혼용하지 않습니다.
+[Android Studio 공식 Windows 설치 안내](https://developer.android.com/studio/install#windows)에 따라 x64 설치 프로그램으로 설치하고 처음 실행합니다. SDK Manager에서 Command-line Tools·Platform-Tools를 준비하고 SDK 경로를 기록합니다. 프로젝트별 SDK Platform·Build-Tools·NDK·CMake는 복원 단계에서 선택합니다. AVD·에뮬레이터 이미지는 사전 설치하지 않습니다.
 
-### Rust
+JDK는 Android Studio 포함 버전을 우선하되 프로젝트 Gradle·AGP 요구 조건을 확인합니다. [공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)를 적용합니다. Android 실기기는 개발자 옵션·USB 디버깅·연결 허용과 [제조사 공식 USB 드라이버](https://developer.android.com/studio/run/oem-usb)를 준비합니다. Windows SDK·adb·JDK와 WSL의 도구를 혼용하지 않습니다.
 
-[Rust 공식 설치 페이지](https://rust-lang.org/tools/install/)의 Windows rustup-init을 설치하고 기본 MSVC 툴체인을 사용합니다. 앞 절의 C++ Build Tools·Windows SDK가 필요합니다. 새 터미널에서 `rustup show`로 확인합니다. 프로젝트 rust-toolchain 파일을 우선하고 `cargo build --locked`, `cargo test --locked`로 검증합니다.
+## 5. C/C++·Rust·Unity 도구
 
-### Codex CLI
+C/C++·Rust MSVC·Electron 네이티브 모듈을 사용하는 경우 개인 PC PowerShell에서 Build Tools를 설치합니다. 설치기가 권한을 요구할 수 있습니다.
 
-선택한 Node 환경에서 npm으로 설치합니다. [OpenAI 공식 CLI 안내](https://learn.chatgpt.com/docs/codex/cli)
+```powershell
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget
+```
+
+Visual Studio Installer에서 **Desktop development with C++** 워크로드와 필요한 Windows SDK·MSVC·CMake 도구를 선택합니다. 위 명령만으로 워크로드 전체가 준비되지 않습니다. 설치된 버전의 **Developer PowerShell**에서 `cl`·`cmake --version`으로 도구 인식을 확인합니다. 일반 PowerShell에서 `cl`을 찾지 못한다고 곧바로 재설치하지 않습니다. 프로젝트 빌드는 [C/C++ 툴체인](../01.Tools/cpp-toolchain.md)을 따릅니다.
+
+Rust는 [공식 Windows rustup-init](https://rust-lang.org/tools/install/)을 설치하고 기본 MSVC 툴체인을 사용합니다. 새 PowerShell에서 `rustup show`를 확인합니다.
+
+Unity가 필요하면 [공식 Unity Hub](https://unity.com/download)를 설치하고 실행만 확인합니다. 정확한 Editor와 빌드 모듈은 프로젝트 복원 때 선택합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
+
+## 6. Docker Desktop·선택적 WSL2
+
+[공식 Windows 지원 조건](https://docs.docker.com/desktop/setup/install/windows-install/)의 Windows 빌드·가상화·WSL 버전 요구 조건을 먼저 확인합니다. 필요한 경우 **관리자 PowerShell**에서 WSL을 설치·갱신하고 요구되는 재시작을 완료합니다. 아래는 사용자 배포판을 추가하지 않는 예시입니다.
+
+```powershell
+wsl --install --no-distribution
+wsl --update
+wsl --status
+```
+
+[Microsoft WSL 명령 안내](https://learn.microsoft.com/en-us/windows/wsl/basic-commands). 이미 구성되어 있으면 재설치하지 않고 상태를 확인합니다. Windows x86_64 공식 Docker Desktop을 설치하고 WSL2 백엔드의 Linux 컨테이너 환경으로 실행합니다. 엔진 준비 후 일반 PowerShell에서 확인합니다.
+
+```powershell
+docker context ls
+docker context show
+docker version
+docker compose version
+docker run --rm hello-world
+```
+
+Windows 컨테이너가 필요하면 별도 지원 조건·설치 모드를 확인합니다. 위 Linux 컨테이너 구성과 구분합니다.
+
+### WSL에서 개발할 때만
+
+개인 PC PowerShell에서 `wsl --list --online`으로 배포판을 확인하고 선택한 배포판을 설치합니다. 예를 들어 Ubuntu가 목록에 있으면 `wsl --install -d Ubuntu`를 사용하고 Linux 사용자 생성을 마칩니다.
+
+WSL 안의 도구는 [Linux 문서](./Linux_Dev_Setting.md)를 따르되, VS Code는 Windows 설치본과 WSL 확장으로 연결하고 Docker는 Windows Docker Desktop의 해당 배포판 통합을 사용합니다. Linux GUI 앱·Docker Desktop을 중복 설치하지 않습니다. 소스는 Linux 홈 파일시스템에 두고 Windows의 `node_modules`·`.venv`를 공유하지 않습니다. Codex·Ponytail도 WSL에서 쓰려면 해당 환경에 별도 설치·인증합니다. Windows에 연결한 Android USB 기기가 WSL에 자동 전달된다고 가정하지 않습니다.
+
+## 7. Codex CLI·Ponytail
+
+선택한 Node 환경에서 [OpenAI 공식 CLI 안내](https://learn.chatgpt.com/docs/codex/cli)의 npm 설치 방식을 사용합니다. Windows 네이티브 PowerShell에서 실행합니다.
 
 ```powershell
 npm install -g @openai/codex
@@ -74,117 +123,64 @@ codex --version
 codex
 ```
 
-처음 실행할 때 인증합니다. 업데이트는 `npm install -g @openai/codex@latest`입니다. nvm 전환 후 명령이 사라지면 현재 Node 환경의 전역 설치를 확인합니다. API 키·토큰을 저장소에 기록하지 않습니다.
+처음 실행할 때 인증합니다. PowerShell 정책으로 `npm.ps1`·`codex.ps1`이 차단되면 각각 `npm.cmd`·`codex.cmd`를 사용합니다. nvm으로 Node를 바꾸면 전역 설치가 보이지 않을 수 있으므로 설치한 Node 버전·경로를 기록합니다. API 키·토큰을 저장소에 기록하지 않습니다.
 
-## 4. Docker Desktop·선택적 WSL2
+Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](../01.Tools/codex.md#ponytail-스킬-추가)을 진행합니다. `codex plugin`이 지원되지 않으면 CLI를 먼저 갱신합니다. 제작자 설치 명령은 공통이지만 Windows 네이티브 훅 실행 성공 여부는 실제 설치 후 확인합니다. WSL 설치와 공유된다고 가정하지 않습니다.
 
-[Docker Desktop Windows 공식 안내](https://docs.docker.com/desktop/setup/install/windows-install/)의 Windows·가상화·WSL2 요구 조건을 확인합니다. 관리자 PowerShell에서 필요한 WSL 구성을 설치하고 재시작합니다.
+## 8. 초기 설치 완료 확인
 
-```powershell
-wsl --install
-wsl --update
-wsl --status
-```
+- [ ] 새 PowerShell과 VS Code 통합 터미널에서 필요한 git·code·nvm·node·npm·uv·fvm·codex를 인식한다.
+- [ ] D2Coding·VS Code 한국어와 Android Studio의 폰트 설정을 확인했다.
+- [ ] Android Studio의 SDK Manager가 열리고 제조사 USB 드라이버를 준비했다.
+- [ ] C/C++·Rust를 사용한다면 Developer PowerShell의 빌드 도구와 rustup을 확인했다.
+- [ ] Unity를 사용한다면 Hub가 준비되었다. 프로젝트 Editor는 다음 단계에서 설치한다.
+- [ ] Docker를 사용한다면 Client·Server·Compose와 hello-world를 확인했다.
+- [ ] Ponytail을 사용한다면 스킬 목록·훅 상태를 확인했다.
+- [ ] Windows와 WSL의 도구·프로젝트 경로를 구분했다.
 
-Docker Desktop Windows x64 설치 프로그램으로 설치하고 WSL2 백엔드의 Linux 컨테이너 환경으로 실행합니다. Linux 컨테이너 환경이 Windows 컨테이너 실행 환경을 대신하지는 않습니다.
+여기까지는 초기 도구 인식 확인이며 기존 프로젝트 실행 성공은 다음 단계에서 판단합니다.
 
-WSL에서 개발할 때만 Ubuntu 등 배포판을 선택해 구성합니다. 해당 환경에서는 [Linux 문서](./Linux_Dev_Setting.md)의 nvm·uv·도구를 **WSL 안에 별도로 설치**하고, 프로젝트를 Linux 홈 파일시스템에 둡니다. Windows의 node_modules·.venv와 공유하지 않습니다. VS Code WSL 확장으로 연결하고 필요한 경우 Docker Desktop의 해당 배포판 통합을 활성화합니다. WSL의 Flutter·adb 구성은 이 문서의 Windows 실기기 절차와 별개입니다.
+## 프로젝트 작업 안내
 
-Windows·WSL 업데이트 후 Docker 엔진·context·프로젝트 서비스를 확인합니다. WSL 자체는 `wsl --update`로 갱신합니다.
+프로젝트를 내려받은 뒤 README·CI·버전 파일·잠금 파일을 우선합니다. 복원 중 의존성을 일괄 갱신하거나 잠금 파일을 삭제하지 않습니다. 다른 OS·CPU의 `node_modules`·`.venv`·네이티브 빌드 결과를 복사하지 않습니다.
 
-## 프로젝트 복원과 버전 변경 원칙
-
-기존 프로젝트의 README·CI·버전 지정·잠금 파일을 우선합니다. 초기 복원에서 의존성을 최신화하거나 잠금 파일을 재생성하지 않습니다. 다른 OS·CPU의 `node_modules`, `.venv`, 빌드 결과는 복사하지 않습니다. GitHub·SSH 사전 설정은 범위에서 제외합니다.
-
-### TypeScript·React·Electron·서버
-
-Node 버전을 선택한 뒤 `package-lock.json`이 있으면 `npm ci`, 없으면 npm 프로젝트임을 확인하고 `npm install`을 실행합니다. `npm run`으로 스크립트를 확인하고 프로젝트의 개발 실행·테스트·빌드를 수행합니다. TypeScript·React·Electron은 전역 설치하지 않습니다.
-
-Electron 네이티브 모듈은 OS·CPU·Electron ABI가 맞아야 합니다. 프로젝트의 postinstall·rebuild 절차를 따르고 대상 OS 패키징도 확인합니다. 모든 OS의 실행 파일을 Docker만으로 만들 수 있다고 가정하지 않습니다.
-
-### Python
-
-uv 프로젝트는 `uv sync --locked` 후 `uv run python --version`으로 확인합니다. 실패하면 `.python-version`, `requires-python`, 잠금 파일 조건부터 확인합니다. 복원 목적으로 `uv lock`을 실행하지 않습니다.
-
-requirements.txt 프로젝트는 README의 Python 버전으로 `uv python install 버전`, `uv venv --python 버전 .venv`, `uv pip install -r requirements.txt`를 실행합니다. uv는 Python 버전을, `.venv`는 패키지를 격리합니다. 표준 venv가 필요하면 `uv python find 버전`으로 찾은 실행 파일의 `-m venv .venv`를 사용합니다.
-
-VS Code의 `Python: Select Interpreter`에서 프로젝트 `.venv`를 선택합니다. [uv Python 관리](https://docs.astral.sh/uv/guides/install-python/), [프로젝트 복원](https://docs.astral.sh/uv/guides/projects/)
-
-### Flutter SDK와 Android 실기기
-
-`.fvmrc`가 있으면 `fvm install` 후 `fvm flutter pub get`을 실행합니다. 없다면 기존 프로젝트가 사용하던 Flutter 버전을 README·CI에서 확인해 `fvm use 버전`으로 고정합니다. `.fvmrc`는 Git으로 관리하고 `.fvm/` SDK 캐시는 제외합니다. VS Code Flutter SDK는 `.fvm/flutter_sdk`로 지정합니다.
-
-[Android Studio](https://developer.android.com/studio)를 설치하고 SDK Manager에서 프로젝트에 필요한 Android SDK Platform·Build-Tools·Command-line Tools·Platform-Tools를 설치합니다. JDK는 Android Studio 포함 버전을 우선하며 기존 Gradle·AGP의 호환 조건에 맞춥니다. NDK·CMake는 프로젝트가 요구할 때 해당 버전을 설치합니다. **AVD·에뮬레이터 시스템 이미지는 사전 설치하지 않습니다.**
-
-기기의 개발자 옵션·USB 디버깅을 켜고 연결 허용 창을 승인한 뒤:
-
-```text
-fvm flutter doctor --android-licenses
-fvm flutter doctor -v
-fvm flutter devices
-```
-
-기기 ID로 `fvm flutter run -d 기기ID`를 실행합니다. SDK가 탐지되지 않으면 실제 경로를 `fvm flutter config --android-sdk 경로`로 지정합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup)
-
-**iOS 앱의 로컬 빌드·서명·실기기 실행에는 macOS와 Xcode가 필요합니다.** Windows·Linux에서는 공통 Dart 코드를 개발하고 iOS 검증은 Mac 또는 macOS CI에서 수행합니다.
-
-### Unity C#
-
-[Unity Hub](https://unity.com/download)를 설치해 로그인·라이선스를 활성화합니다. `ProjectSettings/ProjectVersion.txt`에 맞는 Editor와 필요한 빌드 모듈만 설치합니다. Android SDK·NDK·JDK는 해당 Unity Editor의 Hub 모듈을 우선하며 Flutter용 경로와 혼용하지 않습니다.
-
-외부 에디터를 VS Code로 지정하고 Microsoft Unity 확장의 요구 조건에 맞춰 연동합니다. Unity만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다. 확장·프로젝트가 요구하는 SDK가 있으면 추가합니다. 컴파일·Play Mode·대상 빌드로 확인합니다. [Hub 문서](https://docs.unity.com/en-us/hub)
-
-## 프로젝트 의존성·SDK 업데이트
-
-먼저 현재 버전을 기록하고 작업 내용을 커밋하거나 백업합니다. 별도 브랜치에서 하나씩 변경하며 테스트·빌드·실기기 실행으로 확인합니다. 새 환경이 검증되기 전에는 이전 런타임·SDK를 제거하지 않습니다.
-
-| 대상 | 업데이트 방법과 확인 |
+| 작업 | 상세 절차 |
 | :--- | :--- |
-| npm 자체 | 현재 Node와 호환되는 버전을 확인해 `npm install -g npm@버전`. Node 기본 포함 npm을 우선 |
-| TS·React·Electron | `npm outdated` 확인 → `npm update` 또는 `npm install 패키지@버전` → package.json·잠금 파일 검토 및 앱·빌드 확인 |
-| Python | `uv python install 목표버전` → uv 프로젝트는 `uv python pin 목표버전`, requires-python·CI 검토 → `uv sync`. 기존 venv 프로젝트는 새 환경에서 검증 |
-| Python 패키지 | `uv lock --upgrade-package 패키지명` → `uv sync`; 전체 변경이 목적일 때만 `uv lock --upgrade`. requirements.txt는 프로젝트 방식으로 갱신 |
-| pip | 표준 pip 가상환경 안에서만 `python -m pip install --upgrade pip` |
-| Flutter | `fvm use 목표버전` → `fvm flutter pub get`, doctor·analyze·test·실기기 빌드. SDK 캐시에서 flutter upgrade를 직접 실행하지 않음 |
-| Flutter 패키지 | `fvm flutter pub outdated` → `fvm flutter pub upgrade` → pubspec.lock 검토 |
-| Android Studio·SDK | 앱 업데이트 기능과 SDK Manager 사용. 프로젝트용 SDK·NDK는 유지하고 JDK·Gradle·AGP 호환성 확인 |
-| Rust | `rustup self update`, `rustup update stable`. 고정 프로젝트는 rust-toolchain 파일·CI를 별도 변경 후 build·test |
-| Rust 크레이트 | `cargo update` 후 Cargo.lock 검토·테스트. 초기 복원에서는 실행하지 않음 |
-| Unity | Hub는 앱에서 업데이트. Editor는 새 버전을 추가 설치해 복사본·별도 브랜치로 검증. ProjectVersion·Packages 변경을 함께 검토 |
+| TypeScript·React·Electron·서버 | [nvm·npm](../01.Tools/nvm.md#windows-기본-흐름): 요구 Node 선택·npm ci·프로젝트 실행/테스트/빌드 |
+| Python | [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md): 요구 Python·잠금 파일·인터프리터 복원 |
+| Flutter·Android | [FVM](../01.Tools/fvm.md#기존-프로젝트-복원): SDK 고정·pub get·doctor·실기기 확인 |
+| C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
+| Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
+| 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
 
-실패하면 이전 런타임·SDK와 업데이트 전 프로젝트 파일을 함께 복원합니다. Unity의 프로젝트 변환은 Editor 버전만 낮추어 되돌리지 않습니다. [Flutter 업데이트](https://docs.flutter.dev/install/upgrade), [rustup 업데이트](https://rust-lang.github.io/rustup/basics.html)
+Flutter 프로젝트는 `.fvmrc`의 SDK를 복원한 뒤 `fvm flutter doctor --android-licenses`·`fvm flutter doctor -v`·`fvm flutter devices`를 확인하고 `fvm flutter run -d 기기ID`로 실행합니다. SDK가 탐지되지 않으면 실제 경로로 `fvm flutter config --android-sdk 경로`를 지정합니다. VS Code SDK는 `.fvm/flutter_sdk`를 선택합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
 
-## Docker 프로젝트 사용과 업데이트
+**iOS 로컬 빌드·서명·실기기 검증은 Mac·Xcode에서 수행합니다.** 모든 OS의 네이티브 패키징을 Docker만으로 대체하지 않습니다.
 
-Docker Desktop을 실행하고 아래로 엔진과 CLI를 확인합니다.
+### Unity 프로젝트
 
-```text
-docker version
-docker compose version
-docker run --rm hello-world
-```
+Hub에서 로그인·라이선스를 활성화하고 `ProjectSettings/ProjectVersion.txt`의 정확한 Editor·빌드 모듈을 설치합니다. Unity Android SDK·NDK·OpenJDK는 Hub 모듈을 우선하며 Flutter용 경로로 덮어쓰지 않습니다. External Tools에서 VS Code를 선택하고 Microsoft Unity 확장을 연동합니다. 컴파일·Play Mode·대상 빌드를 확인합니다. [Unity Hub 문서](https://docs.unity.com/en-us/hub).
 
-프로젝트 환경 변수 파일을 준비하고 `docker compose up -d --build`로 시작합니다. `docker compose ps`, `docker compose logs --tail=100`으로 확인하고 `docker compose exec 서비스명 sh`로 접속합니다. 중지는 `docker compose down`입니다. 데이터를 유지해야 하면 `down -v`는 사용하지 않습니다.
+### 완료 판단
 
-Desktop 자체는 앱 업데이트 안내 또는 해당 OS 공식 설치 패키지로 갱신합니다. 엔진 재시작 전 작업을 저장하고 중요한 볼륨 데이터는 백업합니다. 앱 업데이트와 컨테이너 이미지 업데이트는 별개입니다.
+사용하는 프로젝트의 실행·테스트·빌드와 Android 실기기·Docker 서비스 접속을 확인하고 `git diff`로 의도치 않은 버전·잠금 파일 변경을 점검합니다. 환경 변수·외부 서비스·서명 자격증명은 별도 복원이 필요할 수 있습니다.
 
-이미지는 태그·digest와 호환성을 확인한 뒤 `docker compose pull`, `docker compose up -d --build`로 반영합니다. 로컬 Dockerfile의 베이스 이미지까지 갱신하려면 `docker compose build --pull` 후 재생성합니다. DB 이미지 업데이트는 데이터 마이그레이션·복원 방법을 먼저 확인합니다. 이전 이미지로 돌아가도 데이터 변경은 자동 취소되지 않습니다.
+## OS·앱·관리 도구 업데이트
 
-호스트의 node_modules·.venv는 컨테이너에서 재사용하지 않습니다. 기존 `.devcontainer`가 있으면 VS Code Dev Containers로 재사용합니다. [기존 Docker 구성 문서](../04.Servers/docker-server/guides/docker_container_setup.md)
+초기 설치와 분리해 진행합니다. 먼저 작업·데이터·개인 설정과 도구 버전을 보관하고 Windows Update를 적용합니다. 전체 `winget upgrade --all`보다 사용할 도구를 개별 확인합니다. 아래는 개인 PC PowerShell 기준이며 설치기가 요구할 때만 관리자 권한을 사용합니다.
 
-## 복원·업데이트 완료 확인
+| 도구 | 갱신·복귀 안내 |
+| :--- | :--- |
+| Git·VS Code | `winget upgrade --id Git.Git -e`, `winget upgrade --id Microsoft.VisualStudioCode -e`; 확장은 Extensions에서 갱신 |
+| nvm·Node | [nvm](../01.Tools/nvm.md#업데이트복귀제거): nvm-windows 설치 프로그램과 Node 버전 변경 구분 |
+| uv | 독립 설치는 `uv self update`; [uv](../01.Tools/uv.md) |
+| FVM | 공식 Windows 독립 패키지로 실행 파일 교체. SDK 캐시·.fvmrc 유지; [FVM](../01.Tools/fvm.md#업데이트와-되돌리기) |
+| Rust | 관리 도구는 `rustup self update`; 툴체인·crate 변경은 [rustup](../01.Tools/rustup.md#6-업데이트검증복귀) |
+| C++ Build Tools·SDK | Visual Studio Installer로 갱신하고 새 빌드 디렉터리에서 검증 |
+| Codex·Ponytail | npm 설치는 현재 Node에서 `npm install -g @openai/codex@latest`; [업데이트·복귀](../01.Tools/codex.md#codex-cli-업데이트복귀) |
+| Android Studio·SDK·Unity Hub | 앱과 SDK Manager·공식 배포 경로에서 갱신. 기존 프로젝트 SDK는 유지 |
+| Docker Desktop·WSL | 앱·공식 배포판, WSL은 `wsl --update`. 볼륨 백업 후 엔진·context·통합·프로젝트 검증; [Docker](../01.Tools/docker.md) |
 
-- [ ] 새 터미널과 VS Code 통합 터미널에서 도구가 인식된다.
-- [ ] Node·Python·Flutter·Rust·Unity 버전이 프로젝트 요구와 맞는다.
-- [ ] TS·React·서버·Electron 프로젝트의 실행·테스트·빌드가 성공한다.
-- [ ] Python 가상환경의 실행·테스트가 성공한다.
-- [ ] Flutter Android 실기기 실행이 성공하고 iOS 검증은 Mac에서 수행한다.
-- [ ] C/C++·Rust 빌드와 Unity Play Mode·대상 빌드가 성공한다.
-- [ ] Docker 프로젝트가 실행되고 터미널 접속이 된다.
-- [ ] `git diff`로 버전·잠금 파일의 의도치 않은 변경이 없는지 확인했다.
+관리 도구 갱신과 프로젝트 의존성·SDK 갱신을 구분합니다. Node·Python·Flutter·Rust는 새 버전으로 별도 검증한 뒤 버전 파일·CI·잠금 파일을 변경합니다. Unity Editor도 새 버전을 추가 설치해 복사본·별도 브랜치에서 검증하며 복귀 시 이전 Editor와 프로젝트 파일을 함께 복원합니다. Docker DB 데이터는 이미지 버전만 낮춘다고 복원되지 않습니다.
 
-로컬 환경 변수·외부 서비스·서명 자격증명은 별도 복원이 필요할 수 있습니다. 업데이트 후 OS·SDK·DB 변경은 버전만 낮추어 복구되지 않을 수 있습니다.
-
-## Rust・C/C++ 버전 관리 상세
-
-설치 후 프로젝트별 선택·고정·업데이트·복귀는 [rustup 가이드](../01.Tools/rustup.md)와 [C/C++ 툴체인 가이드](../01.Tools/cpp-toolchain.md)를 따릅니다.
+공식 설치 경로·지원 조건과 새 폰트·Codex 절차 확인일: 2026-10-30. Windows 실제 설치·PowerShell 실행·WSL·USB 연결·프로젝트 복원은 이 문서 작성 환경에서 검증하지 않았습니다.

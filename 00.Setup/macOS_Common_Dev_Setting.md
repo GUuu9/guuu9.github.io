@@ -1,4 +1,4 @@
-<!-- version: v2.8.0 -->
+<!-- version: v2.8.1 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -88,30 +88,11 @@ VS Code 명령 팔레트에서 `Shell Command: Install 'code' command in PATH`�
 
 ### VS Code 표시 언어 변경
 
-한국어 메뉴를 사용하려면 개인 Mac의 VS Code에서 다음을 진행합니다.
-
-1. `Cmd+Shift+X`로 확장을 열고 Microsoft의 [Korean Language Pack for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-ko)(식별자: `MS-CEINTL.vscode-language-pack-ko`)를 설치합니다.
-2. `Cmd+Shift+P`로 명령 팔레트를 열고 `Configure Display Language`(표시 언어 구성)를 실행합니다.
-3. `한국어` / `Korean (ko)`를 선택하고 안내에 따라 VS Code를 재시작합니다. 메뉴가 한국어로 표시되는지 확인합니다.
-
-영어로 돌아가거나 다른 언어로 바꾸려면 같은 명령에서 `English (en)` 또는 원하는 언어를 선택하고 재시작합니다. 원하는 언어가 없으면 해당 Language Pack을 먼저 설치합니다. 한국어가 적용되지 않으면 언어 팩 활성화 여부를 확인하고 표시 언어를 다시 선택합니다.
-
-표시 언어는 명령 팔레트에서 관리하며 프로젝트의 `settings.json`에 `locale`을 추가하지 않습니다. 확인일: 2026-10-30. [공식 표시 언어 안내](https://code.visualstudio.com/docs/configure/locales).
+[공통 표시 언어 안내](../01.Tools/editor-setup.md#vs-code-표시-언어-변경)에 따라 Korean Language Pack을 설치하고 한국어를 선택한 뒤 재시작합니다.
 
 ### VS Code 편집기·통합 터미널 폰트
 
-[D2Coding 설치](#d2coding-폰트-설치terminal-적용) 후 명령 팔레트에서 `Preferences: Open User Settings (JSON)`을 열어 기존 객체에 아래 항목을 병합합니다. 기존 설정 파일 전체를 교체하지 않으며, 같은 키가 있으면 값을 수정합니다. 개인 폰트 취향은 사용자 설정에 보관합니다.
-
-```json
-{
-  "editor.fontFamily": "D2Coding, monospace",
-  "editor.fontSize": 14,
-  "terminal.integrated.fontFamily": "D2Coding",
-  "terminal.integrated.fontSize": 14
-}
-```
-
-편집기와 통합 터미널의 폰트는 별도 항목입니다. 실제 패밀리 이름이 다르면 두 항목을 함께 바꿉니다. VS Code를 재시작하고 코드 파일과 새 통합 터미널에서 한글·영문·숫자를 확인합니다. 적용되지 않으면 현재 프로파일의 사용자 설정과 워크스페이스·언어별 설정의 덮어쓰기를 확인합니다. [공식 설정 안내](https://code.visualstudio.com/docs/configure/settings) · [통합 터미널 폰트](https://code.visualstudio.com/docs/terminal/appearance).
+D2Coding 설치 후 [편집기·통합 터미널 설정](../01.Tools/editor-setup.md#vs-code-편집기통합-터미널-폰트)을 각각 적용합니다.
 
 ## 2. Node.js: nvm + npm
 
@@ -182,18 +163,7 @@ Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gr
 
 ### Android Studio 편집기·콘솔·터미널 폰트
 
-D2Coding 설치 후 Android Studio를 재시작하고 **Android Studio → Settings**(구버전은 Preferences)를 엽니다. 버전에 따라 메뉴 이름·상속 옵션이 다를 수 있으므로 설정 검색에서 `Font`·`Console Font`·`Terminal`을 찾습니다.
-
-| 적용 영역 | 설정 위치·방법 |
-| :--- | :--- |
-| 코드 편집기 | **Editor → Font**에서 D2Coding 선택. 크기는 14를 시작값으로 조절 |
-| 색 구성표가 편집기 폰트를 별도 지정할 때 | **Editor → Color Scheme → Color Scheme Font**의 별도 지정 옵션을 해제해 Editor Font를 상속하거나 D2Coding 지정 |
-| Run·Debug 콘솔 | **Editor → Color Scheme → Console Font**에서 편집기 폰트를 상속하거나 별도 콘솔 폰트로 D2Coding 지정 |
-| 내장 Terminal | **Tools → Terminal → Font Settings**가 있으면 D2Coding 지정. 이 항목이 없는 구버전은 Console Font 설정을 확인하고 새 터미널에서 적용 여부 확인 |
-
-내장 Terminal과 Run·Debug 콘솔은 각각 확인합니다. Android Studio의 기반 플랫폼인 IntelliJ IDEA 문서를 참고한 경로이며, 설치된 Android Studio의 버전·터미널 엔진에 따라 표시 항목이 다를 수 있습니다. 편집기·콘솔·새 터미널에서 한글과 `0O 1lI {} [] =>` 표시를 확인합니다. 앱 메뉴·도구 창의 UI 폰트는 위 코드 폰트 설정과 별개입니다.
-
-[Android Studio 설정 안내](https://developer.android.com/studio/intro/studio-config) · [JetBrains 편집기·콘솔 폰트](https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html) · [JetBrains 터미널 폰트](https://www.jetbrains.com/help/idea/settings-tools-terminal.html#font-settings).
+D2Coding 설치 후 [Android Studio 공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)에 따라 편집기·콘솔·내장 터미널에 각각 적용합니다.
 
 ### Xcode 설치·초기화
 
@@ -269,34 +239,7 @@ codex
 
 ### Ponytail 스킬 추가
 
-[Ponytail](https://github.com/DietrichGebert/ponytail)은 기존 코드·표준 기능을 먼저 재사용하고 필요한 변경에 집중하도록 돕는 외부 스킬입니다. 제작자의 Codex 설치 안내에 따라 스킬과 라이프사이클 훅을 포함한 플러그인으로 설치합니다. Apple Silicon·Intel 모두 개인 Mac 터미널의 임의 디렉터리에서 일반 사용자 권한으로 진행합니다. 위 Codex 인증과 [nvm·Node.js 설치](#2-nodejs-nvm--npm)를 먼저 완료합니다.
-
-```bash
-codex --version
-node --version
-codex plugin --help
-codex plugin marketplace add DietrichGebert/ponytail
-codex plugin add ponytail@ponytail
-codex plugin list
-```
-
-`plugin` 하위 명령이 없으면 이 문서의 Codex CLI 업데이트 안내를 적용한 뒤 다시 확인합니다. 이미 설치되어 있으면 중복 설치하지 않고 `codex plugin list`에서 상태를 확인합니다. 기존 프로젝트의 `AGENTS.md`를 Ponytail 파일로 교체할 필요는 없습니다.
-
-1. `codex`를 실행하고 `/hooks`에서 Ponytail이 제공하는 두 라이프사이클 훅의 내용을 검토한 뒤 신뢰하도록 설정합니다. 이는 제작자 설치 안내에 포함된 활성화 단계입니다.
-2. 새 스레드를 시작합니다. 데스크톱 앱에서도 사용하려면 앱을 완전히 종료했다가 다시 엽니다.
-3. Codex CLI에서 `/skills` 또는 `$`를 입력해 Ponytail 스킬 목록을 확인합니다. 예를 들어 아래 문장을 **Codex 입력창**에 입력하면 현재 변경 내용을 검토합니다. 셸 명령으로 실행하지 않습니다.
-
-```text
-$ponytail:ponytail-review 현재 커밋하지 않은 변경 내용을 검토해줘.
-```
-
-제작자의 공통 문서에 나오는 `/ponytail-review`는 Codex CLI·IDE에서는 위와 같은 플러그인 네임스페이스가 붙은 스킬로 호출합니다. 실제 목록에 표시된 스킬을 선택합니다. [제작자 명령 안내](https://github.com/DietrichGebert/ponytail#commands) · [OpenAI 스킬 호출 안내](https://learn.chatgpt.com/docs/build-skills#how-chatgpt-and-codex-use-skills).
-
-훅에서 `node: command not found`가 나오면 **비대화형 셸의 PATH**에도 Node가 있는지 확인합니다. nvm은 대화형 터미널에서만 초기화될 수 있으므로, 터미널의 `node --version` 성공만으로 앱·훅에서 인식된다고 판단하지 않습니다. 실행 환경의 PATH를 조정한 뒤 Codex를 재시작하고 훅 오류가 사라지는지 확인합니다. [제작자 선행 조건·Codex 설치 안내](https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md#codex).
-
-제거가 필요하면 개인 설정을 별도 보관한 뒤 개인 Mac 터미널에서 `codex plugin remove ponytail@ponytail`을 실행하고 Codex를 재시작합니다. 이 명령은 플러그인과 로컬 캐시를 제거합니다. 기존 프로젝트 파일·Codex 인증정보를 삭제하는 절차로 사용하지 않습니다.
-
-확인일: 2026-10-30. 제작자 문서와 로컬 `codex-cli 0.166.0`의 설치·목록·제거 명령 도움말을 확인했습니다. 실제 플러그인 설치·훅 실행은 이번 문서 작성에서 수행하지 않았습니다.
+위 Codex 인증과 Node 설치를 마친 뒤 [Ponytail 설치·훅 활성화·스킬 호출 안내](../01.Tools/codex.md#ponytail-스킬-추가)를 진행합니다. Codex용 플러그인이며 다른 에이전트에는 별도 설치가 필요합니다.
 
 ## 8. 초기 설치 완료 확인
 

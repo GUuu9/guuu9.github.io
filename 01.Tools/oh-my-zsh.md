@@ -1,7 +1,7 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # Oh My Zsh 사용·업데이트
 
-Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 Apple Silicon·Intel Mac의 기본 설치 경로를 기준으로 합니다. 명령은 개인 Mac의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#oh-my-zsh-설치)를 따릅니다.
+Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#oh-my-zsh-설치) 또는 [Linux 설치](../00.Setup/Linux_Dev_Setting.md#bash와-선택적-oh-my-zsh)를 따릅니다.
 
 ## 일상 사용과 설정
 
@@ -11,10 +11,10 @@ Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워�
 
 ```zsh
 ZSH_THEME="robbyrussell"
-plugins=(git macos)
+plugins=(git)
 ```
 
-플러그인 이름은 공백으로 구분합니다. 위 `git`·`macos`는 기본 포함 플러그인이며 별도 설치가 필요하지 않습니다. [플러그인별 README](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins)에서 추가되는 별칭·명령을 확인합니다. 변경 후 새 터미널을 열고 필요한 명령과 기존 nvm·PATH 설정을 확인합니다.
+플러그인 이름은 공백으로 구분합니다. 위 `git`은 기본 포함 플러그인이며 별도 설치가 필요하지 않습니다. macOS에서는 필요하면 `plugins=(git macos)`로 macos 플러그인도 추가합니다. [플러그인별 README](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins)에서 추가되는 별칭·명령을 확인합니다. 변경 후 새 터미널을 열고 필요한 명령과 기존 nvm·PATH 설정을 확인합니다.
 
 테마 변경은 [공식 테마 목록](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)을 참고합니다. 일부 테마는 별도 폰트가 필요하므로 문자가 깨지면 터미널 앱의 폰트 설정을 확인하거나 기본 테마로 복귀합니다.
 
@@ -28,7 +28,7 @@ git -C "$ZSH" status --short
 omz update
 ```
 
-로컬 변경이 있으면 먼저 백업하고 차이를 확인합니다. 업데이트 후 새 터미널에서 `type omz`와 사용하는 플러그인·별칭을 확인합니다. nvm을 사용한다면 `command -v nvm`·`node --version`도 확인합니다. Oh My Zsh 갱신은 macOS의 zsh 자체나 Node.js를 갱신하지 않습니다.
+로컬 변경이 있으면 먼저 백업하고 차이를 확인합니다. 업데이트 후 새 터미널에서 `type omz`와 사용하는 플러그인·별칭을 확인합니다. nvm을 사용한다면 `command -v nvm`·`node --version`도 확인합니다. Oh My Zsh 갱신은 OS의 zsh 자체나 Node.js를 갱신하지 않습니다.
 
 문제가 생기면 현재 설정도 보관한 뒤 백업한 `~/.zshrc`와 설치 디렉터리를 함께 복원하고 새 터미널을 엽니다. 설치 전 환경으로 돌아가려면 `~/.zshrc`에서 Oh My Zsh 초기화 블록을 제거하고 개인 PATH·nvm 설정은 유지합니다. 설치 전 백업을 통째로 복원할 때는 설치 이후 추가한 도구 설정도 비교해 보존합니다.
 

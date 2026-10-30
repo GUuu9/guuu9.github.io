@@ -19,12 +19,14 @@
 - [Windows 11](./00.Setup/Windows_Dev_Setting.md)
 - [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
 
-기존 프로젝트의 요구 버전과 잠금 파일을 우선해 실행·빌드 가능한 환경을 복원합니다.
+각 OS 문서에서 프로젝트 없이 도구를 먼저 설치·확인한 뒤 Tools의 프로젝트 복원 절차로 이동합니다. 기존 프로젝트의 요구 버전과 잠금 파일을 우선합니다.
 
 ## 01.Tools — 개발 도구
 
 | 관리 대상 | 가이드 |
 | :--- | :--- |
+| 편집기 표시 언어·폰트 | [VS Code·Android Studio](./01.Tools/editor-setup.md) |
+| Codex 스킬·플러그인 | [Codex·Ponytail](./01.Tools/codex.md) |
 | zsh 테마·플러그인·셸 설정 | [Oh My Zsh](./01.Tools/oh-my-zsh.md) |
 | 기존 OS 패키지·앱 관리(선택) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
