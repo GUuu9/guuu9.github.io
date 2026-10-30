@@ -1,15 +1,9 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
 
-| 순서 | 문서 | 완료 기준 |
-| :--- | :--- | :--- |
-| 1 | 이 문서: 초기 설치 | 새 터미널에서 필요한 도구가 인식됨 |
-| 2 | [기존 프로젝트 복원](./macos-project-restore.md) | 프로젝트 버전·의존성 복원 후 실행·테스트·빌드 |
-| 별도 작업 | [도구·프로젝트 업데이트](./macos-update.md) | 변경 대상의 호환성 검증과 복귀 준비 |
-
-기존 프로젝트의 호환성 확인은 2단계에서 진행합니다. 처음부터 npm ci·uv sync·fvm use·cargo build·docker compose up을 실행하지 않습니다. React·TypeScript·Electron은 프로젝트 의존성이므로 초기 전역 설치 대상이 아닙니다.
+초기 설치는 아래 0~8절까지만 진행합니다. 프로젝트를 내려받은 뒤에는 문서 끝의 [프로젝트 작업 안내](#프로젝트-작업-안내)에서 필요한 도구 가이드로 이동합니다. React·TypeScript·Electron은 프로젝트 의존성이므로 초기 전역 설치 대상이 아닙니다.
 
 Intel Mac 신규 복원 시 최신 Homebrew 설치 스크립트는 사용할 수 없습니다. 아래 brew 명령은 기존 Homebrew 또는 [과거 설치기 절차](./macOS_Intel_Dev_Setting.md#과거-공식-설치-스크립트로-신규-설치-시도)로 구성한 Homebrew가 실행 가능한 경우에만 적용합니다. 그 외에는 [Intel 신규 설치 안내](./macOS_Intel_Dev_Setting.md#신규-설치와-기존-환경-보존)에 따라 공식 Intel 배포판을 사용합니다. OS·도구의 기존 지원 정보는 2026-10-28~30 확인 기록을 유지하며, 이번 문서 분리로 전체 지원 조건을 재검증한 것은 아닙니다.
 
@@ -51,7 +45,6 @@ VS Code 명령 팔레트에서 `Shell Command: Install 'code' command in PATH`�
 nvm은 [공식 설치 스크립트](https://github.com/nvm-sh/nvm#installing-and-updating)로 설치합니다. Homebrew의 Node.js를 별도로 설치하지 않습니다.
 
 ```bash
-touch ~/.zshrc
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE="$HOME/.zshrc" bash
 source ~/.zshrc
 command -v nvm
@@ -62,7 +55,7 @@ npm --version
 
 설치 스크립트가 `~/.zshrc`에 nvm 초기화 설정을 추가합니다. 인식되지 않으면 새 터미널을 열어 확인합니다.
 
-위 LTS는 프로젝트가 없는 상태의 기본 Node입니다. 기존 프로젝트의 Node 버전 선택과 npm 의존성 복원은 [프로젝트 복원 1절](./macos-project-restore.md#1-typescriptreactelectron서버)에서 진행합니다.
+위 LTS는 프로젝트가 없는 상태의 기본 Node입니다. 기존 프로젝트의 Node 버전 선택과 npm 의존성 복원은 [nvm 가이드](../01.Tools/nvm.md#macoslinux-기본-흐름)에서 진행합니다.
 
 ## 3. Python 관리 도구: uv
 
@@ -72,7 +65,7 @@ npm --version
 uv --version
 ```
 
-프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [프로젝트 복원 2절](./macos-project-restore.md#2-python)에서 진행합니다. 상세 사용법은 [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md)를 참고합니다.
+프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [uv 가이드](../01.Tools/uv.md#기존-uv-프로젝트-복원)에서 진행합니다. 상세 사용법은 [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md)를 참고합니다.
 
 ## 4. Flutter 도구: FVM·Android Studio·Xcode
 
@@ -92,7 +85,7 @@ curl -fsSL https://fvm.app/install.sh | bash
 fvm install 3.35.7
 ```
 
-다른 환경은 이 버전을 일괄 적용하지 않고 프로젝트 복원 시 요구 SDK를 선택합니다. `fvm use`·pub get·doctor·실기기 빌드는 [프로젝트 복원 3절](./macos-project-restore.md#3-flutterandroidios-실기기)에서 진행합니다.
+다른 환경은 이 버전을 일괄 적용하지 않고 프로젝트 복원 시 요구 SDK를 선택합니다. `fvm use`·pub get·doctor·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 진행합니다.
 
 ### Android Studio 설치
 
@@ -115,7 +108,7 @@ sudo xcodebuild -runFirstLaunch
 sudo xcodebuild -license
 ```
 
-iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [프로젝트 복원 3절](./macos-project-restore.md#3-flutterandroidios-실기기)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
+iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
 
 ## 5. C/C++·Rust·Unity 도구
 
@@ -139,11 +132,11 @@ source "$HOME/.cargo/env"
 rustup show
 ```
 
-프로젝트 툴체인 선택·빌드는 [프로젝트 복원 5절](./macos-project-restore.md#5-rust)을 따릅니다.
+프로젝트 툴체인 선택·빌드는 [rustup 가이드](../01.Tools/rustup.md)을 따릅니다.
 
 ### Unity Hub
 
-[Unity Hub](https://unity.com/download)를 설치하고 실행 여부를 확인합니다. 정확한 Unity Editor 버전·플랫폼 모듈·VS Code 연동은 프로젝트 요구 사항을 확인한 뒤 [프로젝트 복원 6절](./macos-project-restore.md#6-unity-c)에서 진행합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
+[Unity Hub](https://unity.com/download)를 설치하고 실행 여부를 확인합니다. 정확한 Unity Editor 버전·플랫폼 모듈·VS Code 연동은 프로젝트 요구 사항을 확인한 뒤 [아래 Unity 안내](#unity-프로젝트)에서 진행합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
 
 ## 6. Docker Desktop 설치
 
@@ -155,7 +148,7 @@ docker compose version
 docker run --rm hello-world
 ```
 
-hello-world는 Docker 엔진 확인용이며 이미지 다운로드가 필요합니다. 실제 프로젝트의 Compose·볼륨·터미널 접속·Dev Containers 설정은 [프로젝트 복원 7절](./macos-project-restore.md#7-docker-프로젝트)에서 진행합니다.
+hello-world는 Docker 엔진 확인용이며 이미지 다운로드가 필요합니다. 실제 프로젝트의 Compose·볼륨·터미널 접속·Dev Containers 설정은 [Docker 가이드](../01.Tools/docker.md)에서 진행합니다.
 
 ## 7. Codex CLI
 
@@ -185,4 +178,37 @@ codex
 - [ ] Docker를 사용한다면 엔진·Compose 버전과 hello-world 실행을 확인했다.
 - [ ] 셸 설정이 중복되지 않고 사용 중인 Mac의 CPU용 도구를 설치했다.
 
-여기까지 끝나면 [기존 프로젝트 복원](./macos-project-restore.md)으로 이동해 사용하는 유형의 절만 진행합니다. 이후 도구·SDK·의존성을 바꿀 때는 [업데이트 가이드](./macos-update.md)를 사용합니다. 버전 관리 상세는 [nvm](../01.Tools/nvm.md)·[FVM](../01.Tools/fvm.md)·[uv](../01.Tools/uv.md)·[rustup](../01.Tools/rustup.md)·[C/C++ 툴체인](../01.Tools/cpp-toolchain.md)을 참고합니다.
+## 프로젝트 작업 안내
+
+여기부터는 초기 설치가 끝난 뒤 필요한 작업만 선택합니다. 프로젝트 README·CI·버전 파일·잠금 파일을 우선하며, 복원 중 의존성을 일괄 갱신하거나 잠금 파일을 삭제하지 않습니다. 도구 사용·버전 변경·복귀 방법은 아래 문서 한 곳에서 관리합니다.
+
+| 작업 | 상세 절차 |
+| :--- | :--- |
+| TypeScript·React·Electron·서버 | [nvm·npm](../01.Tools/nvm.md) |
+| Python | [uv](../01.Tools/uv.md) · [venv](../01.Tools/venv.md) |
+| Flutter·Android·iOS | [FVM·실기기 연결](../01.Tools/fvm.md) |
+| C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
+| Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
+| 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
+| Homebrew 패키지 | [brew 설치·업데이트](../01.Tools/brew.md) |
+
+### Unity 프로젝트
+
+Hub에서 로그인·라이선스를 활성화하고 `ProjectSettings/ProjectVersion.txt`의 정확한 Editor와 필요한 빌드 모듈을 설치합니다. Unity Android SDK·NDK·OpenJDK는 Hub 모듈을 우선하며 Flutter용 경로로 일괄 덮어쓰지 않습니다. iOS는 Xcode도 필요합니다. Unity External Tools에서 VS Code를 선택하고 Microsoft Unity 확장의 요구 조건에 맞춰 연동합니다.
+
+Editor 갱신은 새 버전을 추가 설치한 뒤 프로젝트 복사본 또는 별도 브랜치로 열어 컴파일·Play Mode·대상 빌드를 확인합니다. 성공 후 ProjectVersion.txt·Packages/manifest.json·Packages/packages-lock.json 변경을 검토합니다. 복귀할 때는 이전 Editor와 업그레이드 전 프로젝트 파일을 함께 복원합니다. [Unity Hub 문서](https://docs.unity.com/en-us/hub).
+
+### 완료 판단
+
+초기 도구 인식과 프로젝트 복원 성공은 별개입니다. 사용하는 프로젝트의 실행·테스트·빌드, Flutter 실기기·서명, Electron 패키징, Docker 서비스 접속을 확인하고 버전·잠금 파일이 의도치 않게 바뀌지 않았는지 검토합니다. 로컬 환경 변수·외부 서비스·서명 자격증명은 별도 복원이 필요할 수 있습니다.
+
+## macOS와 설치된 앱 업데이트
+
+초기 설치 순서에 포함하지 않습니다. 작업과 데이터를 백업하고 해당 Mac·프로젝트와 호환되는 OS·Xcode 버전을 확인한 뒤 진행합니다.
+
+- macOS·Command Line Tools: 시스템 설정 → 일반 → 소프트웨어 업데이트에서 제공 항목을 확인합니다. `xcode-select --install`은 매번 업데이트하는 명령이 아닙니다. [Apple 안내](https://support.apple.com/en-us/108382).
+- Xcode: App Store 또는 기존 Apple Developer 배포 경로에서 갱신하고 이 문서의 [Xcode 초기화](#xcode-설치초기화)와 FVM 가이드의 실기기·서명 확인을 수행합니다.
+- VS Code·확장, Android Studio, Unity Hub: 앱의 업데이트 기능을 사용합니다. Homebrew로 관리하는 앱·CMake·pkgconf는 [brew 가이드](../01.Tools/brew.md)를 따릅니다. 컴파일러가 바뀌면 별도 빌드 경로에서 프로젝트를 검증합니다.
+- Codex CLI: 위에서 사용한 독립 설치 스크립트를 다시 실행하고 새 터미널에서 codex --version을 확인합니다. 기존 npm 설치를 유지한다면 해당 nvm Node 환경에서 npm install -g @openai/codex@latest를 사용합니다. 두 방식을 중복 적용하지 않습니다.
+
+Intel Homebrew의 지원 제약·기존 환경 보존은 [Intel 가이드](./macOS_Intel_Dev_Setting.md#intel-지원-범위와-버전-선택)를 우선합니다. 업데이트 전 버전을 기록하고 프로젝트 실행·테스트·빌드를 확인한 뒤 이전 환경을 정리합니다. OS·SDK·데이터 형식은 실행 파일 버전만 낮춘다고 복원되지 않을 수 있습니다.

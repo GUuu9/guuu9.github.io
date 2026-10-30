@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # Docker·Compose 사용 가이드
 
 확인일: 2026-10-28. Docker Desktop을 실행하고 주로 터미널에서 컨테이너를 관리하는 로컬 개발 기준입니다. 설치·OS별 지원 조건은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
@@ -83,6 +83,8 @@ exec는 실행 중인 서비스에 접속하고 run은 새 일회성 컨테이�
 Compose 프로젝트명을 `docker compose -p 프로젝트명 ...`으로 지정하면 프로젝트별 자원을 구분할 수 있습니다. 호스트 포트 충돌은 별도로 해결해야 합니다. 프로젝트명을 바꾸면 기본 named volume 이름도 달라져 데이터가 없는 것처럼 보일 수 있습니다.
 
 공식 참고: [Compose 빠른 시작](https://docs.docker.com/compose/gettingstarted/), [Compose 명령](https://docs.docker.com/reference/cli/docker/compose/).
+
+VS Code의 Dev Containers 설정이 있는 프로젝트는 기존 구성을 재사용합니다. 호스트의 node_modules·.venv를 컨테이너에서 재사용하지 않습니다.
 
 ## 5. 네트워크·환경 변수·개발 파일
 

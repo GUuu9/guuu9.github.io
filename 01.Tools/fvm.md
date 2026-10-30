@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # FVM 사용 가이드
 
 확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -85,6 +85,24 @@ fvm dart --version
 ```
 
 Android 기기 빌드 확인은 `fvm flutter build apk`, iOS는 Mac에서 프로젝트 서명 설정 후 `fvm flutter build ios`를 사용합니다. 프로젝트 flavor·환경 인자가 있으면 README대로 추가합니다.
+
+## macOS 실기기 프로젝트 연결
+
+FVM·Android Studio·Xcode 설치와 Xcode 초기화는 [macOS 초기 설치](../00.Setup/macOS_Common_Dev_Setting.md#4-flutter-도구-fvmandroid-studioxcode)를 먼저 완료합니다. 아래 작업은 프로젝트를 내려받은 뒤 해당 루트에서 진행합니다. SDK 선택·pub get은 위 [기존 프로젝트 복원](#기존-프로젝트-복원)을 따릅니다.
+
+### Android
+
+SDK Manager에서 프로젝트 compileSdk와 빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택합니다. Android Studio 포함 JDK를 우선하되 Gradle·Android Gradle Plugin 호환성을 확인합니다. AVD·시스템 이미지는 필요할 때만 설치합니다.
+
+USB 디버깅과 연결 허용을 확인한 뒤 `fvm flutter doctor --android-licenses`로 라이선스를 확인합니다. SDK가 탐지되지 않을 때만 `fvm flutter config --android-sdk "$HOME/Library/Android/sdk"`로 실제 경로를 지정합니다. [Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+
+### iOS
+
+CocoaPods가 필요한 프로젝트에 Gemfile이 있으면 해당 Ruby·Bundler 버전을 사용합니다. 없다면 실행 가능한 Homebrew 환경에서 brew install cocoapods로 설치할 수 있으며 시스템 Ruby에 sudo gem install하는 방식을 기본으로 사용하지 않습니다. Homebrew가 없으면 프로젝트의 Ruby·CocoaPods 구성 방법부터 확인합니다.
+
+iPhone의 컴퓨터 신뢰·Developer Mode를 확인하고 Xcode에서 개발 계정·Signing Team을 선택합니다. 계정·인증서는 문서에 기록하지 않습니다. 위 일상 작업의 doctor·devices·run 명령으로 실기기 연결·플러그인 빌드·서명을 확인합니다. [iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
+
+Android SDK 갱신은 SDK Manager에서 필요한 버전을 추가하며 기존 SDK·NDK를 먼저 삭제하지 않습니다. JDK·Gradle·Android Gradle Plugin은 호환되는 조합으로 바꿉니다. CocoaPods 갱신은 Homebrew 설치면 brew upgrade cocoapods, Gemfile 관리면 bundle update cocoapods로 목표 변경을 검토합니다. Podfile.lock 삭제로 전체 갱신을 강제하지 않습니다.
 
 ## 업데이트와 되돌리기
 

@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.0.1 -->
 # macOS Apple Silicon 개발 환경 복원
 
 확인일: 2026-10-28. 초기화 후 기존 프로젝트를 내려받아 개발·빌드할 수 있는 환경을 구성합니다. GitHub·SSH 인증 설정은 다루지 않습니다.
@@ -47,6 +47,4 @@ clang --version
 
 Docker Desktop·Android Studio·Unity Editor·Flutter SDK를 직접 다운로드할 때는 **Apple Silicon용**을 선택합니다. Apple Silicon과 Intel 사이에서 `node_modules`, `.venv`, 네이티브 빌드 결과를 복사하지 않고 대상 Mac에서 다시 설치합니다.
 
-## 설치 다음 단계
-
-칩별 기본 설정 뒤에는 [공통 도구 초기 설치](./macOS_Common_Dev_Setting.md)까지만 진행합니다. 프로젝트를 내려받은 뒤 [프로젝트 복원](./macos-project-restore.md), 설치된 환경을 변경할 때 [업데이트](./macos-update.md)를 선택합니다. OS·Command Line Tools·Homebrew 업데이트 명령도 업데이트 문서로 분리했습니다.
+설치 후 프로젝트 작업은 [공통 문서의 도구별 안내](./macOS_Common_Dev_Setting.md#프로젝트-작업-안내), OS·앱 갱신은 [업데이트 안내](./macOS_Common_Dev_Setting.md#macos와-설치된-앱-업데이트)를 참고합니다.

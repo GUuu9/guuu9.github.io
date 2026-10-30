@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
@@ -67,6 +67,8 @@ Electron 네이티브 모듈은 Node 버전뿐 아니라 Electron ABI·CPU·OS�
 ## 업데이트·복귀·제거
 
 nvm 자체는 공식 설치 안내의 최신 태그 스크립트를 다시 실행해 갱신합니다. nvm-windows는 공식 새 설치 프로그램을 사용합니다. Node는 새 버전을 추가 설치해 테스트한 뒤 `.nvmrc`·CI를 변경합니다. 새 버전이 실패하면 `nvm use 이전버전`과 기존 잠금 파일로 의존성을 다시 복원합니다.
+
+npm은 선택한 Node에 포함된 버전을 우선합니다. 별도 변경이 필요하면 Node 호환성을 확인한 뒤 `npm install -g npm@버전`으로 갱신하며 nvm에서 sudo npm을 사용하지 않습니다. 프로젝트 패키지는 npm outdated로 확인하고 npm update 또는 npm install 패키지@목표버전으로 변경합니다. manifest·lockfile을 함께 검토하고 실행·테스트·빌드로 검증합니다. 메이저 변경은 해당 도구의 마이그레이션 안내를 따릅니다.
 
 사용 중이 아닌 버전은 `nvm uninstall 버전`으로 제거합니다. Unix nvm은 다른 버전으로 전환한 뒤 제거합니다. 전역 CLI와 기존 프로젝트가 그 버전을 사용하지 않는지 먼저 확인합니다.
 

@@ -14,8 +14,8 @@
 
 ## 00.Setup — PC 개발 환경
 
-- macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 초기 설치](./00.Setup/macOS_Common_Dev_Setting.md) → [프로젝트 복원](./00.Setup/macos-project-restore.md)
-- macOS의 기존 환경 변경: [도구·프로젝트 업데이트](./00.Setup/macos-update.md)
+- macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 초기 설치](./00.Setup/macOS_Common_Dev_Setting.md)
+- macOS 설치 이후: [프로젝트 작업·업데이트 안내](./00.Setup/macOS_Common_Dev_Setting.md#프로젝트-작업-안내)에서 해당 Tools 문서로 이동
 - [Windows 11](./00.Setup/Windows_Dev_Setting.md)
 - [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
 
