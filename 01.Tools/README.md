@@ -4,6 +4,7 @@ OS 설치·초기 복원은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고�
 
 | 도구 | 관리 대상 | 읽을 때 |
 | :--- | :--- | :--- |
+| [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS 셸 설정·업데이트·복귀 |
 | [Homebrew](./brew.md) | OS에 설치하는 개발 도구·앱 | 패키지 설치·업데이트·진단 |
 | [nvm](./nvm.md) | Node.js 런타임 | TS·React·Electron·서버의 Node 버전 전환 |
 | [FVM](./fvm.md) | Flutter SDK | 프로젝트마다 Flutter 버전 고정 |

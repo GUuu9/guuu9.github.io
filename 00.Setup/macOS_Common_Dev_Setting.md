@@ -1,4 +1,4 @@
-<!-- version: v2.3.0 -->
+<!-- version: v2.8.0 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -15,7 +15,56 @@ macOS에 포함된 zsh를 사용합니다. `~/.zshrc`는 설치 프로그램이 
 touch ~/.zshrc
 ```
 
-아래 nvm 초기화는 `~/.zshrc`에 설정합니다. 각 설치기의 PATH 안내를 우선하며 `~/.zprofile` 또는 `~/.zshrc` 중 한 곳에만 둡니다. 새 터미널을 열어 인식 여부를 확인하고 개인 경로·기존 설정을 덮어쓰지 않습니다. Oh My Zsh는 필수 설치가 아닙니다.
+아래 nvm 초기화는 `~/.zshrc`에 설정합니다. 각 설치기의 PATH 안내를 우선하며 `~/.zprofile` 또는 `~/.zshrc` 중 한 곳에만 둡니다. 새 터미널을 열어 인식 여부를 확인하고 개인 경로·기존 설정을 덮어쓰지 않습니다.
+
+### Oh My Zsh 설치
+
+Apple Silicon·Intel 모두 위 기본 설정에서 Command Line Tools 설치를 마친 뒤, 개인 Mac의 **zsh 터미널**에서 일반 사용자 권한으로 진행합니다. Oh My Zsh는 zsh의 테마·플러그인을 관리하는 도구이며 Homebrew는 필요하지 않습니다. 아래는 기본 경로 `~/.zshrc`·`~/.oh-my-zsh`를 사용하는 경우입니다. `ZDOTDIR`나 별도 셸 관리 도구를 사용 중이면 기존 설정 경로와 로딩 구성을 먼저 확인합니다.
+
+```zsh
+zsh --version
+git --version
+curl --version
+cp -p ~/.zshrc ~/.zshrc.backup-$(date +%Y%m%d-%H%M%S)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --skip-chsh
+```
+
+공식 설치기의 `--keep-zshrc`로 기존 설정을 보존하고 `--skip-chsh`로 로그인 셸 변경을 생략합니다. 이미 `~/.oh-my-zsh`가 있다면 재설치하지 말고 [사용·업데이트 가이드](../01.Tools/oh-my-zsh.md)를 확인합니다.
+
+기존 `~/.zshrc`를 편집해 아래 블록을 한 번만 추가합니다. 기존 Oh My Zsh 설정이 있다면 중복 추가하지 않습니다. `--keep-zshrc`는 초기화 설정을 자동으로 넣지 않으므로 이 단계가 필요합니다. nvm 초기화·개인 PATH·별칭은 보존하고, 개인 별칭으로 기본 별칭을 덮어쓰려면 아래 블록 뒤에 둡니다.
+
+```zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git)
+source "$ZSH/oh-my-zsh.sh"
+```
+
+새 터미널을 열어 아래 결과에 `omz is a shell function`이 표시되는지 확인합니다. 로그인 셸이 zsh가 아니라면 먼저 `zsh`를 실행한 뒤 확인합니다.
+
+```zsh
+type omz
+```
+
+설치 방법·옵션 확인일: 2026-10-30. [공식 설치 안내](https://github.com/ohmyzsh/ohmyzsh#basic-installation) · [설치기 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh). 테마·플러그인 변경과 백업·복귀는 [Oh My Zsh 가이드](../01.Tools/oh-my-zsh.md)를 참고합니다.
+
+### D2Coding 폰트 설치·Terminal 적용
+
+개인 Mac의 Apple Silicon·Intel 모두 같은 폰트 파일을 사용합니다. 사용하는 `D2Coding-Ver1` 배포본이 이미 설치되어 있다면 재설치하지 않고 서체 관리자(Font Book)에서 활성화 여부와 **서체 패밀리 이름**을 확인합니다. 배포 압축 파일명·버전과 앱에서 지정하는 이름은 다릅니다. 아래 예시는 패밀리 이름이 `D2Coding`인 경우이며, 실제 표시 이름이 다르면 그 이름으로 바꿉니다.
+
+1. 새 Mac에서는 [NAVER 공식 릴리스](https://github.com/naver/d2-coding-font/releases)에서 기존에 사용하던 Ver 1.x 배포본을 선택해 압축을 풉니다. `D2Coding-Ver1`만으로 세부 버전을 확정하지 않으며, 기존 원본 파일이나 서체 관리자에 표시되는 버전을 확인합니다.
+2. 사용할 일반 D2Coding의 TTF 또는 TTC 파일을 열어 서체 관리자에서 설치합니다. 같은 서체의 TTF·TTC를 모두 설치하거나 서로 다른 버전을 중복 설치하지 않습니다. Ligature 변형은 별도 이름으로 표시될 수 있으므로 기존 사용 변형을 유지합니다.
+3. 서체 관리자에서 D2Coding을 검색해 미리보기·버전을 확인하고 필요하면 서체 유효성 검사를 실행합니다. 설치 후 사용 중인 앱을 완전히 종료했다가 다시 엽니다.
+4. macOS 기본 Terminal에서 **Terminal → 설정(Settings, 구버전은 환경설정) → 프로파일(Profiles) → 사용할 프로파일 → 텍스트(Text) → 서체 변경(Change)**을 열고 D2Coding을 선택합니다. 크기는 14pt를 시작값으로 조절합니다.
+5. 새 창에서도 사용하려면 해당 프로파일을 **기본(Default)**으로 지정합니다. 다른 프로파일을 쓰는 기존 창·탭에는 별도로 적용하거나 새 기본 프로파일 창을 엽니다.
+
+[Apple 서체 설치·검증](https://support.apple.com/en-gb/guide/font-book/fntbk1000/mac) · [Terminal 텍스트 설정](https://support.apple.com/en-lb/guide/terminal/trmltxt/mac).
+
+폰트 선택은 각 앱에서 따로 설정합니다. Oh My Zsh의 `ZSH_THEME`는 프롬프트 모양을 선택하는 값이므로 폰트 이름을 넣지 않습니다. 특수 아이콘이 깨지면 해당 테마의 Powerline·Nerd Font 요구 조건을 확인하거나 기본 테마를 사용합니다. 일반 D2Coding이 모든 특수 아이콘을 포함한다고 가정하지 않습니다.
+
+폰트를 교체·업데이트하기 전 사용하던 원본 폰트 파일·버전과 앱별 서체 이름·크기를 보관합니다. 같은 패밀리의 구버전을 정리해야 하면 서체 관리자에서 대상만 확인해 제거한 뒤 새 파일을 설치합니다. 문제가 생기면 새 버전을 제거하고 보관한 파일과 앱 설정으로 복귀합니다. 목록에 보이지 않으면 서체 활성화·중복·정확한 패밀리 이름을 확인하고 앱을 재시작합니다.
+
+폰트 배포처·앱별 설정 방법 확인일: 2026-10-30. 실제 사용 중인 Ver1 파일의 세부 버전과 각 앱의 렌더링은 사용자 Mac에서 확인합니다.
 
 ## 1. VS Code
 
@@ -36,6 +85,33 @@ VS Code 명령 팔레트에서 `Shell Command: Install 'code' command in PATH`�
 | 컨테이너 개발 | Dev Containers (필요할 때) |
 
 포맷터와 린터는 프로젝트 설정을 우선합니다. [VS Code macOS 설치 안내](https://code.visualstudio.com/docs/setup/mac)
+
+### VS Code 표시 언어 변경
+
+한국어 메뉴를 사용하려면 개인 Mac의 VS Code에서 다음을 진행합니다.
+
+1. `Cmd+Shift+X`로 확장을 열고 Microsoft의 [Korean Language Pack for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-ko)(식별자: `MS-CEINTL.vscode-language-pack-ko`)를 설치합니다.
+2. `Cmd+Shift+P`로 명령 팔레트를 열고 `Configure Display Language`(표시 언어 구성)를 실행합니다.
+3. `한국어` / `Korean (ko)`를 선택하고 안내에 따라 VS Code를 재시작합니다. 메뉴가 한국어로 표시되는지 확인합니다.
+
+영어로 돌아가거나 다른 언어로 바꾸려면 같은 명령에서 `English (en)` 또는 원하는 언어를 선택하고 재시작합니다. 원하는 언어가 없으면 해당 Language Pack을 먼저 설치합니다. 한국어가 적용되지 않으면 언어 팩 활성화 여부를 확인하고 표시 언어를 다시 선택합니다.
+
+표시 언어는 명령 팔레트에서 관리하며 프로젝트의 `settings.json`에 `locale`을 추가하지 않습니다. 확인일: 2026-10-30. [공식 표시 언어 안내](https://code.visualstudio.com/docs/configure/locales).
+
+### VS Code 편집기·통합 터미널 폰트
+
+[D2Coding 설치](#d2coding-폰트-설치terminal-적용) 후 명령 팔레트에서 `Preferences: Open User Settings (JSON)`을 열어 기존 객체에 아래 항목을 병합합니다. 기존 설정 파일 전체를 교체하지 않으며, 같은 키가 있으면 값을 수정합니다. 개인 폰트 취향은 사용자 설정에 보관합니다.
+
+```json
+{
+  "editor.fontFamily": "D2Coding, monospace",
+  "editor.fontSize": 14,
+  "terminal.integrated.fontFamily": "D2Coding",
+  "terminal.integrated.fontSize": 14
+}
+```
+
+편집기와 통합 터미널의 폰트는 별도 항목입니다. 실제 패밀리 이름이 다르면 두 항목을 함께 바꿉니다. VS Code를 재시작하고 코드 파일과 새 통합 터미널에서 한글·영문·숫자를 확인합니다. 적용되지 않으면 현재 프로파일의 사용자 설정과 워크스페이스·언어별 설정의 덮어쓰기를 확인합니다. [공식 설정 안내](https://code.visualstudio.com/docs/configure/settings) · [통합 터미널 폰트](https://code.visualstudio.com/docs/terminal/appearance).
 
 ## 2. Node.js: nvm + npm
 
@@ -104,6 +180,21 @@ fvm install 3.35.7
 
 Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gradle Plugin의 요구 버전은 복원 때 확인합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
 
+### Android Studio 편집기·콘솔·터미널 폰트
+
+D2Coding 설치 후 Android Studio를 재시작하고 **Android Studio → Settings**(구버전은 Preferences)를 엽니다. 버전에 따라 메뉴 이름·상속 옵션이 다를 수 있으므로 설정 검색에서 `Font`·`Console Font`·`Terminal`을 찾습니다.
+
+| 적용 영역 | 설정 위치·방법 |
+| :--- | :--- |
+| 코드 편집기 | **Editor → Font**에서 D2Coding 선택. 크기는 14를 시작값으로 조절 |
+| 색 구성표가 편집기 폰트를 별도 지정할 때 | **Editor → Color Scheme → Color Scheme Font**의 별도 지정 옵션을 해제해 Editor Font를 상속하거나 D2Coding 지정 |
+| Run·Debug 콘솔 | **Editor → Color Scheme → Console Font**에서 편집기 폰트를 상속하거나 별도 콘솔 폰트로 D2Coding 지정 |
+| 내장 Terminal | **Tools → Terminal → Font Settings**가 있으면 D2Coding 지정. 이 항목이 없는 구버전은 Console Font 설정을 확인하고 새 터미널에서 적용 여부 확인 |
+
+내장 Terminal과 Run·Debug 콘솔은 각각 확인합니다. Android Studio의 기반 플랫폼인 IntelliJ IDEA 문서를 참고한 경로이며, 설치된 Android Studio의 버전·터미널 엔진에 따라 표시 항목이 다를 수 있습니다. 편집기·콘솔·새 터미널에서 한글과 `0O 1lI {} [] =>` 표시를 확인합니다. 앱 메뉴·도구 창의 UI 폰트는 위 코드 폰트 설정과 별개입니다.
+
+[Android Studio 설정 안내](https://developer.android.com/studio/intro/studio-config) · [JetBrains 편집기·콘솔 폰트](https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html) · [JetBrains 터미널 폰트](https://www.jetbrains.com/help/idea/settings-tools-terminal.html#font-settings).
+
 ### Xcode 설치·초기화
 
 1. 해당 macOS가 지원하는 Xcode를 설치합니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
@@ -147,7 +238,9 @@ rustup show
 
 ## 6. Docker Desktop 설치
 
-[공식 Mac 설치 페이지](https://docs.docker.com/desktop/setup/install/mac-install/)에서 칩에 맞는 Docker Desktop을 설치합니다. 앱을 실행해 초기 설정을 끝내고 엔진이 준비될 때까지 기다립니다. CLI만 설치해서는 로컬 컨테이너를 실행할 수 없습니다.
+먼저 macOS 버전·CPU와 [공식 지원 조건](https://docs.docker.com/desktop/setup/install/mac-install/#system-requirements)을 확인합니다. **Intel·Ventura 13.7.8은 최신 버전을 설치할 수 없으므로 [4.48.0 설치 안내](./macOS_Intel_Dev_Setting.md#4-ventura-1378의-docker-desktop-설치)를 따릅니다.**
+
+지원되는 환경은 [공식 Mac 설치 페이지](https://docs.docker.com/desktop/setup/install/mac-install/)에서 칩에 맞는 Docker Desktop을 설치합니다. 앱을 실행해 초기 설정을 끝내고 엔진이 준비될 때까지 기다립니다. CLI만 설치해서는 로컬 컨테이너를 실행할 수 없습니다.
 
 ```bash
 docker version
@@ -174,15 +267,48 @@ codex
 
 처음 실행할 때 안내에 따라 인증합니다. API 키나 토큰을 셸 설정·저장소에 직접 기록하지 않습니다. 기존 npm 설치를 유지하려면 `npm install -g @openai/codex`도 가능하지만 nvm의 Node 버전에 따라 전역 패키지 설치 위치가 달라집니다. 두 설치 방식을 중복 적용하지 않습니다.
 
+### Ponytail 스킬 추가
+
+[Ponytail](https://github.com/DietrichGebert/ponytail)은 기존 코드·표준 기능을 먼저 재사용하고 필요한 변경에 집중하도록 돕는 외부 스킬입니다. 제작자의 Codex 설치 안내에 따라 스킬과 라이프사이클 훅을 포함한 플러그인으로 설치합니다. Apple Silicon·Intel 모두 개인 Mac 터미널의 임의 디렉터리에서 일반 사용자 권한으로 진행합니다. 위 Codex 인증과 [nvm·Node.js 설치](#2-nodejs-nvm--npm)를 먼저 완료합니다.
+
+```bash
+codex --version
+node --version
+codex plugin --help
+codex plugin marketplace add DietrichGebert/ponytail
+codex plugin add ponytail@ponytail
+codex plugin list
+```
+
+`plugin` 하위 명령이 없으면 이 문서의 Codex CLI 업데이트 안내를 적용한 뒤 다시 확인합니다. 이미 설치되어 있으면 중복 설치하지 않고 `codex plugin list`에서 상태를 확인합니다. 기존 프로젝트의 `AGENTS.md`를 Ponytail 파일로 교체할 필요는 없습니다.
+
+1. `codex`를 실행하고 `/hooks`에서 Ponytail이 제공하는 두 라이프사이클 훅의 내용을 검토한 뒤 신뢰하도록 설정합니다. 이는 제작자 설치 안내에 포함된 활성화 단계입니다.
+2. 새 스레드를 시작합니다. 데스크톱 앱에서도 사용하려면 앱을 완전히 종료했다가 다시 엽니다.
+3. Codex CLI에서 `/skills` 또는 `$`를 입력해 Ponytail 스킬 목록을 확인합니다. 예를 들어 아래 문장을 **Codex 입력창**에 입력하면 현재 변경 내용을 검토합니다. 셸 명령으로 실행하지 않습니다.
+
+```text
+$ponytail:ponytail-review 현재 커밋하지 않은 변경 내용을 검토해줘.
+```
+
+제작자의 공통 문서에 나오는 `/ponytail-review`는 Codex CLI·IDE에서는 위와 같은 플러그인 네임스페이스가 붙은 스킬로 호출합니다. 실제 목록에 표시된 스킬을 선택합니다. [제작자 명령 안내](https://github.com/DietrichGebert/ponytail#commands) · [OpenAI 스킬 호출 안내](https://learn.chatgpt.com/docs/build-skills#how-chatgpt-and-codex-use-skills).
+
+훅에서 `node: command not found`가 나오면 **비대화형 셸의 PATH**에도 Node가 있는지 확인합니다. nvm은 대화형 터미널에서만 초기화될 수 있으므로, 터미널의 `node --version` 성공만으로 앱·훅에서 인식된다고 판단하지 않습니다. 실행 환경의 PATH를 조정한 뒤 Codex를 재시작하고 훅 오류가 사라지는지 확인합니다. [제작자 선행 조건·Codex 설치 안내](https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md#codex).
+
+제거가 필요하면 개인 설정을 별도 보관한 뒤 개인 Mac 터미널에서 `codex plugin remove ponytail@ponytail`을 실행하고 Codex를 재시작합니다. 이 명령은 플러그인과 로컬 캐시를 제거합니다. 기존 프로젝트 파일·Codex 인증정보를 삭제하는 절차로 사용하지 않습니다.
+
+확인일: 2026-10-30. 제작자 문서와 로컬 `codex-cli 0.166.0`의 설치·목록·제거 명령 도움말을 확인했습니다. 실제 플러그인 설치·훅 실행은 이번 문서 작성에서 수행하지 않았습니다.
+
 ## 8. 초기 설치 완료 확인
 
 필요한 도구만 설치하면 됩니다. 아직 기존 프로젝트 실행 성공까지 확인하는 단계는 아닙니다.
 
+- [ ] D2Coding이 Terminal·VS Code 편집기/통합 터미널·Android Studio 편집기/콘솔/내장 터미널에 적용되고 한글·영문이 정상 표시된다.
 - [ ] 새 터미널과 VS Code 통합 터미널에서 code·nvm·node·npm·uv·fvm·codex가 인식된다.
 - [ ] Android Studio의 SDK Manager와 Xcode가 열리고 필요한 기본 구성요소가 준비되어 있다.
 - [ ] C/C++·Rust를 사용한다면 필요한 clang·cmake·rustup이 인식된다.
 - [ ] Unity를 사용한다면 Hub가 실행된다. 프로젝트 Editor는 다음 단계에서 설치한다.
 - [ ] Docker를 사용한다면 엔진·Compose 버전과 hello-world 실행을 확인했다.
+- [ ] Oh My Zsh 설치 후 새 터미널에서 `type omz`가 셸 함수를 표시하고 기존 PATH·nvm 설정이 유지된다.
 - [ ] 셸 설정이 중복되지 않고 사용 중인 Mac의 CPU용 도구를 설치했다.
 
 ## 프로젝트 작업 안내

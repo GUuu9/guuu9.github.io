@@ -25,6 +25,7 @@
 
 | 관리 대상 | 가이드 |
 | :--- | :--- |
+| zsh 테마·플러그인·셸 설정 | [Oh My Zsh](./01.Tools/oh-my-zsh.md) |
 | 기존 OS 패키지·앱 관리(선택) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
 | Flutter SDK 버전 | [FVM](./01.Tools/fvm.md) |
