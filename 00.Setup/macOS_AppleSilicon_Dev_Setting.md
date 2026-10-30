@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v2.1.1 -->
 # macOS Apple Silicon 개발 환경 복원
 
 확인일: 2026-10-28. 초기화 후 기존 프로젝트를 내려받아 개발·빌드할 수 있는 환경을 구성합니다. GitHub·SSH 인증 설정은 다루지 않습니다.
@@ -28,7 +28,7 @@ git --version
 clang --version
 ```
 
-Homebrew는 초기 설치에 필요하지 않습니다. 도구는 공식 스크립트·배포판으로 설치합니다. 기존 Homebrew를 유지하거나 과거 Intel 설치기가 필요한 경우에만 [선택용 Homebrew 가이드](../01.Tools/brew.md)를 참고합니다.
+다음 공통 설치의 [Homebrew 준비](./macOS_Common_Dev_Setting.md#homebrew-준비)에서 보조 패키지 관리 환경을 먼저 구성합니다. 주요 개발 도구는 공식 스크립트·배포판으로 설치하고 Homebrew와 중복 관리하지 않습니다.
 
 ## 3. 공통 도구 초기 설치
 

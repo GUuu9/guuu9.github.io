@@ -1,11 +1,11 @@
-<!-- version: v2.8.1 -->
+<!-- version: v2.10.0 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
 
 초기 설치는 아래 0~8절까지만 진행합니다. 프로젝트를 내려받은 뒤에는 문서 끝의 [프로젝트 작업 안내](#프로젝트-작업-안내)에서 필요한 도구 가이드로 이동합니다. React·TypeScript·Electron은 프로젝트 의존성이므로 초기 전역 설치 대상이 아닙니다.
 
-macOS에서는 **공식 독립 설치 스크립트·공식 배포판**을 기본으로 사용합니다. Homebrew 설치는 선행 조건이 아닙니다. curl은 다운로드 수단이며 도구별 업데이트 명령을 사용합니다. 스크립트 방식도 OS·CPU 지원 제한은 있으므로 설치 전 공식 지원 조건을 확인합니다. 기존 설치와 충돌하지 않도록 command -v·which -a로 경로를 확인하고 기존 Homebrew를 일괄 삭제하지 않습니다.
+macOS에서는 **공식 독립 설치 스크립트·공식 배포판**을 기본으로 사용합니다. 보조 패키지를 설치할 수 있도록 초기 단계에서 Homebrew도 준비합니다. 주요 도구의 설치 방식을 모두 brew로 전환하지 않습니다. curl은 다운로드 수단이며 도구별 업데이트 명령을 사용합니다. 스크립트 방식도 OS·CPU 지원 제한은 있으므로 설치 전 공식 지원 조건을 확인합니다. 기존 설치와 충돌하지 않도록 command -v·which -a로 경로를 확인하고 기존 Homebrew를 일괄 삭제하지 않습니다.
 
 ## 0. 셸 설정 파일 준비
 
@@ -16,6 +16,62 @@ touch ~/.zshrc
 ```
 
 아래 nvm 초기화는 `~/.zshrc`에 설정합니다. 각 설치기의 PATH 안내를 우선하며 `~/.zprofile` 또는 `~/.zshrc` 중 한 곳에만 둡니다. 새 터미널을 열어 인식 여부를 확인하고 개인 경로·기존 설정을 덮어쓰지 않습니다.
+
+### 환경 변수·PATH 적용 위치
+
+환경 변수는 실행 중인 도구에 전달하는 값이며 `PATH`는 명령을 찾는 폴더 목록입니다. 설치기가 안내한 경로를 우선하고 실제 실행 파일이 있는 폴더만 추가합니다. 설정 파일을 편집하기 전 기존 파일을 백업합니다.
+
+- 이 문서의 기본 영구 설정 위치는 대화형 zsh가 읽는 `~/.zshrc`입니다. 기존 설치기가 `~/.zprofile`에 설정했다면 유지하고 두 파일에 같은 내용을 중복 추가하지 않습니다. `.zprofile`은 로그인 셸에서만 읽습니다.
+- 터미널에 입력한 `export`는 현재 셸과 이후 자식 프로세스에만 적용됩니다. 영구 적용은 선택한 설정 파일을 편집하고 새 터미널에서 확인합니다. `.zshenv`에 모든 도구 초기화를 몰아넣지 않습니다.
+- 예를 들어 uv 설치 경로가 `~/.local/bin`이고 PATH에 없다면 아래 한 줄을 추가합니다. 기존 `$PATH`를 보존하며 같은 항목이 있으면 다시 넣지 않습니다.
+
+```zsh
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+설치 후 일반 터미널과 VS Code의 **새 통합 터미널**에서 다음을 확인합니다. 아직 설치 전이라면 `command -v uv`는 경로 없이 끝날 수 있습니다.
+
+```zsh
+printf '%s\n' "$PATH"
+command -v uv
+```
+
+앱을 켠 상태에서 PATH를 바꿨다면 VS Code·Codex 같은 부모 앱도 완전히 종료한 뒤 다시 실행합니다. GUI 앱·비대화형 훅이 `.zshrc`를 읽는다고 가정하지 않습니다. Node 버전별 `bin` 경로는 고정하지 않고 nvm이 선택하게 둡니다. SDK·JDK 변수는 설치 후 [FVM 환경 변수 안내](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)를 따릅니다. 토큰·개인 키는 셸 설정·공유 PATH 출력에 넣지 않습니다.
+
+zsh 로딩 규칙 확인일: 2026-10-30. [공식 시작 파일 안내](https://zsh.sourceforge.io/Doc/Release/Files.html).
+
+### Homebrew 준비
+
+Command Line Tools 설치 후 개인 Mac의 일반 사용자 터미널에서 진행합니다. 기존 Homebrew가 있으면 재설치하지 않고 `command -v brew`·`brew --version`·`brew --prefix`로 경로와 상태를 확인합니다. PATH에 없더라도 Apple Silicon의 `/opt/homebrew/bin/brew`, Intel의 `/usr/local/bin/brew`가 존재하는지 먼저 확인합니다.
+
+| CPU | 신규 설치 경로 |
+| :--- | :--- |
+| Apple Silicon (`arm64`) | 아래 공식 최신 설치기 사용. Rosetta 터미널에서 실행하지 않음 |
+| Intel (`x86_64`) | 최신 설치기는 Intel을 거부하므로 [과거 공식 설치기 절차](../01.Tools/brew.md#과거-공식-설치-스크립트로-신규-설치-시도)를 사용. 설치·패키지 지원은 제한됨 |
+
+아래 명령은 **Apple Silicon 전용**입니다. [공식 OS·CPU 지원 조건](https://docs.brew.sh/Installation)을 확인하고 설치 안내를 읽은 뒤 진행합니다. 설치기가 필요할 때 관리자 암호를 요청하며 전체 명령에 `sudo`를 붙이지 않습니다.
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+설치기가 출력한 Next steps를 우선합니다. 기본 경로로 설치했다면 아래에서 **자신의 CPU에 해당하는 한 줄만** `~/.zprofile` 또는 사용하는 `~/.zshrc` 한 곳에 추가합니다. 이미 있으면 중복 추가하지 않습니다.
+
+```zsh
+# Apple Silicon 기본 경로
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+```zsh
+# Intel 기본 경로: 기존 설치 또는 과거 설치기 설치가 성공한 경우만
+eval "$(/usr/local/bin/brew shellenv)"
+```
+
+새 터미널에서 `brew --version`·`brew --prefix`·`brew doctor`로 확인합니다. 경고는 내용을 읽고 대응하며 기존 디렉터리를 일괄 삭제하거나 소유권을 일괄 변경하지 않습니다. Intel에서 Homebrew 준비가 막혀도 아래 독립 설치 도구는 각자의 공식 절차로 계속 준비할 수 있습니다.
+
+보조 패키지가 필요할 때의 예시는 `brew info minicom`으로 지원 조건을 확인한 뒤 `brew install minicom`으로 설치하는 것입니다. 현재 minicom bottle 목록에는 Intel·Ventura가 없으므로 이 환경의 설치 성공은 보장하지 않습니다. [minicom 공식 formula](https://formulae.brew.sh/formula/minicom). Node·uv·FVM·Docker 등의 초기 설치는 아래에서 정한 경로를 유지합니다.
+
+설치기 CPU 제한·PATH 안내·minicom 배포 조건 확인일: 2026-10-30. 실제 Homebrew 설치·패키지 설치는 수행하지 않았습니다. 일상 사용·업데이트·백업·복귀는 [Homebrew 가이드](../01.Tools/brew.md)를 따릅니다.
 
 ### Oh My Zsh 설치
 
@@ -246,13 +302,14 @@ codex
 필요한 도구만 설치하면 됩니다. 아직 기존 프로젝트 실행 성공까지 확인하는 단계는 아닙니다.
 
 - [ ] D2Coding이 Terminal·VS Code 편집기/통합 터미널·Android Studio 편집기/콘솔/내장 터미널에 적용되고 한글·영문이 정상 표시된다.
+- [ ] Homebrew의 경로·버전·진단 결과를 확인했다. Intel에서 설치하지 못했다면 제한 사항을 기록하고 독립 설치 도구를 먼저 준비했다.
 - [ ] 새 터미널과 VS Code 통합 터미널에서 code·nvm·node·npm·uv·fvm·codex가 인식된다.
 - [ ] Android Studio의 SDK Manager와 Xcode가 열리고 필요한 기본 구성요소가 준비되어 있다.
 - [ ] C/C++·Rust를 사용한다면 필요한 clang·cmake·rustup이 인식된다.
 - [ ] Unity를 사용한다면 Hub가 실행된다. 프로젝트 Editor는 다음 단계에서 설치한다.
 - [ ] Docker를 사용한다면 엔진·Compose 버전과 hello-world 실행을 확인했다.
 - [ ] Oh My Zsh 설치 후 새 터미널에서 `type omz`가 셸 함수를 표시하고 기존 PATH·nvm 설정이 유지된다.
-- [ ] 셸 설정이 중복되지 않고 사용 중인 Mac의 CPU용 도구를 설치했다.
+- [ ] 셸 설정이 중복되지 않고 사용 중인 Mac의 CPU용 도구를 설치했다. PATH 변경 후 앱과 새 터미널에서 실제 실행 경로를 확인했다.
 
 ## 프로젝트 작업 안내
 
@@ -266,7 +323,7 @@ codex
 | C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
 | Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
 | 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
-| 기존 Homebrew 관리(선택) | [brew 설치·업데이트](../01.Tools/brew.md) |
+| Homebrew 보조 패키지 관리 | [brew 설치·업데이트](../01.Tools/brew.md) |
 
 ### Unity 프로젝트
 

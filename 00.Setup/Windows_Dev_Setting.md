@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # Windows 개발 도구 초기 설치
 
 **Windows 11 x64·PowerShell·Windows 네이티브 개발**을 기준으로 합니다. macOS와 동일하게 **0~8절 초기 설치 → 도구 인식 확인 → 프로젝트 작업 안내 → 업데이트** 순서입니다. 별도 표시가 없으면 개인 PC의 일반 사용자 PowerShell에서 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더·가상환경·잠금 파일이 필요하지 않습니다.
@@ -15,6 +15,25 @@ winget install --id Git.Git -e --source winget
 ```
 
 설치기가 권한을 요구하면 해당 설치에 한해 승인합니다. 새 PowerShell에서 `git --version`을 확인합니다. Windows Terminal이 없다면 [Microsoft 공식 배포처](https://learn.microsoft.com/en-us/windows/terminal/install)에서 설치합니다. Terminal은 창·프로파일을 제공하며 PowerShell은 셸입니다. Oh My Zsh는 Windows 네이티브 PowerShell에 설치하지 않고, 필요하면 WSL의 Linux zsh 환경에서만 선택합니다.
+
+### 사용자 환경 변수·Path 설정
+
+설치기가 PATH를 등록했다면 중복 추가하지 않습니다. 직접 설치한 도구는 Windows 검색에서 **계정의 환경 변수 편집**을 열고 사용자 `Path` → 편집 → 새로 만들기로 **실행 파일이 있는 실제 폴더**를 추가합니다. 전체 Path 값을 교체하지 않고 기존 항목·변수 값을 변경 전에 기록합니다. 개인 도구의 경로를 넣기 위해 시스템 변수까지 변경할 필요는 없습니다.
+
+현재 PowerShell의 `$env:변수명` 변경은 해당 프로세스와 이후 자식 프로세스에만 적용됩니다. 영구 설정은 사용자 환경 변수 화면에서 적용하고, Windows Terminal·VS Code·Codex를 완전히 종료했다가 다시 엽니다. 기존 앱에서 새 탭만 열면 이전 환경을 상속할 수 있습니다.
+
+```powershell
+# 현재 프로세스의 명령 검색 경로
+$env:Path -split ';'
+# 사용자 설정에 저장된 Path
+[Environment]::GetEnvironmentVariable('Path', 'User')
+# uv 설치 후 실제 검색되는 실행 파일 확인
+Get-Command uv -All
+```
+
+설정할 값은 설치기의 안내와 실제 경로를 사용합니다. `%LOCALAPPDATA%`는 사용자 로컬 앱 데이터, `%USERPROFILE%`은 사용자 홈이며 PowerShell에서는 각각 `$env:LOCALAPPDATA`·`$env:USERPROFILE`로 읽습니다. nvm-windows의 `NVM_HOME`·`NVM_SYMLINK`는 설치기 설정을 유지하고 특정 Node 버전 폴더를 Path에 추가하지 않습니다. SDK·JDK 변수는 설치 후 [FVM 환경 변수 안내](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)를 따릅니다. Windows 변수와 WSL 변수는 별도로 관리하고 토큰을 설정 예제·공유 출력에 넣지 않습니다.
+
+환경 변수 범위·상속 확인일: 2026-10-30. [Microsoft PowerShell 환경 변수 안내](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_Environment_Variables).
 
 ### D2Coding 설치·터미널 적용
 
@@ -136,7 +155,7 @@ Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](..
 - [ ] Unity를 사용한다면 Hub가 준비되었다. 프로젝트 Editor는 다음 단계에서 설치한다.
 - [ ] Docker를 사용한다면 Client·Server·Compose와 hello-world를 확인했다.
 - [ ] Ponytail을 사용한다면 스킬 목록·훅 상태를 확인했다.
-- [ ] Windows와 WSL의 도구·프로젝트 경로를 구분했다.
+- [ ] Windows와 WSL의 도구·프로젝트 경로를 구분했다. 사용자 Path 변경 후 앱을 재시작하고 실제 실행 경로를 확인했다.
 
 여기까지는 초기 도구 인식 확인이며 기존 프로젝트 실행 성공은 다음 단계에서 판단합니다.
 
@@ -153,7 +172,7 @@ Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](..
 | Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
 | 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
 
-Flutter 프로젝트는 `.fvmrc`의 SDK를 복원한 뒤 `fvm flutter doctor --android-licenses`·`fvm flutter doctor -v`·`fvm flutter devices`를 확인하고 `fvm flutter run -d 기기ID`로 실행합니다. SDK가 탐지되지 않으면 실제 경로로 `fvm flutter config --android-sdk 경로`를 지정합니다. VS Code SDK는 `.fvm/flutter_sdk`를 선택합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+Flutter 프로젝트의 SDK 복원 후에는 [FVM의 Android 프로젝트 연결·환경 변수](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)에서 SDK·JDK 경로, 라이선스·기기 탐지·실행과 VS Code 연동을 확인합니다.
 
 **iOS 로컬 빌드·서명·실기기 검증은 Mac·Xcode에서 수행합니다.** 모든 OS의 네이티브 패키징을 Docker만으로 대체하지 않습니다.
 

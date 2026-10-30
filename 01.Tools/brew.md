@@ -1,9 +1,9 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
 
-macOS 초기 설치는 공식 설치 스크립트·배포판을 기본으로 하며 Homebrew는 기존 설치나 선택한 패키지를 관리할 때만 사용합니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
+macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하고 Homebrew와 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
 
 ## 용도와 관리 범위
 
@@ -12,15 +12,15 @@ macOS 초기 설치는 공식 설치 스크립트·배포판을 기본으로 하
 ## 검색하고 설치하기
 
 ```bash
-brew search cmake
-brew info cmake
-brew install cmake
+brew search minicom
+brew info minicom
+brew install minicom
 brew install --cask visual-studio-code
 brew list --versions
 brew list --cask
 ```
 
-검색 후 `info`에서 설명·홈페이지·지원 조건을 확인합니다. 앱을 이미 직접 설치했다면 중복 설치 전에 기존 관리 방식을 확인합니다. 외부 tap은 출처가 필요한 경우에만 추가합니다.
+검색 후 `info`에서 설명·홈페이지·지원 조건을 확인합니다. 위 minicom은 시리얼 통신용 보조 패키지 예시이며 필요할 때만 설치합니다. [공식 formula](https://formulae.brew.sh/formula/minicom)의 OS·CPU별 bottle 유무를 확인하고, 특히 Intel·Ventura에서는 소스 빌드나 의존성 설치가 실패할 수 있습니다. 앱을 이미 직접 설치했다면 중복 설치 전에 기존 관리 방식을 확인합니다. 외부 tap은 출처가 필요한 경우에만 추가합니다.
 
 ```text
 brew tap 소유자/저장소
@@ -94,7 +94,7 @@ brew bundle check --file=Brewfile
 
 ## 신규 설치와 기존 환경 보존
 
-초기화한 Intel Mac에서는 Homebrew 설치를 필수 선행 단계로 두지 않습니다. 도구별 설치에서 Homebrew를 기본 경로로 선택하지 말고 도구별 공식 Intel 배포판·설치 방법을 사용합니다. Node는 nvm, Flutter는 FVM으로 SDK를 선택하고 macOS·CPU 지원 범위를 별도로 확인합니다. 대체 패키지 관리자가 필요하면 Homebrew 지원 문서에서 안내하는 [MacPorts](https://www.macports.org/)의 지원 환경을 확인합니다. 여기서는 MacPorts 설치나 기존 패키지 자동 이전을 수행하지 않습니다.
+초기화한 Intel Mac에서도 보조 패키지용 Homebrew 준비를 초기 설정에 포함하되, 최신 설치기가 Intel을 거부하므로 아래 과거 공식 설치기 절차와 제한을 확인합니다. 준비에 실패하면 주요 도구는 각자의 공식 Intel 배포판·설치 방법으로 계속 설치합니다. Node는 nvm, Flutter는 FVM으로 SDK를 선택하고 macOS·CPU 지원 범위를 별도로 확인합니다. 대체 패키지 관리자가 필요하면 Homebrew 지원 문서에서 안내하는 [MacPorts](https://www.macports.org/)의 지원 환경을 확인합니다. 여기서는 MacPorts 설치나 기존 패키지 자동 이전을 수행하지 않습니다.
 
 이미 Homebrew가 설치되어 있다면 재설치를 위해 삭제하지 않습니다. 먼저 `command -v brew`와 `brew --version`으로 상태를 확인합니다. 아래 PATH 설정·진단은 **기존 `/usr/local/bin/brew`가 있는 경우에만** 적용합니다.
 

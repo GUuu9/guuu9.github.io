@@ -28,7 +28,7 @@
 | 편집기 표시 언어·폰트 | [VS Code·Android Studio](./01.Tools/editor-setup.md) |
 | Codex 스킬·플러그인 | [Codex·Ponytail](./01.Tools/codex.md) |
 | zsh 테마·플러그인·셸 설정 | [Oh My Zsh](./01.Tools/oh-my-zsh.md) |
-| 기존 OS 패키지·앱 관리(선택) | [Homebrew](./01.Tools/brew.md) |
+| 보조 패키지·앱 관리(macOS 초기 준비) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
 | Flutter SDK 버전 | [FVM](./01.Tools/fvm.md) |
 | Python 버전·패키지·가상환경 | [uv](./01.Tools/uv.md) · [venv](./01.Tools/venv.md) |

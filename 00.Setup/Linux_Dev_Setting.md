@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # Linux 개발 도구 초기 설치 (Ubuntu / Debian)
 
 지원 중인 Ubuntu LTS 또는 Debian의 **x86_64 데스크톱·bash**를 기준으로 합니다. 개인 PC의 일반 사용자 터미널에서 임의 디렉터리에서 실행하며 `sudo`가 붙은 명령만 관리자 권한이 필요합니다. ARM·다른 배포판은 별도 지원 확인이 필요합니다. Docker Desktop·Android Studio의 Linux ARM 지원을 전제하지 않습니다.
@@ -36,6 +36,20 @@ source "$ZSH/oh-my-zsh.sh"
 ```
 
 테마·플러그인·백업·복귀는 [Oh My Zsh 가이드](../01.Tools/oh-my-zsh.md)를 참고합니다. 아래 nvm 설치는 bash용이므로 zsh를 선택했다면 `PROFILE="$HOME/.zshrc"`로 바꾸고 `source ~/.zshrc`로 적용합니다. 두 셸에서 nvm을 사용할 경우 각 셸에 초기화가 필요하며 같은 파일에 중복 추가하지 않습니다.
+
+### 환경 변수·PATH 적용 위치
+
+설치기의 경로 안내를 우선합니다. `PATH`에는 실행 파일이 있는 폴더를 추가하고 기존 값을 보존합니다. bash의 대화형 터미널은 `~/.bashrc`, 선택한 zsh는 `~/.zshrc`에 설정하며 편집 전 기존 파일을 백업합니다. 로그인 bash는 `.bash_profile`·`.bash_login`·`.profile` 중 먼저 찾은 파일을 읽으므로, 로그인 셸에서만 경로가 없으면 기존 파일의 `.bashrc` 로딩 여부부터 확인합니다.
+
+uv 등이 실제로 `~/.local/bin`에 설치되어 있고 PATH에 없다면 다음 한 줄을 선택한 셸 설정 파일에 한 번만 추가합니다. 터미널에만 입력한 `export`는 현재 셸과 이후 자식 프로세스에만 적용됩니다.
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+새 터미널에서 `printf '%s\n' "$PATH"`와 설치한 도구의 `command -v uv` 등으로 확인합니다. VS Code도 완전히 종료한 뒤 새로 열어 통합 터미널을 확인합니다. GUI 앱·비대화형 작업이 `.bashrc`를 항상 읽는다고 가정하지 않습니다. 기존 PATH를 통째로 교체하거나 nvm의 특정 Node 버전 경로를 영구 고정하지 않습니다. SDK·JDK 설정은 [FVM 환경 변수 안내](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)를 따릅니다. 토큰은 셸 설정·공유 로그에 넣지 않습니다.
+
+셸 로딩 규칙 확인일: 2026-10-30. [Bash 시작 파일](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files) · [zsh 시작 파일](https://zsh.sourceforge.io/Doc/Release/Files.html).
 
 ### D2Coding 설치·터미널 적용
 
@@ -137,6 +151,7 @@ Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](..
 
 ## 8. 초기 설치 완료 확인
 
+- [ ] PATH 변경 후 부모 앱을 재시작하고 새 터미널에서 실행 경로를 확인했다.
 - [ ] 새 터미널과 VS Code 통합 터미널에서 필요한 code·nvm·node·npm·uv·fvm·codex를 인식한다.
 - [ ] D2Coding·VS Code 한국어와 Android Studio의 폰트 설정을 확인했다.
 - [ ] zsh·Oh My Zsh를 선택했다면 초기화·PATH·nvm 설정이 유지된다.
@@ -160,7 +175,7 @@ Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](..
 | Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
 | 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
 
-Flutter 프로젝트는 `.fvmrc`의 SDK를 복원한 뒤 `fvm flutter doctor --android-licenses`·`fvm flutter doctor -v`·`fvm flutter devices`를 확인하고 `fvm flutter run -d 기기ID`로 실행합니다. SDK가 탐지되지 않으면 실제 경로로 `fvm flutter config --android-sdk 경로`를 지정합니다. VS Code SDK는 `.fvm/flutter_sdk`를 선택합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+Flutter 프로젝트의 SDK 복원 후에는 [FVM의 Android 프로젝트 연결·환경 변수](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)에서 SDK·JDK 경로, 라이선스·기기 탐지·실행과 VS Code 연동을 확인합니다.
 
 **iOS 로컬 빌드·서명·실기기 검증은 Mac·Xcode에서 수행합니다.** Linux Docker로 macOS·Windows용 네이티브 패키징 전체를 대체하지 않습니다.
 

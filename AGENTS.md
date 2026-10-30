@@ -21,7 +21,7 @@
 | `04.Servers/` | 서버용 PC에서 수행하는 구축·사용자 작업 영역·접속·운영 |
 
 - 루트 README.md는 위 순서의 탐색 입구로 유지합니다. 상세 명령을 복제하지 않고 해당 문서로 연결합니다.
-- macOS 초기 도구 설치는 공식 독립 설치 스크립트·공식 배포판을 기본으로 합니다. Homebrew를 필수 선행 단계로 되돌리지 않습니다. 기존 Homebrew 관리와 과거 Intel 설치기 자료는 Tools의 선택용 안내로 보존합니다.
+- macOS 초기 설정에서 보조 패키지 관리용 Homebrew를 먼저 준비합니다. 주요 개발 도구는 공식 독립 설치 스크립트·공식 배포판을 기본으로 유지하고 같은 도구를 Homebrew와 중복 설치하지 않습니다. Intel은 최신 설치기의 제한과 과거 공식 설치기 절차를 구분하며 설치·패키지 지원을 보장하지 않습니다.
 - 공통 사용법은 Tools, OS별 설치 차이는 Setup, 실제 서버 적용은 Servers에 둡니다. 같은 설명을 여러 곳에 복사하지 않습니다.
 - `02.Boilerplates`는 mobile-app·server·server-wui·electron-app·electron-phaser로 구분합니다. 사용자가 자료 작성을 요청하기 전에는 준비된 빈 폴더를 임의로 채우지 않습니다.
 - `02.Boilerplates` 작성은 [추출·작성 규칙](./02.Boilerplates/authoring-rules.md)을 따릅니다. 대상 프로젝트의 AGENTS.md는 이 저장소에서 project-agents.md로 보관하고 적용 시 AGENTS.md로 사용합니다. 저장소 관리 지침과 제품 작업 지침의 적용 범위를 혼합하지 않습니다.

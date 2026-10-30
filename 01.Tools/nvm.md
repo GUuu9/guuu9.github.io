@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
@@ -19,22 +19,16 @@ WSL은 Windows nvm-windows 대신 WSL 내부에 Unix nvm을 설치합니다. OS�
 ```bash
 nvm --version
 nvm ls
-nvm ls-remote --lts
-nvm install --lts
-node --version
-npm --version
 ```
 
-기존 프로젝트에 `.nvmrc`가 있으면 루트에서:
+초기 기본 Node 설치는 Setup에서 완료합니다. 기존 프로젝트를 복원할 때는 최신 LTS를 추가 설치하지 않고 요구 버전을 먼저 선택합니다. `.nvmrc`가 있으면 프로젝트 루트에서:
 
 ```bash
 nvm install
 nvm use
-npm ci
-npm run
 ```
 
-위 npm ci는 package-lock.json이 있는 경우입니다. 없으면 프로젝트가 npm을 쓰는지 확인하고 npm install을 사용합니다. `.nvmrc`가 없으면 README·engines·CI에서 버전을 찾습니다. 예를 들어 Node 22를 요구하면 `nvm install 22`, `nvm use 22`로 선택합니다. 이 숫자는 예시이며 모든 프로젝트의 권장 버전을 뜻하지 않습니다.
+`.nvmrc`가 없으면 README·engines·CI에서 버전을 찾습니다. 예를 들어 Node 22를 요구하면 `nvm install 22`, `nvm use 22`로 선택합니다. 이 숫자는 예시이며 모든 프로젝트의 권장 버전을 뜻하지 않습니다. 버전 선택 뒤에는 [공통 의존성 복원](#선택한-node로-프로젝트-의존성-복원)으로 이동합니다.
 
 ## 프로젝트 버전 고정
 
@@ -46,12 +40,25 @@ macOS·Linux에서는 원하는 버전을 선택한 뒤 `node --version > .nvmrc
 
 ```powershell
 nvm version
-nvm list available
-nvm install lts
 nvm list
 ```
 
-목록에서 설치한 정확한 버전을 확인해 `nvm use 버전`으로 선택합니다. 특정 프로젝트는 `.nvmrc`·README를 확인해 `nvm install 버전`, `nvm use 버전`으로 맞춥니다. 심볼릭 링크 변경에 권한이 필요하면 관리자 PowerShell을 사용합니다.
+프로젝트의 `.nvmrc`·README·engines·CI에서 정확한 요구 버전을 확인합니다. `nvm list`에 없다면 `nvm install 버전`으로 추가하고 `nvm use 버전`으로 선택합니다. 심볼릭 링크 변경에 권한이 필요하면 관리자 PowerShell을 사용합니다.
+
+## 선택한 Node로 프로젝트 의존성 복원
+
+위 OS별 버전 선택을 마친 뒤 프로젝트 루트에서 실행합니다. macOS·Linux·Windows 모두 같은 흐름입니다.
+
+```bash
+node --version
+npm --version
+npm ci
+npm run
+```
+
+`npm ci`는 npm 프로젝트에 `package-lock.json`이 있을 때 사용합니다. 없다면 기존 README·패키지 관리자를 확인하고 npm 프로젝트일 때만 `npm install`을 사용합니다. 잠금 파일 삭제·재생성이나 의존성 최신화를 복원 절차에 넣지 않습니다. `npm run`으로 실제 스크립트를 확인한 뒤 프로젝트의 실행·테스트·빌드를 진행합니다. PowerShell에서 정책으로 차단되면 `npm.cmd`를 사용합니다.
+
+nvm은 Node 경로를 선택하므로 특정 버전의 `bin` 폴더를 PATH에 영구 고정하지 않습니다. Unix nvm은 설치기가 추가한 `NVM_DIR`·`nvm.sh` 초기화로 로드하며 `which node`만으로 nvm 로딩을 확인하지 말고 `command -v nvm`도 확인합니다. Windows는 설치기가 설정한 `NVM_HOME`·`NVM_SYMLINK`와 사용자/시스템 PATH를 먼저 확인하고 경로를 임의로 바꾸지 않습니다.
 
 ## 전역 npm 도구와 Electron
 

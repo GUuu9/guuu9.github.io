@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # FVM 사용 가이드
 
 확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -86,15 +86,61 @@ fvm dart --version
 
 Android 기기 빌드 확인은 `fvm flutter build apk`, iOS는 Mac에서 프로젝트 서명 설정 후 `fvm flutter build ios`를 사용합니다. 프로젝트 flavor·환경 인자가 있으면 README대로 추가합니다.
 
+## Android 프로젝트 연결·환경 변수
+
+macOS·Windows·Linux 모두 위 [기존 프로젝트 복원](#기존-프로젝트-복원)으로 SDK 선택·pub get을 마친 뒤 진행합니다. Android Studio SDK Manager에서 프로젝트 compileSdk·빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택하고 AVD·시스템 이미지는 필요할 때만 설치합니다. USB 드라이버·udev 권한 등 OS별 준비는 [Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
+
+### Android SDK·JDK 경로 선택
+
+SDK Manager에 표시된 **Android SDK Location**이 기준입니다. 아래는 기본 설치 경로 예시이며 실제 경로가 다르면 바꿉니다.
+
+| OS | SDK 경로 예시 | 영구 설정 위치 |
+| :--- | :--- | :--- |
+| macOS | `$HOME/Library/Android/sdk` | 사용하는 zsh의 `~/.zshrc` |
+| Linux | `$HOME/Android/Sdk` | bash는 `~/.bashrc`, zsh는 `~/.zshrc` |
+| Windows | `%LOCALAPPDATA%\Android\Sdk` | 사용자 환경 변수 편집 화면 |
+
+SDK를 자동 탐지한다면 별도 환경 변수는 필수가 아닙니다. 다른 CLI가 요구하면 `ANDROID_HOME`에 **SDK 루트**를 지정하고, adb를 경로 없이 실행할 때만 PATH에 그 아래 `platform-tools`를 추가합니다. `ANDROID_SDK_ROOT`는 폐기 예정 변수이므로 새로 추가하지 않습니다. 이미 있다면 두 값이 같은 SDK를 가리키는지 확인합니다.
+
+아래는 **macOS 기본 경로를 현재 zsh에 적용**하는 예시입니다. Linux는 SDK Manager에서 기본 경로를 확인한 뒤 첫 줄을 `export ANDROID_HOME="$HOME/Android/Sdk"`로 바꿉니다. 영구 적용은 OS별 Setup의 환경 변수 안내에 따라 설정 파일에 한 번만 추가합니다.
+
+```bash
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
+adb --version
+```
+
+Windows에서는 아래가 **현재 PowerShell에만** 적용됩니다. 영구 적용은 사용자 변수 `ANDROID_HOME`과 사용자 `Path`의 `%ANDROID_HOME%\platform-tools` 항목으로 설정하고 앱을 재시작합니다.
+
+```powershell
+$env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
+$env:Path = "$env:ANDROID_HOME\platform-tools;$env:Path"
+adb --version
+```
+
+Flutter에서 SDK를 찾지 못할 때만 실제 SDK 루트를 `fvm flutter config --android-sdk "실제 SDK 경로"`로 지정합니다. `JAVA_HOME`을 사용하는 CLI Gradle 작업에서는 프로젝트 Gradle·AGP와 호환되는 **JDK 루트(bin 폴더 아님)**를 지정하고 Android Studio의 Gradle JDK 설정도 맞춥니다. Flutter가 사용하는 JDK는 `fvm flutter doctor -v`로 따로 확인합니다. Android Studio 포함 JDK를 우선하되 모든 프로젝트에 특정 JDK·`JAVA_HOME`을 일괄 강제하지 않습니다.
+
+환경 변수·JDK 선택 확인일: 2026-10-30. [Android 환경 변수](https://developer.android.com/tools/variables) · [Gradle JDK 선택](https://developer.android.com/build/jdks). SDK 경로·개인 환경 설정·인증정보는 프로젝트의 공용 설정으로 커밋하지 않습니다.
+
+### 라이선스·실기기 확인
+
+USB 디버깅·연결 허용과 OS별 권한을 확인한 뒤 프로젝트 루트에서 실행합니다.
+
+```bash
+fvm flutter doctor --android-licenses
+fvm flutter doctor -v
+fvm flutter devices
+```
+
+출력에 표시된 실제 기기 ID로 `fvm flutter run -d 기기ID`를 실행합니다. VS Code는 위 [SDK 경로 설정](#vs-code-연동과-일상-작업)을 사용합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+
 ## macOS 실기기 프로젝트 연결
 
 FVM·Android Studio·Xcode 설치와 Xcode 초기화는 [macOS 초기 설치](../00.Setup/macOS_Common_Dev_Setting.md#4-flutter-도구-fvmandroid-studioxcode)를 먼저 완료합니다. 아래 작업은 프로젝트를 내려받은 뒤 해당 루트에서 진행합니다. SDK 선택·pub get은 위 [기존 프로젝트 복원](#기존-프로젝트-복원)을 따릅니다.
 
 ### Android
 
-SDK Manager에서 프로젝트 compileSdk와 빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택합니다. Android Studio 포함 JDK를 우선하되 Gradle·Android Gradle Plugin 호환성을 확인합니다. AVD·시스템 이미지는 필요할 때만 설치합니다.
-
-USB 디버깅과 연결 허용을 확인한 뒤 `fvm flutter doctor --android-licenses`로 라이선스를 확인합니다. SDK가 탐지되지 않을 때만 `fvm flutter config --android-sdk "$HOME/Library/Android/sdk"`로 실제 경로를 지정합니다. [Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+공통 [Android 프로젝트 연결·환경 변수](#android-프로젝트-연결환경-변수)를 따릅니다. macOS SDK 기본 경로 예시와 실기기 확인 명령도 해당 절에서 관리합니다.
 
 ### iOS
 

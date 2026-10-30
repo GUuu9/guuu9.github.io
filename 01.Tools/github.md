@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.3.0 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
 본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
@@ -198,7 +198,13 @@ export default defineConfig({
 3. **배포 실행**: `npm run deploy`
 
 #### 6.1.3 자동 배포 (GitHub Actions)
-`.github/workflows/deploy.yml` 파일을 생성하여 `main` 브랜치 푸시 시 자동 배포되도록 설정할 수 있습니다. (추천 방식)
+[Vite 공식 GitHub Pages 배포 예제](https://vite.dev/guide/static-deploy.html#github-pages)의 워크플로를 프로젝트의 `.github/workflows/deploy.yml`에 적용합니다. 기존 워크플로가 있으면 재사용하고 중복 파일을 만들지 않습니다.
+
+1. 저장소의 Settings → Pages → Source에서 **GitHub Actions**를 선택합니다.
+2. 공식 예제의 의존성 설치·빌드·산출물 업로드·배포 단계를 사용하되, 대상 브랜치·Node 버전·잠금 파일·출력 경로를 프로젝트에 맞춥니다. `pages: write`·`id-token: write`와 배포 environment 설정도 포함합니다.
+3. 변경을 push한 뒤 Actions의 빌드·배포 성공과 실제 Pages URL을 확인합니다. 실패하면 워크플로 로그를 확인하며 파일을 만드는 것만으로 배포가 끝났다고 판단하지 않습니다.
+
+기본 출력 폴더가 `dist`인 npm 기반 Vite 프로젝트를 전제로 한 예제입니다. 다른 빌드 도구·패키지 관리자는 해당 프로젝트의 기존 CI를 우선합니다. 공식 예제 확인일: 2026-10-30. 실제 배포는 수행하지 않았습니다.
 
 #### 6.1.4 GitHub 저장소 설정
 1. 저장소의 **Settings > Pages** 메뉴로 이동합니다.
