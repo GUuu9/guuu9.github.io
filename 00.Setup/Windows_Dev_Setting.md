@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v2.1.1 -->
 # Windows 개발 도구 초기 설치
 
 **Windows 11 x64·PowerShell·Windows 네이티브 개발**을 기준으로 합니다. macOS와 동일하게 **0~8절 초기 설치 → 도구 인식 확인 → 프로젝트 작업 안내 → 업데이트** 순서입니다. 별도 표시가 없으면 개인 PC의 일반 사용자 PowerShell에서 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더·가상환경·잠금 파일이 필요하지 않습니다.
@@ -89,6 +89,8 @@ SDK 링크 생성에 권한이 필요하면 Windows 개발자 모드의 심볼�
 [Android Studio 공식 Windows 설치 안내](https://developer.android.com/studio/install#windows)에 따라 x64 설치 프로그램으로 설치하고 처음 실행합니다. SDK Manager에서 Command-line Tools·Platform-Tools를 준비하고 SDK 경로를 기록합니다. 프로젝트별 SDK Platform·Build-Tools·NDK·CMake는 복원 단계에서 선택합니다. AVD·에뮬레이터 이미지는 사전 설치하지 않습니다.
 
 JDK는 Android Studio 포함 버전을 우선하되 프로젝트 Gradle·AGP 요구 조건을 확인합니다. [공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)를 적용합니다. Android 실기기는 개발자 옵션·USB 디버깅·연결 허용과 [제조사 공식 USB 드라이버](https://developer.android.com/studio/run/oem-usb)를 준비합니다. Windows SDK·adb·JDK와 WSL의 도구를 혼용하지 않습니다.
+
+Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
 
 ## 5. C/C++·Rust·Unity 도구
 

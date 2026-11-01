@@ -1,4 +1,4 @@
-<!-- version: v3.0.0 -->
+<!-- version: v3.0.1 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -226,12 +226,14 @@ fvm install 3.35.7
 
 ### Android Studio 설치
 
-1. [Android Studio](https://developer.android.com/studio)를 칩에 맞게 설치하고 처음 실행합니다. 코드는 VS Code에서 작성하고 Android Studio는 SDK 관리에 사용합니다.
+1. [Android Studio](https://developer.android.com/studio)를 칩에 맞게 설치하고 처음 실행합니다. VS Code를 기본 편집기로 사용하며 Android Studio에서도 아래 안내에 따라 Flutter 프로젝트를 생성·편집할 수 있습니다.
 2. SDK Manager에서 Android SDK Command-line Tools와 Platform-Tools를 준비하고 SDK 설치 경로를 확인합니다. 프로젝트별 SDK Platform·Build-Tools·NDK·CMake 버전은 복원 단계에서 결정합니다.
 3. AVD·에뮬레이터 시스템 이미지는 필요할 때 직접 추가하므로 초기 다운로드에서 제외합니다.
 4. 실기기를 사용할 경우 개발자 옵션·USB 디버깅을 켜고 USB 연결 허용 창을 승인합니다. Flutter 라이선스 확인·기기 탐지·앱 실행은 프로젝트 복원에서 진행합니다.
 
 Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gradle Plugin의 요구 버전은 복원 때 확인합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+
+Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
 
 ### Android Studio 편집기·콘솔·터미널 폰트
 

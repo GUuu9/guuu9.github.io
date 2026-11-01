@@ -1,4 +1,4 @@
-<!-- version: v1.4.0 -->
+<!-- version: v1.5.0 -->
 # FVM 사용 가이드
 
 확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -31,7 +31,45 @@ fvm flutter devices
 
 버전 기록이 없다면 README·CI·이전 개발 PC에서 실제 사용하던 Flutter 버전을 확인해 `fvm use 버전`으로 도입합니다. pubspec.yaml의 Dart 범위만으로 정확한 Flutter 버전을 결정할 수는 없습니다. 기존 프로젝트에 곧바로 최신 stable을 지정하지 않습니다.
 
-새 프로젝트를 stable로 시작하려면 `fvm use stable`로 선택한 뒤 생성된 `.fvmrc`와 실제 버전을 확인합니다. 재현성이 필요하면 구체적인 릴리스 버전으로 고정합니다.
+Android Studio에서 새 앱을 만들 때는 아래 [프로젝트 생성·SDK 연결](#android-studio에서-새-flutter-프로젝트-생성)을 따릅니다. 기존 프로젝트는 새로 생성하지 않고 해당 프로젝트 루트를 엽니다.
+
+## Android Studio에서 새 Flutter 프로젝트 생성
+
+개인 PC의 macOS·Windows·Linux에서 Android Studio로 Flutter 코드를 작성하거나 새 앱을 만들 때 진행합니다. [OS별 초기 설치](../00.Setup/OS_Dev_Setting.md)의 FVM·Android Studio를 먼저 준비합니다. Android SDK 관리만 한다면 Flutter 플러그인은 필수가 아닙니다.
+
+### Flutter·Dart 플러그인 준비
+
+1. macOS는 **Android Studio → Settings**, Windows·Linux는 **File → Settings**에서 **Plugins → Marketplace**를 엽니다.
+2. **Flutter** 플러그인을 설치하고 Dart 플러그인 설치를 요청하면 함께 설치합니다. 이미 설치되어 있으면 활성화 여부만 확인합니다.
+3. 안내에 따라 Android Studio를 재시작합니다. Flutter 프로젝트 생성 메뉴가 보이지 않으면 Plugins의 설치·활성화 상태와 현재 IDE 버전의 플러그인 호환성을 확인합니다.
+
+[Flutter 공식 플러그인 설치 안내](https://docs.flutter.dev/tools/android-studio#install-the-flutter-plugin).
+
+### SDK 준비·프로젝트 생성·버전 고정
+
+아래 **3.35.7은 사용 중인 Intel MacBook 기준**입니다. 다른 PC는 OS·개발 도구와 호환되는 목표 Flutter 버전으로 바꾸며 모든 환경에 같은 버전을 강제하지 않습니다. 먼저 프로젝트 밖의 개인 터미널에서 SDK만 설치하고 설치 위치를 확인합니다.
+
+```bash
+fvm install 3.35.7
+fvm list
+```
+
+1. Android Studio의 시작 화면이나 File → New에서 **New Flutter Project**를 선택합니다. IDE 버전에 따라 New Project 창에서 **Flutter**를 선택할 수 있습니다.
+2. **Flutter SDK path**에 위에서 설치한 버전의 실제 SDK 루트 폴더를 지정합니다. Android SDK·FVM 실행 파일·Flutter의 `bin` 폴더와 구분합니다. 아직 프로젝트가 없으므로 `.fvm/flutter_sdk` 링크를 이 단계에 사용하지 않습니다.
+3. 프로젝트 이름·저장 위치·조직명과 필요한 플랫폼을 선택해 생성합니다. 저장 위치는 새 프로젝트용 경로를 사용하고 기존 프로젝트에 덮어쓰지 않습니다.
+4. 생성이 끝나면 **생성된 프로젝트 루트**의 터미널에서 같은 버전을 고정합니다.
+
+```bash
+fvm use 3.35.7
+fvm flutter --version
+```
+
+5. Android Studio의 **Settings → Languages & Frameworks → Flutter → Flutter SDK path**를 이 프로젝트의 `.fvm/flutter_sdk`로 끝나는 **절대 경로**로 바꾸고 Apply를 누릅니다. `.fvmrc`·IDE 표시 버전·위 버전 출력이 같은지 확인합니다. `fvm global` 설정이나 셸 PATH만으로 IDE가 자동 변경된다고 가정하지 않습니다.
+6. 아래 [Git에 보관할 파일](#git에-보관할-파일)에 따라 `.fvmrc`를 보관하고 `.fvm/`은 제외합니다. [Android 연결·환경 변수](#android-프로젝트-연결환경-변수) 또는 macOS의 iOS 연결로 이어가 기기에서 실행합니다.
+
+SDK 전환 후 IDE가 이전 버전을 계속 표시하면 저장된 경로가 실제 버전 캐시로 바뀌었는지 확인하고 `.fvm/flutter_sdk` 링크를 다시 지정합니다. 기존 프로젝트도 SDK 복원 후 이 IDE 설정을 적용하되 새 프로젝트 생성 마법사는 실행하지 않습니다.
+
+플러그인 설치·생성·SDK 경로 확인일: 2026-10-30. [Flutter 공식 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app#android-studio) · [FVM의 Android Studio 연동](https://fvm.app/documentation/guides/android-studio). 실제 IDE 조작·프로젝트 생성은 이 문서 작성에서 수행하지 않았습니다.
 
 ## Intel MacBook의 Flutter 버전 고정
 

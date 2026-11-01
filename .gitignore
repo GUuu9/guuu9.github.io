@@ -1,1 +1,5 @@
 .DS_Store
+
+# 작성 중인 내용·오류 메모는 로컬에만 보관
+/issues/*
+!/issues/README.md

@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
 본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
@@ -84,11 +84,82 @@ git commit -m "feat: [COMMIT_0000X] 기능 설명"
 ```
 
 ### 2.3 원격 저장소 동기화
-로컬 작업물을 올리고 타인의 작업물을 가져옵니다.
+로컬 작업물을 올리고 타인의 작업물을 가져옵니다. 미커밋 변경을 유지하면서 원격 업데이트만 받을 때는 [로컬 작업 보존 후 업데이트](#24-로컬-변경을-올리지-않고-github-업데이트-받기)를 먼저 따릅니다.
 ```bash
 git pull --ff-only origin <branch> # 분기되지 않은 경우에만 최신 코드 반영
 git push origin <branch> # 로컬 커밋 올리기
 ```
+
+### 2.4 로컬 변경을 올리지 않고 GitHub 업데이트 받기
+
+개인 PC의 macOS·Linux 터미널 또는 Windows PowerShell에서 **대상 저장소 루트**에서 실행합니다. 아래는 현재 브랜치가 `main`, 원격이 `origin/main`이며 로컬 커밋이 원격보다 앞서 있지 않은 경우입니다. 명령은 한 단계씩 결과를 확인하며 진행하고, 브랜치가 다르면 실제 이름으로 바꿉니다. 이 절차는 commit·push하지 않고 원격 커밋과 로컬 미커밋 변경을 함께 유지합니다.
+
+#### 1. 현재 작업 백업·원격 변경 확인
+
+```bash
+git status --short --branch
+git diff
+git diff --staged
+git fetch origin
+git log --oneline HEAD..origin/main
+git log --oneline origin/main..HEAD
+git diff --stat HEAD origin/main
+```
+
+수정 파일·미추적 파일과 Git 제외 파일 중 보존할 자료를 **저장소 밖 별도 위치에 복사**하고 원래 스테이징 상태·현재 HEAD도 기록합니다. 이 저장소의 `issues/` 로컬 메모도 별도 백업합니다. 임시 폴더는 영구 백업을 대신하지 않습니다. 원격과 로컬 양쪽에 새 커밋이 있으면 단순 fast-forward가 불가능하므로 아래 병합을 강행하지 말고 프로젝트 정책에 맞는 merge·rebase를 별도 선택합니다.
+
+`fetch`는 원격 추적 정보를 갱신하며 현재 작업 파일을 병합하지 않습니다. HTTPS 인증을 요구하면 [사용자명·PAT 안내](#13-https-인증-username-프롬프트와-토큰)를 따릅니다.
+
+#### 2. 미커밋 작업 임시 보관
+
+```bash
+git stash push -u -m "local-work-before-remote-update"
+git stash list
+git status --short
+```
+
+stash 생성 성공을 확인하고 방금 만든 항목을 기록합니다. **보관할 변경이 없어 새 stash가 생성되지 않았다면 기존 stash를 적용하지 않습니다.** `-u`는 미추적 파일까지 보관하지만 ignored 파일은 포함하지 않습니다. ignored 파일을 포함하는 `-a`를 기본으로 사용하지 않습니다. 로컬 `.gitignore` 변경을 stash하면서 제외 규칙이 일시적으로 사라지면 메모가 미추적 파일로 보일 수 있으므로 add·삭제하지 않고 유지합니다.
+
+#### 3. 원격 커밋 반영 후 로컬 작업 복원
+
+```bash
+git merge --ff-only origin/main
+```
+
+성공한 뒤에만 기록한 stash를 적용합니다. 아래 `'stash@{0}'`은 **방금 만든 stash가 여전히 가장 최근 항목일 때**의 예시이며 중간에 다른 stash를 만들었다면 목록에서 실제 항목을 다시 확인합니다. PowerShell에서도 중괄호가 있는 참조를 따옴표로 감쌉니다.
+
+```bash
+git stash apply 'stash@{0}'
+git status --short
+```
+
+`--ff-only`가 실패하면 stash와 백업을 유지한 채 중단하고 분기 상태를 확인합니다. `reset --hard`로 맞추거나 다시 pull하지 않습니다. `apply`는 stash를 남겨두므로 `pop`보다 복원 내용을 검토하기 쉽습니다. 기존 스테이징 구분까지 복원해야 하면 `apply --index`가 필요할 수 있지만 충돌 시 실패할 수 있으므로 기록한 상태와 별도 비교합니다.
+
+#### 4. 충돌 해결·검증
+
+충돌이 나면 같은 stash를 다시 적용하지 않습니다. 파일의 `<<<<<<<`·`=======`·`>>>>>>>` 구간을 편집해 원격 업데이트와 필요한 로컬 변경을 함께 남긴 뒤 해결한 파일만 `git add`합니다. 예를 들어 이 저장소의 macOS 공통 문서라면 다음과 같습니다.
+
+```bash
+git add 00.Setup/macOS_Common_Dev_Setting.md
+```
+
+문서 첫 줄 버전도 양쪽 변경 내용을 기준으로 결정합니다. 예를 들어 원격이 `v3.0.0`이고 로컬 변경이 안내 링크 추가라면 `v3.0.1`로 조정할 수 있습니다. 원격의 새 절차를 구버전 내용으로 통째로 덮어쓰지 않습니다. **stash 적용 충돌 해결은 이 단계에서 새 병합 커밋을 만들 필요가 없습니다.**
+
+전체 로컬 변경을 미스테이징 상태로 남기려는 경우에만 `git restore --staged -- .`를 사용합니다. 작업 파일은 유지되지만 원래의 스테이징 구분도 풀리므로 그대로 유지해야 하는 작업에는 일괄 적용하지 않습니다. 마지막으로 백업과 수정·미추적·ignored 파일을 비교하고 확인합니다.
+
+```bash
+git diff --check
+git diff --name-only --diff-filter=U
+git status --short --branch
+git diff
+git diff --staged
+```
+
+충돌 파일 목록이 비어 있고 로컬 변경·메모가 보존됐는지 확인합니다. 문서는 링크·앵커·코드 블록, 실제 설정은 해당 프로젝트의 테스트·빌드도 확인합니다. `issues/` 메모는 `git check-ignore -v issues/gradle-version-management-notes.md`로 제외 상태를 확인할 수 있습니다. 이 경로는 예시이며 실제 로컬 파일로 바꿉니다.
+
+검증이 끝날 때까지 stash와 외부 백업은 유지합니다. 더 이상 필요 없을 때만 `git stash list`로 정확한 항목을 다시 확인한 뒤 `git stash drop 'stash@{0}'`처럼 해당 항목만 제거합니다. `git stash clear`로 전체를 지우지 않습니다.
+
+절차·명령 확인일: 2026-11-02. [fetch](https://git-scm.com/docs/git-fetch) · [stash](https://git-scm.com/docs/git-stash) · [fast-forward 병합](https://git-scm.com/docs/git-merge) · [스테이징 복원](https://git-scm.com/docs/git-restore).
 
 ---
 
@@ -122,8 +193,10 @@ git checkout <branch_name>     # 기존 브랜치로 이동
 ```bash
 git stash                # 현재 작업 임시 저장
 git stash list           # 저장 목록 확인
-git stash pop            # 가장 최근 저장 내용 복구 및 삭제
+git stash apply 'stash@{0}' # 적용 후 내용 확인; stash는 유지
 ```
+
+미추적 파일·ignored 메모 보존과 충돌 처리는 [원격 업데이트 절차](#24-로컬-변경을-올리지-않고-github-업데이트-받기)를 따릅니다. 복원 확인 후에만 해당 stash를 제거합니다.
 
 ### 4.2 저장소 최적화 (git gc)
 저장소의 용량을 줄이고 명령 실행 속도를 높입니다.

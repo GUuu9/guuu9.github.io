@@ -12,6 +12,8 @@
 | 03.Utilities | 편의 앱의 설치·실행·업데이트 | [유틸리티 목록](./03.Utilities/README.md) |
 | 04.Servers | 외부 서버 구축·작업 영역 제공·운영 | [서버 목록](./04.Servers/README.md) |
 
+작성 중인 내용과 오류 기록은 [issues 안내](./issues/README.md)에 따라 로컬에 보관합니다.
+
 ## 00.Setup — PC 개발 환경
 
 - macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 초기 설치](./00.Setup/macOS_Common_Dev_Setting.md)

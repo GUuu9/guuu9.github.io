@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v2.1.1 -->
 # Linux 개발 도구 초기 설치 (Ubuntu / Debian)
 
 지원 중인 Ubuntu LTS 또는 Debian의 **x86_64 데스크톱·bash**를 기준으로 합니다. 개인 PC의 일반 사용자 터미널에서 임의 디렉터리에서 실행하며 `sudo`가 붙은 명령만 관리자 권한이 필요합니다. ARM·다른 배포판은 별도 지원 확인이 필요합니다. Docker Desktop·Android Studio의 Linux ARM 지원을 전제하지 않습니다.
@@ -108,6 +108,8 @@ curl -fsSL https://fvm.app/install.sh | bash
 [Android Studio 공식 설치 안내](https://developer.android.com/studio/install#linux)의 OS·CPU·라이브러리 조건을 확인해 Linux 배포판을 설치하고 처음 실행합니다. SDK Manager에서 Command-line Tools·Platform-Tools를 준비하고 SDK 경로를 기록합니다. 프로젝트별 SDK Platform·Build-Tools·NDK·CMake는 복원 단계에서 선택합니다. AVD·에뮬레이터 이미지는 사전 설치하지 않습니다.
 
 JDK는 Android Studio 포함 버전을 우선하되 프로젝트 Gradle·AGP 요구 조건을 확인합니다. [공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)를 적용합니다. Android 실기기는 개발자 옵션·USB 디버깅·연결 허용을 준비하고 [공식 실기기 안내](https://developer.android.com/studio/run/device#setting-up)의 Linux 사용자 권한·udev 규칙을 따릅니다. adb를 상시 root로 실행해 우회하지 않습니다.
+
+Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
 
 ## 5. C/C++·Rust·Unity 도구
 
