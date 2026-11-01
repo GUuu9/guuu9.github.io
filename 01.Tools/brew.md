@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.3.0 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
@@ -27,6 +27,27 @@ brew tap 소유자/저장소
 brew install 소유자/저장소/패키지
 brew untap 소유자/저장소
 ```
+
+### CMake·IINA 설치
+
+Homebrew 준비를 마친 개인 Mac의 일반 사용자 터미널에서 실행합니다. CMake는 C/C++ 프로젝트의 빌드 구성 도구이고, IINA는 macOS용 영상 플레이어입니다. 이미 공식 배포판으로 설치했다면 기존 관리 방식을 확인하고 같은 도구를 중복 설치하지 않습니다.
+
+```bash
+brew info cmake
+brew install cmake
+cmake --version
+
+brew info --cask iina
+brew install --cask iina
+brew list --cask --versions iina
+open -a IINA
+```
+
+IINA에서 로컬 영상 파일을 열어 재생을 확인하고 `⌘Q`로 종료합니다. CMake의 프로젝트별 구성·빌드는 [C/C++ 툴체인 가이드](./cpp-toolchain.md)를 따릅니다. 위 명령은 CMake CLI 설치이며 CMake.app 설치 절차와 구분합니다.
+
+설치 명령 확인일: 2026-11-01. [CMake 공식 formula](https://formulae.brew.sh/formula/cmake) · [IINA 공식 cask](https://formulae.brew.sh/cask/iina) · [IINA 공식 사이트](https://iina.io/). OS·CPU별 지원 조건은 설치 전 각 페이지에서 확인하며 Intel의 Homebrew 설치·패키지 지원 제한은 그대로 적용됩니다.
+
+CMake 업데이트는 아래 버전 관리 절차를 따릅니다. IINA를 Homebrew로 갱신하려면 `brew upgrade --cask iina`를 실행하고 앱 실행·영상 재생을 다시 확인합니다.
 
 ## 설치 위치와 PATH 확인
 

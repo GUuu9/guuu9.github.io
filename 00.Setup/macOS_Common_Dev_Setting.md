@@ -1,4 +1,4 @@
-<!-- version: v2.10.0 -->
+<!-- version: v3.0.0 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -39,6 +39,22 @@ command -v uv
 앱을 켠 상태에서 PATH를 바꿨다면 VS Code·Codex 같은 부모 앱도 완전히 종료한 뒤 다시 실행합니다. GUI 앱·비대화형 훅이 `.zshrc`를 읽는다고 가정하지 않습니다. Node 버전별 `bin` 경로는 고정하지 않고 nvm이 선택하게 둡니다. SDK·JDK 변수는 설치 후 [FVM 환경 변수 안내](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)를 따릅니다. 토큰·개인 키는 셸 설정·공유 PATH 출력에 넣지 않습니다.
 
 zsh 로딩 규칙 확인일: 2026-10-30. [공식 시작 파일 안내](https://zsh.sourceforge.io/Doc/Release/Files.html).
+
+### Xcode 설치·초기화
+
+nvm 설치기의 Git 호출이나 Homebrew 설치가 미동의 Xcode 라이선스로 중단되지 않도록 **Homebrew·Oh My Zsh·nvm보다 먼저** 확인합니다. 전체 Xcode가 설치되어 있다면 아래 선택·라이선스·초기화를 완료합니다. Command Line Tools만 사용하는 경우 Xcode 전용 명령은 실행하지 않고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다.
+
+1. iOS 개발이 필요하면 해당 macOS가 지원하는 Xcode를 설치합니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
+2. Xcode를 한 번 열고 필수 구성요소와 iOS 플랫폼 지원을 설치합니다. Simulator 런타임은 사전 설치하지 않습니다.
+3. 아래 명령으로 사용할 Xcode를 지정하고 초기 설정과 라이선스를 확인합니다. 설치 경로가 다르면 실제 경로로 바꿉니다.
+
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license
+sudo xcodebuild -runFirstLaunch
+```
+
+iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
 
 ### Homebrew 준비
 
@@ -221,19 +237,6 @@ Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gr
 
 D2Coding 설치 후 [Android Studio 공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)에 따라 편집기·콘솔·내장 터미널에 각각 적용합니다.
 
-### Xcode 설치·초기화
-
-1. 해당 macOS가 지원하는 Xcode를 설치합니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
-2. Xcode를 한 번 열고 필수 구성요소와 iOS 플랫폼 지원을 설치합니다. Simulator 런타임은 사전 설치하지 않습니다.
-3. 아래 명령으로 사용할 Xcode를 지정하고 초기 설정과 라이선스를 확인합니다. 설치 경로가 다르면 실제 경로로 바꿉니다.
-
-```bash
-sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-sudo xcodebuild -runFirstLaunch
-sudo xcodebuild -license
-```
-
-iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
 
 ## 5. C/C++·Rust·Unity 도구
 
