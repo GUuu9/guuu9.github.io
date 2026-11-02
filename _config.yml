@@ -1,37 +1,41 @@
-# Setup 문서만 웹 페이지로 변환합니다. 원본 Markdown은 그대로 보관합니다.
+# 저장소의 Markdown 문서를 공통 디자인으로 변환합니다. 원본 Markdown은 그대로 보관합니다.
 markdown: kramdown
 kramdown:
   input: GFM
 plugins:
   - jekyll-optional-front-matter
   - jekyll-relative-links
+  - jekyll-titles-from-headings
 optional_front_matter:
   remove_originals: false
+# README도 README.html 경로를 유지해 상대 링크와 탐색 경로를 일치시킵니다.
+readme_index:
+  enabled: false
 defaults:
   - scope:
-      path: "00.Setup"
+      path: ""
       type: pages
     values:
-      layout: setup
-exclude:
-  - 01.Tools
-  - 02.Boilerplates
-  - 03.Utilities
-  - 04.Servers
-  - issues
-  - AGENTS.md
+      layout: docs
+include:
   - README.md
-setup_source_url: "https://github.com/GUuu9/guuu9.github.io/blob/main/"
-setup_navigation:
-  - title: OS별 안내
+  - 01.Tools/**/README.md
+  - 02.Boilerplates/**/README.md
+  - 03.Utilities/**/README.md
+  - 04.Servers/**/README.md
+exclude:
+  - issues
+source_url: "https://github.com/GUuu9/guuu9.github.io/blob/main/"
+document_navigation:
+  - title: 전체 안내
+    url: /README.html
+  - title: Setup
     url: /00.Setup/OS_Dev_Setting.html
-  - title: macOS · Apple Silicon
-    url: /00.Setup/macOS_AppleSilicon_Dev_Setting.html
-  - title: macOS · Intel
-    url: /00.Setup/macOS_Intel_Dev_Setting.html
-  - title: macOS · 공통 도구
-    url: /00.Setup/macOS_Common_Dev_Setting.html
-  - title: Windows
-    url: /00.Setup/Windows_Dev_Setting.html
-  - title: Linux
-    url: /00.Setup/Linux_Dev_Setting.html
+  - title: Tools
+    url: /01.Tools/README.html
+  - title: Boilerplates
+    url: /02.Boilerplates/README.html
+  - title: Utilities
+    url: /03.Utilities/README.html
+  - title: Servers
+    url: /04.Servers/README.html

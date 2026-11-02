@@ -8,7 +8,7 @@
 | :--- | :--- | :--- |
 | 00.Setup | PC 초기화 후 개발 환경 설치·복원·업데이트 | [OS별 설정](./00.Setup/OS_Dev_Setting.md) |
 | 01.Tools | 개발 도구의 용도·사용법·버전 관리 | [도구 목록](./01.Tools/README.md) |
-| 02.Boilerplates | 프로젝트 구조·파일명·개발 규칙·AGENTS.md | 유형별 폴더 준비 단계 |
+| 02.Boilerplates | 프로젝트 구조·파일명·개발 규칙·AGENTS.md | [보일러플레이트 목록](./02.Boilerplates/README.md) |
 | 03.Utilities | 편의 앱의 설치·실행·업데이트 | [유틸리티 목록](./03.Utilities/README.md) |
 | 04.Servers | 외부 서버 구축·작업 영역 제공·운영 | [서버 목록](./04.Servers/README.md) |
 
@@ -43,7 +43,9 @@
 
 [특정 유형만 Git으로 내려받기](./02.Boilerplates/README.md#특정-보일러플레이트만-내려받기)
 
-[mobile-app](./02.Boilerplates/mobile-app/) · [server](./02.Boilerplates/server/) · [server-wui](./02.Boilerplates/server-wui/) · [electron-app](./02.Boilerplates/electron-app/)
+[mobile-app](./02.Boilerplates/mobile-app/README.md) · [server-wui](./02.Boilerplates/server-wui/README.md) · [electron-phaser](./02.Boilerplates/electron-phaser/README.md)
+
+준비 중인 [server](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/server)·[electron-app](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/electron-app)은 GitHub 폴더에서 확인합니다.
 
 [작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 현재 server-wui의 독립 실행 샘플과 설명서·작업 지침을 제공합니다. 다른 유형은 대상 프로젝트 조사 후 추가합니다.
 

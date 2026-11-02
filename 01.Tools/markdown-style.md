@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # Markdown 문서 디자인·작성 가이드
 
 이 저장소의 설치·사용·운영 문서를 GitHub에서 읽기 쉽게 구성하는 기준입니다. 내용과 명령을 먼저 정확히 작성한 뒤 제목·표·강조·접기를 적용합니다. 별도 테마나 CSS 설치는 필요하지 않습니다.
@@ -84,6 +84,27 @@ GitHub는 NOTE·TIP·IMPORTANT·WARNING·CAUTION을 지원합니다. 본문에 �
 
 이 기준은 Setup·Tools·Boilerplates·Utilities·Servers에 공통 적용합니다. 독립 보일러플레이트 패키지는 필수 설명을 이 외부 문서 링크에 의존하지 않고 패키지 안에서 유지합니다.
 
+## 웹 디자인 관리
+
+GitHub Pages에서는 루트 README와 Setup·Tools·Boilerplates·Utilities·Servers의 Markdown에 공통 디자인을 적용합니다. 실행 샘플 안의 README도 같은 규칙을 따릅니다. 원본 Markdown의 제목·명령·첫 줄 버전은 유지하며 CSS 없이도 필요한 내용을 읽을 수 있어야 합니다. 이모지·외부 폰트·JavaScript는 추가하지 않습니다.
+
+| 관리 파일 | 역할 |
+| :--- | :--- |
+| [_config.yml](../_config.yml) | 공통 레이아웃 기본값·상위 분류 메뉴·게시 제외 경로 |
+| [docs.html](../_layouts/docs.html) | 문서 레이아웃·현재 분류의 문서 목록·GitHub 원문 링크 |
+| [docs.css](../assets/css/docs.css) | 모바일·다크 모드·표·코드·인쇄 스타일 |
+| [index.html](../index.html) | 기본 주소에서 전체 안내 `README.html`로 이동 |
+
+README는 `_config.yml`의 `include`에 루트 및 분류별 패턴을 등록해 변환 대상에 포함합니다. 새 분류를 만들면 이 패턴도 갱신합니다. 새 Markdown 문서는 기본 레이아웃을 자동으로 사용하므로 개별 문서에 스타일·front matter를 복제하지 않습니다. 문서 링크는 `.md` 상대 경로로 작성하고 `jekyll-relative-links`가 웹 링크로 변환하도록 합니다. README는 `README.html` 경로를 유지하도록 `readme_index.enabled: false`로 설정합니다. 빈 보일러플레이트 폴더는 문서가 생기기 전까지 GitHub 원문 경로로 안내합니다.
+
+`issues/`는 게시에서 제외합니다. 루트 README의 issues 안내 링크만 레이아웃에서 GitHub 원문으로 연결합니다. CSS·레이아웃은 저장소 공통 자산이며 독립 보일러플레이트의 실행 코드에 복사하지 않습니다. Mermaid·GitHub 알림 상자는 별도 렌더러를 추가하지 않으므로 웹에서 코드·인용문으로 표시될 수 있습니다.
+
+Jekyll은 코드 블록 안의 Liquid 구문도 처리합니다. Docker Go template처럼 중괄호가 연속되는 예제는 Docker 문서처럼 HTML 주석 안의 Liquid raw/endraw 태그로 감싸 원문 표시와 빌드를 함께 보존합니다. 새 예제를 추가할 때도 이 충돌을 확인합니다.
+
+이미 Jekyll을 사용하는 환경에서는 저장소 루트에서 `jekyll build --destination /private/tmp/docs-site-preview`로 생성합니다. 새 의존성 설치 없이 가능한 정적 검사와 실제 빌드·화면 검증은 구분해 보고합니다. 루트·분류 목록·중첩 문서의 상대 링크와 제목 앵커, 좁은 화면, 다크 모드, 인쇄를 확인합니다. 공통 스타일만 바뀐 문서의 내용 버전은 일괄 변경하지 않습니다.
+
+기본 주소까지 404라면 **Settings → Pages**의 게시 소스가 `main`의 `/(root)`인지 확인합니다. Actions 게시라면 배포 산출물 최상위에 `index.html`이 있어야 합니다. push 후 Pages 빌드·배포 성공을 확인하고 하위 URL의 대소문자를 맞춥니다. 프로젝트 사이트의 접두 경로는 `baseurl`로 설정하고 레이아웃에서는 `relative_url` 필터를 사용합니다. 저장소·브랜치가 바뀌면 `source_url`도 수정합니다.
+
 ## 공식 참고
 
 문법 확인일: 2026-11-02. GitHub 문서와 대조했으며 GitHub·VS Code 미리보기의 실제 화면 렌더링은 확인하지 않았습니다.
@@ -91,3 +112,7 @@ GitHub는 NOTE·TIP·IMPORTANT·WARNING·CAUTION을 지원합니다. 본문에 �
 - [GitHub 기본 문법·알림 상자](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
 - [접힌 섹션](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections)
 - [Mermaid 도식](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams)
+
+- [Pages 404 문제 해결](https://docs.github.com/en/pages/getting-started-with-github-pages/troubleshooting-404-errors-for-github-pages-sites)
+- [README 경로 설정](https://github.com/benbalter/jekyll-readme-index)
+- [Jekyll 코드 블록과 Liquid](https://jekyllrb.com/docs/liquid/tags/)

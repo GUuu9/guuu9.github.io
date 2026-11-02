@@ -1,4 +1,5 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.3.1 -->
+<!-- {% raw %} -->
 # Docker·Compose 사용 가이드
 
 확인일: 2026-10-28. Docker Desktop을 실행하고 주로 터미널에서 컨테이너를 관리하는 로컬 개발 기준입니다. 설치·OS별 지원 조건은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
@@ -313,3 +314,4 @@ pull_policy: never는 load한 로컬 이미지를 사용하고 레지스트리�
 로컬 접속만 필요하면 컨테이너 안에 SSH 서버를 추가하지 않고 exec 또는 VS Code Dev Containers를 사용합니다. 원격 호스트·개발 컨테이너 구성과 템플릿은 [서버 Docker 가이드](../04.Servers/docker-server/README.md)을 참고합니다. 기존 문서의 이미지 스냅샷은 볼륨 백업을 대체하지 않습니다.
 
 제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.
+<!-- {% endraw %} -->

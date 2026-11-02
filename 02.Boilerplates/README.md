@@ -71,11 +71,11 @@ project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아�
 
 | 유형 | 범위 |
 | :--- | :--- |
-| [mobile-app](./mobile-app/) | Flutter 모바일 앱 |
-| [server](./server/) | 독립 TypeScript 서버 |
-| [server-wui](./server-wui/) | TypeScript 서버 + React 웹 UI |
-| [electron-app](./electron-app/) | Electron + React + TypeScript 앱 |
-| [electron-phaser](./electron-phaser/) | Electron + React + Phaser 로컬 게임·점수 저장 |
+| [mobile-app](./mobile-app/README.md) | Flutter 모바일 앱 |
+| [server](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/server) | 독립 TypeScript 서버 |
+| [server-wui](./server-wui/README.md) | TypeScript 서버 + React 웹 UI |
+| [electron-app](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/electron-app) | Electron + React + TypeScript 앱 |
+| [electron-phaser](./electron-phaser/README.md) | Electron + React + Phaser 로컬 게임·점수 저장 |
 
 mobile-app·server-wui·electron-phaser에는 실행 샘플이 있으며, server와 electron-app은 준비 단계입니다. mobile-app은 Android/iOS GUI·실기기가 미검증이며 새 반출본은 검증 후 반입합니다.
 

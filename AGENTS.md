@@ -91,3 +91,12 @@ BIND_ADDRESS=127.0.0.1 SSH_PORT=2222 WORKSPACE_IMAGE=personal-workspace:check do
 - `git diff --check`로 공백 오류를 확인합니다. 실제 설정을 변경한 경우에는 관련 빌드·인증·접속·지속성·복구 검사도 작업 범위와 가능한 환경에 맞춰 수행합니다.
 - 정적 검사 통과를 실제 실행 성공으로 표현하지 않습니다. Docker 엔진 부재·다른 OS 미보유 등으로 못 한 검사는 명확히 기록합니다.
 - 완료 보고에는 변경 내용·위치·검사 결과·남은 한계만 간결하게 적습니다. 커밋·push·배포는 요청받은 범위에서만 수행합니다.
+
+## 8. 웹 디자인 관리
+
+- 전체 Markdown은 `_config.yml`의 기본값과 `_layouts/docs.html`·`assets/css/docs.css`를 공통 사용합니다. 개별 문서에 CSS·JavaScript·레이아웃용 front matter를 복제하지 않습니다. 첫 줄 버전과 원본 Markdown 가독성을 유지합니다.
+- 상세 기준은 [웹 디자인 관리](./01.Tools/markdown-style.md#웹-디자인-관리)를 따릅니다. 모바일·다크 모드·인쇄·키보드 탐색을 유지하고 필수 내용을 CSS로 숨기지 않습니다. 이모지·외부 폰트·JavaScript는 추가하지 않습니다.
+- 새 문서는 해당 분류에 배치하고 `.md` 상대 링크로 연결합니다. 현재 분류의 웹 문서 목록은 자동 생성합니다. 최상위 분류 변경 시 `document_navigation`과 README 변환용 `include` 패턴도 갱신합니다. README의 웹 경로는 `README.html`로 유지합니다.
+- 루트 `index.html`은 전체 안내로 연결하며 삭제하지 않습니다. `issues/`는 웹 빌드에서 제외합니다. 게시 제외 문서·빈 폴더로 연결해야 하면 GitHub 원문으로 연결하여 웹 404를 만들지 않습니다.
+- 코드 예제의 Liquid 충돌을 확인합니다. Docker Go template 등은 HTML 주석 안의 raw/endraw 태그로 보호하고 실행 명령은 바꾸지 않습니다. 실행 샘플에 웹 디자인 설정을 주입하지 않습니다.
+- 공통 디자인 변경 후 설정 문법·내부 링크·앵커·코드 펜스와 `git diff --check`를 검사합니다. 가능한 환경에서는 Jekyll 빌드 및 루트·분류·중첩 문서의 화면도 확인합니다. 디자인만 적용받는 문서의 버전은 일괄 올리지 않습니다. 커밋·push·게시 설정 변경은 요청받은 범위에서만 수행합니다.
