@@ -1,4 +1,4 @@
-<!-- version: v1.3.2 -->
+<!-- version: v1.3.3 -->
 # uv·Python 가상환경 사용 가이드
 
 확인일: 2026-10-28. uv는 Python 버전, 가상환경, 패키지 의존성, 잠금 파일과 CLI 도구 환경을 관리합니다. 기존 requirements.txt 방식과 pyproject.toml·uv.lock 방식 중 프로젝트가 사용하는 흐름을 따릅니다. pip와 유사한 명령이 있지만 모든 동작·옵션이 완전히 같지는 않습니다.
@@ -57,7 +57,8 @@ uv run --locked pytest
 
 pytest는 해당 프로젝트에 선언돼 있을 때 실행합니다. `--locked`는 잠금 파일 변경이 필요하면 실패하도록 합니다. 실패하면 요구 Python·pyproject.toml·uv.lock의 일관성을 확인합니다. 초기 복원에서 uv lock으로 문제를 덮지 않습니다.
 
-`uv sync`는 기본적으로 환경을 선언 내용과 정확히 맞추므로 별도로 설치한 불필요 패키지가 제거될 수 있습니다. 작업마다 필요한 의존성은 프로젝트 선언에 추가합니다. CI에서는 프로젝트의 검증 명령과 `--locked`를 사용합니다.
+> [!IMPORTANT]
+> `uv sync`는 기본적으로 환경을 선언 내용과 정확히 맞추므로 별도로 설치한 불필요 패키지가 제거될 수 있습니다. 작업마다 필요한 의존성은 프로젝트 선언에 추가합니다. CI에서는 프로젝트의 검증 명령과 `--locked`를 사용합니다.
 
 ## requirements.txt·pip 방식 유지
 
@@ -111,6 +112,9 @@ Python 버전이 프로젝트 요구값과 같고 실행 경로가 `.venv` 내�
 
 기존 README가 uv가 아닌 Python 표준 venv·pip를 지정한 프로젝트에만 적용합니다. 해당 프로젝트가 지정한 Python으로 표준 venv를 생성하는 기존 절차를 유지하고, uv 환경 생성의 기본 명령으로 사용하지 않습니다. 환경은 생성에 사용한 Python 버전을 따릅니다. Electron의 node-gyp용 Python도 해당 프로젝트·node-gyp 요구 버전을 우선합니다.
 
+<details>
+<summary>기존 pip 환경의 패키지 복원·갱신</summary>
+
 ### 패키지 설치와 복원
 
 ```bash
@@ -122,6 +126,8 @@ python -m pip check
 새 패키지는 활성화한 환경에서 `python -m pip install requests`처럼 설치합니다. `python -m pip`를 사용하면 선택한 Python과 pip가 달라지는 실수를 줄일 수 있습니다.
 
 pip 자체 갱신은 `python -m pip install --upgrade pip`입니다. 패키지 갱신은 목표 버전을 정해 수행하고 프로젝트 테스트로 확인합니다. 시스템 Python에서 sudo pip나 강제 전역 설치 옵션을 사용하지 않습니다.
+
+</details>
 
 현재 환경을 기록하려면 `python -m pip freeze > requirements.txt`를 사용할 수 있습니다. 기존 파일을 덮어쓰므로 먼저 Git 변경과 내용을 확인합니다. freeze는 현재 설치 목록이며 다른 OS·Python까지 보장하는 범용 잠금 파일은 아닙니다.
 

@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Craft 도구 설치·실행·업데이트
 
 확인일: 2026-10-28. PhotoCraft·VectorCraft·EffectCraft·FilmCraft의 공통 관리 절차입니다. 설치 방식은 비슷하지만 앱 버전·지원 형식·Rust 요구 조건은 각각 확인합니다. 네 도구를 한 번에 업데이트해야 하는 것은 아닙니다.
@@ -20,7 +20,8 @@
 | Windows | CPU에 맞는 설치 프로그램을 실행하고 시작 메뉴에서 실행. Portable 배포를 선택하면 별도 폴더에 압축 해제 후 실행 |
 | Linux | 해당 배포판·CPU에 제공되는 AppImage·deb·rpm 등 중 한 가지를 선택해 설치. 앱 메뉴 또는 배포 파일에서 실행 |
 
-위 형식은 해당 릴리스 Assets에 실제 제공되는 것만 선택합니다. macOS Universal은 지원 OS 조건을 확인하고, 개별 아키텍처 배포는 Apple Silicon arm64·Intel x86_64에 맞춥니다. Windows ARM과 Linux aarch64도 x64 파일을 무조건 선택하지 않습니다.
+> [!NOTE]
+> 위 형식은 해당 릴리스 Assets에 실제 제공되는 것만 선택합니다. macOS Universal은 지원 OS 조건을 확인하고, 개별 아키텍처 배포는 Apple Silicon arm64·Intel x86_64에 맞춥니다. Windows ARM과 Linux aarch64도 x64 파일을 무조건 선택하지 않습니다.
 
 설치 전에 릴리스 노트의 최소 OS·GPU·런타임 조건을 확인합니다. 체크섬이 제공되면 다운로드 파일과 비교합니다. 앱 이름만 보고 임의의 Homebrew·winget 패키지를 설치하지 않습니다.
 

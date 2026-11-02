@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Docker 작업 영역 서버 운영·버전·복구
 
 [기본 구성](./README.md)을 완료한 뒤 적용합니다. 아래 Docker 명령은 해당 사용자 Compose 디렉터리에서 관리자가 실행합니다. 실제 서버 데이터에 적용하기 전 복사본에서 복원을 시험합니다.
@@ -7,7 +7,8 @@
 
 서버는 Docker Engine으로 관리하고 일반 사용자는 개인 작업 영역에만 접속합니다. 공통 구성은 [구축 안내](./README.md), 언어별 설정은 environments, RStudio·Jupyter·code-server 등은 [작업 영역 선택](./workspace-types.md)을 따릅니다.
 
-Desktop에서 이전하는 경우 이미지·볼륨이 Engine으로 자동 이동되지 않습니다. 이미지 save/load, 볼륨 백업/복원, 실행 설정을 각각 준비합니다. 이미지 commit/save는 마운트 데이터 백업이 아닙니다.
+> [!WARNING]
+> Desktop에서 이전하는 경우 이미지·볼륨이 Engine으로 자동 이동되지 않습니다. 이미지 save/load, 볼륨 백업/복원, 실행 설정을 각각 준비합니다. 이미지 commit/save는 마운트 데이터 백업이 아닙니다.
 
 ## 2. 버전·사용자 운영 기록
 

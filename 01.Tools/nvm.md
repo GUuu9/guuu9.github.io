@@ -1,4 +1,4 @@
-<!-- version: v1.2.1 -->
+<!-- version: v1.2.2 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
@@ -12,7 +12,8 @@
 | 프로젝트 버전 | `.nvmrc`를 `nvm use`로 읽음 | `.nvmrc`를 읽고 버전을 직접 지정 |
 | 기본값 | `nvm alias default 버전` | Unix alias 명령을 사용하지 않음 |
 
-WSL은 Windows nvm-windows 대신 WSL 내부에 Unix nvm을 설치합니다. OS별 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
+> [!IMPORTANT]
+> WSL은 Windows nvm-windows 대신 WSL 내부에 Unix nvm을 설치합니다. OS별 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
 
 ## macOS·Linux 기본 흐름
 

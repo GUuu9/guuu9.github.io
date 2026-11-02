@@ -1,11 +1,12 @@
-<!-- version: v1.6.1 -->
+<!-- version: v1.6.2 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
 
 ## 관리하는 것과 필요한 외부 도구
 
-FVM은 Flutter SDK를 관리하지만 Android SDK·JDK·Xcode·CocoaPods·서명 계정을 설치해 주지는 않습니다. 실기기 환경은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 먼저 진행합니다. iOS 로컬 빌드·서명에는 Mac과 Xcode가 필요합니다.
+> [!IMPORTANT]
+> FVM은 Flutter SDK를 관리하지만 Android SDK·JDK·Xcode·CocoaPods·서명 계정을 설치해 주지는 않습니다. 실기기 환경은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 먼저 진행합니다. iOS 로컬 빌드·서명에는 Mac과 Xcode가 필요합니다.
 
 ## SDK 찾기와 설치
 

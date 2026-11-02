@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # 외부 서버의 Docker 개인 작업 영역 구성
 
 확인일: 2026-10-28. Ubuntu Server 24.04 LTS와 Docker Engine·Compose 플러그인을 기준으로 합니다. 관리자가 사용자별 컨테이너와 접속 포트를 만들고 사용자는 개인 PC의 SSH·VS Code로 작업합니다. GUI·브라우저 IDE·GPU·Windows VM은 필요한 시점에 별도 구성합니다.
@@ -147,6 +147,8 @@ Host workspace-alice
 ```
 
 VS Code에서 Remote - SSH를 설치하고 `Remote-SSH: Connect to Host...` → workspace-alice로 접속합니다. `/home/developer` 아래 프로젝트를 엽니다. 서버 호스트가 아닌 컨테이너의 디렉터리와 터미널인지 `whoami`, `hostname`, `pwd`로 확인합니다. [VS Code 공식 SSH 안내](https://code.visualstudio.com/docs/remote/ssh)
+
+로컬·원격 확장 설치 위치와 컨테이너 필수 패키지·오류 확인은 [VS Code 확장과 패키지 안내](./guides/docker_container_setup.md#vs-code-확장과-프로젝트-패키지)를 따릅니다.
 
 Node·Python 환경은 [Linux 설정](../../00.Setup/Linux_Dev_Setting.md)의 nvm·uv 절차를 컨테이너 사용자로 진행합니다. 해당 문서의 호스트 apt·Docker Desktop 설치를 그대로 컨테이너에 적용하지 않습니다. 사용자 home 전체가 볼륨이므로 프로젝트·도구 설정을 유지합니다.
 
