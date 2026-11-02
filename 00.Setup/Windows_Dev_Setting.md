@@ -1,4 +1,4 @@
-<!-- version: v2.1.1 -->
+<!-- version: v2.1.2 -->
 # Windows 개발 도구 초기 설치
 
 **Windows 11 x64·PowerShell·Windows 네이티브 개발**을 기준으로 합니다. macOS와 동일하게 **0~8절 초기 설치 → 도구 인식 확인 → 프로젝트 작업 안내 → 업데이트** 순서입니다. 별도 표시가 없으면 개인 PC의 일반 사용자 PowerShell에서 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더·가상환경·잠금 파일이 필요하지 않습니다.
@@ -76,7 +76,7 @@ nvm-windows는 Unix nvm과 별개입니다. `nvm alias default`·`.nvmrc` 자동
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.13.6/install.ps1 | iex"
 ```
 
-설치기의 사용자 PATH 안내를 적용하고 새 PowerShell에서 `Get-Command uv`·`uv --version`을 확인합니다. 실행 정책 옵션은 설치 프로세스에 한정합니다. 아직 특정 Python·`.venv`를 만들지 않고 시스템 Python을 변경하지 않습니다. 복원은 [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md)를 따릅니다.
+설치기의 사용자 PATH 안내를 적용하고 새 PowerShell에서 `Get-Command uv`·`uv --version`을 확인합니다. 실행 정책 옵션은 설치 프로세스에 한정합니다. 아직 특정 Python·`.venv`를 만들지 않고 시스템 Python을 변경하지 않습니다. 복원은 [uv·가상환경](../01.Tools/uv.md)를 따릅니다.
 
 프로젝트 복원 후 가상환경 활성화는 `.\.venv\Scripts\Activate.ps1`, 종료는 `deactivate`입니다. 정책으로 차단되면 uv 명령 또는 `.\.venv\Scripts\python.exe`를 직접 사용합니다.
 
@@ -168,7 +168,7 @@ Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](..
 | 작업 | 상세 절차 |
 | :--- | :--- |
 | TypeScript·React·Electron·서버 | [nvm·npm](../01.Tools/nvm.md#windows-기본-흐름): 요구 Node 선택·npm ci·프로젝트 실행/테스트/빌드 |
-| Python | [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md): 요구 Python·잠금 파일·인터프리터 복원 |
+| Python | [uv·가상환경](../01.Tools/uv.md): 요구 Python·잠금 파일·인터프리터 복원 |
 | Flutter·Android | [FVM](../01.Tools/fvm.md#기존-프로젝트-복원): SDK 고정·pub get·doctor·실기기 확인 |
 | C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
 | Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |

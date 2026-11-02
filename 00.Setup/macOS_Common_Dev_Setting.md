@@ -1,4 +1,4 @@
-<!-- version: v3.1.0 -->
+<!-- version: v3.1.1 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -202,7 +202,7 @@ uv --version
 
 기존 설치가 있다면 `which -a uv`로 중복·PATH 우선순위를 확인합니다. 독립 설치로 전환한 뒤 업데이트는 `uv self update`를 사용하며 brew upgrade uv와 혼용하지 않습니다. 기존 uv의 Python·캐시·가상환경을 지우지 않습니다.
 
-프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [uv 가이드](../01.Tools/uv.md#기존-uv-프로젝트-복원)에서 진행합니다. 상세 사용법은 [uv](../01.Tools/uv.md)·[venv](../01.Tools/venv.md)를 참고합니다.
+프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [uv 가이드](../01.Tools/uv.md#기존-uv-프로젝트-복원)에서 진행합니다. 상세 사용법은 [uv·가상환경](../01.Tools/uv.md)를 참고합니다.
 
 ## 4. Flutter 도구: FVM·Android Studio·Xcode
 
@@ -323,7 +323,7 @@ codex
 | 작업 | 상세 절차 |
 | :--- | :--- |
 | TypeScript·React·Electron·서버 | [nvm·npm](../01.Tools/nvm.md) |
-| Python | [uv](../01.Tools/uv.md) · [venv](../01.Tools/venv.md) |
+| Python | [uv·가상환경](../01.Tools/uv.md) |
 | Flutter·Android·iOS | [FVM·실기기 연결](../01.Tools/fvm.md) |
 | C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
 | Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |

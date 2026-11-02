@@ -33,7 +33,7 @@
 | 보조 패키지·앱 관리(macOS 초기 준비) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
 | Flutter SDK 버전 | [FVM](./01.Tools/fvm.md) |
-| Python 버전·패키지·가상환경 | [uv](./01.Tools/uv.md) · [venv](./01.Tools/venv.md) |
+| Python 버전·패키지·가상환경 | [uv·가상환경](./01.Tools/uv.md) |
 | 컨테이너·이미지 공유·데이터 보존 | [Docker·Compose](./01.Tools/docker.md) |
 | Rust 툴체인 버전 | [rustup](./01.Tools/rustup.md) |
 | C/C++ 컴파일러·SDK·빌드 환경 | [C/C++ 툴체인](./01.Tools/cpp-toolchain.md) |
