@@ -28,7 +28,7 @@ npm start
 
 | 유형 | 선택 경로 | 현재 상태 |
 | :--- | :--- | :--- |
-| mobile-app | `02.Boilerplates/mobile-app` | 준비 중 |
+| mobile-app | `02.Boilerplates/mobile-app` | Flutter DI·MVVM 샘플 포함, GUI·실기기 미검증 |
 | server | `02.Boilerplates/server` | 준비 중 |
 | server-wui | `02.Boilerplates/server-wui` | 실행 샘플 포함, 실제 브라우저·다른 OS 미검증 |
 | electron-app | `02.Boilerplates/electron-app` | 준비 중 |
@@ -77,6 +77,6 @@ project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아�
 | [electron-app](./electron-app/) | Electron + React + TypeScript 앱 |
 | [electron-phaser](./electron-phaser/) | Electron + React + Phaser 로컬 게임·점수 저장 |
 
-server-wui와 electron-phaser에는 실행 샘플이 있으며, 다른 유형은 준비 단계입니다. 새 반출본은 검증 후 반입합니다.
+mobile-app·server-wui·electron-phaser에는 실행 샘플이 있으며, server와 electron-app은 준비 단계입니다. mobile-app은 Android/iOS GUI·실기기가 미검증이며 새 반출본은 검증 후 반입합니다.
 
-각 실행 샘플의 갱신 이력은 [server-wui/update.md](server-wui/update.md), [electron-phaser/update.md](electron-phaser/update.md)에 기록합니다. 앞으로의 작성·갱신 기준은 [작성 규칙 10절](authoring-rules.md#10-updatemd-갱신-이력)을 따릅니다.
+각 실행 샘플의 갱신 이력은 [mobile-app/update.md](mobile-app/update.md), [server-wui/update.md](server-wui/update.md), [electron-phaser/update.md](electron-phaser/update.md)에 기록합니다. 앞으로의 작성·갱신 기준은 [작성 규칙 10절](authoring-rules.md#10-updatemd-갱신-이력)을 따릅니다.

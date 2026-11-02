@@ -1,7 +1,7 @@
-<!-- version: v1.5.0 -->
+<!-- version: v1.6.0 -->
 # FVM 사용 가이드
 
-확인일: 2026-10-28. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
+확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
 
 ## 관리하는 것과 필요한 외부 도구
 
@@ -66,6 +66,20 @@ fvm flutter --version
 
 5. Android Studio의 **Settings → Languages & Frameworks → Flutter → Flutter SDK path**를 이 프로젝트의 `.fvm/flutter_sdk`로 끝나는 **절대 경로**로 바꾸고 Apply를 누릅니다. `.fvmrc`·IDE 표시 버전·위 버전 출력이 같은지 확인합니다. `fvm global` 설정이나 셸 PATH만으로 IDE가 자동 변경된다고 가정하지 않습니다.
 6. 아래 [Git에 보관할 파일](#git에-보관할-파일)에 따라 `.fvmrc`를 보관하고 `.fvm/`은 제외합니다. [Android 연결·환경 변수](#android-프로젝트-연결환경-변수) 또는 macOS의 iOS 연결로 이어가 기기에서 실행합니다.
+
+Android Studio의 새 프로젝트 마법사는 **Project location**에 원하는 새 폴더 경로를 입력합니다. 같은 작업은 이미 설치된 FVM 버전으로 부모 폴더에서 생성할 수 있습니다.
+
+```bash
+mkdir -p "$HOME/Developer"
+cd "$HOME/Developer"
+fvm install 3.35.7
+fvm spawn 3.35.7 create --empty my_app
+cd my_app
+fvm use 3.35.7
+fvm flutter pub get
+```
+
+`$HOME/Developer`와 `my_app`은 예시이므로 원하는 부모 경로·소문자 밑줄 형식의 앱 이름으로 바꿉니다. 대상 폴더가 이미 있으면 덮어쓰지 말고 새 경로를 고릅니다. `.fvmrc`를 만든 뒤 같은 프로젝트 루트를 Android Studio와 VS Code에서 열고 아래 IDE SDK 설정을 확인합니다. DI·MVVM 샘플로 시작하려면 [mobile-app 보일러플레이트](../02.Boilerplates/mobile-app/README.md)의 복사 절차를 사용합니다.
 
 SDK 전환 후 IDE가 이전 버전을 계속 표시하면 저장된 경로가 실제 버전 캐시로 바뀌었는지 확인하고 `.fvm/flutter_sdk` 링크를 다시 지정합니다. 기존 프로젝트도 SDK 복원 후 이 IDE 설정을 적용하되 새 프로젝트 생성 마법사는 실행하지 않습니다.
 
@@ -204,4 +218,4 @@ SDK 변경과 패키지 변경은 별도로 진행합니다. 패키지만 바꾸
 
 SDK가 잘못 선택되면 프로젝트 루트와 `.fvmrc`, `fvm list`, `fvm flutter --version`을 차례로 확인합니다. Windows 링크 권한 문제는 개발자 모드와 공식 FVM 안내를 확인합니다. doctor의 Android·Xcode 오류는 FVM 재설치로 해결하려 하지 말고 해당 플랫폼 도구를 점검합니다.
 
-공식 참고: [설치](https://fvm.app/documentation/getting-started/installation), [명령어](https://fvm.app/documentation/guides/basic-commands), [VS Code 연동](https://fvm.app/documentation/guides/vscode).
+공식 참고: [설치](https://fvm.app/documentation/getting-started/installation), [명령어](https://fvm.app/documentation/guides/basic-commands), [FVM Flutter 실행·spawn](https://fvm.app/documentation/guides/running-flutter), [VS Code 연동](https://fvm.app/documentation/guides/vscode).
