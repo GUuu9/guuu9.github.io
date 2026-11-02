@@ -1,4 +1,4 @@
-<!-- version: v1.6.0 -->
+<!-- version: v1.6.1 -->
 # OS별 개발 환경 설정 안내
 
 초기화 후 기존 프로젝트의 버전에 맞춰 개발 환경을 복원하고 업데이트할 때 사용하는 문서입니다. 사용하는 OS와 칩에 맞는 문서부터 진행합니다.
@@ -30,8 +30,10 @@ GitHub Pages의 Jekyll 빌드에서는 Setup 6개 문서에만 전용 레이아�
 - 웹 레이아웃: [setup.html](../_layouts/setup.html)
 - 빌드 설정: [_config.yml](../_config.yml)
 
-웹 진입 경로는 `/00.Setup/OS_Dev_Setting.html`입니다. `baseurl`이 있는 프로젝트 사이트에서는 해당 접두 경로를 붙입니다. Setup 안의 문서 링크는 빌드 시 HTML 링크로 변환하고, 다른 파트로 나가는 링크는 GitHub 원문으로 연결합니다. 설정의 `setup_source_url`은 저장소·브랜치가 바뀌면 함께 수정합니다. 개인 보관용 `issues/`는 웹 빌드에서 제외합니다.
+루트의 [index.html](../index.html)은 사이트 기본 주소(`/`)에서 `/00.Setup/OS_Dev_Setting.html`로 이동합니다. 자동 이동이 차단되어도 화면의 링크로 진입할 수 있습니다. `baseurl`이 있는 프로젝트 사이트에서는 해당 접두 경로를 붙입니다. Setup 안의 문서 링크는 빌드 시 HTML 링크로 변환하고, 다른 파트로 나가는 링크는 GitHub 원문으로 연결합니다. 설정의 `setup_source_url`은 저장소·브랜치가 바뀌면 함께 수정합니다. 개인 보관용 `issues/`는 웹 빌드에서 제외합니다.
 
 GitHub 저장소·일반 Markdown 뷰어에서는 기존 `.md`를 그대로 읽으며 이 CSS는 적용되지 않습니다. Jekyll/GitHub Pages 환경이 준비된 경우에만 레이아웃이 적용됩니다. 이미 Jekyll을 사용하는 로컬 환경은 저장소 루트에서 `jekyll build --destination /private/tmp/setup-site-preview`로 생성 후 결과를 확인할 수 있습니다. 이 문서 변경은 사이트 게시나 PC에 Jekyll을 설치하는 절차를 실행하지 않습니다.
 
-공식 참고: [GitHub Pages와 Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll), [Markdown front matter 생략 플러그인](https://github.com/benbalter/jekyll-optional-front-matter), [상대 링크 변환](https://github.com/benbalter/jekyll-relative-links).
+루트 주소까지 404가 발생하면 GitHub 저장소의 **Settings → Pages**에서 게시 소스가 이 설정 파일과 `index.html`이 있는 `main` 브랜치의 `/(root)`인지 확인합니다. GitHub Actions로 게시한다면 배포 산출물 최상위에 `index.html`이 포함되어야 합니다. 변경을 push한 뒤 Pages 빌드·배포가 성공했는지 확인합니다. 하위 문서만 404라면 URL의 파일명 대소문자도 확인합니다.
+
+공식 참고: [Pages 404 문제 해결](https://docs.github.com/en/pages/getting-started-with-github-pages/troubleshooting-404-errors-for-github-pages-sites), [GitHub Pages와 Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll), [Markdown front matter 생략 플러그인](https://github.com/benbalter/jekyll-optional-front-matter), [상대 링크 변환](https://github.com/benbalter/jekyll-relative-links).
