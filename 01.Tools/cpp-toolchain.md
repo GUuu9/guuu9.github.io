@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.1 -->
 # C/C++ 툴체인·빌드 환경 버전 관리
 
 확인일: 2026-10-28. C/C++는 GCC·Clang·MSVC 컴파일러와 링커·표준 라이브러리·SDK·빌드 도구의 조합을 관리합니다. 모든 OS를 통합하는 nvm 같은 도구를 필수로 추가하지 않고, OS별 병행 설치와 프로젝트 빌드 설정을 사용합니다. 초기 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
@@ -54,17 +54,7 @@ Apple Clang과 LLVM 배포 Clang은 같은 이름이어도 동일한 버전 체�
 
 ### macOS CMake와 pkgconf 설치·업데이트
 
-Homebrew 없이 CMake의 [공식 다운로드](https://cmake.org/download/)에서 사용 중인 macOS를 지원하는 **stable macOS universal** 배포판을 선택합니다. 2026-10-30 확인한 stable 4.4.5의 일반 macOS 배포판은 macOS 12 이상으로 안내되어 있습니다. RC·nightly와 구분하고 프로젝트가 요구하는 버전이 있으면 그 버전을 우선합니다.
-
-DMG를 내려받아 CMake.app을 Applications에 설치하거나 공식 tar.gz를 원하는 경로에 풉니다. curl을 사용하려면 공식 페이지에서 해당 릴리스의 정확한 다운로드 링크를 복사합니다. 고정 URL 형식 예시는 다음과 같으며 설치기는 실행하지 않습니다.
-
-```bash
-curl -fL 'https://github.com/Kitware/CMake/releases/download/v4.4.5/cmake-4.4.5-macos-universal.dmg' -o CMake-4.4.5.dmg
-```
-
-배포 페이지의 SHA-256과 받은 파일을 확인한 뒤 DMG를 열어 설치합니다. CMake.app을 Applications에 둔 경우 ~/.zshrc에 `export PATH="/Applications/CMake.app/Contents/bin:$PATH"`를 한 번 추가하고 새 터미널에서 cmake --version을 확인합니다. tar.gz는 bin·share 등 디렉터리 관계를 유지하고 해당 bin 경로를 PATH에 둡니다. 기존 brew cmake가 먼저 잡히면 which -a cmake로 우선순위를 확인하며 기존 설치를 임의 삭제하지 않습니다.
-
-갱신은 새 공식 stable 배포판으로 같은 절차를 수행합니다. 프로젝트 요구 버전과 이전 설치 파일·경로를 기록하고 별도 빌드 디렉터리에서 검증한 뒤 이전 버전을 정리합니다.
+macOS의 CMake CLI 설치·확인·업데이트는 [Homebrew 가이드](./brew.md#cmake-설치)에서 관리합니다. 기존 CMake.app이나 별도 설치가 있다면 설치 경로·프로젝트 요구 버전을 먼저 확인하고 중복 설치하지 않습니다.
 
 pkgconf는 모든 프로젝트의 필수 초기 도구가 아닙니다. 필요한 경우 [공식 release tarball과 빌드 안내](https://github.com/pkgconf/pkgconf)를 사용합니다. 현재 upstream 빌드는 Meson을 사용하므로 해당 릴리스의 도구 조건을 먼저 확인하고 소스 빌드합니다. 임의의 curl 설치 스크립트를 사용하지 않습니다. 갱신도 목표 릴리스로 다시 빌드·설치하며 설치 prefix·버전을 기록합니다.
 
@@ -131,3 +121,5 @@ CMake 타깃의 C_STANDARD·CXX_STANDARD 또는 target_compile_features로 요�
 서버 컨테이너의 apt 도구 변경은 관리자가 새 이미지 버전으로 배포합니다. OS 태그·apt 설치 명령만으로 과거 환경을 완전히 재현할 수 없으므로 검증한 이미지 ID·digest와 도구 버전을 [서버 운영 기록](../04.Servers/docker-server/operations.md)에 함께 남깁니다. macOS·Windows 빌드는 Linux 이미지로 모두 대체할 수 없습니다.
 
 공식 참고: [CMake 툴체인](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html), [프리셋](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html), [C++ 표준](https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html), [Apple 명령줄 도구 선택](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

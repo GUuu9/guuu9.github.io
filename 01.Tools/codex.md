@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # Codex CLI·Ponytail 관리
 
 Codex CLI의 OS별 초기 설치는 [OS별 Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다. 이 문서는 개인 PC의 스킬 추가·호출·업데이트·복귀를 다룹니다. Windows 네이티브와 WSL은 설치·인증·설정 위치가 별도이므로 사용할 환경에서 각각 확인합니다.
@@ -41,3 +41,5 @@ $ponytail:ponytail-review 현재 커밋하지 않은 변경 내용을 검토해�
 새 터미널에서 버전·인증·스킬 목록과 필요한 훅을 확인합니다. 복귀가 필요하면 이전 공식 릴리스 설치 파일 또는 npm의 기록한 버전을 사용하고 기존 설정과 호환되는지 확인합니다. CLI 업데이트와 Ponytail 플러그인 업데이트는 별개입니다. 플러그인 버전을 변경할 때는 제작자 릴리스·설치 안내와 현재 `codex plugin --help`를 확인하고 변경 전 버전·개인 설정을 보관합니다.
 
 [OpenAI 공식 CLI 안내](https://learn.chatgpt.com/docs/codex/cli) · [OpenAI 스킬 안내](https://learn.chatgpt.com/docs/build-skills) · [Ponytail 공식 릴리스](https://github.com/DietrichGebert/ponytail/releases).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

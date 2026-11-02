@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Python venv 사용 가이드
 
 확인일: 2026-10-28. venv는 Python 표준 라이브러리의 가상환경 도구입니다. 프로젝트 패키지를 시스템·다른 프로젝트와 분리합니다. Python 자체 버전 다운로드·잠금 파일 관리는 하지 않으므로 필요하면 [uv](./uv.md)와 함께 사용합니다.
@@ -81,3 +81,5 @@ Python 확장의 `Python: Select Interpreter`에서 `.venv`를 선택합니다. 
 | node-gyp 실패 | 프로젝트의 Python·컴파일러·Node/Electron 호환 조건 확인 |
 
 공식 참고: [Python venv](https://docs.python.org/3/library/venv.html).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

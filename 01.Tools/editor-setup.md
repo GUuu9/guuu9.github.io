@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # 편집기 표시 언어·코딩 폰트
 
 개인 PC의 macOS·Windows·Linux에서 VS Code와 Android Studio를 설정합니다. 앱·폰트 설치는 [OS별 Setup](../00.Setup/OS_Dev_Setting.md)을 먼저 따릅니다. 아래 `D2Coding`은 서체 패밀리 이름 예시이며 배포 파일명 `D2Coding-Ver1`과 구분합니다. 설치된 실제 이름이 다르면 그 이름을 사용합니다.
@@ -46,3 +46,5 @@ D2Coding 설치 후 Android Studio를 재시작하고 **macOS: Android Studio �
 내장 Terminal과 Run·Debug 콘솔은 각각 확인합니다. Android Studio의 기반 플랫폼인 IntelliJ IDEA 문서를 참고한 경로이며, 설치된 Android Studio의 버전·터미널 엔진에 따라 표시 항목이 다를 수 있습니다. 편집기·콘솔·새 터미널에서 한글과 `0O 1lI {} [] =>` 표시를 확인합니다. 앱 메뉴·도구 창의 UI 폰트는 위 코드 폰트 설정과 별개입니다.
 
 [Android Studio 설정 안내](https://developer.android.com/studio/intro/studio-config) · [JetBrains 편집기·콘솔 폰트](https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html) · [JetBrains 터미널 폰트](https://www.jetbrains.com/help/idea/settings-tools-terminal.html#font-settings).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

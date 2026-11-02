@@ -4,6 +4,7 @@ OS 설치·초기 복원은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고�
 
 | 도구 | 관리 대상 | 읽을 때 |
 | :--- | :--- | :--- |
+| [도구 제거·잔여 파일 정리](./uninstall-cleanup.md) | 실행 파일·숨김 설정·캐시·데이터 | 잘못 설치한 기능 제거·백업·복원 |
 | [편집기 설정](./editor-setup.md) | VS Code 표시 언어·D2Coding·Android Studio 폰트 | OS별 설치 후 공통 앱 설정 |
 | [Codex·Ponytail](./codex.md) | 스킬·플러그인·CLI 갱신 | Ponytail 추가·호출·문제 해결·복귀 |
 | [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS·Linux zsh 설정·업데이트·복귀 |

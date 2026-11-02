@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.2.1 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
@@ -90,3 +90,5 @@ npm은 선택한 Node에 포함된 버전을 우선합니다. 별도 변경이 �
 | VS Code만 다른 버전 | 새 통합 터미널에서 nvm 선택 후 node·npm 버전 재확인 |
 
 공식 참고: [nvm](https://github.com/nvm-sh/nvm), [nvm-windows](https://github.com/coreybutler/nvm-windows).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

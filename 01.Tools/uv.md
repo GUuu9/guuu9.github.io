@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.2.1 -->
 # uv 사용 가이드
 
 확인일: 2026-10-28. uv는 Python 버전, 가상환경, 패키지 의존성, 잠금 파일과 CLI 도구 환경을 관리합니다. 기존 requirements.txt 방식과 pyproject.toml·uv.lock 방식 중 프로젝트가 사용하는 흐름을 따릅니다. pip와 유사한 명령이 있지만 모든 동작·옵션이 완전히 같지는 않습니다.
@@ -101,3 +101,5 @@ Python 변경은 새 버전 설치 → `uv python pin 목표버전` → requires
 | 네이티브 패키지 빌드 실패 | OS·CPU용 wheel·컴파일러·개발 헤더 확인 |
 
 공식 참고: [프로젝트](https://docs.astral.sh/uv/guides/projects/), [Python 관리](https://docs.astral.sh/uv/guides/install-python/), [pip 인터페이스](https://docs.astral.sh/uv/pip/), [도구 관리](https://docs.astral.sh/uv/guides/tools/).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

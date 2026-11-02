@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.1 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
@@ -9,45 +9,82 @@ macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합
 
 `formula`는 uv·CMake 같은 도구의 설치 정의, `cask`는 VS Code 같은 앱의 설치 정의입니다. `tap`은 추가 패키지 저장소, `bottle`은 사전 빌드 패키지입니다. Homebrew는 Node·Python의 프로젝트별 버전 선택을 대신하지 않습니다. 그 용도로는 nvm·uv를 사용합니다.
 
-## 검색하고 설치하기
+## 1. Homebrew 자체 설치
+
+[macOS 초기 설정의 Homebrew 준비](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)에서 CPU별 설치·셸 PATH·완료 확인을 먼저 진행합니다. Intel은 아래 과거 설치기 절차와 지원 제한을 확인합니다. 패키지 설치는 Homebrew가 정상 인식된 다음 개인 Mac의 일반 사용자 터미널에서 진행합니다.
+
+## 2. 공통 필수 준비
+
+이 저장소에서는 **Homebrew 자체를 보조 패키지 관리용 기본 준비 항목**으로 둡니다. 모든 PC에 공통으로 설치해야 하는 추가 formula·cask는 현재 지정하지 않습니다. Node·uv·FVM·Docker 등은 OS Setup에서 정한 설치 경로를 사용합니다.
 
 ```bash
-brew search minicom
-brew info minicom
-brew install minicom
-brew install --cask visual-studio-code
-brew list --versions
-brew list --cask
+brew --version
+brew --prefix
+brew doctor
 ```
 
-검색 후 `info`에서 설명·홈페이지·지원 조건을 확인합니다. 위 minicom은 시리얼 통신용 보조 패키지 예시이며 필요할 때만 설치합니다. [공식 formula](https://formulae.brew.sh/formula/minicom)의 OS·CPU별 bottle 유무를 확인하고, 특히 Intel·Ventura에서는 소스 빌드나 의존성 설치가 실패할 수 있습니다. 앱을 이미 직접 설치했다면 중복 설치 전에 기존 관리 방식을 확인합니다. 외부 tap은 출처가 필요한 경우에만 추가합니다.
+## 3. 용도별 필수 설치
 
-```text
-brew tap 소유자/저장소
-brew install 소유자/저장소/패키지
-brew untap 소유자/저장소
-```
+아래 작업을 하는 경우 해당 패키지가 필요합니다. 사용하지 않는 작업의 패키지를 일괄 설치하지 않습니다. 기존 공식 배포판이 있으면 경로와 관리 방식을 확인해 중복 설치를 피합니다.
 
-### CMake·IINA 설치
+| 작업 | 필요한 패키지 | 설치 후 확인 |
+| :--- | :--- | :--- |
+| CMake 기반 C/C++ 프로젝트 구성 | `cmake` | `cmake --version` |
+| USB 시리얼 장치와 터미널 통신 | `minicom` | `brew list --versions minicom` |
 
-Homebrew 준비를 마친 개인 Mac의 일반 사용자 터미널에서 실행합니다. CMake는 C/C++ 프로젝트의 빌드 구성 도구이고, IINA는 macOS용 영상 플레이어입니다. 이미 공식 배포판으로 설치했다면 기존 관리 방식을 확인하고 같은 도구를 중복 설치하지 않습니다.
+### CMake 설치
 
 ```bash
 brew info cmake
 brew install cmake
 cmake --version
+```
 
+CMake CLI 설치이며 CMake.app과 구분합니다. 프로젝트별 구성·빌드는 [C/C++ 툴체인 가이드](./cpp-toolchain.md)를 따릅니다. 기존 설치가 있으면 `which -a cmake`로 PATH 우선순위를 확인합니다. Android SDK Manager가 프로젝트용으로 설치하는 CMake는 별도 SDK 구성 요소이며 Homebrew CLI 설치로 대체됐다고 가정하지 않습니다.
+
+공식 formula 확인일: 2026-11-02. [CMake formula](https://formulae.brew.sh/formula/cmake)의 현재 bottle 목록에는 Intel·Ventura가 없으므로 해당 환경의 설치 성공은 보장하지 않습니다.
+
+### minicom 설치
+
+```bash
+brew info minicom
+brew install minicom
+brew list --versions minicom
+```
+
+[공식 formula](https://formulae.brew.sh/formula/minicom)에서 OS·CPU별 지원 조건을 확인합니다. Intel·Ventura에서는 bottle 부재·소스 빌드 의존성으로 설치가 실패할 수 있습니다.
+
+## 4. 선택 설치
+
+### IINA 영상 플레이어
+
+로컬 영상 재생이 필요하고 IINA를 사용할 때 선택합니다.
+
+```bash
 brew info --cask iina
 brew install --cask iina
 brew list --cask --versions iina
 open -a IINA
 ```
 
-IINA에서 로컬 영상 파일을 열어 재생을 확인하고 `⌘Q`로 종료합니다. CMake의 프로젝트별 구성·빌드는 [C/C++ 툴체인 가이드](./cpp-toolchain.md)를 따릅니다. 위 명령은 CMake CLI 설치이며 CMake.app 설치 절차와 구분합니다.
+영상 파일 재생을 확인하고 `⌘Q`로 종료합니다. 설치 명령 확인일: 2026-11-01. [공식 cask](https://formulae.brew.sh/cask/iina) · [공식 사이트](https://iina.io/). 실제 OS·CPU 지원 조건을 확인합니다. 업데이트는 `brew upgrade --cask iina` 후 앱 실행·재생을 확인합니다.
 
-설치 명령 확인일: 2026-11-01. [CMake 공식 formula](https://formulae.brew.sh/formula/cmake) · [IINA 공식 cask](https://formulae.brew.sh/cask/iina) · [IINA 공식 사이트](https://iina.io/). OS·CPU별 지원 조건은 설치 전 각 페이지에서 확인하며 Intel의 Homebrew 설치·패키지 지원 제한은 그대로 적용됩니다.
+## 패키지 검색과 추가 설치
 
-CMake 업데이트는 아래 버전 관리 절차를 따릅니다. IINA를 Homebrew로 갱신하려면 `brew upgrade --cask iina`를 실행하고 앱 실행·영상 재생을 다시 확인합니다.
+```bash
+brew search 패키지명
+brew info 패키지명
+brew list --versions
+brew list --cask
+```
+
+설치 전 설명·공식 홈페이지·지원 조건을 확인합니다. 추가 tap은 출처와 필요성을 확인한 경우에만 사용합니다.
+
+```text
+brew tap 소유자/저장소
+brew install 소유자/저장소/패키지
+brew untap 소유자/저장소
+```
 
 ## 설치 위치와 PATH 확인
 
@@ -180,3 +217,5 @@ brew doctor
 prefix가 `/usr/local`인지 확인하고 macOS·CLT·Homebrew 버전을 복원 기록에 남깁니다. 설치 도중 실패하면 오류를 확인하고 중단하며 `/usr/local` 전체 삭제·일괄 소유권 변경으로 해결하지 않습니다. 설치 성공 후에도 각 패키지의 Intel·macOS 지원과 소스 빌드 가능 여부는 별도입니다. 기존 환경을 지우고 재설치하는 복귀 절차로 사용하지 않습니다.
 
 검증 범위: 공식 저장소의 변경 이력·고정 스크립트의 Intel 분기·최신 stable 선택·update 호출을 읽고 다운로드 파일의 `bash -n` 및 SHA-256을 확인했습니다. 이 문서 작업에서는 설치기를 실행하거나 `/usr/local`을 변경하지 않았으며 초기화한 Intel Mac에서의 설치 완료·패키지 설치는 미검증입니다.
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

@@ -1,4 +1,4 @@
-<!-- version: v1.4.0 -->
+<!-- version: v1.4.1 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
 본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
@@ -376,3 +376,5 @@ annotated tag는 `git tag -a v1.0.0 -m "릴리스 설명"`, 전송은 `git push 
 | 비밀값을 올림 | 키를 먼저 폐기·재발급. 파일 삭제 커밋만으로 과거 기록에서 제거되지 않음 |
 
 공식 참고: [Git 명령](https://git-scm.com/docs), [restore](https://git-scm.com/docs/git-restore), [reflog](https://git-scm.com/docs/git-reflog), [GitHub PR](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

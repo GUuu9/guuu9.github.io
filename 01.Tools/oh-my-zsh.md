@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Oh My Zsh 사용·업데이트
 
 Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#oh-my-zsh-설치) 또는 [Linux 설치](../00.Setup/Linux_Dev_Setting.md#bash와-선택적-oh-my-zsh)를 따릅니다.
@@ -45,3 +45,5 @@ omz update
 - [공식 저장소: 설치·설정·업데이트·제거](https://github.com/ohmyzsh/ohmyzsh)
 - [공식 설치 스크립트와 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh)
 - [공식 FAQ](https://github.com/ohmyzsh/ohmyzsh/wiki/FAQ)
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # rustup — Rust 툴체인 버전 관리
 
 확인일: 2026-10-28. rustup은 Rust 컴파일러(rustc)·Cargo·표준 라이브러리·컴포넌트·타깃을 관리합니다. 프로젝트 패키지인 crate의 버전은 Cargo.toml·Cargo.lock이 관리합니다. OS별 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
@@ -100,3 +100,5 @@ cargo clippy --locked
 프로젝트에는 툴체인 파일·Cargo.toml·정책에 따른 Cargo.lock·CI 설정을 보관합니다. target 빌드 결과나 사용자 .rustup·.cargo를 프로젝트 소스로 공유하지 않습니다. 서버 배포의 재현은 [이미지 버전·운영 기록](../04.Servers/docker-server/operations.md)도 함께 관리합니다.
 
 공식 참고: [rustup 기본·업데이트](https://rust-lang.github.io/rustup/basics.html), [프로젝트 선택·고정](https://rust-lang.github.io/rustup/overrides.html), [컴포넌트](https://rust-lang.github.io/rustup/concepts/components.html).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

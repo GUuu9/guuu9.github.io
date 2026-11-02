@@ -1,4 +1,4 @@
-<!-- version: v3.0.1 -->
+<!-- version: v3.1.0 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -85,7 +85,7 @@ eval "$(/usr/local/bin/brew shellenv)"
 
 새 터미널에서 `brew --version`·`brew --prefix`·`brew doctor`로 확인합니다. 경고는 내용을 읽고 대응하며 기존 디렉터리를 일괄 삭제하거나 소유권을 일괄 변경하지 않습니다. Intel에서 Homebrew 준비가 막혀도 아래 독립 설치 도구는 각자의 공식 절차로 계속 준비할 수 있습니다.
 
-보조 패키지가 필요할 때의 예시는 `brew info minicom`으로 지원 조건을 확인한 뒤 `brew install minicom`으로 설치하는 것입니다. 현재 minicom bottle 목록에는 Intel·Ventura가 없으므로 이 환경의 설치 성공은 보장하지 않습니다. [minicom 공식 formula](https://formulae.brew.sh/formula/minicom). Node·uv·FVM·Docker 등의 초기 설치는 아래에서 정한 경로를 유지합니다.
+Homebrew 자체 준비가 끝나면 [공통 필수 준비](../01.Tools/brew.md#2-공통-필수-준비)를 확인하고, CMake 기반 개발·시리얼 통신 등 필요한 작업에 따라 [용도별 필수 패키지](../01.Tools/brew.md#3-용도별-필수-설치)를 설치합니다. IINA 같은 편의 앱은 [선택 설치](../01.Tools/brew.md#4-선택-설치)에서 고릅니다. Node·uv·FVM·Docker 등의 초기 설치는 아래에서 정한 경로를 유지합니다.
 
 설치기 CPU 제한·PATH 안내·minicom 배포 조건 확인일: 2026-10-30. 실제 Homebrew 설치·패키지 설치는 수행하지 않았습니다. 일상 사용·업데이트·백업·복귀는 [Homebrew 가이드](../01.Tools/brew.md)를 따릅니다.
 
@@ -244,7 +244,7 @@ D2Coding 설치 후 [Android Studio 공통 폰트 안내](../01.Tools/editor-set
 
 ### C/C++
 
-Command Line Tools의 Clang을 확인합니다. CMake를 사용하는 작업은 [공식 배포판 설치](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 추가로 진행합니다. pkgconf는 프로젝트가 요구할 때만 같은 안내를 따릅니다. 아직 프로젝트 빌드 폴더는 만들지 않습니다.
+Command Line Tools의 Clang을 확인합니다. CMake는 위 Homebrew 파트에서 준비한 CLI의 인식 여부를 확인합니다. pkgconf는 프로젝트가 요구할 때만 [별도 설치 안내](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 아직 프로젝트 빌드 폴더는 만들지 않습니다.
 
 ```bash
 clang --version
@@ -346,7 +346,7 @@ Editor 갱신은 새 버전을 추가 설치한 뒤 프로젝트 복사본 또�
 
 - macOS·Command Line Tools: 시스템 설정 → 일반 → 소프트웨어 업데이트에서 제공 항목을 확인합니다. `xcode-select --install`은 매번 업데이트하는 명령이 아닙니다. [Apple 안내](https://support.apple.com/en-us/108382).
 - Xcode: App Store 또는 기존 Apple Developer 배포 경로에서 갱신하고 이 문서의 [Xcode 초기화](#xcode-설치초기화)와 FVM 가이드의 실기기·서명 확인을 수행합니다.
-- VS Code·확장, Android Studio, Unity Hub: 앱의 업데이트 기능을 사용합니다. CMake·pkgconf는 [공식 배포판 갱신 안내](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 컴파일러가 바뀌면 별도 빌드 경로에서 프로젝트를 검증합니다.
+- VS Code·확장, Android Studio, Unity Hub: 앱의 업데이트 기능을 사용합니다. CMake는 [Homebrew 버전 관리](../01.Tools/brew.md#업데이트와-버전-관리), pkgconf는 [별도 갱신 안내](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 컴파일러가 바뀌면 별도 빌드 경로에서 프로젝트를 검증합니다.
 - Codex CLI: 위에서 사용한 독립 설치 스크립트를 다시 실행하고 새 터미널에서 codex --version을 확인합니다. 기존 npm 설치를 유지한다면 해당 nvm Node 환경에서 npm install -g @openai/codex@latest를 사용합니다. 두 방식을 중복 적용하지 않습니다.
 
 기존 Homebrew로 설치한 도구는 [brew 가이드](../01.Tools/brew.md)에 따라 관리하거나 독립 설치로 전환하며 두 경로로 같은 실행 파일을 중복 관리하지 않습니다. 업데이트 전 버전을 기록하고 프로젝트 실행·테스트·빌드를 확인한 뒤 이전 환경을 정리합니다. OS·SDK·데이터 형식은 실행 파일 버전만 낮춘다고 복원되지 않을 수 있습니다.

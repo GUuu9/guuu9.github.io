@@ -1,4 +1,4 @@
-<!-- version: v1.6.0 -->
+<!-- version: v1.6.1 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -219,3 +219,5 @@ SDK 변경과 패키지 변경은 별도로 진행합니다. 패키지만 바꾸
 SDK가 잘못 선택되면 프로젝트 루트와 `.fvmrc`, `fvm list`, `fvm flutter --version`을 차례로 확인합니다. Windows 링크 권한 문제는 개발자 모드와 공식 FVM 안내를 확인합니다. doctor의 Android·Xcode 오류는 FVM 재설치로 해결하려 하지 말고 해당 플랫폼 도구를 점검합니다.
 
 공식 참고: [설치](https://fvm.app/documentation/getting-started/installation), [명령어](https://fvm.app/documentation/guides/basic-commands), [FVM Flutter 실행·spawn](https://fvm.app/documentation/guides/running-flutter), [VS Code 연동](https://fvm.app/documentation/guides/vscode).
+
+제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.
