@@ -39,8 +39,11 @@
   gap: 32px;
   align-items: start;
 }
-.docs-nav { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; }
-.docs-nav .docs-section { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 14px; font-size: .85rem; }
+.docs-nav { min-width: 0; }
+.docs-tree > li { margin-bottom: 8px; }
+.docs-tree summary { padding: 9px 12px; border-radius: 8px; cursor: pointer; font-weight: 650; }
+.docs-tree summary:hover, .docs-tree .docs-active-section { background: var(--tint); }
+.docs-tree details > ul { margin: 4px 0 12px 14px; padding-left: 10px; border-left: 1px solid var(--line); font-size: .85rem; }
 .docs-nav-title { margin: 0 0 14px; color: var(--muted); font-weight: 650; font-size: .9rem; }
 .docs-nav ul { list-style: none; margin: 0; padding: 0; }
 .docs-nav li { margin-bottom: 6px; }
@@ -80,10 +83,7 @@
 @media (max-width: 860px) {
   .docs-header { padding: 20px; }
   .docs-shell { grid-template-columns: minmax(0, 1fr); padding: 20px; gap: 24px; }
-  .docs-nav { position: static; max-height: none; overflow: visible; }
-  .docs-nav ul { display: flex; flex-wrap: wrap; gap: 6px; }
-  .docs-nav li { margin: 0; }
-  .docs-nav li a { border: 1px solid var(--line); padding: 6px 10px; font-size: .9rem; }
+  .docs-nav li a, .docs-tree summary { padding: 8px 12px; }
   .docs-nav .source-link { margin: 12px 0 0; }
   .docs-content { padding: 24px 20px; border-radius: 12px; }
   .docs-footer { padding: 0 20px 24px; }

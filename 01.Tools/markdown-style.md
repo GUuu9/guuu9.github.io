@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Markdown 문서 디자인·작성 가이드
 
 이 저장소의 설치·사용·운영 문서를 GitHub에서 읽기 쉽게 구성하는 기준입니다. 내용과 명령을 먼저 정확히 작성한 뒤 제목·표·강조·접기를 적용합니다. 별도 테마나 CSS 설치는 필요하지 않습니다.
@@ -91,11 +91,13 @@ GitHub Pages에서는 루트 README와 Setup·Tools·Boilerplates·Utilities·Se
 | 관리 파일 | 역할 |
 | :--- | :--- |
 | [_config.yml](../_config.yml) | 공통 레이아웃 기본값·상위 분류 메뉴·게시 제외 경로 |
-| [docs.html](../_layouts/docs.html) | 문서 레이아웃·현재 분류의 문서 목록·GitHub 원문 링크 |
+| [docs.html](../_layouts/docs.html) | 문서 레이아웃·계층형 문서 메뉴·GitHub 원문 링크 |
 | [docs.css](../assets/css/docs.css) | 모바일·다크 모드·표·코드·인쇄 스타일 |
 | [index.html](../index.html) | 기본 주소에서 전체 안내 `README.html`로 이동 |
 
 README는 `_config.yml`의 `include`에 루트 및 분류별 패턴을 등록해 변환 대상에 포함합니다. 새 분류를 만들면 이 패턴도 갱신합니다. 새 Markdown 문서는 기본 레이아웃을 자동으로 사용하므로 개별 문서에 스타일·front matter를 복제하지 않습니다. 문서 링크는 `.md` 상대 경로로 작성하고 `jekyll-relative-links`가 웹 링크로 변환하도록 합니다. README는 `README.html` 경로를 유지하도록 `readme_index.enabled: false`로 설정합니다. 빈 보일러플레이트 폴더는 문서가 생기기 전까지 GitHub 원문 경로로 안내합니다.
+
+사이드바는 대분류 안에 문서를 배치한 하나의 계층형 메뉴입니다. 모든 대분류는 클릭하면 펼치거나 접고, 문서를 열려면 그 아래의 `분류 안내` 또는 문서 링크를 선택합니다. 현재 문서의 대분류는 처음부터 펼쳐지고 현재 링크를 강조합니다. 분류 안내 링크는 하위 목록에 중복 표시하지 않습니다. 모바일에서도 같은 계층과 동작을 유지하며, 본문과 사이드바는 페이지 스크롤 하나를 사용합니다.
 
 `issues/`는 게시에서 제외합니다. 루트 README의 issues 안내 링크만 레이아웃에서 GitHub 원문으로 연결합니다. CSS·레이아웃은 저장소 공통 자산이며 독립 보일러플레이트의 실행 코드에 복사하지 않습니다. Mermaid·GitHub 알림 상자는 별도 렌더러를 추가하지 않으므로 웹에서 코드·인용문으로 표시될 수 있습니다.
 

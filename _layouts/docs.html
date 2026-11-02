@@ -15,20 +15,31 @@
   <div class="docs-shell">
     <nav class="docs-nav" aria-label="문서 탐색">
       <p class="docs-nav-title">문서 분류</p>
-      <ul>
-        {% for item in site.document_navigation %}
-        <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title | escape }}</a></li>
-        {% endfor %}
-      </ul>
       {% assign section = page.path | split: '/' | first %}
       {% assign documents = site.pages | sort: 'path' %}
-      <ul class="docs-section">
-        {% for document in documents %}
-          {% assign document_section = document.path | split: '/' | first %}
-          {% assign extension = document.path | split: '.' | last %}
-          {% if section == document_section and extension == 'md' %}
-        <li><a href="{{ document.url | relative_url }}"{% if page.url == document.url %} aria-current="page"{% endif %}>{{ document.title | default: document.name | escape }}</a></li>
+      <ul class="docs-tree">
+        {% for item in site.document_navigation %}
+          {% assign item_section = item.url | split: '/' | slice: 1 | first %}
+        <li>
+          {% assign url_parts = item.url | split: '/' %}
+          {% if url_parts.size > 2 %}
+          <details{% if section == item_section %} open{% endif %}>
+            <summary{% if section == item_section %} class="docs-active-section"{% endif %}>{{ item.title | escape }}</summary>
+            <ul>
+              <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>분류 안내</a></li>
+              {% for document in documents %}
+                {% assign document_section = document.path | split: '/' | first %}
+                {% assign extension = document.path | split: '.' | last %}
+                {% if document_section == item_section and extension == 'md' and document.url != item.url %}
+              <li><a href="{{ document.url | relative_url }}"{% if page.url == document.url %} aria-current="page"{% endif %}>{{ document.title | default: document.name | escape }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </details>
+          {% else %}
+          <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title | escape }}</a>
           {% endif %}
+        </li>
         {% endfor %}
       </ul>
       <a class="source-link" href="{{ site.source_url }}{{ page.path }}">GitHub에서 원문 보기</a>
