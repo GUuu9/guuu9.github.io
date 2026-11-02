@@ -1,0 +1,16 @@
+<ul>
+  {% for item in include.nodes %}
+  <li>
+    {% if item.children %}
+      {% assign prefix = page.path | slice: 0, item.path.size %}
+    <details{% if prefix == item.path %} open{% endif %}>
+      <summary{% if prefix == item.path %} class="docs-active-section"{% endif %}>{{ item.title | escape }}</summary>
+      {% include navigation.html nodes=item.children %}
+    </details>
+    {% else %}
+      {% assign document_url = item.path | prepend: '/' | replace: '.md', '.html' %}
+    <a href="{{ document_url | relative_url }}"{% if page.path == item.path %} aria-current="page"{% endif %}>{{ item.title | escape }}<small>{{ item.path | split: '/' | last | escape }}</small></a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

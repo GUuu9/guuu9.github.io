@@ -27,15 +27,191 @@ exclude:
   - issues
 source_url: "https://github.com/GUuu9/guuu9.github.io/blob/main/"
 document_navigation:
-  - title: 전체 안내
-    url: /README.html
-  - title: Setup
-    url: /00.Setup/OS_Dev_Setting.html
-  - title: Tools
-    url: /01.Tools/README.html
-  - title: Boilerplates
-    url: /02.Boilerplates/README.html
-  - title: Utilities
-    url: /03.Utilities/README.html
-  - title: Servers
-    url: /04.Servers/README.html
+  - title: "개발 환경·작업 가이드"
+    path: "README.md"
+  - title: "Setup"
+    path: "00.Setup/"
+    children:
+      - title: "OS별 개발 환경 설정 안내"
+        path: "00.Setup/OS_Dev_Setting.md"
+      - title: "macOS Apple Silicon 개발 환경 복원"
+        path: "00.Setup/macOS_AppleSilicon_Dev_Setting.md"
+      - title: "macOS Intel 개발 환경 복원"
+        path: "00.Setup/macOS_Intel_Dev_Setting.md"
+      - title: "macOS 공통 개발 도구 초기 설치"
+        path: "00.Setup/macOS_Common_Dev_Setting.md"
+      - title: "Windows 개발 도구 초기 설치"
+        path: "00.Setup/Windows_Dev_Setting.md"
+      - title: "Linux 개발 도구 초기 설치 (Ubuntu / Debian)"
+        path: "00.Setup/Linux_Dev_Setting.md"
+  - title: "Tools"
+    path: "01.Tools/"
+    children:
+      - title: "개발 도구 사용 가이드"
+        path: "01.Tools/README.md"
+      - title: "편집기 표시 언어·코딩 폰트"
+        path: "01.Tools/editor-setup.md"
+      - title: "Codex CLI·Ponytail 관리"
+        path: "01.Tools/codex.md"
+      - title: "Oh My Zsh 사용·업데이트"
+        path: "01.Tools/oh-my-zsh.md"
+      - title: "Homebrew 사용 가이드"
+        path: "01.Tools/brew.md"
+      - title: "nvm·nvm-windows 사용 가이드"
+        path: "01.Tools/nvm.md"
+      - title: "FVM 사용 가이드"
+        path: "01.Tools/fvm.md"
+      - title: "uv·Python 가상환경 사용 가이드"
+        path: "01.Tools/uv.md"
+      - title: "Docker·Compose 사용 가이드"
+        path: "01.Tools/docker.md"
+      - title: "rustup — Rust 툴체인 버전 관리"
+        path: "01.Tools/rustup.md"
+      - title: "C/C++ 툴체인·빌드 환경 버전 관리"
+        path: "01.Tools/cpp-toolchain.md"
+      - title: "GitHub 운영 및 프로젝트 협업 가이드"
+        path: "01.Tools/github.md"
+      - title: "도구 제거와 숨김 설정·캐시 정리"
+        path: "01.Tools/uninstall-cleanup.md"
+      - title: "Markdown 문서 디자인·작성 가이드"
+        path: "01.Tools/markdown-style.md"
+  - title: "Boilerplates"
+    path: "02.Boilerplates/"
+    children:
+      - title: "재사용 샘플 보일러플레이트"
+        path: "02.Boilerplates/README.md"
+      - title: "재사용 샘플 보일러플레이트 작성 규칙"
+        path: "02.Boilerplates/authoring-rules.md"
+      - title: "샘플 보일러플레이트 반출 패키지 작성 요청문"
+        path: "02.Boilerplates/project-request.md"
+      - title: "mobile-app"
+        path: "02.Boilerplates/mobile-app/"
+        children:
+          - title: "Mobile-app 최소 Flutter 보일러플레이트"
+            path: "02.Boilerplates/mobile-app/README.md"
+          - title: "설명서 · docs"
+            path: "02.Boilerplates/mobile-app/docs/"
+            children:
+              - title: "1. 적용 범위"
+                path: "02.Boilerplates/mobile-app/docs/boilerplate.md"
+          - title: "실행 샘플 · boilerplates"
+            path: "02.Boilerplates/mobile-app/boilerplates/"
+            children:
+              - title: "minimal"
+                path: "02.Boilerplates/mobile-app/boilerplates/minimal/"
+                children:
+                  - title: "mobile_app_sample"
+                    path: "02.Boilerplates/mobile-app/boilerplates/minimal/README.md"
+          - title: "1. 범위와 작업 루트"
+            path: "02.Boilerplates/mobile-app/project-agents.md"
+          - title: "갱신 이력"
+            path: "02.Boilerplates/mobile-app/update.md"
+      - title: "server-wui"
+        path: "02.Boilerplates/server-wui/"
+        children:
+          - title: "Server-WUI 최소 보일러플레이트"
+            path: "02.Boilerplates/server-wui/README.md"
+          - title: "설명서 · docs"
+            path: "02.Boilerplates/server-wui/docs/"
+            children:
+              - title: "1. 적용 범위"
+                path: "02.Boilerplates/server-wui/docs/boilerplate.md"
+          - title: "실행 샘플 · boilerplates"
+            path: "02.Boilerplates/server-wui/boilerplates/"
+            children:
+              - title: "minimal"
+                path: "02.Boilerplates/server-wui/boilerplates/minimal/"
+                children:
+                  - title: "Minimal Server-WUI"
+                    path: "02.Boilerplates/server-wui/boilerplates/minimal/README.md"
+          - title: "1. 샘플 범위"
+            path: "02.Boilerplates/server-wui/project-agents.md"
+          - title: "갱신 이력"
+            path: "02.Boilerplates/server-wui/update.md"
+      - title: "electron-phaser"
+        path: "02.Boilerplates/electron-phaser/"
+        children:
+          - title: "TypeScript · React · Phaser · Electron 게임 보일러플레이트"
+            path: "02.Boilerplates/electron-phaser/README.md"
+          - title: "설명서 · docs"
+            path: "02.Boilerplates/electron-phaser/docs/"
+            children:
+              - title: "로컬 전용 Electron React 최소 보일러플레이트"
+                path: "02.Boilerplates/electron-phaser/docs/boilerplate.md"
+          - title: "실행 샘플 · boilerplates"
+            path: "02.Boilerplates/electron-phaser/boilerplates/"
+            children:
+              - title: "minimal"
+                path: "02.Boilerplates/electron-phaser/boilerplates/minimal/"
+                children:
+                  - title: "TypeScript React Phaser Electron Game Starter"
+                    path: "02.Boilerplates/electron-phaser/boilerplates/minimal/README.md"
+          - title: "샘플 프로젝트 작업 지침"
+            path: "02.Boilerplates/electron-phaser/project-agents.md"
+          - title: "갱신 이력"
+            path: "02.Boilerplates/electron-phaser/update.md"
+  - title: "Utilities"
+    path: "03.Utilities/"
+    children:
+      - title: "유틸리티 설치·실행·업데이트"
+        path: "03.Utilities/README.md"
+      - title: "ComfyUI 설치·실행·업데이트"
+        path: "03.Utilities/comfyui.md"
+      - title: "Firefox·Google Chrome 설치·실행·업데이트"
+        path: "03.Utilities/browsers.md"
+      - title: "Craft 도구 설치·실행·업데이트"
+        path: "03.Utilities/craft.md"
+  - title: "Servers"
+    path: "04.Servers/"
+    children:
+      - title: "외부 서버 설정"
+        path: "04.Servers/README.md"
+      - title: "docker-server"
+        path: "04.Servers/docker-server/"
+        children:
+          - title: "외부 서버의 Docker 개인 작업 영역 구성"
+            path: "04.Servers/docker-server/README.md"
+          - title: "구축 절차 · guides"
+            path: "04.Servers/docker-server/guides/"
+            children:
+              - title: "1. 서버용 PC 준비와 Docker Engine"
+                path: "04.Servers/docker-server/guides/docker_remote_dev_env.md"
+              - title: "2. 서버에서 사용자 작업 영역 생성·개인 PC 접속"
+                path: "04.Servers/docker-server/guides/docker_container_setup.md"
+          - title: "Docker 작업 영역 서버 운영·버전·복구"
+            path: "04.Servers/docker-server/operations.md"
+          - title: "서버 작업 영역 종류와 이미지 선택"
+            path: "04.Servers/docker-server/workspace-types.md"
+          - title: "언어별 환경 · environments"
+            path: "04.Servers/docker-server/environments/"
+            children:
+              - title: "ubuntu"
+                path: "04.Servers/docker-server/environments/ubuntu/"
+                children:
+                  - title: "서버 작업 영역 기본 사용"
+                    path: "04.Servers/docker-server/environments/ubuntu/README.md"
+              - title: "nodejs"
+                path: "04.Servers/docker-server/environments/nodejs/"
+                children:
+                  - title: "서버 Node.js·React·Electron 작업 영역"
+                    path: "04.Servers/docker-server/environments/nodejs/README.md"
+              - title: "typescript"
+                path: "04.Servers/docker-server/environments/typescript/"
+                children:
+                  - title: "서버 TypeScript 작업 영역"
+                    path: "04.Servers/docker-server/environments/typescript/README.md"
+              - title: "python"
+                path: "04.Servers/docker-server/environments/python/"
+                children:
+                  - title: "서버 Python 작업 영역"
+                    path: "04.Servers/docker-server/environments/python/README.md"
+              - title: "flutter"
+                path: "04.Servers/docker-server/environments/flutter/"
+                children:
+                  - title: "서버 Flutter·Android 빌드 작업 영역"
+                    path: "04.Servers/docker-server/environments/flutter/README.md"
+              - title: "rust"
+                path: "04.Servers/docker-server/environments/rust/"
+                children:
+                  - title: "서버 Rust 작업 영역"
+                    path: "04.Servers/docker-server/environments/rust/README.md"

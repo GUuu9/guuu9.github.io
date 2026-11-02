@@ -1,0 +1,7 @@
+{%- for item in include.nodes -%}
+  {%- if item.children -%}
+    {%- include reading-order.html nodes=item.children -%}
+  {%- else -%}
+    {{- item.path -}}|
+  {%- endif -%}
+{%- endfor -%}

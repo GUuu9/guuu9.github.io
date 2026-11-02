@@ -15,40 +15,37 @@
   <div class="docs-shell">
     <nav class="docs-nav" aria-label="문서 탐색">
       <p class="docs-nav-title">문서 분류</p>
-      {% assign section = page.path | split: '/' | first %}
-      {% assign documents = site.pages | sort: 'path' %}
-      <ul class="docs-tree">
-        {% for item in site.document_navigation %}
-          {% assign item_section = item.url | split: '/' | slice: 1 | first %}
-        <li>
-          {% assign url_parts = item.url | split: '/' %}
-          {% if url_parts.size > 2 %}
-          <details{% if section == item_section %} open{% endif %}>
-            <summary{% if section == item_section %} class="docs-active-section"{% endif %}>{{ item.title | escape }}</summary>
-            <ul>
-              <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>분류 안내</a></li>
-              {% for document in documents %}
-                {% assign document_section = document.path | split: '/' | first %}
-                {% assign extension = document.path | split: '.' | last %}
-                {% if document_section == item_section and extension == 'md' and document.url != item.url %}
-              <li><a href="{{ document.url | relative_url }}"{% if page.url == document.url %} aria-current="page"{% endif %}>{{ document.title | default: document.name | escape }}</a></li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </details>
-          {% else %}
-          <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title | escape }}</a>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
+      <div class="docs-tree">
+        {% include navigation.html nodes=site.document_navigation %}
+      </div>
       <a class="source-link" href="{{ site.source_url }}{{ page.path }}">GitHub에서 원문 보기</a>
     </nav>
     <main id="docs-content" class="docs-content" tabindex="-1">
+      <p class="docs-path">{{ page.path | escape }}</p>
       {% assign issues_source = 'href="' | append: site.source_url | append: 'issues/' %}
       {% assign config_source = 'href="' | append: site.source_url | append: '_config.yml"' %}
       {% assign layout_source = 'href="' | append: site.source_url | append: '_layouts/' %}
       {{ content | replace: 'href="./issues/', issues_source | replace: 'href="../_config.yml"', config_source | replace: 'href="../_layouts/', layout_source }}
+      {% capture ordered_paths %}{% include reading-order.html nodes=site.document_navigation %}{% endcapture %}
+      {% assign ordered_paths = ordered_paths | split: '|' %}
+      {% for document_path in ordered_paths %}
+        {% if document_path == page.path %}
+      <nav class="docs-pager" aria-label="문서 읽는 순서">
+          {% unless forloop.first %}
+            {% assign previous_index = forloop.index0 | minus: 1 %}
+            {% assign previous_path = ordered_paths[previous_index] %}
+            {% assign previous_url = previous_path | prepend: '/' | replace: '.md', '.html' %}
+        <a rel="prev" href="{{ previous_url | relative_url }}">이전 문서<small>{{ previous_path | escape }}</small></a>
+          {% endunless %}
+          {% unless forloop.last %}
+            {% assign next_index = forloop.index0 | plus: 1 %}
+            {% assign next_path = ordered_paths[next_index] %}
+            {% assign next_url = next_path | prepend: '/' | replace: '.md', '.html' %}
+        <a rel="next" href="{{ next_url | relative_url }}">다음 문서<small>{{ next_path | escape }}</small></a>
+          {% endunless %}
+      </nav>
+        {% endif %}
+      {% endfor %}
     </main>
   </div>
   <footer class="docs-footer">설치 명령은 프로젝트 요구 버전과 공식 지원 조건을 확인한 뒤 사용하세요.</footer>
