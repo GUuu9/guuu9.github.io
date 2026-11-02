@@ -1,0 +1,37 @@
+# Setup 문서만 웹 페이지로 변환합니다. 원본 Markdown은 그대로 보관합니다.
+markdown: kramdown
+kramdown:
+  input: GFM
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-relative-links
+optional_front_matter:
+  remove_originals: false
+defaults:
+  - scope:
+      path: "00.Setup"
+      type: pages
+    values:
+      layout: setup
+exclude:
+  - 01.Tools
+  - 02.Boilerplates
+  - 03.Utilities
+  - 04.Servers
+  - issues
+  - AGENTS.md
+  - README.md
+setup_source_url: "https://github.com/GUuu9/guuu9.github.io/blob/main/"
+setup_navigation:
+  - title: OS별 안내
+    url: /00.Setup/OS_Dev_Setting.html
+  - title: macOS · Apple Silicon
+    url: /00.Setup/macOS_AppleSilicon_Dev_Setting.html
+  - title: macOS · Intel
+    url: /00.Setup/macOS_Intel_Dev_Setting.html
+  - title: macOS · 공통 도구
+    url: /00.Setup/macOS_Common_Dev_Setting.html
+  - title: Windows
+    url: /00.Setup/Windows_Dev_Setting.html
+  - title: Linux
+    url: /00.Setup/Linux_Dev_Setting.html

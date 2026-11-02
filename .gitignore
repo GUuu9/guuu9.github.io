@@ -3,3 +3,8 @@
 # 작성 중인 내용·오류 메모는 로컬에만 보관
 /issues/*
 !/issues/README.md
+
+# Jekyll 로컬 빌드 결과
+/_site/
+/.jekyll-cache/
+/.sass-cache/
