@@ -5,8 +5,8 @@
 
 | 사용하는 환경 | 시작 문서 |
 | :--- | :--- |
-| macOS Apple Silicon | [개발 환경 설정](./macOS_Common_Dev_Setting.md#cpu별-확인-사항) |
-| macOS Intel | [개발 환경 설정](./macOS_Common_Dev_Setting.md#cpu별-확인-사항) |
+| macOS Apple Silicon | [개발 환경 설정](./macOS_Dev_Setting.md#cpu별-확인-사항) |
+| macOS Intel | [개발 환경 설정](./macOS_Dev_Setting.md#cpu별-확인-사항) |
 | Windows | [Windows 설정](./Windows_Dev_Setting.md) |
 | Ubuntu / Debian | [Linux 설정](./Linux_Dev_Setting.md) |
 

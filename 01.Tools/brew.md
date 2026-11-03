@@ -156,7 +156,7 @@ cmake --version
 
 `brew pin cmake`는 해당 formula가 일반 upgrade에서 갱신되지 않게 하고 `brew unpin cmake`는 해제합니다. pin은 cask나 모든 의존성까지 동결하지 않으며 과거 설치 파일을 보관하지도 않습니다. `cmake@버전`처럼 버전 formula가 실제 제공되는지는 `brew search`로 확인합니다. 임의 버전을 `brew install 패키지@버전`으로 항상 설치할 수 있는 것은 아닙니다.
 
-Intel은 지원 축소 일정이 있으므로 `brew update` 전 [macOS Intel 설정의 CPU별 안내](../00.Setup/macOS_Common_Dev_Setting.md#cpu별-확인-사항)를 확인합니다. brew만 구버전으로 고정해 과거 패키지 전체를 복원할 수는 없습니다.
+Intel은 지원 축소 일정이 있으므로 `brew update` 전 [macOS Intel 설정의 CPU별 안내](../00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항)를 확인합니다. brew만 구버전으로 고정해 과거 패키지 전체를 복원할 수는 없습니다.
 
 ## 제거·용량 정리
 

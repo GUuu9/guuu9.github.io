@@ -16,8 +16,8 @@
 
 ## 00.Setup — PC 개발 환경
 
-- macOS: [개발 환경 설정](./00.Setup/macOS_Common_Dev_Setting.md)
-- macOS 설치 이후: [프로젝트 시작·업데이트 안내](00.Setup/macOS_Common_Dev_Setting.md#프로젝트-시작업데이트)에서 해당 Tools 문서로 이동
+- macOS: [개발 환경 설정](./00.Setup/macOS_Dev_Setting.md)
+- macOS 설치 이후: [프로젝트 시작·업데이트 안내](00.Setup/macOS_Dev_Setting.md#프로젝트-시작업데이트)에서 해당 Tools 문서로 이동
 - [Windows 11](./00.Setup/Windows_Dev_Setting.md)
 - [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
 
