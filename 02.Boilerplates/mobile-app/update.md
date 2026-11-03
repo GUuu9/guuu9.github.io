@@ -1,5 +1,10 @@
-<!-- version: v1.5.0 -->
+<!-- version: v1.6.0 -->
 # 갱신 이력
+
+## 2026-11-03 — 공통 설치·도구 관리 분리
+
+- JDK OS별 설치와 Xcode·rbenv 최초 준비를 Setup·Homebrew 안내로, JDK 및 Ruby·Bundler·CocoaPods 공통 관리를 Tools로 분리했습니다.
+- Android·iOS 문서는 프로젝트별 버전 선택·복원·빌드·검증에 집중하며, 패키지 단독 사용 시에도 공식 설치 안내를 이용할 수 있습니다. SDK·의존성·잠금 파일은 변경하지 않았습니다.
 
 ## 2026-11-03 — Ponytail 점검 결과 반영
 

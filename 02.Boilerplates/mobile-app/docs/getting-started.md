@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Mobile-app 가져오기부터 실행까지
 
 새 PC·새 폴더에서 **유형 받기 → 프로젝트 복사 → Flutter 복원 → 플랫폼 도구 설치 → 프로젝트 환경 적용 → 의존성 복원 → 기기 실행·검증** 순서로 진행합니다. Android·iOS 중 필요한 플랫폼만 준비합니다. 기존 앱 복원이라면 다운로드·새 폴더 복사를 건너뛰고 해당 앱의 README·CI·버전 파일을 우선합니다.
@@ -86,8 +86,8 @@ fvm flutter --version
 
 먼저 [프로젝트 환경 파일의 책임](./project-environment.md#프로젝트에-보관할-파일)을 읽고, 선택 플랫폼에 필요한 실제 버전·개인 경로를 확인합니다. 이 단계에서는 설치까지만 진행하고 앱 실행·업데이트는 아직 하지 않습니다.
 
-- **Android**: [Android 빌드 가이드](./android-build.md)의 역할·기존 환경 확인·JDK 설치·SDK 설치·호환 조합 확인 순서로 진행합니다. Android Studio의 SDK Manager에서 요구 SDK·Platform-Tools를 준비합니다. Mac의 별도 JDK는 Homebrew의 요구 major formula로 설치하고 프로젝트 환경 파일에서 선택합니다. Gradle·AGP는 프로젝트 파일에서 복원하므로 전역 Gradle을 설치하지 않습니다.
-- **iOS**: Mac에서만 [iOS 빌드 가이드](./ios-build.md)의 Xcode 설치·초기화·선택을 진행합니다. 프로젝트에 CocoaPods 의존성이 있을 때만 Ruby·Bundler·CocoaPods를 준비하고, SwiftPM만 사용하면 불필요한 Podfile을 만들지 않습니다. iOS 앱 실행이 필요하지 않은 PC에 Xcode·CocoaPods를 설치하지 않습니다.
+- **Android**: [Android 빌드 가이드](./android-build.md)의 역할·기존 환경 확인·공통 설치 안내·프로젝트 JDK 선택·SDK 복원·호환 조합 확인 순서로 진행합니다. Android Studio의 SDK Manager에서 요구 SDK·Platform-Tools를 준비합니다. Mac의 별도 JDK는 Homebrew의 요구 major formula로 설치하고 프로젝트 환경 파일에서 선택합니다. Gradle·AGP는 프로젝트 파일에서 복원하므로 전역 Gradle을 설치하지 않습니다.
+- **iOS**: Mac에서만 [iOS 빌드 가이드](./ios-build.md)의 공통 Xcode 설치 안내·프로젝트별 선택을 진행합니다. 프로젝트에 CocoaPods 의존성이 있을 때만 Ruby·Bundler·CocoaPods를 준비하고, SwiftPM만 사용하면 불필요한 Podfile을 만들지 않습니다. iOS 앱 실행이 필요하지 않은 PC에 Xcode·CocoaPods를 설치하지 않습니다.
 
 개인 경로·설치 버전은 프로젝트 문서와 로컬 파일에 기록하며 공용 JAVA_HOME·Xcode 선택·Ruby 기본값을 바꾸지 않습니다. 샘플의 Android APK·iOS 빌드는 아직 검증되지 않았으므로 문서의 조합만으로 성공을 보장하지 않습니다.
 

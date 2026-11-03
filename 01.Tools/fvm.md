@@ -1,4 +1,4 @@
-<!-- version: v1.9.0 -->
+<!-- version: v1.9.1 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -259,7 +259,7 @@ USB 연결 절차 확인일: 2026-11-03. 공식 문서와 대조했으며 실제
 
 ### iOS
 
-Mac의 호환 Xcode·iOS SDK를 준비하고 `xcodebuild -version`·`fvm flutter doctor -v`로 실제 선택을 확인합니다. 기기 연결·서명은 [Flutter 공식 iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. CocoaPods를 사용하는 기존 프로젝트는 Gemfile·lock과 Bundler 실행 규칙, SwiftPM 프로젝트는 해당 패키지 설정을 유지합니다. FVM은 Xcode·의존성 관리자·서명 계정을 관리하지 않습니다.
+Mac의 호환 Xcode·iOS SDK를 준비하고 `xcodebuild -version`·`fvm flutter doctor -v`로 실제 선택을 확인합니다. 기기 연결·서명은 [Flutter 공식 iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. CocoaPods를 사용하는 기존 프로젝트는 [Ruby·Bundler 공통 관리](./ruby.md)에 따라 Gemfile·lock과 Bundler 실행 규칙, SwiftPM 프로젝트는 해당 패키지 설정을 유지합니다. FVM은 Xcode·의존성 관리자·서명 계정을 관리하지 않습니다.
 
 mobile-app 샘플의 설치·복원·빌드 예시는 [iOS 프로젝트 가이드](../02.Boilerplates/mobile-app/docs/ios-build.md)에 있습니다. 다른 Flutter 앱이 이 보일러플레이트·direnv·별도 실행기를 도입할 필요는 없습니다.
 

@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # 도구 제거와 숨김 설정·캐시 정리
 
 설치한 기능을 사용하지 않게 됐을 때 실행 파일, 개인 설정, 다운로드 캐시, 프로젝트 데이터를 구분해 정리합니다. 아래는 문서상 절차이며 실제 삭제를 실행하는 작업이 아닙니다. 기본 경로는 후보일 뿐이며 환경 변수·설치 방식·사용자 설정에 따라 달라집니다.
@@ -22,7 +22,7 @@
 | 도구 | 기능·본체 제거 | 숨김 파일·설정·캐시와 보존 기준 |
 | :--- | :--- | :--- |
 | Homebrew 패키지 | formula는 `brew uninstall 패키지`, cask는 `brew uninstall --cask 앱이름` | 패키지 자체 제거와 앱 사용자 설정은 다름. 아래 Homebrew 절차로 소유 파일 확인. Homebrew 전체를 삭제해 다른 패키지까지 제거하지 않음 |
-| JDK | Homebrew formula는 `brew uninstall openjdk@17`처럼 필요한 major만 제거. 다른 설치 방식은 해당 배포판 방식으로 정리 | 다른 프로젝트·IDE·CI의 JAVA_HOME·Gradle JDK와 Flutter 로컬 설정 참조부터 확인. `~/.gradle`·Android SDK·다른 JDK·서명 자료를 함께 지우지 않음. 설치·유지·복귀는 [JDK 관리](../02.Boilerplates/mobile-app/docs/android-build.md#macos-jdk-업데이트유지제거) 참고 |
+| JDK | Homebrew formula는 `brew uninstall openjdk@17`처럼 필요한 major만 제거. 다른 설치 방식은 해당 배포판 방식으로 정리 | 다른 프로젝트·IDE·CI의 JAVA_HOME·Gradle JDK와 Flutter 로컬 설정 참조부터 확인. `~/.gradle`·Android SDK·다른 JDK·서명 자료를 함께 지우지 않음. 설치·유지·복귀는 [JDK 관리](./jdk.md#macos-jdk-업데이트유지제거) 참고 |
 | CMake | Homebrew 설치는 `brew uninstall cmake`; CMake.app/압축 배포판은 설치했던 앱·전용 디렉터리만 제거 | 별도 추가한 CMake PATH 줄 확인. `~/.cmake`는 사용자 패키지 등록 정보를 포함할 수 있어 내용 확인 후 정리. 프로젝트 CMakeLists.txt·프리셋 보존. Android SDK 내부 CMake는 SDK Manager에서 별도로 관리 |
 | minicom | Homebrew 설치는 `brew uninstall minicom` | `~/.minirc.*` 같은 개인 시리얼 프로필, 지정한 로그·캡처 파일을 백업 후 선택 정리. 다른 시리얼 프로그램·USB 드라이버는 별도 구성 |
 | IINA | Homebrew 설치는 `brew uninstall --cask iina` | cask 정의의 zap 경로에서 앱별 설정·캐시 후보 확인. 영상 파일·재생목록은 보존 여부를 따로 선택 |
@@ -34,6 +34,7 @@
 | rustup | 툴체인 하나는 `rustup toolchain uninstall 버전`; 전체는 `rustup self uninstall` | `RUSTUP_HOME`·`CARGO_HOME`(일반적으로 `~/.rustup`, `~/.cargo`) 소유 범위 확인. Cargo에는 별도 설치 CLI·인증 설정도 있을 수 있음. rust-toolchain.toml·Cargo.toml·Cargo.lock 유지 |
 | Oh My Zsh | 백업 후 `uninstall_oh_my_zsh` | 실제 `ZSH` 디렉터리(일반적으로 `~/.oh-my-zsh`)의 custom 테마·플러그인과 `.zshrc` 백업. 제거기의 과거 설정 복원 후 이후 추가한 PATH·nvm 설정 보존 여부 확인 |
 | VS Code | 설치 관리자 또는 macOS 앱 제거 | 공식 제거 안내의 OS별 사용자 데이터·확장 디렉터리 확인. macOS 기본 `~/Library/Application Support/Code`, `~/.vscode`는 별도 선택 정리. 프로젝트 `.vscode`에는 팀 설정이 있으므로 앱 제거와 함께 삭제하지 않음. Settings Sync 재연결 시 설정이 복원될 수 있음 |
+| Ruby·rbenv·CocoaPods | 사용하는 설치 방식과 버전을 확인한 뒤 [Ruby 도구 관리](./ruby.md#업데이트복귀제거)에 따라 선택 제거 | `.ruby-version`·Gemfile·잠금 파일을 보존. 공유 Ruby·gem과 다른 프로젝트의 참조를 먼저 확인 |
 | Android Studio | 설치 방식에 맞춰 IDE 제거; SDK·에뮬레이터는 관리자에서 별도 제거 | IDE의 실제 설정·plugin·cache 경로를 공식 안내로 확인. `~/.android`에는 AVD·adb 키·debug keystore 등이 있을 수 있음. `~/.gradle`은 여러 프로젝트가 공유. SDK Manager의 Android SDK Location과 프로젝트 의존 확인 후 선택 정리 |
 | Docker | 컨테이너·이미지는 도구 가이드대로 선택 제거; Desktop은 공식 제거 기능 사용 | `~/.docker`는 CLI context·인증 설정을 포함할 수 있음. volume·bind mount·Desktop VM 데이터는 백업을 먼저 결정. 앱 제거를 볼륨 백업으로 간주하거나 `down -v`/일괄 prune으로 시작하지 않음 |
 | Codex·Ponytail | 플러그인만 제거하려면 [Codex 가이드](./codex.md)의 플러그인 제거 절차 | Codex 사용자 디렉터리에는 인증·설정·기록·다른 스킬이 있을 수 있으므로 플러그인 제거를 위해 통째로 삭제하지 않음. 본체는 실제 설치 방식의 제거 절차 확인 |

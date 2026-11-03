@@ -1,4 +1,4 @@
-<!-- version: v3.1.2 -->
+<!-- version: v3.2.1 -->
 # macOS 공통 개발 도구 초기 설치
 
 먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
@@ -44,15 +44,16 @@ zsh 로딩 규칙 확인일: 2026-10-30. [공식 시작 파일 안내](https://z
 
 nvm 설치기의 Git 호출이나 Homebrew 설치가 미동의 Xcode 라이선스로 중단되지 않도록 **Homebrew·Oh My Zsh·nvm보다 먼저** 확인합니다. 전체 Xcode가 설치되어 있다면 아래 선택·라이선스·초기화를 완료합니다. Command Line Tools만 사용하는 경우 Xcode 전용 명령은 실행하지 않고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다.
 
-1. iOS 개발이 필요하면 해당 macOS가 지원하는 Xcode를 설치합니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
+1. iOS 개발이 필요하면 [Apple 공식 배포처](https://developer.apple.com/xcode/)와 [Xcode 지원 표](https://developer.apple.com/xcode/system-requirements/)에서 해당 macOS·CPU가 지원하는 버전을 확인해 설치합니다. App Store의 받기/설치를 사용하거나 [과거 공식 배포판](https://developer.apple.com/download/all/)의 `.xip`을 열어 압축 해제한 앱을 `/Applications`로 옮깁니다. 과거 배포판은 Apple 계정 로그인이 필요할 수 있습니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
 2. Xcode를 한 번 열고 필수 구성요소와 iOS 플랫폼 지원을 설치합니다. Simulator 런타임은 사전 설치하지 않습니다.
-3. 아래 명령으로 사용할 Xcode를 지정하고 초기 설정과 라이선스를 확인합니다. 설치 경로가 다르면 실제 경로로 바꿉니다.
+3. 아래 명령으로 설치한 Xcode의 초기 설정과 라이선스를 확인합니다. 전역 Xcode 선택은 바꾸지 않습니다. 설치 경로가 다르면 실제 경로로 바꿉니다.
 
 ```bash
-sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-sudo xcodebuild -license
-sudo xcodebuild -runFirstLaunch
+sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -license
+sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -runFirstLaunch
 ```
+
+이후 프로젝트에서는 `.env`의 `DEVELOPER_DIR`로 실제 Xcode를 선택하고 `xcodebuild -version`으로 확인합니다. 설치·초기화만으로 전역 선택이 변경되지는 않습니다. GUI 앱이 셸 환경 변수를 자동 상속한다고 가정하지 않습니다.
 
 iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
 
@@ -231,9 +232,36 @@ fvm install 3.35.7
 3. AVD·에뮬레이터 시스템 이미지는 필요할 때 직접 추가하므로 초기 다운로드에서 제외합니다.
 4. 실기기를 사용할 경우 개발자 옵션·USB 디버깅을 켜고 USB 연결 허용 창을 승인합니다. Flutter 라이선스 확인·기기 탐지·앱 실행은 프로젝트 복원에서 진행합니다.
 
-Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gradle Plugin의 요구 버전은 복원 때 확인합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+[JDK 선택·유지 관리](../01.Tools/jdk.md)에 따라 Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gradle Plugin의 요구 버전은 복원 때 확인합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
 
 Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
+
+### Ruby 도구가 필요한 경우
+
+CocoaPods·Ruby 프로젝트가 필요할 때만 준비합니다. SwiftPM 전용 프로젝트나 Android 개발만 한다면 설치하지 않습니다.
+
+별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
+
+```bash
+git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
+"$HOME/.rbenv/bin/rbenv" init
+```
+
+`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
+
+```bash
+rbenv --version
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
+rbenv install -l
+```
+
+Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
+
+```bash
+brew install openssl@3 readline libyaml gmp autoconf
+```
+
+프로젝트 Ruby·Bundler·CocoaPods 선택과 복원·업데이트·제거는 [Ruby 도구 관리](../01.Tools/ruby.md)를 따릅니다. 초기 PC 준비에서 모든 프로젝트용 Ruby·gem을 일괄 설치하지 않습니다.
 
 ### Android Studio 편집기·콘솔·터미널 폰트
 

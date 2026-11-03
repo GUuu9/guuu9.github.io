@@ -11,6 +11,8 @@ OS 설치·초기 복원은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고�
 | [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS·Linux zsh 설정·업데이트·복귀 |
 | [Homebrew](./brew.md) | OS에 설치하는 개발 도구·앱 | 패키지 설치·업데이트·진단 |
 | [nvm](./nvm.md) | Node.js 런타임 | TS·React·Electron·서버의 Node 버전 전환 |
+| [JDK](./jdk.md) | Java·Gradle 실행 환경 | 프로젝트별 JDK 선택·병행 유지·업데이트·제거 |
+| [Ruby·Bundler·CocoaPods](./ruby.md) | Ruby 버전과 프로젝트별 gem 도구 | Ruby·네이티브 의존성 도구 복원·업데이트 |
 | [FVM](./fvm.md) | Flutter SDK | 프로젝트마다 Flutter 버전 고정 |
 | [uv·가상환경](./uv.md) | Python 버전·가상환경·의존성·기존 venv | Python 프로젝트 복원·실행·관리 |
 | [Docker·Compose](./docker.md) | 컨테이너·이미지·볼륨·서비스 | 터미널 접속·실행·업데이트·데이터 보존 |

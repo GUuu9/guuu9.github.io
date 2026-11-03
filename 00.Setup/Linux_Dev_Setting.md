@@ -1,4 +1,4 @@
-<!-- version: v2.1.2 -->
+<!-- version: v2.2.0 -->
 # Linux 개발 도구 초기 설치 (Ubuntu / Debian)
 
 지원 중인 Ubuntu LTS 또는 Debian의 **x86_64 데스크톱·bash**를 기준으로 합니다. 개인 PC의 일반 사용자 터미널에서 임의 디렉터리에서 실행하며 `sudo`가 붙은 명령만 관리자 권한이 필요합니다. ARM·다른 배포판은 별도 지원 확인이 필요합니다. Docker Desktop·Android Studio의 Linux ARM 지원을 전제하지 않습니다.
@@ -110,6 +110,31 @@ curl -fsSL https://fvm.app/install.sh | bash
 JDK는 Android Studio 포함 버전을 우선하되 프로젝트 Gradle·AGP 요구 조건을 확인합니다. [공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)를 적용합니다. Android 실기기는 개발자 옵션·USB 디버깅·연결 허용을 준비하고 [공식 실기기 안내](https://developer.android.com/studio/run/device#setting-up)의 Linux 사용자 권한·udev 규칙을 따릅니다. adb를 상시 root로 실행해 우회하지 않습니다.
 
 Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
+
+### 별도 JDK가 필요한 경우
+
+공식 배포 페이지에서 Linux·CPU·libc 지원 조건에 맞는 JDK `.tar.gz`를 받습니다. 배포판에 이미 호환 JDK가 있다면 재사용하며 패키지 설치와 이 방식을 중복 적용하지 않습니다. 아래는 관리자 권한 없이 별도 JDK를 보관하는 [공식 아카이브 방식](https://adoptium.net/installation/archives)입니다. 일반 사용자 터미널의 임의 폴더에서 파일명을 바꿉니다.
+
+```bash
+JDK_ARCHIVE="$HOME/Downloads/실제파일명.tar.gz"
+sha256sum "$JDK_ARCHIVE"
+tar -tzf "$JDK_ARCHIVE"
+```
+
+공식 SHA-256과 대조하고 압축 내부의 최상위 폴더명을 확인합니다. 같은 JDK 폴더가 대상 위치에 이미 있으면 덮어쓰지 말고 기존 설치를 먼저 확인합니다.
+
+```bash
+mkdir -p "$HOME/.local/share/jdks"
+tar -xzf "$JDK_ARCHIVE" -C "$HOME/.local/share/jdks"
+export JAVA_HOME="$HOME/.local/share/jdks/실제압축해제폴더명"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+javac -version
+```
+
+`JAVA_HOME`은 `bin/java`가 아니라 그 상위 JDK 루트입니다. 위 선택은 현재 셸에만 적용됩니다. 영구적인 프로젝트 선택은 `.env`에서 관리하고 셸 공용 설정 파일에는 프로젝트 값을 추가하지 않습니다. CI는 같은 아카이브·체크섬 또는 기존 CI의 JDK 설치 기능으로 동일 버전을 선택합니다.
+
+설치 후 [JDK 선택·유지 관리](../01.Tools/jdk.md)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
 
 ## 5. C/C++·Rust·Unity 도구
 

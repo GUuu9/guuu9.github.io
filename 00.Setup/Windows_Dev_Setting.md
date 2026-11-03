@@ -1,4 +1,4 @@
-<!-- version: v2.1.2 -->
+<!-- version: v2.2.0 -->
 # Windows 개발 도구 초기 설치
 
 **Windows 11 x64·PowerShell·Windows 네이티브 개발**을 기준으로 합니다. macOS와 동일하게 **0~8절 초기 설치 → 도구 인식 확인 → 프로젝트 작업 안내 → 업데이트** 순서입니다. 별도 표시가 없으면 개인 PC의 일반 사용자 PowerShell에서 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더·가상환경·잠금 파일이 필요하지 않습니다.
@@ -91,6 +91,25 @@ SDK 링크 생성에 권한이 필요하면 Windows 개발자 모드의 심볼�
 JDK는 Android Studio 포함 버전을 우선하되 프로젝트 Gradle·AGP 요구 조건을 확인합니다. [공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)를 적용합니다. Android 실기기는 개발자 옵션·USB 디버깅·연결 허용과 [제조사 공식 USB 드라이버](https://developer.android.com/studio/run/oem-usb)를 준비합니다. Windows SDK·adb·JDK와 WSL의 도구를 혼용하지 않습니다.
 
 Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
+
+### 별도 JDK가 필요한 경우
+
+Windows x64에서 공식 `.msi`의 정확한 버전·체크섬을 확인합니다. 다른 CPU는 해당 배포판 지원 여부와 설치 형식을 먼저 확인합니다. 일반 PowerShell의 임의 폴더에서 파일명을 바꿔 실행합니다.
+
+```powershell
+$JdkMsi = "$env:USERPROFILE\Downloads\실제파일명.msi"
+Get-FileHash -Algorithm SHA256 -Path $JdkMsi
+```
+
+공식 값과 대조한 뒤 설치 마법사를 실행합니다. 시스템 설치에 필요한 UAC 관리자 승인이 나타날 수 있습니다.
+
+```powershell
+msiexec.exe /i "$JdkMsi"
+```
+
+설치 마법사의 **Custom Setup**에서 설치 경로와 PATH·JAVA_HOME 옵션을 검토합니다. 이 프로젝트 설치를 위해 공용 PATH·JAVA_HOME을 바꾸지 않도록 해당 옵션을 해제합니다. 설치 완료 후 새 PowerShell을 열어 `java -version`, `javac -version`, `$env:JAVA_HOME`을 확인합니다. 이전 버전이 나오면 프로젝트에 필요한 JDK를 [JDK 선택 기준](../01.Tools/jdk.md#터미널ide의-jdk-선택-확인)에 맞춰 지정합니다. [공식 MSI 설치·옵션](https://adoptium.net/installation/windows).
+
+설치 후 [JDK 선택·유지 관리](../01.Tools/jdk.md)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
 
 ## 5. C/C++·Rust·Unity 도구
 

@@ -1,4 +1,4 @@
-<!-- version: v1.5.1 -->
+<!-- version: v1.5.2 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
@@ -45,7 +45,7 @@ brew list --versions openjdk@17
 "$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home/bin/java" -version
 ```
 
-위 설치 명령은 해당 실행에서 기존 formula 자동 업그레이드·자동 cleanup을 막습니다. 호환 JDK가 이미 있으면 재사용하며 연관 패키지까지 완전히 격리되는 것은 아닙니다. JDK 21이 필요한 다른 프로젝트는 `openjdk@21`을 추가할 수 있습니다. 시스템 Java 링크나 공용 PATH를 바꾸지 않고 프로젝트 로컬 JAVA_HOME에서 선택합니다. 일반적인 갱신·pin·제거는 이 문서의 해당 절을 따릅니다. 프로젝트에 적용하는 예시는 [mobile-app Android 빌드 관리](../02.Boilerplates/mobile-app/docs/android-build.md#jdk-설치선택)에 있으며 해당 보일러플레이트를 사용할 필요는 없습니다.
+위 설치 명령은 해당 실행에서 기존 formula 자동 업그레이드·자동 cleanup을 막습니다. 호환 JDK가 이미 있으면 재사용하며 연관 패키지까지 완전히 격리되는 것은 아닙니다. JDK 21이 필요한 다른 프로젝트는 `openjdk@21`을 추가할 수 있습니다. 시스템 Java 링크나 공용 PATH를 바꾸지 않고 프로젝트 로컬 JAVA_HOME에서 선택합니다. 일반적인 갱신·pin·제거는 이 문서의 해당 절을 따릅니다. 프로젝트에 적용하는 예시는 [JDK 선택·유지 관리](./jdk.md)에 있으며 해당 보일러플레이트를 사용할 필요는 없습니다.
 
 공식 formula 확인일: 2026-11-03. [openjdk@17](https://formulae.brew.sh/formula/openjdk@17) · [openjdk@21](https://formulae.brew.sh/formula/openjdk@21). 현재 Intel·Ventura용 macOS bottle은 없으므로 설치 성공을 보장하지 않습니다. 기존 PKG·SDKMAN·brew cask 설치가 있다면 사용 경로와 관리 방식을 먼저 확인해 중복 설치를 피합니다.
 

@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
@@ -22,19 +22,9 @@ Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·
 
 ## Xcode 설치·선택·확인
 
-1. 기존 프로젝트의 정상 빌드 Xcode·Flutter·macOS·CPU 기록과 현재 Mac이 설치할 수 있는 Xcode를 확인합니다. [Apple 공식 Xcode 다운로드](https://developer.apple.com/xcode/)와 [과거 배포판](https://developer.apple.com/download/all/)을 사용합니다. 과거 버전은 Apple 계정 로그인이 필요할 수 있습니다.
-2. 전체 Xcode 설치·라이선스·초기화는 위 Flutter 공식 iOS 환경 설정을 따릅니다. iOS 플랫폼 지원을 준비하고 Simulator runtime은 사용할 때만 추가합니다.
-3. App Store 설치는 Xcode의 **받기/설치**를 사용합니다. 과거 `.xip` 배포판은 다운로드 후 열어 압축을 풀고 Xcode 앱을 `/Applications`에 옮깁니다. 여러 버전을 보존할 때는 앱 이름을 구분합니다. 비공식 재배포 파일을 사용하지 않습니다.
-4. Xcode를 한 번 실행한 뒤 개인 Mac의 임의 폴더에서 아래 초기화를 수행합니다. 전체 Xcode 설치가 선행되어야 하며 아래 두 초기화 명령은 관리자 권한을 사용하지만 전역 Xcode 선택은 바꾸지 않습니다. 경로가 다르면 실제 설치 위치로 바꿉니다.
+전체 Xcode 설치·라이선스·최초 초기화는 저장소의 `00.Setup/macOS_Common_Dev_Setting.md` 또는 [Apple 공식 설치·지원 안내](https://developer.apple.com/xcode/)와 [Flutter iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. 정상 빌드 기록과 macOS·CPU 조건에 맞는 버전을 설치하고 필요한 Simulator runtime만 준비합니다. 여러 Xcode를 보존할 때 앱 이름을 구분합니다.
 
-```bash
-sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -license
-sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -runFirstLaunch
-```
-
-라이선스는 내용을 읽고 동의합니다. iOS 플랫폼 지원·Simulator runtime은 Xcode의 Settings → Components/Platforms에서 필요한 버전을 선택해 받습니다. 선택 Xcode가 지원하는 경우 `xcodebuild -downloadPlatform iOS`로도 받을 수 있지만 Simulator runtime까지 다운로드할 수 있으므로 필요한 경우에만 사용합니다.
-
-5. 프로젝트 터미널에서 선택 상태를 확인합니다.
+프로젝트 터미널에서 선택 상태를 확인합니다.
 
 ```bash
 xcode-select -p
@@ -63,62 +53,7 @@ fvm flutter doctor -v
 
 Homebrew와 중복 설치하지 않고 [공식 RubyGems·Bundler 절차](https://guides.cocoapods.org/using/getting-started.html)를 사용합니다. macOS 시스템 Ruby 대신 프로젝트가 지정한 별도 Ruby 환경을 먼저 준비합니다. 기존 Ruby 관리자를 유지하고 없다면 공식 가이드에 나온 [rbenv Git 설치](https://github.com/rbenv/rbenv#installation)를 사용할 수 있습니다. 시스템 Ruby에 `sudo gem install`로 설치하지 않습니다.
 
-별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
-
-```bash
-git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
-"$HOME/.rbenv/bin/rbenv" init
-```
-
-`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
-
-```bash
-rbenv --version
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
-rbenv install -l
-```
-
-Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
-
-```bash
-brew install openssl@3 readline libyaml gmp autoconf
-```
-
-프로젝트 `.ruby-version`·Gemfile의 Ruby 조건에 맞는 **실제 버전**을 설치합니다. `목표Ruby버전`은 자리표시자입니다. CocoaPods를 위해 새 Ruby를 선택하는 경우 Ruby·CocoaPods 지원 범위와 macOS 빌드 조건을 확인하고 선택 버전을 기록합니다.
-
-```bash
-rbenv install 목표Ruby버전
-rbenv local 목표Ruby버전
-```
-
-위 `local`은 새 프로젝트 루트에서 `.ruby-version`을 처음 만들 때만 실행합니다. 기존 파일이 있으면 값을 바꾸지 말고 프로젝트 루트에서 `rbenv install`로 그 버전을 복원합니다. `rbenv shell`·`rbenv global`은 프로젝트 전환 절차에 사용하지 않습니다. 이전 `RBENV_VERSION`이 남아 있으면 버전 파일보다 우선하므로 작업 자식 셸에서 `unset RBENV_VERSION` 후 확인합니다. 자동 전환을 쓰면 환경 가이드의 `.envrc`가 프로젝트 안에서 해제·이탈 시 복원합니다.
-
-```bash
-ruby --version
-rbenv version
-command -v ruby
-```
-
-### CocoaPods 도구 버전을 프로젝트에 고정
-
-CocoaPods를 쓰는 프로젝트는 **Gemfile·Gemfile.lock으로 도구 버전도 관리**합니다. Ruby가 같아도 CocoaPods 요구 버전은 프로젝트마다 다를 수 있습니다. 기존 Gemfile·잠금 파일은 그대로 복원합니다. 파일이 없는 프로젝트에서 CocoaPods를 새로 도입할 때만 프로젝트 루트에 다음 Gemfile을 작성합니다. `목표CocoaPods버전`은 검증할 실제 버전으로 바꾸며 SwiftPM 전용 샘플에는 만들지 않습니다.
-
-```ruby
-source 'https://rubygems.org'
-gem 'cocoapods', '= 목표CocoaPods버전'
-```
-
-기존 Gemfile.lock의 `BUNDLED WITH`에서 Bundler 버전을 확인해 선택한 Ruby에 설치합니다. 새 프로젝트는 선택 Ruby와 호환되는 실제 Bundler 버전을 정해 기록합니다. 설치할 때 `sudo`를 사용하지 않습니다.
-
-```bash
-gem install bundler -v Bundler버전
-bundle --version
-bundle config set --local path .local/bundle
-bundle install
-bundle exec pod --version
-```
-
-모두 **Gemfile이 있는 프로젝트 루트**에서 실행합니다. `.local/bundle`과 `.bundle/`은 Git 제외 로컬 상태이며 Gemfile·Gemfile.lock은 공유합니다. 다른 프로젝트의 `BUNDLE_GEMFILE`·`BUNDLE_PATH`가 강제되어 있다면 작업 자식 셸에서 원인을 확인·해제하고 이 프로젝트의 설정을 사용합니다. 일반 `gem install cocoapods -v …` 후 `pod`만 실행하는 방식은 특정 프로젝트 버전을 선택해 주지 않으므로 기본 절차에서 제외합니다.
+Ruby 선택·Bundler 설치·Gemfile 고정의 공통 절차는 저장소의 `01.Tools/ruby.md`에서 관리합니다. 이 패키지만 사용한다면 [rbenv 공식 안내](https://github.com/rbenv/rbenv)와 [CocoaPods Gemfile 안내](https://guides.cocoapods.org/using/a-gemfile.html)를 따릅니다. 기존 `.ruby-version`·Gemfile·Gemfile.lock을 유지해 `rbenv install`, 잠금 파일의 Bundler 설치, `bundle install` 순서로 복원합니다. `.bundle/`과 로컬 gem 설치 경로는 Git에서 제외하며 시스템 Ruby나 전역 CocoaPods로 대체하지 않습니다.
 
 ### Flutter 빌드까지 같은 CocoaPods 환경 사용
 
