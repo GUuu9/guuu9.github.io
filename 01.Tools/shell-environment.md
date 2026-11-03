@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # 기본 패키지·셸·환경 변수
 
 개인 PC의 도구 설치 전에 OS·CPU와 셸·PATH를 확인합니다. 프로젝트 전용 값은 `.env.example`·Git 제외 `.env`와 프로젝트 버전 파일에서 관리하며 공용 설정을 바꾸지 않습니다. 아래 명령은 표시한 OS의 임의 폴더에서 일반 사용자로 실행하고 `sudo`가 붙은 명령만 관리자 권한을 사용합니다. 기존 설정은 편집 전에 백업합니다.
@@ -98,4 +98,4 @@ sudo apt upgrade
 
 OS 메이저 업그레이드는 [Ubuntu](https://ubuntu.com/desktop/docs/en/latest/how-to/upgrade-ubuntu-desktop/)·[Debian](https://www.debian.org/releases/stable/releasenotes) 공식 절차로 별도 진행합니다. 커널·드라이버 변경이 요구하면 재시작합니다. OS·SDK·데이터 형식은 실행 파일만 낮춘다고 복구되지 않으므로 백업·복구 수단을 먼저 확인합니다.
 
-새 터미널·IDE의 도구 경로를 확인하고 문제 발생 시 백업한 셸·PATH와 비교해 변경 항목만 복원합니다. 공유 설정을 통째로 지우거나 모든 프로젝트의 환경 변수를 공용 셸 파일에 추가하지 않습니다. 이번 문서 이동에서 OS·패키지 설치·업데이트는 수행하지 않았습니다.
+새 터미널·IDE의 도구 경로를 확인합니다. 문제 발생 시 백업한 셸·PATH와 비교해 변경 항목만 복원합니다.

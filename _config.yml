@@ -34,11 +34,7 @@ document_navigation:
     children:
       - title: "OS별 개발 환경 설정 안내"
         path: "00.Setup/OS_Dev_Setting.md"
-      - title: "macOS Apple Silicon 개발 환경 설정"
-        path: "00.Setup/macOS_AppleSilicon_Dev_Setting.md"
-      - title: "macOS Intel 개발 환경 설정"
-        path: "00.Setup/macOS_Intel_Dev_Setting.md"
-      - title: "macOS 공통 개발 환경 설정"
+      - title: "macOS 개발 환경 설정"
         path: "00.Setup/macOS_Common_Dev_Setting.md"
       - title: "Windows 개발 환경 설정"
         path: "00.Setup/Windows_Dev_Setting.md"

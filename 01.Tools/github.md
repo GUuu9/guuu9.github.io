@@ -1,7 +1,7 @@
-<!-- version: v1.5.0 -->
+<!-- version: v2.0.0 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
-본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
+Git 설치, 저장소 사용, GitHub 인증·협업 절차를 안내합니다.
 
 ---
 
@@ -76,7 +76,7 @@ git ls-remote origin
 
 인증 실패 시 토큰 만료·선택한 저장소·Contents 권한·계정 자체 권한·조직 승인/SSO 정책과 저장된 이전 인증정보를 확인합니다. SSH 형식인 `git@github.com:...` 원격은 PAT 대신 SSH 키를 사용합니다. PAT가 노출되면 GitHub 설정에서 즉시 폐기하고 재발급한 뒤 자격증명 저장소도 갱신합니다.
 
-확인일: 2026-10-30. 공식 발급·입력·보관 절차를 확인했으며 실제 토큰 발급·저장·인증은 수행하지 않았습니다.
+공식 안내: [Fine-grained PAT 발급·사용](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 ---
 
@@ -179,23 +179,22 @@ git diff --staged
 ## 3단계: 협업과 브랜치 전략 (Branching & Merge)
 
 ### 3.1 브랜치 생성 및 이동
-신규 기능 개발이나 버그 수정을 위해 독립된 공간을 만듭니다.
 ```bash
 git checkout -b feature/<기능명> # 브랜치 생성 및 즉시 이동
 git checkout <branch_name>     # 기존 브랜치로 이동
 ```
 
 ### 3.2 병합 (Merge)
-작업이 완료된 브랜치를 메인 브랜치에 합칩니다.
-1. `git checkout main` (메인으로 이동)
-2. `git pull origin main` (최신 상태 유지)
-3. `git merge feature/<기능명>` (기능 합치기)
+`main`을 갱신한 뒤 작업 브랜치를 병합합니다.
+
+```bash
+git switch main
+git pull --ff-only origin main
+git merge feature/<기능명>
+```
 
 ### 3.3 충돌 해결 (Conflict Resolution)
-동일한 코드를 여러 명이 수정했을 때 발생합니다.
-1. 충돌 파일 열기
-2. `<<<<<<<`, `=======`, `>>>>>>>` 영역 중 남길 코드를 결정하여 수정
-3. `git add <file>` -> `git commit` 으로 해결 완료
+충돌 표시를 정리하고 해결한 파일을 스테이징한 뒤 커밋합니다.
 
 ---
 
@@ -205,14 +204,15 @@ git checkout <branch_name>     # 기존 브랜치로 이동
 급한 브랜치 이동과 미커밋 변경 보관은 [원격 업데이트 절차의 stash 보관·복원](#24-로컬-변경을-올리지-않고-github-업데이트-받기)을 따른다. 미추적·ignored 파일 범위와 복원 확인 후 제거 순서를 같은 절에서 관리한다.
 
 ### 4.2 저장소 최적화 (git gc)
-저장소의 용량을 줄이고 명령 실행 속도를 높입니다.
+
 ```bash
-git count-objects -v     # 용량 상태 점검
-git gc                   # 일반적인 저장소 정리; 보통 자동 관리에 맡김
+git count-objects -v
+git gc
 ```
 
 ### 4.3 원격 브랜치 목록 정리 (Prune)
-원격에서 이미 삭제된 브랜치가 로컬에 남아있을 때 정리합니다.
+
+원격에서 삭제한 브랜치 참조를 정리합니다.
 ```bash
 git remote prune origin
 ```
@@ -222,26 +222,25 @@ git remote prune origin
 ## 5단계: 히스토리 수정 및 복구 (History Management)
 
 ### 5.1 커밋 보완 (Amend)
-방금 막 수행한 커밋에 파일을 추가하거나 메시지를 바꿀 때 사용합니다.
+
 ```bash
 git commit --amend --no-edit # 파일만 추가할 때
 git commit --amend -m "메시지 수정"
 ```
 
 ### 5.2 특정 커밋만 가져오기 (Cherry-pick)
-다른 브랜치의 특정 작업 건만 현재 브랜치로 복사해옵니다.
+
 ```bash
 git cherry-pick <commit_id>
 ```
 
 ### 5.3 되돌리기 (Reset vs Revert)
-- **Reset**: 특정 시점으로 돌아가고 이후 기록을 삭제 (로컬용)
-  `git reset --hard <commit_id>`는 추적 파일의 미커밋 변경을 잃을 수 있으므로 백업·상태 확인 없이 실행하지 않습니다.
-- **Revert**: 특정 커밋의 작업을 취소하는 '새 커밋' 생성 (협업용/안전)
+- **Reset**: 로컬 커밋을 이동합니다. `--hard`는 미커밋 변경도 지우므로 주의합니다.
+- **Revert**: 공유 커밋을 취소하는 새 커밋을 만듭니다.
   `git revert <commit_id>`
 
 ### 5.4 사라진 커밋 복구 (Reflog)
-실수로 지운 커밋의 ID를 찾아 복구합니다.
+
 ```bash
 git reflog
 git branch recovery/<name> <reflog_id> # 복구 브랜치로 먼저 보존
@@ -264,35 +263,16 @@ export default defineConfig({
 });
 ```
 
-#### 6.1.2 수동 배포 (gh-pages 브랜치 사용)
-`gh-pages` 패키지를 사용하여 편리하게 배포할 수 있습니다.
-1. **패키지 설치**: `npm install gh-pages --save-dev`
-2. **스크립트 추가** (`package.json`):
-   ```json
-   "scripts": {
-     "predeploy": "npm run build",
-     "deploy": "gh-pages -d dist"
-   }
-   ```
-3. **배포 실행**: `npm run deploy`
-
-#### 6.1.3 자동 배포 (GitHub Actions)
+#### 6.1.2 자동 배포 (GitHub Actions)
 [Vite 공식 GitHub Pages 배포 예제](https://vite.dev/guide/static-deploy.html#github-pages)의 워크플로를 프로젝트의 `.github/workflows/deploy.yml`에 적용합니다. 기존 워크플로가 있으면 재사용하고 중복 파일을 만들지 않습니다.
 
 1. 저장소의 Settings → Pages → Source에서 **GitHub Actions**를 선택합니다.
 2. 공식 예제의 의존성 설치·빌드·산출물 업로드·배포 단계를 사용하되, 대상 브랜치·Node 버전·잠금 파일·출력 경로를 프로젝트에 맞춥니다. `pages: write`·`id-token: write`와 배포 environment 설정도 포함합니다.
 3. 변경을 push한 뒤 Actions의 빌드·배포 성공과 실제 Pages URL을 확인합니다. 실패하면 워크플로 로그를 확인하며 파일을 만드는 것만으로 배포가 끝났다고 판단하지 않습니다.
 
-기본 출력 폴더가 `dist`인 npm 기반 Vite 프로젝트를 전제로 한 예제입니다. 다른 빌드 도구·패키지 관리자는 해당 프로젝트의 기존 CI를 우선합니다. 공식 예제 확인일: 2026-10-30. 실제 배포는 수행하지 않았습니다.
+`dist`를 출력하는 npm 기반 Vite 프로젝트 예시입니다. 다른 빌드 도구는 프로젝트 CI를 따릅니다.
 
-#### 6.1.4 GitHub 저장소 설정
-1. 저장소의 **Settings > Pages** 메뉴로 이동합니다.
-2. **Build and deployment > Source**를 설정합니다.
-   - **Deploy from a branch**: `gh-pages` 브랜치를 선택합니다.
-   - (Actions 사용 시) **GitHub Actions**를 선택합니다.
-3. 배포가 완료되면 상단에 생성된 URL을 확인합니다.
-
-#### 6.1.5 주의사항 (SPA 라우팅)
+#### 6.1.3 SPA 라우팅
 - GitHub Pages는 SPA의 클라이언트 사이드 라우팅을 기본적으로 지원하지 않습니다.
 - 이를 해결하기 위해 `dist/index.html`을 복사하여 `dist/404.html`을 생성하는 트릭이 필요할 수 있습니다.
 
@@ -344,16 +324,7 @@ git switch --detach v1.0.0
 
 ## 8. Git과 GitHub의 역할·PR 작업 흐름
 
-Git은 로컬 소스 기록·브랜치를, GitHub는 원격 저장소·Pull Request·Issue·Release·Actions를 제공합니다. Git 설치·업데이트는 [OS 설정](../00.Setup/OS_Dev_Setting.md)을 따릅니다. GitHub 계정 비밀번호를 Git 인증용 토큰처럼 입력하거나 토큰을 원격 URL에 저장하지 않습니다.
-
-1. 저장소를 clone하고 기본 브랜치에서 `git pull --ff-only`로 최신 상태를 확인합니다.
-2. `git switch -c feature/작업명`으로 브랜치를 만들고 파일을 수정합니다.
-3. `git diff`, `git status`를 확인하고 필요한 파일만 add한 뒤 커밋합니다.
-4. `git push -u origin 브랜치명`으로 올립니다.
-5. GitHub에서 base(반영 대상)·compare(작업 브랜치)를 확인해 PR을 만듭니다. 동작 변경·검증 결과를 적고 CI·리뷰를 확인합니다.
-6. 프로젝트 정책에 따라 병합한 뒤 로컬 기본 브랜치를 동기화합니다. 병합 방식에 따라 Git이 병합 여부를 판단하는 결과가 다를 수 있으므로 로컬 브랜치 삭제 전 PR 반영을 확인합니다.
-
-push가 거절되면 fetch 후 분기 상태를 확인합니다. 습관적으로 force push하지 않습니다. pull --ff-only가 실패하면 작업을 보존하고 프로젝트가 정한 merge·rebase 방식을 선택합니다.
+Git은 로컬 기록·브랜치를, GitHub는 원격 저장소·PR·Issue·Release·Actions를 관리합니다. PR은 작업 브랜치를 push한 뒤 GitHub에서 base·compare를 확인해 엽니다. CI·리뷰 후 병합하고 기본 브랜치를 동기화합니다.
 
 ## 9. 작업 보존·취소·복구
 
@@ -363,15 +334,13 @@ git diff --staged
 git restore --staged 파일명
 ```
 
-위 restore --staged는 작업 파일을 유지한 채 스테이징을 취소합니다. `git restore 파일명`은 미커밋 파일 변경을 버리므로 내용 확인·백업 후 사용합니다.
+`git restore --staged`는 스테이징만 취소합니다. `git restore 파일명`은 미커밋 변경을 버립니다.
 
-파일 임시 보관·stash 충돌·복원 후 제거는 [작업 보존 절차](#24-로컬-변경을-올리지-않고-github-업데이트-받기)를 따른다.
-
-공유 커밋 취소는 revert를 우선합니다. amend·rebase는 커밋 ID를 바꾸므로 이미 공유한 기록에는 팀 정책 없이 적용하지 않습니다. reflog는 로컬 참조 이동 기록이며 만료되므로 백업을 대신하지 못합니다. 복구할 커밋을 찾으면 reset보다 recovery 브랜치로 먼저 보존합니다.
+임시 보관·stash 충돌은 [원격 업데이트 전 보존 절차](#24-로컬-변경을-올리지-않고-github-업데이트-받기)를 따릅니다. 공유 커밋 취소에는 revert를 사용합니다.
 
 ## 10. 태그·Release·문제 해결
 
-태그 생성·전송·복원은 [7절](#7-git-태그tag-관리-및-github-release)을 따른다. 태그는 소스 위치, Release 첨부 파일은 별도 배포물이며 자동 배포 여부는 프로젝트 Actions 설정을 확인한다.
+태그는 소스 위치를, Release 첨부 파일은 배포물을 가리킵니다. 자동 배포는 프로젝트 Actions 설정을 확인합니다.
 
 | 상황 | 확인 |
 | :--- | :--- |

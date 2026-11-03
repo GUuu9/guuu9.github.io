@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.1.2 -->
 # 도구 제거와 숨김 설정·캐시 정리
 
 설치한 기능을 사용하지 않게 됐을 때 실행 파일, 개인 설정, 다운로드 캐시, 프로젝트 데이터를 구분해 정리합니다. 아래는 문서상 절차이며 실제 삭제를 실행하는 작업이 아닙니다. 기본 경로는 후보일 뿐이며 환경 변수·설치 방식·사용자 설정에 따라 달라집니다.
@@ -75,8 +75,6 @@ Homebrew 자체를 잘못 설치한 경우에는 [공식 설치 저장소의 제
 - 제거 후 확인과 재설치·설정 복원 방법
 
 ## 공식 참고
-
-확인일: 2026-11-02. 실제 제거 명령은 실행하지 않았습니다.
 
 - [Homebrew uninstall·cleanup](https://docs.brew.sh/Manpage), [cask zap와 공유 파일 주의](https://docs.brew.sh/Cask-Cookbook)
 - [nvm 제거](https://github.com/nvm-sh/nvm#uninstalling--removal), [FVM 제거 FAQ](https://fvm.app/documentation/getting-started/faq#how-to-uninstall-fvm)

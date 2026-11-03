@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.2.1 -->
 # Oh My Zsh 사용·업데이트
 
 Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](#macos-설치) 또는 [Linux 설치](#linux-설치)를 따릅니다.
@@ -32,7 +32,7 @@ source "$ZSH/oh-my-zsh.sh"
 type omz
 ```
 
-설치 방법·옵션 확인일: 2026-10-30. [공식 설치 안내](https://github.com/ohmyzsh/ohmyzsh#basic-installation) · [설치기 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh). 테마·플러그인 변경과 백업·복귀는 [Oh My Zsh 가이드](oh-my-zsh.md)를 참고합니다.
+공식 안내: [설치](https://github.com/ohmyzsh/ohmyzsh#basic-installation) · [설치기 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh).
 
 ## Linux 설치
 
@@ -53,7 +53,7 @@ plugins=(git)
 source "$ZSH/oh-my-zsh.sh"
 ```
 
-테마·플러그인·백업·복귀는 [Oh My Zsh 가이드](oh-my-zsh.md)를 참고합니다. [Linux nvm 설치](./nvm.md#linux-nvm-설치)는 bash용이므로 zsh를 선택했다면 `PROFILE="$HOME/.zshrc"`로 바꾸고 `source ~/.zshrc`로 적용합니다. 두 셸에서 nvm을 사용할 경우 각 셸에 초기화가 필요하며 같은 파일에 중복 추가하지 않습니다.
+Linux nvm 설치는 bash용이므로 zsh에서는 `PROFILE="$HOME/.zshrc"`로 지정하고 `source ~/.zshrc`로 적용합니다.
 
 ## 일상 사용과 설정
 
@@ -91,8 +91,6 @@ omz update
 - 제거 전 현재 `~/.zshrc`와 `custom/`을 포함한 설치 디렉터리를 백업합니다. 공식 제거 명령 `uninstall_oh_my_zsh`는 설치 디렉터리를 삭제하고 이전 셸 설정을 복원할 수 있으므로, 이후 추가한 설정과 로그인 셸을 다시 확인합니다.
 
 ## 공식 참고 자료
-
-설치 옵션·설정·업데이트·제거 절차 확인일: 2026-10-30. 실제 설치·업데이트 실행 검증과는 구분합니다.
 
 - [공식 저장소: 설치·설정·업데이트·제거](https://github.com/ohmyzsh/ohmyzsh)
 - [공식 설치 스크립트와 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh)

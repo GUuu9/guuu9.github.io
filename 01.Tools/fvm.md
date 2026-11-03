@@ -1,4 +1,4 @@
-<!-- version: v1.10.2 -->
+<!-- version: v1.10.4 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -112,7 +112,7 @@ fvm flutter pub get
 
 SDK 전환 후 IDE가 이전 버전을 계속 표시하면 저장된 경로가 실제 버전 캐시로 바뀌었는지 확인하고 `.fvm/flutter_sdk` 링크를 다시 지정합니다. 기존 프로젝트도 SDK 복원 후 이 IDE 설정을 적용하되 새 프로젝트 생성 마법사는 실행하지 않습니다.
 
-플러그인 설치·생성·SDK 경로 확인일: 2026-10-30. [Flutter 공식 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app#android-studio) · [FVM의 Android Studio 연동](https://fvm.app/documentation/guides/android-studio). 실제 IDE 조작·프로젝트 생성은 이 문서 작성에서 수행하지 않았습니다.
+공식 안내: [Flutter 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app#android-studio) · [FVM Android Studio 연동](https://fvm.app/documentation/guides/android-studio).
 
 ## Intel MacBook의 Flutter 버전 고정
 
@@ -201,9 +201,9 @@ $env:Path = "$env:ANDROID_HOME\platform-tools;$env:Path"
 adb --version
 ```
 
-환경 변수는 작업 자식 셸이나 해당 프로젝트가 정한 로딩 방식에만 적용하고 다른 프로젝트의 공용 설정은 바꾸지 않습니다. mobile-app의 [환경 정의·격리](../02.Boilerplates/mobile-app/docs/project-environment.md)는 선택 가능한 적용 예시이며 FVM의 선행 조건이 아닙니다. Flutter에서 SDK를 찾지 못할 때도 공용 사용자 설정을 바꾸기 전에 실제 SDK 경로와 프로젝트 로컬 설정을 확인합니다. `JAVA_HOME`을 사용하는 CLI Gradle 작업에서는 프로젝트 Gradle·AGP와 호환되는 **JDK 루트(bin 폴더 아님)**를 지정하고 Android Studio의 Gradle JDK 설정도 맞춥니다. Flutter가 사용하는 JDK는 `fvm flutter doctor -v`로 따로 확인합니다. Android Studio 포함 JDK를 우선하되 모든 프로젝트에 특정 JDK·`JAVA_HOME`을 일괄 강제하지 않습니다.
+SDK를 찾지 못하면 `fvm flutter doctor -v`와 실제 SDK 경로를 확인합니다. Gradle에 별도 JDK가 필요하면 프로젝트 Gradle·AGP와 호환되는 JDK 루트를 `JAVA_HOME`에 지정하고 Android Studio의 Gradle JDK도 맞춥니다. 개인 경로는 프로젝트 환경 파일에 둡니다.
 
-환경 변수·JDK 선택 확인일: 2026-10-30. [Android 환경 변수](https://developer.android.com/tools/variables) · [Gradle JDK 선택](https://developer.android.com/build/jdks). SDK 경로·개인 환경 설정·인증정보는 프로젝트의 공용 설정으로 커밋하지 않습니다.
+참고: [Android 환경 변수](https://developer.android.com/tools/variables) · [Gradle JDK 선택](https://developer.android.com/build/jdks).
 
 ### 라이선스·실기기 확인
 
@@ -283,7 +283,7 @@ adb devices -l
 
 개발을 마치면 IDE·터미널의 디버깅을 종료한 뒤 케이블을 분리합니다. 필요하지 않을 때는 휴대폰의 USB 디버깅을 끄고, 더 이상 신뢰하지 않는 컴퓨터는 USB 디버깅 승인을 취소합니다. Mac의 `~/.android/adbkey*`를 일반 장애 해결의 첫 단계로 삭제하지 않습니다.
 
-USB 연결 절차 확인일: 2026-11-03. 공식 문서와 대조했으며 실제 휴대폰 연결·앱 설치는 수행하지 않았습니다. [Android 실기기 연결·macOS 조건](https://developer.android.com/studio/run/device) · [개발자 옵션·USB 디버깅](https://developer.android.com/studio/debug/dev-options) · [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
+공식 안내: [Android 실기기 연결·macOS 조건](https://developer.android.com/studio/run/device) · [개발자 옵션·USB 디버깅](https://developer.android.com/studio/debug/dev-options) · [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
 
 ### iOS
 

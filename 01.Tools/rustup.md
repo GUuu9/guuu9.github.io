@@ -1,7 +1,7 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # rustup — Rust 툴체인 버전 관리
 
-확인일: 2026-10-28. rustup은 Rust 컴파일러(rustc)·Cargo·표준 라이브러리·컴포넌트·타깃을 관리합니다. 프로젝트 패키지인 crate의 버전은 Cargo.toml·Cargo.lock이 관리합니다. OS별 설치는 아래 절차를 따릅니다. 명령은 개인 PC의 임의 폴더에서 일반 사용자로 실행합니다.
+확인일: 2026-10-28. rustup은 Rust 툴체인과 컴포넌트·타깃을 관리하고, crate 버전은 Cargo.toml·Cargo.lock으로 관리합니다. 아래 명령은 개인 PC에서 일반 사용자로 실행합니다.
 
 ## macOS·Linux rustup 설치
 
@@ -12,8 +12,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
 rustup show
 ```
-
-프로젝트 툴체인 선택·빌드는 [rustup 가이드](rustup.md)을 따릅니다.
 
 ## Windows rustup 설치
 
@@ -29,7 +27,7 @@ rustc --version
 cargo --version
 ```
 
-프로젝트 디렉터리에서 실행합니다. 다른 폴더의 결과가 같다고 가정하지 않습니다. Windows는 MSVC 툴체인의 링커·Windows SDK도 필요하며, macOS는 Xcode/Command Line Tools, Linux는 빌드 도구·네이티브 라이브러리가 별도로 필요할 수 있습니다.
+프로젝트 디렉터리에서 확인합니다. Windows는 MSVC 링커·Windows SDK, macOS는 Xcode/Command Line Tools, Linux는 빌드 도구·네이티브 라이브러리가 추가로 필요할 수 있습니다.
 
 ## 2. 설치와 선택
 
@@ -103,7 +101,7 @@ cargo clippy --locked
 
 실패하면 이전 툴체인 파일·CI·의존성 선언·잠금 파일을 복원합니다. 특정 버전 시험은 `cargo +버전 test --locked`로도 할 수 있습니다. 새 버전 확인 전 이전 툴체인은 제거하지 않습니다. 제거는 다른 프로젝트·기본값·override의 사용 여부를 확인한 뒤 `rustup toolchain uninstall 버전`으로 수행합니다.
 
-## 7. 보관과 문제 해결
+## 7. 문제 해결
 
 | 상황 | 확인 |
 | :--- | :--- |
@@ -112,8 +110,6 @@ cargo clippy --locked
 | fmt·clippy 없음 | 선택 툴체인의 components |
 | 타깃 추가 후 빌드 실패 | 타깃용 링커·SDK·라이브러리 |
 | 서버 재생성 후 환경 차이 | 홈의 rustup 환경과 이미지의 시스템 도구 버전을 각각 확인 |
-
-프로젝트에는 툴체인 파일·Cargo.toml·정책에 따른 Cargo.lock·CI 설정을 보관합니다. target 빌드 결과나 사용자 .rustup·.cargo를 프로젝트 소스로 공유하지 않습니다. 서버 배포의 재현은 [이미지 버전·운영 기록](../04.Servers/docker-server/operations.md)도 함께 관리합니다.
 
 공식 참고: [rustup 기본·업데이트](https://rust-lang.github.io/rustup/basics.html), [프로젝트 선택·고정](https://rust-lang.github.io/rustup/overrides.html), [컴포넌트](https://rust-lang.github.io/rustup/concepts/components.html).
 

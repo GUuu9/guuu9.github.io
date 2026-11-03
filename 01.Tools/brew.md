@@ -1,4 +1,4 @@
-<!-- version: v1.7.0 -->
+<!-- version: v1.7.2 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 아래 설치 절차를 따릅니다.
@@ -41,8 +41,6 @@ eval "$(/usr/local/bin/brew shellenv)"
 새 터미널에서 `brew --version`·`brew --prefix`·`brew doctor`로 확인합니다. 경고는 내용을 읽고 대응하며 기존 디렉터리를 일괄 삭제하거나 소유권을 일괄 변경하지 않습니다. Intel에서 Homebrew 준비가 막혀도 다른 독립 설치 도구는 각자의 공식 절차로 계속 준비할 수 있습니다.
 
 Homebrew 자체 준비가 끝나면 [공통 필수 준비](#2-공통-필수-준비)를 확인하고, CMake 기반 개발·시리얼 통신 등 필요한 작업에 따라 [용도별 필수 패키지](#3-용도별-필수-설치)를 설치합니다. IINA 같은 편의 앱은 [선택 설치](#4-선택-설치)에서 고릅니다. Node·uv·FVM·Docker는 각 Tools 문서의 공식 독립 설치 경로를 유지합니다.
-
-설치기 CPU 제한·PATH 안내·minicom 배포 조건 확인일: 2026-10-30. 실제 Homebrew 설치·패키지 설치는 수행하지 않았습니다. 일상 사용·업데이트·백업·복귀는 [Homebrew 가이드](brew.md)를 따릅니다.
 
 ## 2. 공통 필수 준비
 
@@ -158,7 +156,7 @@ cmake --version
 
 `brew pin cmake`는 해당 formula가 일반 upgrade에서 갱신되지 않게 하고 `brew unpin cmake`는 해제합니다. pin은 cask나 모든 의존성까지 동결하지 않으며 과거 설치 파일을 보관하지도 않습니다. `cmake@버전`처럼 버전 formula가 실제 제공되는지는 `brew search`로 확인합니다. 임의 버전을 `brew install 패키지@버전`으로 항상 설치할 수 있는 것은 아닙니다.
 
-Intel은 지원 축소 일정이 있으므로 `brew update` 전 [Intel 안내](../00.Setup/macOS_Intel_Dev_Setting.md)를 확인합니다. brew만 구버전으로 고정해 과거 패키지 전체를 복원할 수는 없습니다.
+Intel은 지원 축소 일정이 있으므로 `brew update` 전 [macOS Intel 설정의 CPU별 안내](../00.Setup/macOS_Common_Dev_Setting.md#cpu별-확인-사항)를 확인합니다. brew만 구버전으로 고정해 과거 패키지 전체를 복원할 수는 없습니다.
 
 ## 제거·용량 정리
 
@@ -265,6 +263,6 @@ brew doctor
 
 prefix가 `/usr/local`인지 확인하고 macOS·CLT·Homebrew 버전을 복원 기록에 남깁니다. 설치 도중 실패하면 오류를 확인하고 중단하며 `/usr/local` 전체 삭제·일괄 소유권 변경으로 해결하지 않습니다. 설치 성공 후에도 각 패키지의 Intel·macOS 지원과 소스 빌드 가능 여부는 별도입니다. 기존 환경을 지우고 재설치하는 복귀 절차로 사용하지 않습니다.
 
-검증 범위: 공식 저장소의 변경 이력·고정 스크립트의 Intel 분기·최신 stable 선택·update 호출을 읽고 다운로드 파일의 `bash -n` 및 SHA-256을 확인했습니다. 이 문서 작업에서는 설치기를 실행하거나 `/usr/local`을 변경하지 않았으며 초기화한 Intel Mac에서의 설치 완료·패키지 설치는 미검증입니다.
+Intel 대안은 고정 스크립트의 Intel 분기와 `bash -n`·SHA-256을 확인했으며, 실제 설치는 미검증입니다. [고정 스크립트](https://github.com/Homebrew/install/blob/f4aa1b1ca5b256954dbde0315455fb259cdfc45a/install.sh).
 
 제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.

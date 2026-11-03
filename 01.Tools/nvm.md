@@ -1,4 +1,4 @@
-<!-- version: v1.3.2 -->
+<!-- version: v1.3.3 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
@@ -22,7 +22,7 @@ npm --version
 
 설치 스크립트가 `~/.zshrc`에 nvm 초기화 설정을 추가합니다. 인식되지 않으면 새 터미널을 열어 확인합니다.
 
-위 LTS는 프로젝트가 없는 상태의 기본 Node입니다. 기존 프로젝트의 Node 버전 선택과 npm 의존성 복원은 [nvm 가이드](#macoslinux-기본-흐름)에서 진행합니다.
+기존 프로젝트 버전은 [nvm 기본 흐름](#macoslinux-기본-흐름)에서 선택합니다.
 
 ## Linux nvm 설치
 
@@ -38,7 +38,7 @@ node --version
 npm --version
 ```
 
-LTS는 프로젝트가 없는 초기 기본값입니다. apt의 Node와 중복 설치하거나 `sudo npm`을 사용하지 않습니다. 프로젝트별 버전 선택은 [nvm](#macoslinux-기본-흐름)에서 진행합니다.
+apt의 Node와 중복 설치하거나 `sudo npm`을 사용하지 않습니다. 프로젝트 버전은 [nvm 기본 흐름](#macoslinux-기본-흐름)에서 선택합니다.
 
 ## Windows nvm-windows 설치
 
@@ -51,7 +51,7 @@ nvm install lts
 nvm list
 ```
 
-목록에 표시되는 **정확한 설치 버전**으로 `nvm use 버전`을 실행합니다. 심볼릭 링크 변경에 권한이 필요하면 이 명령을 관리자 PowerShell에서 실행합니다. 이후 새 일반 PowerShell에서 `node --version`·`npm --version`을 확인합니다. LTS는 프로젝트가 없는 초기 기본값이며 프로젝트별 버전은 [nvm Windows 흐름](#windows-기본-흐름)에서 선택합니다.
+목록의 **정확한 버전**으로 `nvm use 버전`을 실행합니다. 심볼릭 링크 변경에 권한이 필요하면 관리자 PowerShell을 사용한 뒤 일반 PowerShell에서 `node --version`·`npm --version`을 확인합니다. 프로젝트별 버전은 [Windows 기본 흐름](#windows-기본-흐름)에서 선택합니다.
 
 nvm-windows는 Unix nvm과 별개입니다. `nvm alias default`·`.nvmrc` 자동 적용을 전제하지 않으며 전환은 다른 Windows 셸에도 영향을 줄 수 있습니다. `npm.ps1`이 정책으로 차단되면 `npm.cmd`를 사용하고 조직의 실행 정책을 전역 해제하지 않습니다. [Microsoft Node.js 안내](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
 

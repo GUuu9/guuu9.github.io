@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.1.2 -->
 # Xcode·Command Line Tools 설치·선택
 
 macOS 개인 PC에서 Git·Apple Clang·SDK를 준비합니다. 기본 개발 도구는 Command Line Tools, iOS 개발은 전체 Xcode가 필요합니다. OS·CPU·프로젝트 요구 조건에 맞는 버전을 선택하고 기존 Xcode를 먼저 지우지 않습니다. 아래 명령은 임의 폴더의 개인 터미널 기준입니다.
@@ -79,5 +79,3 @@ iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로
 OS·Xcode 갱신 전 정상 버전·SDK·프로젝트 커밋과 서명 자격을 보존합니다. 새 Xcode를 별도 앱 이름으로 병행 설치해 프로젝트 빌드·기기·서명을 검증한 뒤 전환하고, 실패하면 보존한 이전 앱과 프로젝트 설정으로 복귀합니다. iOS 플랫폼·Simulator runtime은 Xcode Settings의 Components/Platforms에서 필요한 버전만 설치합니다. `xcode-select --install`은 매번 업데이트하는 명령이 아닙니다.
 
 불필요한 Xcode·runtime만 확인해 제거하고 다른 프로젝트의 SDK·서명 인증서·키체인·앱 데이터를 함께 삭제하지 않습니다. [Apple Xcode 지원 표](https://developer.apple.com/xcode/system-requirements/) · [Apple Command Line Tools](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
-
-이번 문서 이동에서 실제 Xcode·Command Line Tools 설치·라이선스 동의·빌드·복귀는 수행하지 않았습니다.

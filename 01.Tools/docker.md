@@ -1,4 +1,4 @@
-<!-- version: v1.4.0 -->
+<!-- version: v2.0.0 -->
 <!-- {% raw %} -->
 # Docker·Compose 사용 가이드
 
@@ -199,7 +199,7 @@ SSH 개발 컨테이너에 연결할 때는 개인 PC에서 다음 순서로 진
 
 컨테이너의 프로젝트·원격 확장·사용자 설정을 재생성 후 유지하려면 해당 경로가 볼륨에 있는지 확인합니다. 이 저장소의 서버 구성은 사용자 home을 볼륨으로 보관합니다. `devcontainer.json`의 postCreateCommand는 직접 SSH 연결 시 실행되지 않습니다.
 
-공식 확인일: 2026-11-02. [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh), [원격 Linux 필수 패키지](https://code.visualstudio.com/docs/remote/linux), [실행 중 컨테이너에 연결](https://code.visualstudio.com/docs/devcontainers/attach-container). 실제 VS Code·SSH 접속은 이번 문서 작업에서 실행하지 않았습니다.
+공식 안내: [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) · [원격 Linux 필수 패키지](https://code.visualstudio.com/docs/remote/linux) · [실행 중 컨테이너 연결](https://code.visualstudio.com/docs/devcontainers/attach-container).
 
 ## 5. 네트워크·환경 변수·개발 파일
 
@@ -257,132 +257,27 @@ DB는 pg_dump 등 해당 DB의 공식 백업 도구와 일관성 보장 절차�
 
 공식 참고: [볼륨과 백업](https://docs.docker.com/engine/storage/volumes/), [이미지 저장](https://docs.docker.com/reference/cli/docker/image/save/).
 
-## 9. 개발 컨테이너를 이미지로 저장·공유하고 다시 실행하기
+## 9. 개발 이미지 저장·공유
 
-전체 흐름은 **컨테이너 변경 저장(commit) → 이미지 전달(save/load 또는 push/pull) → 실행 설정으로 새 컨테이너 생성(run/Compose)**입니다. 이미지를 등록하는 것과 컨테이너를 생성하는 것은 별도 단계입니다.
-
-아래 예시의 원본 컨테이너는 `dev-container`, 공유 이미지는 `my-dev:1.0.0`입니다. 실제 이름은 `docker ps -a`로 확인합니다. Dockerfile로 이미 빌드한 이미지가 있고 컨테이너에서 추가 변경한 것이 없다면 commit 없이 기존 이미지를 바로 공유합니다.
-
-### 9.1 공유 전에 보관 범위 확인
+수동 변경을 계속 공유하려면 Dockerfile에 기록하는 편이 재현하기 쉽습니다. 일회성 변경은 컨테이너를 이미지로 저장할 수 있습니다.
 
 ```bash
 docker ps -a
-docker inspect dev-container
 docker diff dev-container
-```
-
-inspect의 Mounts·포트·시작 명령·사용자·작업 경로·환경 변수를 확인해 필요한 실행 설정을 Compose나 README로 기록합니다. inspect 출력에는 비밀값이 들어갈 수 있으므로 원본 출력을 그대로 전달하지 않습니다.
-
-| 포함되는 것 | 별도로 전달·복원할 것 |
-| :--- | :--- |
-| 컨테이너 쓰기 영역에 설치한 도구·파일 | bind mount의 소스·파일 |
-| 이미지 설정으로 저장된 CMD·ENTRYPOINT·ENV 등 | named/anonymous volume의 DB·업로드 데이터 |
-| 기존 이미지의 레이어와 변경 레이어 | 호스트 포트 매핑·마운트·네트워크·장치 등 실행 옵션 |
-| 이미지의 OS·CPU 아키텍처 | 실행 중인 프로세스·메모리·접속 세션 |
-
-환경 변수·설정 파일·셸 기록에 토큰이나 개인 키가 남아 있지 않은지 확인합니다. 이전 이미지 레이어에 들어간 비밀값은 파일 삭제만으로 제거되지 않을 수 있으므로 비밀값 없는 빌드로 다시 만들고 노출된 자격증명을 교체합니다.
-
-### 9.2 컨테이너 변경을 이미지로 저장
-
-쓰기 작업을 완료하고 DB는 일관된 백업을 별도로 준비합니다. 작업 중단이 가능하면 원본 컨테이너를 중지한 상태로 저장합니다.
-
-```bash
-docker stop dev-container
-docker commit --message "개발 환경 도구 구성 저장" dev-container my-dev:1.0.0
-docker image ls my-dev
+docker commit dev-container my-dev:1.0.0
 docker image inspect my-dev:1.0.0 --format '{{.Os}}/{{.Architecture}}'
 ```
 
-필요하면 `docker start dev-container`로 원본을 다시 실행합니다. 원본을 유지한 채 새 이미지가 만들어지며 볼륨 데이터는 포함되지 않습니다. commit은 프로세스 체크포인트가 아니므로 새 컨테이너는 시작 명령부터 다시 실행됩니다. [commit 공식 안내](https://docs.docker.com/reference/cli/docker/container/commit/)
+`docker commit`은 컨테이너의 쓰기 영역만 저장합니다. 볼륨·bind mount 데이터, 포트·네트워크·실행 옵션은 포함하지 않습니다. 비밀값이 이미지·환경 변수·셸 기록에 없는지 확인합니다.
 
-지속적으로 공유할 개발 환경은 설치 내역을 Dockerfile로 옮겨 build하는 방식도 함께 관리합니다. commit 이미지만 보관하면 어떤 명령으로 구성했는지 추적하기 어렵습니다.
-
-### 9.3 방법 A: 이미지 파일로 전달
-
-보내는 PC에서:
+파일로 전달할 때는 보내는 PC에서 저장하고, 받는 PC에서 불러옵니다.
 
 ```bash
 docker image save -o my-dev-1.0.0.tar my-dev:1.0.0
-```
-
-tar 파일과 실행 안내·Compose 파일을 함께 전달합니다. 파일 무결성 확인이 필요하면 다음 OS별 명령으로 SHA-256을 계산하고 수신자가 비교합니다.
-
-| OS | 파일 해시 확인 |
-| :--- | :--- |
-| macOS | `shasum -a 256 my-dev-1.0.0.tar` |
-| Linux | `sha256sum my-dev-1.0.0.tar` |
-| Windows PowerShell | `Get-FileHash .\my-dev-1.0.0.tar -Algorithm SHA256` |
-
-받는 PC에서 Docker 엔진을 실행한 뒤:
-
-```bash
-docker context show
 docker image load -i my-dev-1.0.0.tar
-docker image ls my-dev
-docker image inspect my-dev:1.0.0 --format '{{.Os}}/{{.Architecture}}'
 ```
 
-load는 현재 context의 엔진에 이미지와 태그를 등록합니다. 같은 태그가 이미 있으면 기존 이미지 ID를 먼저 기록하고 필요한 경우 다른 태그로 보관합니다. 불러온 뒤 컨테이너가 자동 생성·실행되지는 않습니다. [load 공식 안내](https://docs.docker.com/reference/cli/docker/image/load/)
-
-이미지 전달에는 save/load를 사용합니다. `docker export`/`docker import`는 컨테이너 파일시스템을 다루는 다른 방식이며 이미지 설정·레이어를 동일하게 보존하는 대체 절차가 아닙니다.
-
-### 9.4 방법 B: 레지스트리로 전달
-
-Docker Hub를 사용하는 예시입니다. `your-account`를 본인 계정·조직명으로 바꾸고 저장소 공개 범위와 업로드 권한을 먼저 확인합니다.
-
-```bash
-docker login
-docker tag my-dev:1.0.0 your-account/my-dev:1.0.0
-docker push your-account/my-dev:1.0.0
-```
-
-받는 PC에서는 비공개 이미지라면 접근 권한이 있는 계정으로 login한 뒤:
-
-```bash
-docker pull your-account/my-dev:1.0.0
-docker image ls your-account/my-dev
-```
-
-공유할 때 이미지 이름·버전·push 결과의 digest를 기록합니다. 동일 버전 태그를 덮어쓰기보다 새 버전을 발행합니다. 엄격히 같은 이미지를 받아야 하면 `your-account/my-dev@sha256:실제digest`로 pull합니다. 사설 레지스트리는 주소를 이미지 이름 앞에 붙이고 해당 호스트로 login합니다. 토큰을 명령 인자·저장소에 직접 남기지 않습니다. [push 공식 안내](https://docs.docker.com/reference/cli/docker/image/push/)
-
-### 9.5 받은 이미지로 개발 컨테이너 생성
-
-파일 전달은 `my-dev:1.0.0`, 레지스트리 전달은 `your-account/my-dev:1.0.0`을 사용합니다. 아래는 **sh가 포함된 Linux 개발 이미지**에서 셸로 작업하는 예시입니다.
-
-```bash
-docker run -it --name shared-dev --entrypoint sh my-dev:1.0.0
-```
-
-이 예시는 원본 ENTRYPOINT를 sh로 바꾸어 대화형으로 실행하며 서버를 자동 시작하는 방식이 아닙니다. 셸에서 exit하면 이 컨테이너는 중지됩니다. 다음 작업 때는 새 run 대신 `docker start -ai shared-dev`로 기존 환경을 다시 엽니다. 자동 삭제 옵션 --rm은 사용하지 않아 컨테이너 쓰기 영역을 유지합니다.
-
-원래 이미지에 장기 실행 서비스가 설정돼 있다면 `docker run -d --name shared-service my-dev:1.0.0`으로 기본 시작 명령을 실행할 수 있습니다. 실제 서비스에 필요한 포트·환경 변수·볼륨은 원본 실행 설정대로 추가해야 합니다. 기본 명령이 셸이거나 즉시 종료하는 명령이면 -d만으로 계속 실행되지 않습니다. [run 공식 안내](https://docs.docker.com/reference/cli/docker/container/run/)
-
-### 9.6 Compose 실행 설정도 함께 공유
-
-다음은 파일로 전달받은 이미지를 셸 개발 환경으로 사용하는 최소 compose.yaml입니다. 이미지에 sh가 있어야 합니다. 서비스 앱을 실행하려면 entrypoint와 command를 프로젝트의 실제 시작 명령으로 변경합니다.
-
-```yaml
-services:
-  dev:
-    image: my-dev:1.0.0
-    pull_policy: never
-    entrypoint: ["sh"]
-    command: ["-i"]
-    stdin_open: true
-    tty: true
-```
-
-```bash
-docker compose config --quiet
-docker compose up -d
-docker compose exec dev sh
-```
-
-pull_policy: never는 load한 로컬 이미지를 사용하고 레지스트리에서 찾지 않게 합니다. 레지스트리 배포라면 image를 전체 경로로 바꾸고 이 정책을 제거한 뒤 pull합니다. 편집할 소스는 별도 전달·clone 후 실제 경로로 bind mount하고 DB·데이터 볼륨은 백업에서 복원하거나 새로 초기화합니다. 이미지에 들어 있던 파일 경로를 마운트하면 해당 파일들이 가려질 수 있습니다.
-
-전달 문서에는 이미지 이름·버전·OS/CPU, 실행 명령·Compose, 포트, 작업 경로, 환경 변수 이름, 소스 위치, 볼륨 복원 방법, 검증 명령을 기록합니다. 비밀값은 별도 안전한 경로로 전달합니다. 다른 CPU용 이미지에 --platform을 붙여도 바이너리가 변환되지는 않으며, 에뮬레이션 또는 해당 CPU용 재빌드가 필요합니다.
-
-수신 환경에서는 도구 버전·프로젝트 빌드·서비스 접속을 확인하고, 컨테이너를 중지·재시작한 뒤 필요한 데이터가 유지되는지도 확인합니다.
+레지스트리 공유는 이미지에 버전 태그를 지정한 뒤 `docker push`·`docker pull`을 사용합니다. 토큰을 명령이나 저장소에 넣지 않습니다. 새 컨테이너를 만들 때는 `docker run` 또는 Compose에 포트·마운트·환경 변수를 다시 지정합니다. [commit](https://docs.docker.com/reference/cli/docker/container/commit/) · [save/load](https://docs.docker.com/reference/cli/docker/image/save/).
 
 ## 10. 용량 정리와 문제 해결
 
