@@ -1,7 +1,13 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # Minimal Server-WUI
 
 Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
+
+## 설치 명령 전 선행 확인
+
+macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스 동의·최초 초기화를 먼저 완료하고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다. 라이선스 오류가 남아 있으면 Git·nvm·FVM 설치를 계속하지 않습니다. 공통 명령은 [Apple 개발 도구](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 라이선스·초기화](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. CLT만 사용하는 경우 전체 Xcode 전용 명령은 실행하지 않습니다.
+
+필수는 Git → .nvmrc의 Node·npm → 프로젝트 의존성 순서이며 화면 확인에는 브라우저가 필요합니다. DB·Docker·JDK·전체 Xcode는 기본 실행에 필요하지 않습니다. 네이티브 의존성이 요구할 때만 OS 빌드 도구를 추가합니다.
 
 ## 시작 순서·Node 준비
 

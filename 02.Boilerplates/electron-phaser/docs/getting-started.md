@@ -1,7 +1,35 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.1 -->
 # Electron·Phaser 가져오기부터 실행까지
 
 처음 사용하는 개인 PC에서 **유형 받기 → 새 프로젝트 복사 → Node 환경 준비 → 의존성 복원 → 실행·종료 → 검증** 순서로 진행합니다. 프로젝트 루트는 복사한 `boilerplates/minimal`의 내용물이 있는 폴더이며 다운로드 저장소나 상위 문서 폴더에서 npm 명령을 실행하지 않습니다. 기존 프로젝트를 복원한다면 가져오기·새 폴더 복사는 건너뛰고 그 프로젝트의 버전 파일과 CI를 우선합니다.
+
+## 0. 선행 도구·준비 순서
+
+개발 도구 설치 전에 [서비스 OS 지원 범위](./build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
+
+코드를 받기 위한 PC 공통 준비와 프로젝트를 받은 뒤의 도구 설치를 구분합니다. 모든 도구를 다운로드 전에 설치할 필요는 없지만, 각 명령의 선행 도구가 준비된 뒤 다음 단계로 진행합니다.
+
+| 단계·조건 | 선행 도구 | 확인·다음 작업 |
+| :--- | :--- | :--- |
+| 다운로드 전 공통 필수 | Git·다운로드/압축 도구, macOS는 아래 Apple 개발 도구 준비 | Git 동작 확인 → 1절 다운로드·2절 복사 |
+| 설치·빌드 필수 | macOS/Linux nvm 또는 Windows 프로젝트용 Node → `.nvmrc`의 Node·npm | 3절 버전 확인 → npm ci·검사·빌드 |
+| Electron 실행 필수 | 대상 Electron이 지원하는 OS/CPU·데스크톱 GUI·필요 런타임 라이브러리 | 5절 실제 창·IPC·게임·저장 확인. GUI 없는 서버의 빌드 성공과 구분 |
+| 네이티브 모듈이 요구할 때만 | OS용 C/C++ 도구·SDK 및 모듈의 요구 도구 | Electron ABI·대상 CPU 조건 확인 후 복원. 전체 Xcode·Python 등을 무조건 설치하지 않음 |
+| 코드 편집 선택 | VS Code·필요 확장 | 전역 Electron·TypeScript·Phaser는 설치하지 않음 |
+| 패키징·배포 시 추가 | 선택 maker·OS별 서명/공증 도구·배포 자격 | 로컬 검증 후 빌드·배포 가이드. macOS 서명·공증은 전체 Xcode 등 공식 선행 조건 별도 확인 |
+
+Git·nvm·편집기·네이티브 빌드 도구 설치는 저장소의 `01.Tools/`에서 관리합니다. 패키지 단독 사용은 아래 공식 설치 안내를 따릅니다. [Electron 설치·바이너리 안내](https://www.electronjs.org/docs/latest/tutorial/installation)에 따라 필요한 OS 라이브러리·다운로드 조건을 확인합니다. Homebrew·Docker·DB는 이 로컬 샘플의 직접 실행 의존성이 아닙니다.
+
+### macOS에서 다운로드 전에 확인
+
+Git·nvm 등 설치 도구가 사용할 Apple 개발 도구를 먼저 준비합니다. Command Line Tools만 쓰면 설치 완료 후 Git·Clang을 확인합니다. **선택한 도구가 전체 Xcode라면 해당 Xcode의 라이선스 동의·최초 초기화를 먼저 완료**하고 같은 Developer 경로의 셸에서 확인합니다. 자세한 명령은 저장소의 `01.Tools/xcode.md`, 이 패키지만 받은 경우 [Apple 개발 도구 안내](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 초기화·라이선스 안내](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. 설치·라이선스 오류가 남아 있으면 Git clone·Homebrew·nvm·FVM 설치로 넘어가지 않습니다. 웹·Android 개발에 전체 Xcode를 강제하지 않습니다.
+
+```bash
+git --version
+clang --version
+```
+
+위 명령은 준비가 끝난 개인 Mac의 일반 터미널에서 실행합니다. Homebrew가 필요한 경우 이 확인 뒤에 준비하고, 프로젝트별 JDK·Ruby 등을 설치합니다. 설치 명령은 Tools 또는 공식 안내에서 확인하며 도구 이름만으로 이미 준비되었다고 판단하지 않습니다.
 
 ## 1. 유형 패키지 가져오기
 

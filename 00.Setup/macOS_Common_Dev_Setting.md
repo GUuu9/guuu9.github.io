@@ -1,394 +1,54 @@
-<!-- version: v3.2.1 -->
-# macOS 공통 개발 도구 초기 설치
+<!-- version: v4.1.0 -->
+# macOS 공통 개발 환경 설정
 
-먼저 [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 기본 설정을 완료합니다. 이 문서는 **프로젝트를 내려받기 전, 개인 Mac에 도구를 설치하고 인식 여부를 확인하는 단계**입니다. 터미널 명령은 별도 표시가 없으면 임의 디렉터리에서 실행합니다. 아직 프로젝트 폴더나 package.json·pubspec.yaml은 필요하지 않습니다.
+처음 개발 환경을 설치하거나 기존 PC를 다시 설정할 때 사용하는 순서 안내입니다. [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 OS·CPU 조건을 확인한 뒤 진행합니다. 설치 명령·권한·PATH·문제 해결은 각 Tools 문서에서 관리합니다. 개인 Mac의 일반 사용자 환경이 기준이며 설치기가 요구할 때만 관리자 권한을 사용합니다.
 
-초기 설치는 아래 0~8절까지만 진행합니다. 프로젝트를 내려받은 뒤에는 문서 끝의 [프로젝트 작업 안내](#프로젝트-작업-안내)에서 필요한 도구 가이드로 이동합니다. React·TypeScript·Electron은 프로젝트 의존성이므로 초기 전역 설치 대상이 아닙니다.
+## 1. 필수 설정
 
-macOS에서는 **공식 독립 설치 스크립트·공식 배포판**을 기본으로 사용합니다. 보조 패키지를 설치할 수 있도록 초기 단계에서 Homebrew도 준비합니다. 주요 도구의 설치 방식을 모두 brew로 전환하지 않습니다. 프로젝트에 별도 JDK가 필요할 때는 [Homebrew JDK 안내](../01.Tools/brew.md#프로젝트용-jdk-설치)의 major별 formula를 사용하고 프로젝트 환경에서 선택합니다. curl은 다운로드 수단이며 도구별 업데이트 명령을 사용합니다. 스크립트 방식도 OS·CPU 지원 제한은 있으므로 설치 전 공식 지원 조건을 확인합니다. 기존 설치와 충돌하지 않도록 command -v·which -a로 경로를 확인하고 기존 Homebrew를 일괄 삭제하지 않습니다.
+이 저장소의 기본 편집기는 VS Code입니다. 아래 순서로 준비하되 이미 정상 설치된 도구는 재설치하지 않습니다.
 
-## 0. 셸 설정 파일 준비
-
-macOS에 포함된 zsh를 사용합니다. `~/.zshrc`는 설치 프로그램이 아니라 개인 셸 설정 파일이며 없으면 만듭니다.
-
-```bash
-touch ~/.zshrc
-```
-
-아래 nvm 초기화는 `~/.zshrc`에 설정합니다. 각 설치기의 PATH 안내를 우선하며 `~/.zprofile` 또는 `~/.zshrc` 중 한 곳에만 둡니다. 새 터미널을 열어 인식 여부를 확인하고 개인 경로·기존 설정을 덮어쓰지 않습니다.
-
-### 환경 변수·PATH 적용 위치
-
-환경 변수는 실행 중인 도구에 전달하는 값이며 `PATH`는 명령을 찾는 폴더 목록입니다. 설치기가 안내한 경로를 우선하고 실제 실행 파일이 있는 폴더만 추가합니다. 설정 파일을 편집하기 전 기존 파일을 백업합니다.
-
-- 이 문서의 기본 영구 설정 위치는 대화형 zsh가 읽는 `~/.zshrc`입니다. 기존 설치기가 `~/.zprofile`에 설정했다면 유지하고 두 파일에 같은 내용을 중복 추가하지 않습니다. `.zprofile`은 로그인 셸에서만 읽습니다.
-- 터미널에 입력한 `export`는 현재 셸과 이후 자식 프로세스에만 적용됩니다. 영구 적용은 선택한 설정 파일을 편집하고 새 터미널에서 확인합니다. `.zshenv`에 모든 도구 초기화를 몰아넣지 않습니다.
-- 예를 들어 uv 설치 경로가 `~/.local/bin`이고 PATH에 없다면 아래 한 줄을 추가합니다. 기존 `$PATH`를 보존하며 같은 항목이 있으면 다시 넣지 않습니다.
-
-```zsh
-export PATH="$HOME/.local/bin:$PATH"
-```
-
-설치 후 일반 터미널과 VS Code의 **새 통합 터미널**에서 다음을 확인합니다. 아직 설치 전이라면 `command -v uv`는 경로 없이 끝날 수 있습니다.
-
-```zsh
-printf '%s\n' "$PATH"
-command -v uv
-```
-
-앱을 켠 상태에서 PATH를 바꿨다면 VS Code·Codex 같은 부모 앱도 완전히 종료한 뒤 다시 실행합니다. GUI 앱·비대화형 훅이 `.zshrc`를 읽는다고 가정하지 않습니다. Node 버전별 `bin` 경로는 고정하지 않고 nvm이 선택하게 둡니다. SDK·JDK 변수는 설치 후 [FVM 환경 변수 안내](../01.Tools/fvm.md#android-프로젝트-연결환경-변수)를 따릅니다. 토큰·개인 키는 셸 설정·공유 PATH 출력에 넣지 않습니다.
-
-zsh 로딩 규칙 확인일: 2026-10-30. [공식 시작 파일 안내](https://zsh.sourceforge.io/Doc/Release/Files.html).
-
-### Xcode 설치·초기화
-
-nvm 설치기의 Git 호출이나 Homebrew 설치가 미동의 Xcode 라이선스로 중단되지 않도록 **Homebrew·Oh My Zsh·nvm보다 먼저** 확인합니다. 전체 Xcode가 설치되어 있다면 아래 선택·라이선스·초기화를 완료합니다. Command Line Tools만 사용하는 경우 Xcode 전용 명령은 실행하지 않고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다.
-
-1. iOS 개발이 필요하면 [Apple 공식 배포처](https://developer.apple.com/xcode/)와 [Xcode 지원 표](https://developer.apple.com/xcode/system-requirements/)에서 해당 macOS·CPU가 지원하는 버전을 확인해 설치합니다. App Store의 받기/설치를 사용하거나 [과거 공식 배포판](https://developer.apple.com/download/all/)의 `.xip`을 열어 압축 해제한 앱을 `/Applications`로 옮깁니다. 과거 배포판은 Apple 계정 로그인이 필요할 수 있습니다. Command Line Tools만으로는 iOS 개발이 되지 않습니다.
-2. Xcode를 한 번 열고 필수 구성요소와 iOS 플랫폼 지원을 설치합니다. Simulator 런타임은 사전 설치하지 않습니다.
-3. 아래 명령으로 설치한 Xcode의 초기 설정과 라이선스를 확인합니다. 전역 Xcode 선택은 바꾸지 않습니다. 설치 경로가 다르면 실제 경로로 바꿉니다.
-
-```bash
-sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -license
-sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -runFirstLaunch
-```
-
-이후 프로젝트에서는 `.env`의 `DEVELOPER_DIR`로 실제 Xcode를 선택하고 `xcodebuild -version`으로 확인합니다. 설치·초기화만으로 전역 선택이 변경되지는 않습니다. GUI 앱이 셸 환경 변수를 자동 상속한다고 가정하지 않습니다.
-
-iPhone의 컴퓨터 신뢰·Developer Mode를 준비합니다. CocoaPods·프로젝트 Signing Team·서명 계정·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 확인합니다. 계정·인증서는 문서에 기록하지 않습니다. [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup).
-
-### Homebrew 준비
-
-Command Line Tools 설치 후 개인 Mac의 일반 사용자 터미널에서 진행합니다. 기존 Homebrew가 있으면 재설치하지 않고 `command -v brew`·`brew --version`·`brew --prefix`로 경로와 상태를 확인합니다. PATH에 없더라도 Apple Silicon의 `/opt/homebrew/bin/brew`, Intel의 `/usr/local/bin/brew`가 존재하는지 먼저 확인합니다.
-
-| CPU | 신규 설치 경로 |
-| :--- | :--- |
-| Apple Silicon (`arm64`) | 아래 공식 최신 설치기 사용. Rosetta 터미널에서 실행하지 않음 |
-| Intel (`x86_64`) | 최신 설치기는 Intel을 거부하므로 [과거 공식 설치기 절차](../01.Tools/brew.md#과거-공식-설치-스크립트로-신규-설치-시도)를 사용. 설치·패키지 지원은 제한됨 |
-
-아래 명령은 **Apple Silicon 전용**입니다. [공식 OS·CPU 지원 조건](https://docs.brew.sh/Installation)을 확인하고 설치 안내를 읽은 뒤 진행합니다. 설치기가 필요할 때 관리자 암호를 요청하며 전체 명령에 `sudo`를 붙이지 않습니다.
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-설치기가 출력한 Next steps를 우선합니다. 기본 경로로 설치했다면 아래에서 **자신의 CPU에 해당하는 한 줄만** `~/.zprofile` 또는 사용하는 `~/.zshrc` 한 곳에 추가합니다. 이미 있으면 중복 추가하지 않습니다.
-
-```zsh
-# Apple Silicon 기본 경로
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-```zsh
-# Intel 기본 경로: 기존 설치 또는 과거 설치기 설치가 성공한 경우만
-eval "$(/usr/local/bin/brew shellenv)"
-```
-
-새 터미널에서 `brew --version`·`brew --prefix`·`brew doctor`로 확인합니다. 경고는 내용을 읽고 대응하며 기존 디렉터리를 일괄 삭제하거나 소유권을 일괄 변경하지 않습니다. Intel에서 Homebrew 준비가 막혀도 아래 독립 설치 도구는 각자의 공식 절차로 계속 준비할 수 있습니다.
-
-Homebrew 자체 준비가 끝나면 [공통 필수 준비](../01.Tools/brew.md#2-공통-필수-준비)를 확인하고, CMake 기반 개발·시리얼 통신 등 필요한 작업에 따라 [용도별 필수 패키지](../01.Tools/brew.md#3-용도별-필수-설치)를 설치합니다. IINA 같은 편의 앱은 [선택 설치](../01.Tools/brew.md#4-선택-설치)에서 고릅니다. Node·uv·FVM·Docker 등의 초기 설치는 아래에서 정한 경로를 유지합니다.
-
-설치기 CPU 제한·PATH 안내·minicom 배포 조건 확인일: 2026-10-30. 실제 Homebrew 설치·패키지 설치는 수행하지 않았습니다. 일상 사용·업데이트·백업·복귀는 [Homebrew 가이드](../01.Tools/brew.md)를 따릅니다.
-
-### Oh My Zsh 설치
-
-Apple Silicon·Intel 모두 위 기본 설정에서 Command Line Tools 설치를 마친 뒤, 개인 Mac의 **zsh 터미널**에서 일반 사용자 권한으로 진행합니다. Oh My Zsh는 zsh의 테마·플러그인을 관리하는 도구이며 Homebrew는 필요하지 않습니다. 아래는 기본 경로 `~/.zshrc`·`~/.oh-my-zsh`를 사용하는 경우입니다. `ZDOTDIR`나 별도 셸 관리 도구를 사용 중이면 기존 설정 경로와 로딩 구성을 먼저 확인합니다.
-
-```zsh
-zsh --version
-git --version
-curl --version
-cp -p ~/.zshrc ~/.zshrc.backup-$(date +%Y%m%d-%H%M%S)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --skip-chsh
-```
-
-공식 설치기의 `--keep-zshrc`로 기존 설정을 보존하고 `--skip-chsh`로 로그인 셸 변경을 생략합니다. 이미 `~/.oh-my-zsh`가 있다면 재설치하지 말고 [사용·업데이트 가이드](../01.Tools/oh-my-zsh.md)를 확인합니다.
-
-기존 `~/.zshrc`를 편집해 아래 블록을 한 번만 추가합니다. 기존 Oh My Zsh 설정이 있다면 중복 추가하지 않습니다. `--keep-zshrc`는 초기화 설정을 자동으로 넣지 않으므로 이 단계가 필요합니다. nvm 초기화·개인 PATH·별칭은 보존하고, 개인 별칭으로 기본 별칭을 덮어쓰려면 아래 블록 뒤에 둡니다.
-
-```zsh
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-plugins=(git)
-source "$ZSH/oh-my-zsh.sh"
-```
-
-새 터미널을 열어 아래 결과에 `omz is a shell function`이 표시되는지 확인합니다. 로그인 셸이 zsh가 아니라면 먼저 `zsh`를 실행한 뒤 확인합니다.
-
-```zsh
-type omz
-```
-
-설치 방법·옵션 확인일: 2026-10-30. [공식 설치 안내](https://github.com/ohmyzsh/ohmyzsh#basic-installation) · [설치기 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh). 테마·플러그인 변경과 백업·복귀는 [Oh My Zsh 가이드](../01.Tools/oh-my-zsh.md)를 참고합니다.
-
-### D2Coding 폰트 설치·Terminal 적용
-
-개인 Mac의 Apple Silicon·Intel 모두 같은 폰트 파일을 사용합니다. 사용하는 `D2Coding-Ver1` 배포본이 이미 설치되어 있다면 재설치하지 않고 서체 관리자(Font Book)에서 활성화 여부와 **서체 패밀리 이름**을 확인합니다. 배포 압축 파일명·버전과 앱에서 지정하는 이름은 다릅니다. 아래 예시는 패밀리 이름이 `D2Coding`인 경우이며, 실제 표시 이름이 다르면 그 이름으로 바꿉니다.
-
-1. 새 Mac에서는 [NAVER 공식 릴리스](https://github.com/naver/d2-coding-font/releases)에서 기존에 사용하던 Ver 1.x 배포본을 선택해 압축을 풉니다. `D2Coding-Ver1`만으로 세부 버전을 확정하지 않으며, 기존 원본 파일이나 서체 관리자에 표시되는 버전을 확인합니다.
-2. 사용할 일반 D2Coding의 TTF 또는 TTC 파일을 열어 서체 관리자에서 설치합니다. 같은 서체의 TTF·TTC를 모두 설치하거나 서로 다른 버전을 중복 설치하지 않습니다. Ligature 변형은 별도 이름으로 표시될 수 있으므로 기존 사용 변형을 유지합니다.
-3. 서체 관리자에서 D2Coding을 검색해 미리보기·버전을 확인하고 필요하면 서체 유효성 검사를 실행합니다. 설치 후 사용 중인 앱을 완전히 종료했다가 다시 엽니다.
-4. macOS 기본 Terminal에서 **Terminal → 설정(Settings, 구버전은 환경설정) → 프로파일(Profiles) → 사용할 프로파일 → 텍스트(Text) → 서체 변경(Change)**을 열고 D2Coding을 선택합니다. 크기는 14pt를 시작값으로 조절합니다.
-5. 새 창에서도 사용하려면 해당 프로파일을 **기본(Default)**으로 지정합니다. 다른 프로파일을 쓰는 기존 창·탭에는 별도로 적용하거나 새 기본 프로파일 창을 엽니다.
-
-[Apple 서체 설치·검증](https://support.apple.com/en-gb/guide/font-book/fntbk1000/mac) · [Terminal 텍스트 설정](https://support.apple.com/en-lb/guide/terminal/trmltxt/mac).
-
-폰트 선택은 각 앱에서 따로 설정합니다. Oh My Zsh의 `ZSH_THEME`는 프롬프트 모양을 선택하는 값이므로 폰트 이름을 넣지 않습니다. 특수 아이콘이 깨지면 해당 테마의 Powerline·Nerd Font 요구 조건을 확인하거나 기본 테마를 사용합니다. 일반 D2Coding이 모든 특수 아이콘을 포함한다고 가정하지 않습니다.
-
-폰트를 교체·업데이트하기 전 사용하던 원본 폰트 파일·버전과 앱별 서체 이름·크기를 보관합니다. 같은 패밀리의 구버전을 정리해야 하면 서체 관리자에서 대상만 확인해 제거한 뒤 새 파일을 설치합니다. 문제가 생기면 새 버전을 제거하고 보관한 파일과 앱 설정으로 복귀합니다. 목록에 보이지 않으면 서체 활성화·중복·정확한 패밀리 이름을 확인하고 앱을 재시작합니다.
-
-폰트 배포처·앱별 설정 방법 확인일: 2026-10-30. 실제 사용 중인 Ver1 파일의 세부 버전과 각 앱의 렌더링은 사용자 Mac에서 확인합니다.
-
-## 1. VS Code
-
-[공식 macOS 배포판](https://code.visualstudio.com/docs/setup/mac)을 내려받아 압축을 풀고 Visual Studio Code.app을 Applications로 옮겨 실행합니다. 사용하는 OS·CPU와 호환되는 배포판을 선택합니다. 별도 비공식 curl 설치 스크립트는 사용하지 않습니다.
-
-VS Code 명령 팔레트에서 `Shell Command: Install 'code' command in PATH`를 실행하고 새 터미널에서 `code --version`을 확인합니다.
-
-필요한 작업에 맞춰 확장을 설치합니다.
-
-| 작업 | 확장 |
-| :--- | :--- |
-| TypeScript·React·Electron | ESLint, Prettier |
-| Python | Python, Python Debugger |
-| Flutter | Flutter (Dart 확장 포함) |
-| C/C++ | C/C++, CMake Tools |
-| Rust | rust-analyzer |
-| Unity | Unity (Microsoft) |
-| 컨테이너 개발 | Dev Containers (필요할 때) |
-
-포맷터와 린터는 프로젝트 설정을 우선합니다. [VS Code macOS 설치 안내](https://code.visualstudio.com/docs/setup/mac)
-
-### VS Code 표시 언어 변경
-
-[공통 표시 언어 안내](../01.Tools/editor-setup.md#vs-code-표시-언어-변경)에 따라 Korean Language Pack을 설치하고 한국어를 선택한 뒤 재시작합니다.
-
-### VS Code 편집기·통합 터미널 폰트
-
-D2Coding 설치 후 [편집기·통합 터미널 설정](../01.Tools/editor-setup.md#vs-code-편집기통합-터미널-폰트)을 각각 적용합니다.
-
-## 2. Node.js: nvm + npm
-
-nvm은 [공식 설치 스크립트](https://github.com/nvm-sh/nvm#installing-and-updating)로 설치합니다. 다른 경로의 Node.js를 중복 설치하지 않습니다.
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE="$HOME/.zshrc" bash
-source ~/.zshrc
-command -v nvm
-nvm install --lts
-node --version
-npm --version
-```
-
-설치 스크립트가 `~/.zshrc`에 nvm 초기화 설정을 추가합니다. 인식되지 않으면 새 터미널을 열어 확인합니다.
-
-위 LTS는 프로젝트가 없는 상태의 기본 Node입니다. 기존 프로젝트의 Node 버전 선택과 npm 의존성 복원은 [nvm 가이드](../01.Tools/nvm.md#macoslinux-기본-흐름)에서 진행합니다.
-
-## 3. Python 관리 도구: uv
-
-uv는 Homebrew와 분리하여 [공식 독립 설치 방법](https://docs.astral.sh/uv/getting-started/installation/)을 사용합니다. 개인 터미널의 임의 디렉터리에서 아래를 실행합니다. 시스템 Python과 전역 pip를 변경하지 않으며 아직 특정 Python 버전 설치나 가상환경 생성은 필요하지 않습니다.
-
-```bash
-curl -LsSf https://astral.sh/uv/0.13.6/install.sh | sh
-```
-
-설치기의 PATH 안내를 적용하고 새 터미널을 엽니다. 기본 경로인 ~/.local/bin이 인식되지 않으면 기존 ~/.zshrc에 `export PATH="$HOME/.local/bin:$PATH"`를 한 번만 추가합니다. 이후 확인합니다.
-
-```bash
-command -v uv
-uv --version
-```
-
-2026-10-30 확인: uv 자체는 [macOS 13 이상을 지원](https://docs.astral.sh/uv/reference/policies/platforms/#macos-versions)합니다. Homebrew의 [uv bottle 목록](https://formulae.brew.sh/formula/uv)에는 Intel·Ventura용이 없으므로 brew install uv의 실패를 uv 자체 미지원으로 판단하지 않습니다. 공식 0.13.6 x86_64 바이너리의 버전 명령은 macOS 13.7.8 Intel에서 확인했으며, 독립 설치기 실행과 Python 다운로드·프로젝트 복원은 이번 확인 범위가 아닙니다.
-
-기존 설치가 있다면 `which -a uv`로 중복·PATH 우선순위를 확인합니다. 독립 설치로 전환한 뒤 업데이트는 `uv self update`를 사용하며 brew upgrade uv와 혼용하지 않습니다. 기존 uv의 Python·캐시·가상환경을 지우지 않습니다.
-
-프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [uv 가이드](../01.Tools/uv.md#기존-uv-프로젝트-복원)에서 진행합니다. 상세 사용법은 [uv·가상환경](../01.Tools/uv.md)를 참고합니다.
-
-## 4. Flutter 도구: FVM·Android Studio·Xcode
-
-### FVM 설치
-
-[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에 따라 설치합니다.
-
-```bash
-curl -fsSL https://fvm.app/install.sh | bash
-```
-
-설치 결과의 PATH 안내를 적용하고 새 터미널에서 `fvm --version`을 확인합니다.
-
-사용 중인 Intel MacBook은 Flutter SDK 3.35.7이 복원 기준입니다. SDK를 미리 내려받아 두려면 아래 명령만 실행합니다. 프로젝트 선택 파일 `.fvmrc`는 만들지 않습니다.
-
-```bash
-fvm install 3.35.7
-```
-
-다른 환경은 이 버전을 일괄 적용하지 않고 프로젝트 복원 시 요구 SDK를 선택합니다. `fvm use`·pub get·doctor·실기기 빌드는 [FVM 가이드](../01.Tools/fvm.md#macos-실기기-프로젝트-연결)에서 진행합니다.
-
-### Android Studio 설치
-
-1. [Android Studio](https://developer.android.com/studio)를 칩에 맞게 설치하고 처음 실행합니다. VS Code를 기본 편집기로 사용하며 Android Studio에서도 아래 안내에 따라 Flutter 프로젝트를 생성·편집할 수 있습니다.
-2. SDK Manager에서 Android SDK Command-line Tools와 Platform-Tools를 준비하고 SDK 설치 경로를 확인합니다. 프로젝트별 SDK Platform·Build-Tools·NDK·CMake 버전은 복원 단계에서 결정합니다.
-3. AVD·에뮬레이터 시스템 이미지는 필요할 때 직접 추가하므로 초기 다운로드에서 제외합니다.
-4. 실기기를 사용할 경우 개발자 옵션·USB 디버깅을 켜고 USB 연결 허용 창을 승인합니다. Flutter 라이선스 확인·기기 탐지·앱 실행은 프로젝트 복원에서 진행합니다.
-
-[JDK 선택·유지 관리](../01.Tools/jdk.md)에 따라 Android Studio 포함 JDK를 기본으로 두되 프로젝트 Gradle·Android Gradle Plugin의 요구 버전은 복원 때 확인합니다. [Flutter Android 설정](https://docs.flutter.dev/platform-integration/android/setup).
-
-Android Studio에서도 Flutter 앱을 생성·편집하려면 [Flutter·Dart 플러그인 설치와 프로젝트 생성·SDK 연결](../01.Tools/fvm.md#android-studio에서-새-flutter-프로젝트-생성)을 추가로 진행합니다. 초기 설치 중에는 플러그인만 준비하고 프로젝트 생성은 새 앱이 필요할 때 수행합니다.
-
-### Ruby 도구가 필요한 경우
-
-CocoaPods·Ruby 프로젝트가 필요할 때만 준비합니다. SwiftPM 전용 프로젝트나 Android 개발만 한다면 설치하지 않습니다.
-
-별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
-
-```bash
-git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
-"$HOME/.rbenv/bin/rbenv" init
-```
-
-`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
-
-```bash
-rbenv --version
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
-rbenv install -l
-```
-
-Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
-
-```bash
-brew install openssl@3 readline libyaml gmp autoconf
-```
-
-프로젝트 Ruby·Bundler·CocoaPods 선택과 복원·업데이트·제거는 [Ruby 도구 관리](../01.Tools/ruby.md)를 따릅니다. 초기 PC 준비에서 모든 프로젝트용 Ruby·gem을 일괄 설치하지 않습니다.
-
-### Android Studio 편집기·콘솔·터미널 폰트
-
-D2Coding 설치 후 [Android Studio 공통 폰트 안내](../01.Tools/editor-setup.md#android-studio-편집기콘솔터미널-폰트)에 따라 편집기·콘솔·내장 터미널에 각각 적용합니다.
-
-
-## 5. C/C++·Rust·Unity 도구
-
-### C/C++
-
-Command Line Tools의 Clang을 확인합니다. CMake는 위 Homebrew 파트에서 준비한 CLI의 인식 여부를 확인합니다. pkgconf는 프로젝트가 요구할 때만 [별도 설치 안내](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 아직 프로젝트 빌드 폴더는 만들지 않습니다.
-
-```bash
-clang --version
-cmake --version
-```
-
-### Rust
-
-[Rust 공식 설치 안내](https://rust-lang.org/tools/install/)에 따라 rustup을 설치합니다.
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source "$HOME/.cargo/env"
-rustup show
-```
-
-프로젝트 툴체인 선택·빌드는 [rustup 가이드](../01.Tools/rustup.md)을 따릅니다.
-
-### Unity Hub
-
-[Unity Hub](https://unity.com/download)를 설치하고 실행 여부를 확인합니다. 정확한 Unity Editor 버전·플랫폼 모듈·VS Code 연동은 프로젝트 요구 사항을 확인한 뒤 [아래 Unity 안내](#unity-프로젝트)에서 진행합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
-
-## 6. Docker Desktop 설치
-
-먼저 macOS 버전·CPU와 [공식 지원 조건](https://docs.docker.com/desktop/setup/install/mac-install/#system-requirements)을 확인합니다. **Intel·Ventura 13.7.8은 최신 버전을 설치할 수 없으므로 [4.48.0 설치 안내](./macOS_Intel_Dev_Setting.md#4-ventura-1378의-docker-desktop-설치)를 따릅니다.**
-
-지원되는 환경은 [공식 Mac 설치 페이지](https://docs.docker.com/desktop/setup/install/mac-install/)에서 칩에 맞는 Docker Desktop을 설치합니다. 앱을 실행해 초기 설정을 끝내고 엔진이 준비될 때까지 기다립니다. CLI만 설치해서는 로컬 컨테이너를 실행할 수 없습니다.
-
-```bash
-docker version
-docker compose version
-docker run --rm hello-world
-```
-
-hello-world는 Docker 엔진 확인용이며 이미지 다운로드가 필요합니다. 실제 프로젝트의 Compose·볼륨·터미널 접속·Dev Containers 설정은 [Docker 가이드](../01.Tools/docker.md)에서 진행합니다.
-
-## 7. Codex CLI
-
-Node 버전 전환과 별개로 사용할 수 있도록 [OpenAI 공식 안내](https://learn.chatgpt.com/docs/codex/cli)의 독립 설치 방식을 사용합니다.
-
-```bash
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
-```
-
-설치 안내에 따라 PATH를 적용하고 새 터미널에서 확인합니다.
-
-```bash
-codex --version
-codex
-```
-
-처음 실행할 때 안내에 따라 인증합니다. API 키나 토큰을 셸 설정·저장소에 직접 기록하지 않습니다. 기존 npm 설치를 유지하려면 `npm install -g @openai/codex`도 가능하지만 nvm의 Node 버전에 따라 전역 패키지 설치 위치가 달라집니다. 두 설치 방식을 중복 적용하지 않습니다.
-
-### Ponytail 스킬 추가
-
-위 Codex 인증과 Node 설치를 마친 뒤 [Ponytail 설치·훅 활성화·스킬 호출 안내](../01.Tools/codex.md#ponytail-스킬-추가)를 진행합니다. Codex용 플러그인이며 다른 에이전트에는 별도 설치가 필요합니다.
-
-## 8. 초기 설치 완료 확인
-
-필요한 도구만 설치하면 됩니다. 아직 기존 프로젝트 실행 성공까지 확인하는 단계는 아닙니다.
-
-- [ ] D2Coding이 Terminal·VS Code 편집기/통합 터미널·Android Studio 편집기/콘솔/내장 터미널에 적용되고 한글·영문이 정상 표시된다.
-- [ ] Homebrew의 경로·버전·진단 결과를 확인했다. Intel에서 설치하지 못했다면 제한 사항을 기록하고 독립 설치 도구를 먼저 준비했다.
-- [ ] 새 터미널과 VS Code 통합 터미널에서 code·nvm·node·npm·uv·fvm·codex가 인식된다.
-- [ ] Android Studio의 SDK Manager와 Xcode가 열리고 필요한 기본 구성요소가 준비되어 있다.
-- [ ] C/C++·Rust를 사용한다면 필요한 clang·cmake·rustup이 인식된다.
-- [ ] Unity를 사용한다면 Hub가 실행된다. 프로젝트 Editor는 다음 단계에서 설치한다.
-- [ ] Docker를 사용한다면 엔진·Compose 버전과 hello-world 실행을 확인했다.
-- [ ] Oh My Zsh 설치 후 새 터미널에서 `type omz`가 셸 함수를 표시하고 기존 PATH·nvm 설정이 유지된다.
-- [ ] 셸 설정이 중복되지 않고 사용 중인 Mac의 CPU용 도구를 설치했다. PATH 변경 후 앱과 새 터미널에서 실제 실행 경로를 확인했다.
-
-## 프로젝트 작업 안내
-
-여기부터는 초기 설치가 끝난 뒤 필요한 작업만 선택합니다. 프로젝트 README·CI·버전 파일·잠금 파일을 우선하며, 복원 중 의존성을 일괄 갱신하거나 잠금 파일을 삭제하지 않습니다. 도구 사용·버전 변경·복귀 방법은 아래 문서 한 곳에서 관리합니다.
-
-| 작업 | 상세 절차 |
-| :--- | :--- |
-| TypeScript·React·Electron·서버 | [nvm·npm](../01.Tools/nvm.md) |
-| Python | [uv·가상환경](../01.Tools/uv.md) |
-| Flutter·Android·iOS | [FVM·실기기 연결](../01.Tools/fvm.md) |
-| C/C++ | [툴체인·프리셋·별도 빌드 경로](../01.Tools/cpp-toolchain.md) |
-| Rust | [rustup·프로젝트 툴체인](../01.Tools/rustup.md) |
-| 컨테이너 | [Docker·Compose·Dev Containers](../01.Tools/docker.md) |
-| Homebrew 보조 패키지 관리 | [brew 설치·업데이트](../01.Tools/brew.md) |
-
-### Unity 프로젝트
-
-Hub에서 로그인·라이선스를 활성화하고 `ProjectSettings/ProjectVersion.txt`의 정확한 Editor와 필요한 빌드 모듈을 설치합니다. Unity Android SDK·NDK·OpenJDK는 Hub 모듈을 우선하며 Flutter용 경로로 일괄 덮어쓰지 않습니다. iOS는 Xcode도 필요합니다. Unity External Tools에서 VS Code를 선택하고 Microsoft Unity 확장의 요구 조건에 맞춰 연동합니다.
-
-Editor 갱신은 새 버전을 추가 설치한 뒤 프로젝트 복사본 또는 별도 브랜치로 열어 컴파일·Play Mode·대상 빌드를 확인합니다. 성공 후 ProjectVersion.txt·Packages/manifest.json·Packages/packages-lock.json 변경을 검토합니다. 복귀할 때는 이전 Editor와 업그레이드 전 프로젝트 파일을 함께 복원합니다. [Unity Hub 문서](https://docs.unity.com/en-us/hub).
-
-### 완료 판단
-
-초기 도구 인식과 프로젝트 복원 성공은 별개입니다. 사용하는 프로젝트의 실행·테스트·빌드, Flutter 실기기·서명, Electron 패키징, Docker 서비스 접속을 확인하고 버전·잠금 파일이 의도치 않게 바뀌지 않았는지 검토합니다. 로컬 환경 변수·외부 서비스·서명 자격증명은 별도 복원이 필요할 수 있습니다.
-
-## macOS와 설치된 앱 업데이트
-
-초기 설치 순서에 포함하지 않습니다. 작업과 데이터를 백업하고 해당 Mac·프로젝트와 호환되는 OS·Xcode 버전을 확인한 뒤 진행합니다.
-
-- macOS·Command Line Tools: 시스템 설정 → 일반 → 소프트웨어 업데이트에서 제공 항목을 확인합니다. `xcode-select --install`은 매번 업데이트하는 명령이 아닙니다. [Apple 안내](https://support.apple.com/en-us/108382).
-- Xcode: App Store 또는 기존 Apple Developer 배포 경로에서 갱신하고 이 문서의 [Xcode 초기화](#xcode-설치초기화)와 FVM 가이드의 실기기·서명 확인을 수행합니다.
-- VS Code·확장, Android Studio, Unity Hub: 앱의 업데이트 기능을 사용합니다. CMake는 [Homebrew 버전 관리](../01.Tools/brew.md#업데이트와-버전-관리), pkgconf는 [별도 갱신 안내](../01.Tools/cpp-toolchain.md#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 컴파일러가 바뀌면 별도 빌드 경로에서 프로젝트를 검증합니다.
-- Codex CLI: 위에서 사용한 독립 설치 스크립트를 다시 실행하고 새 터미널에서 codex --version을 확인합니다. 기존 npm 설치를 유지한다면 해당 nvm Node 환경에서 npm install -g @openai/codex@latest를 사용합니다. 두 방식을 중복 적용하지 않습니다.
-
-기존 Homebrew로 설치한 도구는 [brew 가이드](../01.Tools/brew.md)에 따라 관리하거나 독립 설치로 전환하며 두 경로로 같은 실행 파일을 중복 관리하지 않습니다. 업데이트 전 버전을 기록하고 프로젝트 실행·테스트·빌드를 확인한 뒤 이전 환경을 정리합니다. OS·SDK·데이터 형식은 실행 파일 버전만 낮춘다고 복원되지 않을 수 있습니다.
-
-### 독립 설치 도구 업데이트
-
-프로젝트 루트가 아닌 개인 터미널에서도 도구 자체를 갱신할 수 있습니다. 실행 전 현재 도구 버전·설치 경로·목표 버전의 macOS 지원을 확인하고 갱신 후 새 터미널에서 버전을 확인합니다.
-
-| 도구 | 독립 설치의 갱신 방법 | 상세 안내 |
+| 순서 | 준비 항목 | 설치·설정 안내 |
 | :--- | :--- | :--- |
-| uv | uv self update. 고정 버전을 재설치하려면 해당 버전 URL 사용 | [uv](../01.Tools/uv.md#설치와-역할-구분) |
-| nvm | 공식 설치 스크립트의 목표 릴리스 태그로 다시 실행 | [nvm](../01.Tools/nvm.md#업데이트복귀제거) |
-| FVM | 공식 설치 스크립트 재실행 | [FVM](../01.Tools/fvm.md#업데이트와-되돌리기) |
-| rustup | rustup self update | [rustup](../01.Tools/rustup.md#6-업데이트검증복귀) |
-| Codex CLI | 위 독립 설치 스크립트 재실행 | [공식 CLI 안내](https://learn.chatgpt.com/docs/cli) |
+| 1 | 셸·환경 변수·기존 PATH 확인 | [macOS 셸·PATH](../01.Tools/shell-environment.md#macos-셸path-준비) |
+| 2 | Git·컴파일 도구 기반 | [개발 도구 선행 확인](../01.Tools/xcode.md#설치-전-개발-도구-준비-순서) → 선택 상태에 따라 CLT 설치 또는 Xcode 라이선스·초기화 → Git·Clang 확인 |
+| 3 | 보조 패키지 관리자 Homebrew | [설치·CPU별 PATH](../01.Tools/brew.md#homebrew-설치path). Intel은 과거 설치기와 지원 제한 확인 |
+| 4 | VS Code | [macOS 설치](../01.Tools/editor-setup.md#macos-vs-code-설치), [한국어](../01.Tools/editor-setup.md#vs-code-표시-언어-변경) |
 
-관리 도구 갱신과 프로젝트의 Node·Python·Flutter·Rust 버전 변경은 별개입니다. Intel MacBook의 Flutter 3.35.7 고정은 FVM 갱신 뒤에도 유지합니다. 사용 중인 프로젝트를 검증한 뒤 목표 SDK·잠금 파일을 별도 변경합니다.
+2단계에서 라이선스·초기화 오류가 남아 있으면 Homebrew·nvm·Git 다운로드로 넘어가지 않습니다. 전체 Xcode는 iOS 개발에 필요하며 그 외 작업은 정상 Command Line Tools로 진행할 수 있습니다.
+
+Homebrew는 먼저 준비하지만 주요 도구를 모두 brew로 설치하지 않습니다. Intel에서 설치가 막히면 제한을 기록하고 각 도구의 공식 독립 설치 가능 여부를 확인합니다. 기존 Homebrew·데이터를 삭제해서 우회하지 않습니다.
+
+## 2. 선택 설정
+
+사용할 작업만 선택하고 표 안의 선행 순서를 지킵니다. 작업에 필요한 도구는 해당 작업에서 필수입니다. React·TypeScript·Electron은 프로젝트 의존성이므로 전역 설치하지 않습니다.
+
+| 작업 | 필요한 도구와 진행 순서 |
+| :--- | :--- |
+| 터미널 외형·폰트 | [Oh My Zsh](../01.Tools/oh-my-zsh.md#macos-설치), [D2Coding·Terminal](../01.Tools/editor-setup.md#macos-폰트terminal) → [편집기 폰트·테마](../01.Tools/editor-setup.md#vs-code-편집기통합-터미널-폰트) |
+| Node·웹·서버·Electron | [nvm 설치](../01.Tools/nvm.md#macos-nvm-설치) → 프로젝트 요구 Node·npm 선택 |
+| Python | [uv 설치](../01.Tools/uv.md#macoslinux-uv-설치) → 프로젝트에서 Python·가상환경 선택 |
+| Flutter Android | [FVM](../01.Tools/fvm.md#macoslinux-fvm-설치) → [Android Studio·SDK](../01.Tools/android-studio.md#macos-android-studio-설치) → 필요한 경우 [JDK](../01.Tools/jdk.md#os별-설치) |
+| Flutter iOS | [FVM](../01.Tools/fvm.md#macoslinux-fvm-설치) → [전체 Xcode](../01.Tools/xcode.md#전체-xcode-설치초기화) → CocoaPods 사용 프로젝트만 [Ruby·Bundler](../01.Tools/ruby.md#macos-rbenv-최초-설치) |
+| C/C++ | [Clang·CMake 준비](../01.Tools/cpp-toolchain.md#macos-초기-도구-확인), 필요한 [Homebrew 패키지](../01.Tools/brew.md#3-용도별-필수-설치) |
+| USB 시리얼 통신 | [minicom 설치](../01.Tools/brew.md#minicom-설치) |
+| Rust | [rustup](../01.Tools/rustup.md#macoslinux-rustup-설치). 네이티브 라이브러리는 프로젝트 요구에 따라 추가 |
+| Unity | [Hub 설치·프로젝트 Editor 선택](../01.Tools/unity.md#macos-unity-hub-설치). iOS 대상은 전체 Xcode 추가 |
+| 컨테이너 | [Docker Desktop](../01.Tools/docker.md#macos-docker-desktop-설치). Intel·Ventura는 해당 문서의 구버전 제한 확인 |
+| Codex·Ponytail | [Codex 설치·인증](../01.Tools/codex.md#macoslinux-codex-cli-설치) → Ponytail을 쓸 때 [nvm·Node](../01.Tools/nvm.md#macos-nvm-설치) → [Ponytail 추가](../01.Tools/codex.md#ponytail-스킬-추가) |
+
+Android Studio·Xcode·에뮬레이터·Ruby를 모든 Mac에 미리 설치하지 않습니다. SDK Platform·NDK·CMake·Unity Editor 등의 정확한 버전은 프로젝트 요구를 확인한 뒤 설치합니다.
+
+## 완료 확인
+
+- [ ] 필수 도구와 선택한 작업의 선행 도구만 설치했다.
+- [ ] 새 터미널·IDE에서 각 Tools 문서의 버전·실행 경로·확인 결과를 대조했다.
+- [ ] 기존 설치와 중복되지 않고 셸·PATH·개인 설정이 보존된다.
+- [ ] 설치하지 않은 선택 항목은 미완료가 아니라 사용하지 않는 항목으로 구분했다.
+
+도구 인식 확인은 프로젝트 빌드·실행·배포 성공과 별개입니다. 이 문서 정리에서 실제 설치는 수행하지 않았습니다.
+
+## 프로젝트 시작·업데이트
+
+새 프로젝트는 [보일러플레이트 유형별 시작 가이드](../02.Boilerplates/README.md#처음-실행하는-순서)로 이동합니다. 기존 프로젝트는 README·CI·버전 파일·잠금 파일로 요구 환경을 복원하며 초기 설정을 이유로 SDK·의존성을 일괄 갱신하지 않습니다. 각 도구의 일상 사용·업데이트·복귀·삭제는 연결한 Tools 문서에서 관리합니다. 프로젝트 환경 변수·자격증명·데이터는 별도 보존하고 다른 OS의 node_modules·.venv·네이티브 빌드 결과를 복사하지 않습니다.
+
+macOS 자체 갱신은 [OS 업데이트·보존](../01.Tools/shell-environment.md#os-업데이트와-보존)을 확인합니다. 사용 중인 Intel MacBook의 Flutter 고정은 [FVM 환경 기준](../01.Tools/fvm.md#intel-macbook의-flutter-버전-고정)을 유지하며 모든 Intel Mac의 지원 상한으로 해석하지 않습니다.

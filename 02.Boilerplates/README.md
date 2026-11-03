@@ -7,6 +7,8 @@
 
 ## 특정 보일러플레이트만 내려받기
 
+다운로드 전에 [OS별 필수 설정](../00.Setup/OS_Dev_Setting.md)과 사용할 유형의 시작 가이드 0절에서 선행 도구를 확인합니다. macOS는 [개발 도구 선택·Xcode 라이선스·초기화](../01.Tools/xcode.md#설치-전-개발-도구-준비-순서)를 확인한 뒤 Git을 실행합니다. Command Line Tools만 쓰는 경우 전체 Xcode를 추가 설치할 필요는 없습니다.
+
 Git의 partial clone과 sparse checkout을 함께 사용합니다. 아래는 server-wui 전체 패키지(문서·지침·실행 샘플)를 받는 예시이며 macOS·Linux 셸과 Windows PowerShell에서 같은 Git 명령을 사용할 수 있습니다. Git에 sparse-checkout 지원이 필요합니다.
 
 ```sh

@@ -1,11 +1,15 @@
 # 개발 도구 사용 가이드
 
-OS 설치·초기 복원은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다. 이 폴더는 도구의 역할, 프로젝트 작업 흐름, 업데이트와 문제 해결을 다룹니다.
+OS별 설치 순서·필수·선택 구분은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다. 이 폴더는 각 도구의 OS별 설치·권한·환경 변수·확인·일상 사용·업데이트·복귀와 제거를 다룹니다.
 
 | 도구 | 관리 대상 | 읽을 때 |
 | :--- | :--- | :--- |
 | [Markdown 디자인·작성](./markdown-style.md) | 표·강조 상자·접기·도식 | 문서 작성·가독성 정리 |
 | [도구 제거·잔여 파일 정리](./uninstall-cleanup.md) | 실행 파일·숨김 설정·캐시·데이터 | 잘못 설치한 기능 제거·백업·복원 |
+| [기본 패키지·셸·PATH](./shell-environment.md) | OS별 공통 준비·환경 변수 | 설치 전 확인·설정 백업·OS 갱신 |
+| [Xcode·Command Line Tools](./xcode.md) | Apple 개발 도구·SDK | macOS 기본 도구·iOS용 Xcode 설치·선택 |
+| [Android Studio·SDK](./android-studio.md) | Android IDE·SDK·기기 도구 | 설치·SDK Manager·OS별 드라이버/권한 |
+| [Unity Hub·Editor](./unity.md) | Unity Editor·플랫폼 모듈 | 설치·프로젝트 버전 선택·업데이트·복귀 |
 | [편집기 설정](./editor-setup.md) | VS Code 표시 언어·D2Coding·Android Studio 폰트 | OS별 설치 후 공통 앱 설정 |
 | [Codex·Ponytail](./codex.md) | 스킬·플러그인·CLI 갱신 | Ponytail 추가·호출·문제 해결·복귀 |
 | [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS·Linux zsh 설정·업데이트·복귀 |

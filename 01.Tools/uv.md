@@ -1,15 +1,48 @@
-<!-- version: v1.3.4 -->
+<!-- version: v1.4.0 -->
 # uv·Python 가상환경 사용 가이드
 
 확인일: 2026-10-28. uv는 Python 버전, 가상환경, 패키지 의존성, 잠금 파일과 CLI 도구 환경을 관리합니다. 기존 requirements.txt 방식과 pyproject.toml·uv.lock 방식 중 프로젝트가 사용하는 흐름을 따릅니다. pip와 유사한 명령이 있지만 모든 동작·옵션이 완전히 같지는 않습니다.
 
 venv는 Python 표준 기능으로 uv 없이도 사용할 수 있습니다. 이 저장소는 uv로 Python·가상환경을 관리하는 방식을 기본으로 하고, 기존 프로젝트의 표준 venv·pip 절차도 이 문서에서 함께 관리합니다. `uv venv`로 만든 환경에는 pip가 기본 포함되지 않을 수 있으므로 패키지 관리는 `uv pip`를 사용합니다.
 
+## macOS·Linux uv 설치
+
+uv는 Homebrew와 분리하여 [공식 독립 설치 방법](https://docs.astral.sh/uv/getting-started/installation/)을 사용합니다. macOS·Linux 개인 터미널의 임의 디렉터리에서 아래를 일반 사용자로 실행합니다. 시스템 Python과 전역 pip를 변경하지 않으며 아직 특정 Python 버전 설치나 가상환경 생성은 필요하지 않습니다.
+
+```bash
+curl -LsSf https://astral.sh/uv/0.13.6/install.sh | sh
+```
+
+설치기의 PATH 안내를 적용하고 새 터미널을 엽니다. 기본 경로인 ~/.local/bin이 인식되지 않으면 선택한 셸 설정 파일(macOS zsh는 ~/.zshrc, Linux bash는 ~/.bashrc)에 `export PATH="$HOME/.local/bin:$PATH"`를 한 번만 추가합니다. 이후 확인합니다.
+
+```bash
+command -v uv
+uv --version
+```
+
+2026-10-30 확인: uv 자체는 [macOS 13 이상을 지원](https://docs.astral.sh/uv/reference/policies/platforms/#macos-versions)합니다. Homebrew의 [uv bottle 목록](https://formulae.brew.sh/formula/uv)에는 Intel·Ventura용이 없으므로 brew install uv의 실패를 uv 자체 미지원으로 판단하지 않습니다. 공식 0.13.6 x86_64 바이너리의 버전 명령은 macOS 13.7.8 Intel에서 확인했으며, 독립 설치기 실행과 Python 다운로드·프로젝트 복원은 이번 확인 범위가 아닙니다.
+
+기존 설치가 있다면 `which -a uv`로 중복·PATH 우선순위를 확인합니다. 독립 설치로 전환한 뒤 업데이트는 `uv self update`를 사용하며 brew upgrade uv와 혼용하지 않습니다. 기존 uv의 Python·캐시·가상환경을 지우지 않습니다.
+
+프로젝트 Python 설치·.venv 생성·패키지 복원·VS Code 인터프리터 선택은 [uv 가이드](#기존-uv-프로젝트-복원)에서 진행합니다.
+
+## Windows uv 설치
+
+[공식 독립 PowerShell 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)를 사용합니다.
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.13.6/install.ps1 | iex"
+```
+
+설치기의 사용자 PATH 안내를 적용하고 새 PowerShell에서 `Get-Command uv`·`uv --version`을 확인합니다. 실행 정책 옵션은 설치 프로세스에 한정합니다. 아직 특정 Python·`.venv`를 만들지 않고 시스템 Python을 변경하지 않습니다. 기존 프로젝트는 [잠금 파일 복원](#기존-uv-프로젝트-복원)을 따릅니다.
+
+프로젝트 복원 후 가상환경 활성화는 `.\.venv\Scripts\Activate.ps1`, 종료는 `deactivate`입니다. 정책으로 차단되면 uv 명령 또는 `.\.venv\Scripts\python.exe`를 직접 사용합니다.
+
 ## 설치와 역할 구분
 
-설치는 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다. macOS는 공식 독립 설치를 기본으로 하며 `uv self update`로 갱신합니다. 목표 버전 고정이 필요하면 공식 설치 안내의 버전 URL로 재설치합니다. Homebrew로 이미 설치한 uv만 기존 관리 방식인 brew upgrade uv를 사용하며 두 경로로 중복 관리하지 않습니다.
+설치는 이 문서의 OS별 절차를 따릅니다. macOS는 공식 독립 설치를 기본으로 하며 `uv self update`로 갱신합니다. 목표 버전 고정이 필요하면 공식 설치 안내의 버전 URL로 재설치합니다. Homebrew로 이미 설치한 uv만 기존 관리 방식인 brew upgrade uv를 사용하며 두 경로로 중복 관리하지 않습니다.
 
-macOS 13에서 brew install uv가 실패하면 Homebrew 경로와 uv 자체의 지원 범위를 구분합니다. uv는 [macOS 13 이상을 지원](https://docs.astral.sh/uv/reference/policies/platforms/#macos-versions)하며 공식 0.13.6 Intel 바이너리의 버전 명령을 macOS 13.7.8에서 확인했습니다(2026-10-30). 설치는 [macOS 독립 설치 절차](../00.Setup/macOS_Common_Dev_Setting.md#3-python-관리-도구-uv)를 따릅니다. Python 배포판과 프로젝트 패키지의 OS 지원은 별도로 확인합니다.
+기존 설치와 독립 설치를 혼용하지 않고 Python 배포판·프로젝트 패키지의 OS 지원은 uv 자체 지원과 별도로 확인합니다.
 
 | 요소 | 역할 |
 | :--- | :--- |

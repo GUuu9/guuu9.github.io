@@ -1,13 +1,57 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # JDK 설치 확인·버전 선택·유지 관리
 
 Java·Gradle 등 JDK가 필요한 프로젝트에서 사용합니다. 모든 PC에 추가 JDK가 필요한 것은 아닙니다. 기존 프로젝트의 요구 버전·배포판과 실제 실행 JDK를 먼저 확인합니다. Android Studio 포함 JBR이 요구 조건에 맞으면 재사용합니다. Gradle 실행 JDK와 Java 소스 언어 수준은 별도입니다. [Android JDK 안내](https://developer.android.com/build/jdks) · [Gradle Java 호환 표](https://docs.gradle.org/current/userguide/compatibility.html).
 
+## Windows JDK 설치
+
+Windows x64에서 공식 `.msi`의 정확한 버전·체크섬을 확인합니다. 다른 CPU는 해당 배포판 지원 여부와 설치 형식을 먼저 확인합니다. 일반 PowerShell의 임의 폴더에서 파일명을 바꿔 실행합니다.
+
+```powershell
+$JdkMsi = "$env:USERPROFILE\Downloads\실제파일명.msi"
+Get-FileHash -Algorithm SHA256 -Path $JdkMsi
+```
+
+공식 값과 대조한 뒤 설치 마법사를 실행합니다. 시스템 설치에 필요한 UAC 관리자 승인이 나타날 수 있습니다.
+
+```powershell
+msiexec.exe /i "$JdkMsi"
+```
+
+설치 마법사의 **Custom Setup**에서 설치 경로와 PATH·JAVA_HOME 옵션을 검토합니다. 이 프로젝트 설치를 위해 공용 PATH·JAVA_HOME을 바꾸지 않도록 해당 옵션을 해제합니다. 설치 완료 후 새 PowerShell을 열어 `java -version`, `javac -version`, `$env:JAVA_HOME`을 확인합니다. 이전 버전이 나오면 프로젝트에 필요한 JDK를 [JDK 선택 기준](#터미널ide의-jdk-선택-확인)에 맞춰 지정합니다. [공식 MSI 설치·옵션](https://adoptium.net/installation/windows).
+
+설치 후 [JDK 선택·유지 관리](jdk.md)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
+
+## Linux JDK 설치
+
+공식 배포 페이지에서 Linux·CPU·libc 지원 조건에 맞는 JDK `.tar.gz`를 받습니다. 배포판에 이미 호환 JDK가 있다면 재사용하며 패키지 설치와 이 방식을 중복 적용하지 않습니다. 아래는 관리자 권한 없이 별도 JDK를 보관하는 [공식 아카이브 방식](https://adoptium.net/installation/archives)입니다. 일반 사용자 터미널의 임의 폴더에서 파일명을 바꿉니다.
+
+```bash
+JDK_ARCHIVE="$HOME/Downloads/실제파일명.tar.gz"
+sha256sum "$JDK_ARCHIVE"
+tar -tzf "$JDK_ARCHIVE"
+```
+
+공식 SHA-256과 대조하고 압축 내부의 최상위 폴더명을 확인합니다. 같은 JDK 폴더가 대상 위치에 이미 있으면 덮어쓰지 말고 기존 설치를 먼저 확인합니다.
+
+```bash
+mkdir -p "$HOME/.local/share/jdks"
+tar -xzf "$JDK_ARCHIVE" -C "$HOME/.local/share/jdks"
+export JAVA_HOME="$HOME/.local/share/jdks/실제압축해제폴더명"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+javac -version
+```
+
+`JAVA_HOME`은 `bin/java`가 아니라 그 상위 JDK 루트입니다. 위 선택은 현재 셸에만 적용됩니다. 영구적인 프로젝트 선택은 `.env`에서 관리하고 셸 공용 설정 파일에는 프로젝트 값을 추가하지 않습니다. CI는 같은 아카이브·체크섬 또는 기존 CI의 JDK 설치 기능으로 동일 버전을 선택합니다.
+
+설치 후 [JDK 선택·유지 관리](jdk.md)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
+
 ## OS별 설치
 
 - macOS: Homebrew를 준비한 뒤 [JDK formula 설치](./brew.md#프로젝트용-jdk-설치)를 따릅니다.
-- Windows: [공식 MSI 설치](../00.Setup/Windows_Dev_Setting.md#별도-jdk가-필요한-경우)를 따릅니다.
-- Linux: [공식 아카이브 설치](../00.Setup/Linux_Dev_Setting.md#별도-jdk가-필요한-경우)를 따릅니다.
+- Windows: [공식 MSI 설치](#windows-jdk-설치)를 따릅니다.
+- Linux: [공식 아카이브 설치](#linux-jdk-설치)를 따릅니다.
 
 정상 설치를 관리 방식만 바꾸기 위해 교체하지 않습니다. 새 JDK를 병행 설치하고 사용하는 프로젝트를 검증한 뒤 불필요한 이전 설치만 정리합니다.
 

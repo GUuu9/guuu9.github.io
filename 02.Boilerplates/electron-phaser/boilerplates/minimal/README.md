@@ -1,9 +1,15 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.3.0 -->
 # TypeScript React Phaser Electron Game Starter
 
 통신 프로필: **local-only**. 앱 실행에는 외부 서버가 필요하지 않습니다. 내부 IPC와 개발용 localhost Vite 서버를 사용하며, 외부 API 연동 기능은 포함하지 않습니다. 최초 의존성 설치에는 인터넷 연결이 필요할 수 있습니다.
 
 React 화면에서 연결 확인을 요청하면 Main이 IPC 발신자를 확인하고 1~40자 입력 규칙을 검증한 뒤 인사말이나 오류를 반환하는 최소 데스크톱 앱입니다.
+
+## 설치 명령 전 선행 확인
+
+macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스 동의·최초 초기화를 먼저 완료하고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다. 라이선스 오류가 남아 있으면 Git·nvm·FVM 설치를 계속하지 않습니다. 공통 명령은 [Apple 개발 도구](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 라이선스·초기화](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. CLT만 사용하는 경우 전체 Xcode 전용 명령은 실행하지 않습니다.
+
+필수는 Git → .nvmrc의 Node·npm → 프로젝트 의존성·Electron 실행 환경 순서입니다. 실제 창 실행에는 지원 OS/CPU·GUI·런타임 라이브러리가 필요합니다. 네이티브 모듈의 빌드 도구와 배포 서명 도구는 해당 작업을 할 때 추가하며 기본 로컬 실행에 전체 Xcode·DB·Docker를 강제하지 않습니다.
 
 ## 시작 순서·Node 준비
 

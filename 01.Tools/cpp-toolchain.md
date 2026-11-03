@@ -1,7 +1,30 @@
-<!-- version: v1.2.1 -->
+<!-- version: v1.3.0 -->
 # C/C++ 툴체인·빌드 환경 버전 관리
 
-확인일: 2026-10-28. C/C++는 GCC·Clang·MSVC 컴파일러와 링커·표준 라이브러리·SDK·빌드 도구의 조합을 관리합니다. 모든 OS를 통합하는 nvm 같은 도구를 필수로 추가하지 않고, OS별 병행 설치와 프로젝트 빌드 설정을 사용합니다. 초기 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
+확인일: 2026-10-28. C/C++는 GCC·Clang·MSVC 컴파일러와 링커·표준 라이브러리·SDK·빌드 도구의 조합을 관리합니다. 모든 OS를 통합하는 nvm 같은 도구를 필수로 추가하지 않고, OS별 병행 설치와 프로젝트 빌드 설정을 사용합니다. 설치 순서는 [Setup](../00.Setup/OS_Dev_Setting.md), 실제 설치는 아래 OS별 절차를 따릅니다.
+
+## macOS 초기 도구 확인
+
+Command Line Tools의 Clang을 확인합니다. CMake는 [Homebrew 설치 절차](./brew.md#cmake-설치)에서 준비한 CLI의 인식 여부를 확인합니다. pkgconf는 프로젝트가 요구할 때만 [별도 설치 안내](#macos-cmake와-pkgconf-설치업데이트)를 따릅니다. 아직 프로젝트 빌드 폴더는 만들지 않습니다.
+
+```bash
+clang --version
+cmake --version
+```
+
+## Windows Build Tools 설치
+
+C/C++·Rust MSVC·Electron 네이티브 모듈을 사용하는 경우 개인 PC PowerShell에서 Build Tools를 설치합니다. 설치기가 권한을 요구할 수 있습니다.
+
+```powershell
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget
+```
+
+Visual Studio Installer에서 **Desktop development with C++** 워크로드와 필요한 Windows SDK·MSVC·CMake 도구를 선택합니다. 위 명령만으로 워크로드 전체가 준비되지 않습니다. 설치된 버전의 **Developer PowerShell**에서 `cl`·`cmake --version`으로 도구 인식을 확인합니다. 일반 PowerShell에서 `cl`을 찾지 못한다고 곧바로 재설치하지 않습니다. 프로젝트 빌드는 아래 버전 선택·프리셋 절차를 따릅니다.
+
+## Linux CMake 설치
+
+C/C++가 필요하면 개인 PC 터미널에서 `sudo apt install build-essential cmake pkg-config` 후 `gcc --version`·`cmake --version`을 확인합니다. 프로젝트 빌드 디렉터리는 아직 만들지 않습니다. 프로젝트 버전 선택은 아래 Linux 절차를 따릅니다.
 
 ## 1. 무엇을 고정할 것인가
 

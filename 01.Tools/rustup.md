@@ -1,7 +1,23 @@
-<!-- version: v1.0.1 -->
+<!-- version: v1.1.0 -->
 # rustup — Rust 툴체인 버전 관리
 
-확인일: 2026-10-28. rustup은 Rust 컴파일러(rustc)·Cargo·표준 라이브러리·컴포넌트·타깃을 관리합니다. 프로젝트 패키지인 crate의 버전은 Cargo.toml·Cargo.lock이 관리합니다. OS별 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
+확인일: 2026-10-28. rustup은 Rust 컴파일러(rustc)·Cargo·표준 라이브러리·컴포넌트·타깃을 관리합니다. 프로젝트 패키지인 crate의 버전은 Cargo.toml·Cargo.lock이 관리합니다. OS별 설치는 아래 절차를 따릅니다. 명령은 개인 PC의 임의 폴더에서 일반 사용자로 실행합니다.
+
+## macOS·Linux rustup 설치
+
+[Rust 공식 설치 안내](https://rust-lang.org/tools/install/)에 따라 rustup을 설치합니다.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup show
+```
+
+프로젝트 툴체인 선택·빌드는 [rustup 가이드](rustup.md)을 따릅니다.
+
+## Windows rustup 설치
+
+[Build Tools·MSVC·Windows SDK](./cpp-toolchain.md#windows-build-tools-설치)를 먼저 준비합니다. [공식 Windows rustup-init](https://rust-lang.org/tools/install/)을 실행해 프로젝트 조건에 맞는 MSVC 툴체인을 설치하고 새 일반 PowerShell에서 `rustup show`·`rustc --version`·`cargo --version`을 확인합니다. 설치기의 PATH 안내를 적용하며 기존 Rust를 중복 설치하지 않습니다.
 
 ## 1. 현재 환경 확인
 

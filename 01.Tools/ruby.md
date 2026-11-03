@@ -1,7 +1,36 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.1 -->
 # Ruby·Bundler·CocoaPods 버전 관리
 
-Ruby 프로젝트와 CocoaPods 등 Ruby 기반 도구를 프로젝트별로 복원하는 안내입니다. macOS의 rbenv 최초 설치는 [macOS 초기 준비](../00.Setup/macOS_Common_Dev_Setting.md#ruby-도구가-필요한-경우)를 따릅니다. 기존 Ruby 관리자가 있으면 유지하며 시스템 Ruby에 sudo로 gem을 설치하지 않습니다. Windows·Linux는 [rbenv 지원 환경](https://github.com/rbenv/rbenv#installation)과 해당 프로젝트의 관리 방식을 확인합니다. iOS 로컬 빌드는 macOS·Xcode가 별도로 필요합니다.
+Ruby 프로젝트와 CocoaPods 등 Ruby 기반 도구를 프로젝트별로 복원하는 안내입니다. macOS의 rbenv 최초 설치는 [macOS 초기 준비](#macos-rbenv-최초-설치)를 따릅니다. 기존 Ruby 관리자가 있으면 유지하며 시스템 Ruby에 sudo로 gem을 설치하지 않습니다. Windows·Linux는 [rbenv 지원 환경](https://github.com/rbenv/rbenv#installation)과 해당 프로젝트의 관리 방식을 확인합니다. iOS 로컬 빌드는 macOS·Xcode가 별도로 필요합니다.
+
+## macOS rbenv 최초 설치
+
+macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서)을 마칩니다. Git·Clang에 오류가 없을 때 진행합니다.
+
+CocoaPods·Ruby 프로젝트가 필요할 때만 준비합니다. SwiftPM 전용 프로젝트나 Android 개발만 한다면 설치하지 않습니다.
+
+별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
+
+```bash
+git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
+"$HOME/.rbenv/bin/rbenv" init
+```
+
+`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
+
+```bash
+rbenv --version
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
+rbenv install -l
+```
+
+Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
+
+```bash
+brew install openssl@3 readline libyaml gmp autoconf
+```
+
+프로젝트 Ruby·Bundler·CocoaPods 선택과 복원·업데이트·제거는 [Ruby 도구 관리](ruby.md)를 따릅니다. 초기 PC 준비에서 모든 프로젝트용 Ruby·gem을 일괄 설치하지 않습니다.
 
 ## 프로젝트 Ruby 선택·복원
 

@@ -1,4 +1,4 @@
-<!-- version: v1.5.1 -->
+<!-- version: v1.5.2 -->
 # Android 프로젝트 빌드·버전 관리
 
 Flutter 앱의 Android 빌드가 PC·IDE 업데이트 뒤 깨지거나 새 개발 PC에서 재현되지 않을 때 사용하는 가이드입니다. 개인 PC의 macOS·Windows·Linux와 CI에서 **기존 프로젝트가 사용하는 버전 조합을 먼저 복원**합니다. Flutter 선택은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands), 기기 연결은 [Android 실기기 연결 공식 안내](https://developer.android.com/studio/run/device)을 따릅니다. 아래 명령은 별도 표시가 없으면 Flutter 프로젝트 루트의 일반 사용자 터미널에서 실행합니다. 아래는 기본 FVM 명령입니다. 선택적 프로젝트 실행기를 도입한 경우에만 해당 호출로 대체합니다. `android` 폴더의 직접 Wrapper 호출은 작업 셸 환경을 상속합니다.
@@ -49,7 +49,7 @@ Windows PowerShell에서는 프로젝트의 `android` 폴더로 이동해:
 
 ## JDK 설치·선택
 
-호환 JDK가 이미 있으면 재사용합니다. 별도 설치가 필요하면 저장소의 `00.Setup/` OS별 설치 안내와 `01.Tools/jdk.md`의 공통 관리 절차를 먼저 확인합니다. macOS는 Homebrew의 요구 major formula, Windows는 [공식 MSI](https://adoptium.net/installation/windows), Linux는 [공식 아카이브](https://adoptium.net/installation/archives)를 사용하며 중복 설치하지 않습니다. 이 패키지만 가져온 경우에도 해당 공식 안내에서 OS·CPU 조건을 확인할 수 있습니다.
+호환 JDK가 이미 있으면 재사용합니다. 별도 설치가 필요하면 저장소의 `00.Setup/` OS별 설정 순서와 `01.Tools/jdk.md`의 OS별 설치·공통 관리 절차를 먼저 확인합니다. macOS는 Homebrew의 요구 major formula, Windows는 [공식 MSI](https://adoptium.net/installation/windows), Linux는 [공식 아카이브](https://adoptium.net/installation/archives)를 사용하며 중복 설치하지 않습니다. 이 패키지만 가져온 경우에도 해당 공식 안내에서 OS·CPU 조건을 확인할 수 있습니다.
 
 설치 후 [프로젝트 환경 정의·격리](./project-environment.md)에 실제 JAVA_HOME을 기록하고 작업 셸에서 선택합니다. 공용 셸 설정이나 다른 프로젝트의 JDK를 바꾸지 않습니다. macOS Homebrew JDK는 `$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home`처럼 실제 formula 경로를 사용하며, 17은 프로젝트 요구 버전으로 바꿉니다.
 

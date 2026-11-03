@@ -6,8 +6,8 @@
 
 | 폴더 | 목적 | 시작 문서 |
 | :--- | :--- | :--- |
-| 00.Setup | PC 초기화 후 개발 환경 설치·복원·업데이트 | [OS별 설정](./00.Setup/OS_Dev_Setting.md) |
-| 01.Tools | 개발 도구의 용도·사용법·버전 관리 | [도구 목록](./01.Tools/README.md) |
+| 00.Setup | PC 최초 설정·재설정의 필수/선택 순서 | [OS별 설정](./00.Setup/OS_Dev_Setting.md) |
+| 01.Tools | 개발 도구의 OS별 설치·설정·사용법·버전 관리 | [도구 목록](./01.Tools/README.md) |
 | 02.Boilerplates | 프로젝트 구조·파일명·개발 규칙·AGENTS.md | [보일러플레이트 목록](./02.Boilerplates/README.md) |
 | 03.Utilities | 편의 앱의 설치·실행·업데이트 | [유틸리티 목록](./03.Utilities/README.md) |
 | 04.Servers | 외부 서버 구축·작업 영역 제공·운영 | [서버 목록](./04.Servers/README.md) |
@@ -16,12 +16,12 @@
 
 ## 00.Setup — PC 개발 환경
 
-- macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 초기 설치](./00.Setup/macOS_Common_Dev_Setting.md)
-- macOS 설치 이후: [프로젝트 작업·업데이트 안내](./00.Setup/macOS_Common_Dev_Setting.md#프로젝트-작업-안내)에서 해당 Tools 문서로 이동
+- macOS: [Apple Silicon](./00.Setup/macOS_AppleSilicon_Dev_Setting.md) · [Intel](./00.Setup/macOS_Intel_Dev_Setting.md) → [공통 설정](./00.Setup/macOS_Common_Dev_Setting.md)
+- macOS 설치 이후: [프로젝트 시작·업데이트 안내](00.Setup/macOS_Common_Dev_Setting.md#프로젝트-시작업데이트)에서 해당 Tools 문서로 이동
 - [Windows 11](./00.Setup/Windows_Dev_Setting.md)
 - [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
 
-각 OS 문서에서 프로젝트 없이 도구를 먼저 설치·확인한 뒤 Tools의 프로젝트 복원 절차로 이동합니다. 기존 프로젝트의 요구 버전과 잠금 파일을 우선합니다.
+각 OS 문서에서 필수·선택 도구와 순서를 확인하고, 연결된 Tools에서 설치·설정을 진행합니다. 새 프로젝트는 보일러플레이트의 시작 가이드, 기존 프로젝트는 Tools의 버전 선택·복원 절차로 이동합니다. 기존 프로젝트의 요구 버전과 잠금 파일을 우선합니다.
 
 ## 01.Tools — 개발 도구
 

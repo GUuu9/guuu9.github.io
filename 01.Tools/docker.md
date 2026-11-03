@@ -1,8 +1,98 @@
-<!-- version: v1.3.1 -->
+<!-- version: v1.4.0 -->
 <!-- {% raw %} -->
 # Docker·Compose 사용 가이드
 
-확인일: 2026-10-28. Docker Desktop을 실행하고 주로 터미널에서 컨테이너를 관리하는 로컬 개발 기준입니다. 설치·OS별 지원 조건은 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
+확인일: 2026-10-28. Docker Desktop을 실행하고 주로 터미널에서 컨테이너를 관리하는 로컬 개발 기준입니다. 설치·OS별 지원 조건은 아래 설치 절차를 참고합니다. 명령은 개인 PC의 임의 폴더에서 일반 사용자로 실행하며 관리자 작업은 별도 표시합니다.
+
+## macOS Docker Desktop 설치
+
+먼저 macOS 버전·CPU와 [공식 지원 조건](https://docs.docker.com/desktop/setup/install/mac-install/#system-requirements)을 확인합니다. **Intel·Ventura 13.7.8은 최신 버전을 설치할 수 없으므로 [4.48.0 설치 안내](#intel-ventura의-docker-desktop-4480)를 따릅니다.**
+
+지원되는 환경은 [공식 Mac 설치 페이지](https://docs.docker.com/desktop/setup/install/mac-install/)에서 칩에 맞는 Docker Desktop을 설치합니다. 앱을 실행해 초기 설정을 끝내고 엔진이 준비될 때까지 기다립니다. CLI만 설치해서는 로컬 컨테이너를 실행할 수 없습니다.
+
+```bash
+docker version
+docker compose version
+docker run --rm hello-world
+```
+
+hello-world는 Docker 엔진 확인용이며 이미지 다운로드가 필요합니다. 실제 프로젝트의 Compose·볼륨·터미널 접속·Dev Containers 설정은 [Docker 가이드](docker.md)에서 진행합니다.
+
+## Windows Docker Desktop·WSL 설치
+
+[공식 Windows 지원 조건](https://docs.docker.com/desktop/setup/install/windows-install/)의 Windows 빌드·가상화·WSL 버전 요구 조건을 먼저 확인합니다. 필요한 경우 **관리자 PowerShell**에서 WSL을 설치·갱신하고 요구되는 재시작을 완료합니다. 아래는 사용자 배포판을 추가하지 않는 예시입니다.
+
+```powershell
+wsl --install --no-distribution
+wsl --update
+wsl --status
+```
+
+[Microsoft WSL 명령 안내](https://learn.microsoft.com/en-us/windows/wsl/basic-commands). 이미 구성되어 있으면 재설치하지 않고 상태를 확인합니다. Windows x86_64 공식 Docker Desktop을 설치하고 WSL2 백엔드의 Linux 컨테이너 환경으로 실행합니다. 엔진 준비 후 일반 PowerShell에서 확인합니다.
+
+```powershell
+docker context ls
+docker context show
+docker version
+docker compose version
+docker run --rm hello-world
+```
+
+Windows 컨테이너가 필요하면 별도 지원 조건·설치 모드를 확인합니다. 위 Linux 컨테이너 구성과 구분합니다.
+
+#### WSL에서 개발할 때만
+
+개인 PC PowerShell에서 `wsl --list --online`으로 배포판을 확인하고 선택한 배포판을 설치합니다. 예를 들어 Ubuntu가 목록에 있으면 `wsl --install -d Ubuntu`를 사용하고 Linux 사용자 생성을 마칩니다.
+
+WSL 안의 도구는 [Linux 문서](../00.Setup/Linux_Dev_Setting.md)를 따르되, VS Code는 Windows 설치본과 WSL 확장으로 연결하고 Docker는 Windows Docker Desktop의 해당 배포판 통합을 사용합니다. Linux GUI 앱·Docker Desktop을 중복 설치하지 않습니다. 소스는 Linux 홈 파일시스템에 두고 Windows의 `node_modules`·`.venv`를 공유하지 않습니다. Codex·Ponytail도 WSL에서 쓰려면 해당 환경에 별도 설치·인증합니다. Windows에 연결한 Android USB 기기가 WSL에 자동 전달된다고 가정하지 않습니다.
+
+## Linux Docker Desktop 설치
+
+[공식 Linux 지원 조건](https://docs.docker.com/desktop/setup/install/linux/)에서 지원 배포판·x86_64·KVM 조건을 확인한 뒤 해당 [Ubuntu](https://docs.docker.com/desktop/setup/install/linux/ubuntu/) 또는 [Debian](https://docs.docker.com/desktop/setup/install/linux/debian/) 패키지 설치 절차를 따릅니다. 앱을 실행해 엔진이 준비된 뒤 확인합니다.
+
+```bash
+docker context ls
+docker context show
+docker version
+docker compose version
+docker run --rm hello-world
+```
+
+Desktop은 별도 VM·`desktop-linux` context를 사용하며 호스트 Engine의 이미지·컨테이너·볼륨을 자동 공유하지 않습니다. 포트 충돌을 피하도록 사용할 엔진을 구분합니다. GUI 없는 서버에는 Desktop 대신 [Docker Engine](https://docs.docker.com/engine/install/)과 [서버 가이드](../04.Servers/docker-server/README.md)를 사용합니다. WSL에서는 Windows Docker Desktop 통합을 사용하며 Linux Desktop을 중복 설치하지 않습니다.
+
+## Intel Ventura의 Docker Desktop 4.48.0
+
+2026-10-30 확인: 이 Mac은 `macOS 13.7.8`·`x86_64`입니다. Docker Desktop **4.48.0(빌드 207573)**은 macOS 13에 설치 가능한 마지막 버전입니다. [4.48.0 공식 릴리스 노트](https://docs.docker.com/desktop/release-notes/#4480)는 다음 릴리스부터 macOS 14가 필요하다고 명시합니다. 최신 Intel 배포판을 받거나 Homebrew로 설치 경로만 바꿔도 OS 요구 조건은 해결되지 않습니다.
+
+#### 설치 파일 선택·검증
+
+개인 Mac에서 다음 순서로 진행합니다. Homebrew는 필요하지 않습니다.
+
+1. 기존 Docker 데이터가 있다면 먼저 백업합니다. 실행 가능한 환경에서는 [Docker 가이드](docker.md)의 이미지·볼륨 백업을 따릅니다. 앱이 시작되지 않으면 Docker를 완전히 종료한 상태에서 `~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw`를 별도 위치에 복사합니다. 디스크 위치를 변경했다면 실제 위치를 사용하며, bind mount의 호스트 파일은 별도 보관합니다. [공식 백업·복원 안내](https://docs.docker.com/desktop/settings-and-maintenance/backup-and-restore/).
+2. [Docker Desktop 4.48.0 Intel 공식 DMG](https://desktop.docker.com/mac/main/amd64/207573/Docker.dmg)를 내려받습니다. arm64 또는 버전이 고정되지 않은 최신 `Docker.dmg` 링크와 구분합니다.
+3. 내려받은 파일의 SHA-256을 [동일 빌드 공식 체크섬](https://desktop.docker.com/mac/main/amd64/207573/checksums.txt)과 비교합니다. 아래 명령은 파일이 `~/Downloads/Docker.dmg`에 있을 때의 예시이며 실제 저장 경로·파일명에 맞춥니다.
+
+```bash
+shasum -a 256 ~/Downloads/Docker.dmg
+```
+
+확인 당시 공식 SHA-256:
+
+```text
+fac73a1edc91e6bce5a449e83e3d0b537f19df74c5f51af4705e479cf0d32515
+```
+
+체크섬이 다르면 설치하지 않고 다운로드 출처·파일을 다시 확인합니다. 위 주소는 확인일에 HTTP 200으로 응답했지만, Docker는 오래된 설치 파일의 제공을 중단할 수 있습니다. 링크가 사라지면 임의 미러의 파일을 기본 대안으로 사용하지 않습니다.
+
+#### 설치·실행·업데이트 주의
+
+1. 기존 Docker와 이를 사용하는 도구를 종료합니다. DMG를 열고 Docker.app을 Applications로 옮깁니다. 기존 앱 교체는 데이터 백업을 마친 뒤 진행합니다. 더 최신 버전에서 사용한 데이터 디스크의 하위 버전 호환성은 보장하지 않습니다.
+2. Docker.app을 실행하고 초기 설정·필요한 권한 안내를 완료합니다. 엔진이 준비되면 [공통 설치 문서의 확인 명령](#macos-docker-desktop-설치)을 실행합니다. `docker version`에 Client와 Server가 모두 표시되어야 합니다. Docker Desktop 앱 버전 4.48.0과 포함된 Engine·Compose 버전은 서로 다릅니다.
+3. 앱의 업데이트 설정에서 자동 다운로드·자동 설치 항목이 있으면 끄고 4.48.0을 유지합니다. macOS 13에서는 최신 버전 업데이트를 수락하지 않습니다. 새 버전 전환 전에는 OS 요구 조건과 데이터 백업을 다시 확인합니다.
+
+이 방법은 **지원이 종료된 구버전으로 로컬 개발 환경을 복원하는 방법**입니다. 최신 보안 수정은 포함되지 않습니다. 장기 사용은 해당 Mac에서 공식 지원하는 macOS로 업그레이드한 뒤 지원되는 Docker Desktop을 설치하거나, [Linux Docker 서버](../04.Servers/docker-server/README.md)에서 작업하고 Mac은 SSH·VS Code로 접속하는 구성을 검토합니다. 서버의 볼륨과 소스는 Mac의 기존 로컬 데이터와 별개입니다.
+
+검증 범위: 현재 Mac의 OS·CPU, 공식 지원 변경 내용, DMG HTTP 응답과 공식 체크섬 조회를 확인했습니다. 설치 파일 전체 다운로드·서명 검사·설치·엔진 실행·기존 데이터 복원은 수행하지 않았습니다.
 
 ## 1. 용도와 구성 요소
 

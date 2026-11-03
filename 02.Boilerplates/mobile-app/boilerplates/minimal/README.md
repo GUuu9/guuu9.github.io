@@ -2,6 +2,12 @@
 
 Flutter 3.35.7 기반 Android·iOS용 최소 MVVM 샘플이다. 고정 인사말을 불러오는 버튼 하나로 DI 조립, ViewModel 상태, View 갱신과 오류 처리를 확인한다.
 
+## 설치 명령 전 선행 확인
+
+macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스 동의·최초 초기화를 먼저 완료하고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다. 라이선스 오류가 남아 있으면 Git·nvm·FVM 설치를 계속하지 않습니다. 공통 명령은 [Apple 개발 도구](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 라이선스·초기화](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. CLT만 사용하는 경우 전체 Xcode 전용 명령은 실행하지 않습니다.
+
+필수는 Git → FVM·프로젝트 Flutter SDK이며 Dart는 포함됩니다. Android 대상은 SDK·호환 JDK, iOS 대상은 Mac·전체 Xcode가 추가 필수입니다. CocoaPods를 사용할 때만 Ruby·Bundler·CocoaPods를 준비합니다. 편집기 확장은 IDE 선택에 따라 설치합니다.
+
 ## 처음 시작할 때
 
 유형 패키지 전체가 있다면 유형 패키지의 시작 가이드에서 다운로드·새 폴더 복사·플랫폼 도구 설치·프로젝트 환경 적용을 먼저 진행한다. 이 minimal 폴더만 받은 경우에도 아래 준비 조건을 확인한 뒤 복원·검사·기기 실행 순서로 읽는다. FVM이 없다면 macOS·Linux의 일반 터미널에서 `curl -fsSL https://fvm.app/install.sh | bash`로 공식 설치하고 새 터미널에서 `fvm --version`을 확인한다. Windows 독립 설치와 지원 조건은 [FVM 공식 안내](https://fvm.app/documentation/getting-started/installation)를 따른다.

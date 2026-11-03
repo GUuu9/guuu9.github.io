@@ -1,9 +1,22 @@
-<!-- version: v1.4.2 -->
+<!-- version: v1.5.0 -->
 # GitHub 운영 및 프로젝트 협업 가이드
 
 본 문서는 프로젝트의 초기 설정부터 일상적인 개발 작업, 협업 전략, 그리고 저장소 최적화 및 문제 해결까지의 과정을 상황별 흐름에 따라 정리한 기술 매뉴얼입니다.
 
 ---
+
+## Windows Git 설치
+
+[Git 공식 Windows 설치 안내](https://git-scm.com/install/windows)의 배포처를 사용합니다.
+
+[Windows 기본 환경·PATH](./shell-environment.md#windows-환경-변수path)를 먼저 확인합니다. 기존 도구는 `Get-Command`·`where.exe`로 설치 경로를 확인하고 개인 PC의 일반 PowerShell에서 진행합니다.
+
+```powershell
+winget --version
+winget install --id Git.Git -e --source winget
+```
+
+설치기가 권한을 요구하면 해당 설치에 한해 승인합니다. 새 PowerShell에서 `git --version`을 확인합니다.
 
 ## 1단계: 프로젝트 시작하기 (Initial Setup)
 
@@ -280,7 +293,7 @@ export default defineConfig({
 3. 배포가 완료되면 상단에 생성된 URL을 확인합니다.
 
 #### 6.1.5 주의사항 (SPA 라우팅)
-- GitHub Pages는 SPA의 클라이언트 사이드 라우팅을 기본적으로 지원하지 않습니다. 
+- GitHub Pages는 SPA의 클라이언트 사이드 라우팅을 기본적으로 지원하지 않습니다.
 - 이를 해결하기 위해 `dist/index.html`을 복사하여 `dist/404.html`을 생성하는 트릭이 필요할 수 있습니다.
 
 ## 7. Git 태그(Tag) 관리 및 GitHub Release
@@ -371,3 +384,5 @@ git restore --staged 파일명
 공식 참고: [Git 명령](https://git-scm.com/docs), [restore](https://git-scm.com/docs/git-restore), [reflog](https://git-scm.com/docs/git-reflog), [GitHub PR](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request).
 
 제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.
+
+Windows winget으로 설치한 Git은 개인 PowerShell에서 `winget upgrade --id Git.Git -e`로 개별 갱신할 수 있습니다. 설치 경로·인증 관리와 프로젝트 호환성을 먼저 확인하고 필요한 관리자 권한은 설치기 안내를 따릅니다.

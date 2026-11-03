@@ -1,12 +1,40 @@
-<!-- version: v1.9.1 -->
+<!-- version: v1.10.1 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
 
+## macOS·Linux FVM 설치
+
+macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서)을 마칩니다. Git·Clang에 오류가 없을 때 진행합니다.
+
+개인 PC의 일반 사용자 터미널에서 임의 폴더에서 진행합니다. Linux도 같은 독립 설치 스크립트를 사용하며 CPU·배포판 지원 조건과 설치 결과의 PATH 안내를 확인합니다.
+
+[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에 따라 설치합니다.
+
+```bash
+curl -fsSL https://fvm.app/install.sh | bash
+```
+
+설치 결과의 PATH 안내를 적용하고 새 터미널에서 `fvm --version`을 확인합니다.
+
+기존 Intel MacBook 환경만 Flutter SDK 3.35.7이 복원 기준입니다. SDK를 미리 내려받아 두려면 아래 명령만 실행합니다. 프로젝트 선택 파일 `.fvmrc`는 만들지 않습니다.
+
+```bash
+fvm install 3.35.7
+```
+
+다른 환경은 이 버전을 일괄 적용하지 않고 프로젝트 복원 시 요구 SDK를 선택합니다. `fvm use`·pub get·doctor·실기기 빌드는 [FVM 가이드](#macos-실기기-프로젝트-연결)에서 진행합니다.
+
+## Windows FVM 설치
+
+[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에서 연결된 공식 Releases의 Windows·CPU에 맞는 독립 패키지를 사용합니다. 사용자 쓰기 권한이 있는 경로에 풀고 실행 파일이 있는 폴더를 사용자 PATH에 추가합니다. 새 PowerShell에서 `fvm --version`을 확인합니다.
+
+SDK 링크 생성에 권한이 필요하면 Windows 개발자 모드의 심볼릭 링크 지원과 FVM 안내를 확인합니다. SDK 사전 다운로드는 요구 버전으로 `fvm install 버전`을 사용하되 프로젝트가 없는 폴더에서 `fvm use`로 `.fvmrc`를 만들지 않습니다. Intel Mac 전용 Flutter 3.35.7 고정을 Windows 전체에 적용하지 않습니다.
+
 ## 관리하는 것과 필요한 외부 도구
 
 > [!IMPORTANT]
-> FVM은 Flutter SDK를 관리하지만 Android SDK·JDK·Xcode·CocoaPods·서명 계정을 설치해 주지는 않습니다. 실기기 환경은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 먼저 진행합니다. iOS 로컬 빌드·서명에는 Mac과 Xcode가 필요합니다.
+> FVM은 Flutter SDK를 관리하지만 Android SDK·JDK·Xcode·CocoaPods·서명 계정을 설치해 주지는 않습니다. 실기기 환경은 [Android Studio·SDK](./android-studio.md) 또는 [Xcode](./xcode.md)를 먼저 준비합니다. iOS 로컬 빌드·서명에는 Mac과 Xcode가 필요합니다.
 
 ## SDK 찾기와 설치
 
@@ -36,7 +64,7 @@ Android Studio에서 새 앱을 만들 때는 아래 [프로젝트 생성·SDK �
 
 ## Android Studio에서 새 Flutter 프로젝트 생성
 
-개인 PC의 macOS·Windows·Linux에서 Android Studio로 Flutter 코드를 작성하거나 새 앱을 만들 때 진행합니다. [OS별 초기 설치](../00.Setup/OS_Dev_Setting.md)의 FVM·Android Studio를 먼저 준비합니다. Android SDK 관리만 한다면 Flutter 플러그인은 필수가 아닙니다.
+개인 PC의 macOS·Windows·Linux에서 Android Studio로 Flutter 코드를 작성하거나 새 앱을 만들 때 진행합니다. 이 문서의 FVM 설치와 [Android Studio·SDK 설치](./android-studio.md)를 먼저 완료합니다. Android SDK 관리만 한다면 Flutter 플러그인은 필수가 아닙니다.
 
 ### Flutter·Dart 플러그인 준비
 
@@ -141,7 +169,7 @@ Android 기기 빌드 확인은 `fvm flutter build apk`, iOS는 Mac에서 프로
 
 ## Android 프로젝트 연결·환경 변수
 
-macOS·Windows·Linux 모두 위 [기존 프로젝트 복원](#기존-프로젝트-복원)으로 SDK 선택·pub get을 마친 뒤 진행합니다. Android Studio SDK Manager에서 프로젝트 compileSdk·빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택하고 AVD·시스템 이미지는 필요할 때만 설치합니다. USB 드라이버·udev 권한 등 OS별 준비는 [Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다.
+macOS·Windows·Linux 모두 위 [기존 프로젝트 복원](#기존-프로젝트-복원)으로 SDK 선택·pub get을 마친 뒤 진행합니다. Android Studio SDK Manager에서 프로젝트 compileSdk·빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택하고 AVD·시스템 이미지는 필요할 때만 설치합니다. USB 드라이버·udev 권한 등 OS별 준비는 [Android Studio·SDK](./android-studio.md)를 따릅니다.
 
 FVM은 Flutter SDK만 선택하며 Gradle·AGP·JDK·Android SDK를 함께 고정하지 않습니다. 기존 프로젝트의 Wrapper·플러그인 선언·CI를 우선하고 실제 JDK는 `fvm flutter doctor -v`로 확인합니다. mobile-app 샘플을 적용하는 경우의 상세 예시는 [프로젝트 Android 빌드 관리](../02.Boilerplates/mobile-app/docs/android-build.md)에 있습니다.
 
@@ -157,7 +185,7 @@ SDK Manager에 표시된 **Android SDK Location**이 기준입니다. 아래는 
 
 SDK를 자동 탐지한다면 별도 환경 변수는 필수가 아닙니다. 다른 CLI가 요구하면 `ANDROID_HOME`에 **SDK 루트**를 지정하고, adb를 경로 없이 실행할 때만 PATH에 그 아래 `platform-tools`를 추가합니다. `ANDROID_SDK_ROOT`는 폐기 예정 변수이므로 새로 추가하지 않습니다. 이미 있다면 두 값이 같은 SDK를 가리키는지 확인합니다.
 
-아래는 **macOS 기본 경로를 현재 zsh에 적용**하는 예시입니다. Linux는 SDK Manager에서 기본 경로를 확인한 뒤 첫 줄을 `export ANDROID_HOME="$HOME/Android/Sdk"`로 바꿉니다. 영구 적용은 OS별 Setup의 환경 변수 안내에 따라 설정 파일에 한 번만 추가합니다.
+아래는 **macOS 기본 경로를 현재 zsh에 적용**하는 예시입니다. Linux는 SDK Manager에서 기본 경로를 확인한 뒤 첫 줄을 `export ANDROID_HOME="$HOME/Android/Sdk"`로 바꿉니다. 영구 적용은 [셸·환경 변수 안내](./shell-environment.md)에 따라 설정 파일에 한 번만 추가합니다.
 
 ```bash
 export ANDROID_HOME="$HOME/Library/Android/sdk"
@@ -191,7 +219,7 @@ fvm flutter devices
 
 ## macOS 실기기 프로젝트 연결
 
-FVM·Android Studio 준비는 [macOS 초기 설치](../00.Setup/macOS_Common_Dev_Setting.md#4-flutter-도구-fvmandroid-studioxcode)를 먼저 완료합니다. Android만 개발한다면 전체 Xcode·CocoaPods·Apple 서명 계정은 필요하지 않습니다. iOS를 개발할 때 Xcode 초기화까지 진행합니다. 아래 작업은 프로젝트를 내려받은 뒤 해당 루트에서 진행합니다. SDK 선택·pub get은 위 [기존 프로젝트 복원](#기존-프로젝트-복원)을 따릅니다.
+위 FVM 설치와 [macOS Android Studio 설치](./android-studio.md#macos-android-studio-설치)를 먼저 완료합니다. Android만 개발한다면 전체 Xcode·CocoaPods·Apple 서명 계정은 필요하지 않습니다. iOS를 개발할 때 Xcode 초기화까지 진행합니다. 아래 작업은 프로젝트를 내려받은 뒤 해당 루트에서 진행합니다. SDK 선택·pub get은 위 [기존 프로젝트 복원](#기존-프로젝트-복원)을 따릅니다.
 
 ### Android
 

@@ -1,9 +1,24 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.1.0 -->
 # Mobile-app 빌드 산출물·스토어 배포
 
 Android·iOS 앱의 로컬 검증을 마친 뒤 배포할 때 읽습니다. [시작 가이드](./getting-started.md)와 [Android](./android-build.md)·[iOS](./ios-build.md)의 호환 환경을 먼저 준비합니다. 아래 명령은 복사한 Flutter 프로젝트 루트의 일반 사용자 터미널 기준입니다. iOS는 Mac이 필요하며 CocoaPods 사용 시 iOS 명령에 `bundle exec`를 붙입니다. flavor·진입점이 있는 제품은 기존 CI의 인자를 함께 사용합니다.
 
 현재 샘플은 스토어 제출용 완성 구성이 아닙니다. Android release가 debug 키를 사용하므로 배포 전에 교체해야 합니다. iOS 배포 계정·서명도 별도 준비가 필요합니다. 여기서는 절차만 설명하며 실제 등록·결제·업로드를 수행하지 않습니다.
+
+## 서비스 OS 지원 범위
+
+개발 Mac의 macOS와 **앱이 설치되는 Android/iOS**를 구분합니다. 아래 최소값은 현재 파일·고정 SDK의 설정 기준이며 서비스 동작 보장이 아닙니다. 최종 앱의 manifest·번들 메타데이터와 플러그인 요구 조건도 대조해야 합니다.
+
+| 서비스 대상 | 현재 최소 OS 기준 | 최대 지원 OS | 실제 검증 범위·상태 |
+| :--- | :--- | :--- | :--- |
+| Android | Android 7.0·API 24. `minSdk = flutter.minSdkVersion`과 Flutter 3.35.7의 기본값 | 서비스 정책 미확정. 샘플에 maxSdkVersion 미선언 | APK·AAB 빌드와 실기기 미검증. 지원 확정 전 최소 OS·최신 대상으로 검증 필요 |
+| iOS | iOS 13.0. Runner의 IPHONEOS_DEPLOYMENT_TARGET 및 AppFrameworkInfo.plist의 MinimumOSVersion | 서비스 정책 미확정. 배포 가능한 최신 OS와 검증한 최고 OS를 별도 기록 | Simulator·실기기·서명 archive 미검증 |
+
+Android 값의 근거는 [Flutter 3.35.7의 FlutterExtension](https://github.com/flutter/flutter/blob/3.35.7/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt)입니다. 같은 SDK의 compileSdk·targetSdk 기본값은 36이며 **최대 실행 OS가 아닙니다**. 샘플의 AGP 호환성 제약은 [Android 버전 조합](./android-build.md#호환되는-버전-조합-고르기)을 확인합니다. [Android min/target/max 구분](https://developer.android.com/guide/topics/manifest/uses-sdk-element)에 따라 검증한 최고 OS를 기록하려고 maxSdkVersion을 새로 추가하지 않습니다.
+
+[Flutter 현재 지원 표](https://docs.flutter.dev/reference/supported-platforms)는 표시된 Flutter 버전의 정책입니다. 이를 고정된 3.35.7의 지원 범위로 그대로 옮기지 않습니다. Flutter·플러그인·Xcode를 바꾸면 최소 OS가 높아질 수 있으므로 각 릴리스에서 앱 설정·네이티브 의존성·실제 산출물을 다시 확인합니다.
+
+개발 환경은 기존 기록상 macOS 13.7.8·Intel x86_64에서 Flutter 분석·테스트를 확인한 범위입니다. 이것은 iOS 서비스 지원 범위나 현재 App Store 제출 가능한 Xcode·SDK 조건이 아닙니다. OS를 올리지 못하면 지원되는 별도 빌드 환경이 필요한지도 검토합니다.
 
 ## 1. 앱 식별자·버전·의존성 확정
 
@@ -71,3 +86,5 @@ AAB·APK·IPA·archive를 소스와 구분해 접근 제한된 릴리스 저장�
 업데이트는 정상 소스·잠금 파일·도구 조합에서 새 버전/빌드번호로 생성해 테스트 트랙·TestFlight를 먼저 확인합니다. 배포 중 문제가 생기면 가능한 출시 중단 수단을 확인하고 수정 빌드를 새 번호로 제출합니다. 이미 설치된 앱을 과거 바이너리로 자동 되돌릴 수 있다고 가정하지 않습니다. 서버 API·로컬 데이터 마이그레이션의 하위 호환도 검사합니다. keystore·서명 자격·과거 archive를 빌드 캐시와 함께 삭제하지 않습니다.
 
 확인일: 2026-11-03. 공식 문서와 샘플 설정을 대조했습니다. release 빌드·서명·스토어 등록·업로드·심사는 미검증입니다.
+
+OS 범위 확인일: 2026-11-03. 저장소 설정과 고정 버전의 공식 근거를 대조했으며 최소·최대 OS에서 새 실행 검증은 수행하지 않았습니다.

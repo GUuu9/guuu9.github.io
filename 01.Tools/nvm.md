@@ -1,7 +1,57 @@
-<!-- version: v1.2.2 -->
+<!-- version: v1.3.1 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
+
+## macOS nvm 설치
+
+macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서)을 마칩니다. Git·Clang에 오류가 없을 때 진행합니다.
+
+먼저 [macOS 셸·PATH](./shell-environment.md#macos-셸path-준비)를 준비합니다. nvm은 [공식 설치 스크립트](https://github.com/nvm-sh/nvm#installing-and-updating)로 설치합니다. 다른 경로의 Node.js를 중복 설치하지 않습니다.
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE="$HOME/.zshrc" bash
+source ~/.zshrc
+command -v nvm
+nvm install --lts
+node --version
+npm --version
+```
+
+설치 스크립트가 `~/.zshrc`에 nvm 초기화 설정을 추가합니다. 인식되지 않으면 새 터미널을 열어 확인합니다.
+
+위 LTS는 프로젝트가 없는 상태의 기본 Node입니다. 기존 프로젝트의 Node 버전 선택과 npm 의존성 복원은 [nvm 가이드](#macoslinux-기본-흐름)에서 진행합니다.
+
+## Linux nvm 설치
+
+[공식 nvm 설치 스크립트](https://github.com/nvm-sh/nvm#installing-and-updating)를 사용합니다. 아래는 **bash** 기준입니다.
+
+```bash
+touch ~/.bashrc
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE="$HOME/.bashrc" bash
+source ~/.bashrc
+command -v nvm
+nvm install --lts
+node --version
+npm --version
+```
+
+LTS는 프로젝트가 없는 초기 기본값입니다. apt의 Node와 중복 설치하거나 `sudo npm`을 사용하지 않습니다. 프로젝트별 버전 선택은 [nvm](#macoslinux-기본-흐름)에서 진행합니다.
+
+## Windows nvm-windows 설치
+
+[nvm-windows 공식 Releases](https://github.com/coreybutler/nvm-windows/releases)의 설치 프로그램을 사용합니다. 기존 단독 Node가 있다면 버전·전역 패키지를 기록하고 [공식 마이그레이션 안내](https://github.com/coreybutler/nvm-windows#installation--upgrades)에 따라 설치 경로·심볼릭 링크 충돌을 정리합니다. 새 PowerShell에서 확인합니다.
+
+```powershell
+nvm version
+nvm list available
+nvm install lts
+nvm list
+```
+
+목록에 표시되는 **정확한 설치 버전**으로 `nvm use 버전`을 실행합니다. 심볼릭 링크 변경에 권한이 필요하면 이 명령을 관리자 PowerShell에서 실행합니다. 이후 새 일반 PowerShell에서 `node --version`·`npm --version`을 확인합니다. LTS는 프로젝트가 없는 초기 기본값이며 프로젝트별 버전은 [nvm Windows 흐름](#windows-기본-흐름)에서 선택합니다.
+
+nvm-windows는 Unix nvm과 별개입니다. `nvm alias default`·`.nvmrc` 자동 적용을 전제하지 않으며 전환은 다른 Windows 셸에도 영향을 줄 수 있습니다. `npm.ps1`이 정책으로 차단되면 `npm.cmd`를 사용하고 조직의 실행 정책을 전역 해제하지 않습니다. [Microsoft Node.js 안내](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
 
 ## 두 도구의 차이
 
@@ -13,7 +63,7 @@
 | 기본값 | `nvm alias default 버전` | Unix alias 명령을 사용하지 않음 |
 
 > [!IMPORTANT]
-> WSL은 Windows nvm-windows 대신 WSL 내부에 Unix nvm을 설치합니다. OS별 설치는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참고합니다.
+> WSL은 Windows nvm-windows 대신 WSL 내부에 Unix nvm을 설치합니다. 설치는 이 문서의 OS별 설치 절차를 따릅니다.
 
 ## macOS·Linux 기본 흐름
 
@@ -22,7 +72,7 @@ nvm --version
 nvm ls
 ```
 
-초기 기본 Node 설치는 Setup에서 완료합니다. 기존 프로젝트를 복원할 때는 최신 LTS를 추가 설치하지 않고 요구 버전을 먼저 선택합니다. `.nvmrc`가 있으면 프로젝트 루트에서:
+초기 설치는 위 OS별 절차에서 진행합니다. 기존 프로젝트를 복원할 때는 최신 LTS를 추가 설치하지 않고 요구 버전을 먼저 선택합니다. `.nvmrc`가 있으면 프로젝트 루트에서:
 
 ```bash
 nvm install

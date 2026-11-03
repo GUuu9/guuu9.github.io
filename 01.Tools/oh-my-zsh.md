@@ -1,7 +1,59 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.0 -->
 # Oh My Zsh 사용·업데이트
 
-Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#oh-my-zsh-설치) 또는 [Linux 설치](../00.Setup/Linux_Dev_Setting.md#bash와-선택적-oh-my-zsh)를 따릅니다.
+Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](#macos-설치) 또는 [Linux 설치](#linux-설치)를 따릅니다.
+
+## macOS 설치
+
+Apple Silicon·Intel 모두 [Command Line Tools](./xcode.md#command-line-tools-설치)와 [셸 설정 파일](./shell-environment.md#macos-셸path-준비)을 준비한 뒤, 개인 Mac의 **zsh 터미널**에서 일반 사용자 권한으로 진행합니다. Oh My Zsh는 zsh의 테마·플러그인을 관리하는 도구이며 Homebrew는 필요하지 않습니다. 아래는 기본 경로 `~/.zshrc`·`~/.oh-my-zsh`를 사용하는 경우입니다. `ZDOTDIR`나 별도 셸 관리 도구를 사용 중이면 기존 설정 경로와 로딩 구성을 먼저 확인합니다.
+
+```zsh
+zsh --version
+git --version
+curl --version
+cp -p ~/.zshrc ~/.zshrc.backup-$(date +%Y%m%d-%H%M%S)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --skip-chsh
+```
+
+공식 설치기의 `--keep-zshrc`로 기존 설정을 보존하고 `--skip-chsh`로 로그인 셸 변경을 생략합니다. 이미 `~/.oh-my-zsh`가 있다면 재설치하지 말고 [사용·업데이트 가이드](oh-my-zsh.md)를 확인합니다.
+
+기존 `~/.zshrc`를 편집해 아래 블록을 한 번만 추가합니다. 기존 Oh My Zsh 설정이 있다면 중복 추가하지 않습니다. `--keep-zshrc`는 초기화 설정을 자동으로 넣지 않으므로 이 단계가 필요합니다. nvm 초기화·개인 PATH·별칭은 보존하고, 개인 별칭으로 기본 별칭을 덮어쓰려면 아래 블록 뒤에 둡니다.
+
+```zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git)
+source "$ZSH/oh-my-zsh.sh"
+```
+
+새 터미널을 열어 아래 결과에 `omz is a shell function`이 표시되는지 확인합니다. 로그인 셸이 zsh가 아니라면 먼저 `zsh`를 실행한 뒤 확인합니다.
+
+```zsh
+type omz
+```
+
+설치 방법·옵션 확인일: 2026-10-30. [공식 설치 안내](https://github.com/ohmyzsh/ohmyzsh#basic-installation) · [설치기 옵션](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh). 테마·플러그인 변경과 백업·복귀는 [Oh My Zsh 가이드](oh-my-zsh.md)를 참고합니다.
+
+## Linux 설치
+
+기본 명령은 bash와 `~/.bashrc` 기준입니다. zsh를 사용할 때만 `sudo apt install zsh` 후 `zsh`를 실행합니다. Oh My Zsh를 추가한다면 [공식 설치 안내](https://github.com/ohmyzsh/ohmyzsh#basic-installation)에 따라 기존 설정을 보존합니다. 아래는 **zsh 터미널**에서 실행합니다.
+
+```zsh
+touch ~/.zshrc
+cp -p ~/.zshrc ~/.zshrc.backup-$(date +%Y%m%d-%H%M%S)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --skip-chsh
+```
+
+`--keep-zshrc`는 초기화 블록을 자동 추가하지 않습니다. 기존 `~/.zshrc`에 아래 블록이 없으면 한 번만 추가한 뒤 새 zsh에서 `type omz`를 확인합니다. 로그인 셸은 위 명령으로 변경하지 않습니다. 터미널의 셸 설정에서 zsh를 선택할 경우도 기존 PATH·nvm 설정을 보존합니다.
+
+```zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git)
+source "$ZSH/oh-my-zsh.sh"
+```
+
+테마·플러그인·백업·복귀는 [Oh My Zsh 가이드](oh-my-zsh.md)를 참고합니다. [Linux nvm 설치](./nvm.md#linux-nvm-설치)는 bash용이므로 zsh를 선택했다면 `PROFILE="$HOME/.zshrc"`로 바꾸고 `source ~/.zshrc`로 적용합니다. 두 셸에서 nvm을 사용할 경우 각 셸에 초기화가 필요하며 같은 파일에 중복 추가하지 않습니다.
 
 ## 일상 사용과 설정
 

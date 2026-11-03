@@ -1,4 +1,4 @@
-<!-- version: v1.4.1 -->
+<!-- version: v1.4.2 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
@@ -22,7 +22,7 @@ Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·
 
 ## Xcode 설치·선택·확인
 
-전체 Xcode 설치·라이선스·최초 초기화는 저장소의 `00.Setup/macOS_Common_Dev_Setting.md` 또는 [Apple 공식 설치·지원 안내](https://developer.apple.com/xcode/)와 [Flutter iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. 정상 빌드 기록과 macOS·CPU 조건에 맞는 버전을 설치하고 필요한 Simulator runtime만 준비합니다. 여러 Xcode를 보존할 때 앱 이름을 구분합니다.
+전체 Xcode 설치·라이선스·최초 초기화는 저장소의 `01.Tools/xcode.md` 또는 [Apple 공식 설치·지원 안내](https://developer.apple.com/xcode/)와 [Flutter iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. 정상 빌드 기록과 macOS·CPU 조건에 맞는 버전을 설치하고 필요한 Simulator runtime만 준비합니다. 여러 Xcode를 보존할 때 앱 이름을 구분합니다.
 
 프로젝트 터미널에서 선택 상태를 확인합니다.
 

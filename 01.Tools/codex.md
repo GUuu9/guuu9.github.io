@@ -1,11 +1,46 @@
-<!-- version: v1.0.1 -->
+<!-- version: v1.1.0 -->
 # Codex CLI·Ponytail 관리
 
-Codex CLI의 OS별 초기 설치는 [OS별 Setup](../00.Setup/OS_Dev_Setting.md)을 따릅니다. 이 문서는 개인 PC의 스킬 추가·호출·업데이트·복귀를 다룹니다. Windows 네이티브와 WSL은 설치·인증·설정 위치가 별도이므로 사용할 환경에서 각각 확인합니다.
+Codex CLI의 OS별 설치·인증·스킬 추가·호출·업데이트·복귀를 다룹니다. 명령은 개인 PC의 임의 폴더에서 일반 사용자로 실행하며 npm 방식은 먼저 [Node 환경](./nvm.md)을 준비합니다. Windows 네이티브와 WSL은 설치·인증·설정 위치가 별도이므로 사용할 환경에서 각각 확인합니다.
+
+## macOS·Linux Codex CLI 설치
+
+Node 버전 전환과 별개로 사용할 수 있도록 [OpenAI 공식 안내](https://learn.chatgpt.com/docs/codex/cli)의 독립 설치 방식을 사용합니다.
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+설치 안내에 따라 PATH를 적용하고 새 터미널에서 확인합니다.
+
+```bash
+codex --version
+codex
+```
+
+처음 실행할 때 안내에 따라 인증합니다. API 키나 토큰을 셸 설정·저장소에 직접 기록하지 않습니다. 기존 npm 설치를 유지하려면 `npm install -g @openai/codex`도 가능하지만 nvm의 Node 버전에 따라 전역 패키지 설치 위치가 달라집니다. 두 설치 방식을 중복 적용하지 않습니다.
+
+#### Ponytail 스킬 추가
+
+위 Codex 인증과 Node 설치를 마친 뒤 [Ponytail 설치·훅 활성화·스킬 호출 안내](#ponytail-스킬-추가)를 진행합니다. Codex용 플러그인이며 다른 에이전트에는 별도 설치가 필요합니다.
+
+## Windows Codex CLI 설치
+
+선택한 Node 환경에서 [OpenAI 공식 CLI 안내](https://learn.chatgpt.com/docs/codex/cli)의 npm 설치 방식을 사용합니다. Windows 네이티브 PowerShell에서 실행합니다.
+
+```powershell
+npm install -g @openai/codex
+codex --version
+codex
+```
+
+처음 실행할 때 인증합니다. PowerShell 정책으로 `npm.ps1`·`codex.ps1`이 차단되면 각각 `npm.cmd`·`codex.cmd`를 사용합니다. nvm으로 Node를 바꾸면 전역 설치가 보이지 않을 수 있으므로 설치한 Node 버전·경로를 기록합니다. API 키·토큰을 저장소에 기록하지 않습니다.
+
+Node 설치·Codex 인증 후 [Ponytail 설치·훅 활성화·스킬 호출](#ponytail-스킬-추가)을 진행합니다. `codex plugin`이 지원되지 않으면 CLI를 먼저 갱신합니다. 제작자 설치 명령은 공통이지만 Windows 네이티브 훅 실행 성공 여부는 실제 설치 후 확인합니다. WSL 설치와 공유된다고 가정하지 않습니다.
 
 ## Ponytail 스킬 추가
 
-[Ponytail](https://github.com/DietrichGebert/ponytail)은 기존 코드·표준 기능을 먼저 재사용하고 필요한 변경에 집중하도록 돕는 외부 스킬입니다. 제작자의 Codex 설치 안내에 따라 스킬과 라이프사이클 훅을 포함한 플러그인으로 설치합니다. macOS·Linux 터미널 또는 Windows PowerShell의 임의 디렉터리에서 일반 사용자 권한으로 진행합니다. [OS별 Setup](../00.Setup/OS_Dev_Setting.md)에서 Codex 설치·인증과 Node.js 설치를 먼저 완료합니다.
+[Ponytail](https://github.com/DietrichGebert/ponytail)은 기존 코드·표준 기능을 먼저 재사용하고 필요한 변경에 집중하도록 돕는 외부 스킬입니다. 제작자의 Codex 설치 안내에 따라 스킬과 라이프사이클 훅을 포함한 플러그인으로 설치합니다. macOS·Linux 터미널 또는 Windows PowerShell의 임의 디렉터리에서 일반 사용자 권한으로 진행합니다. 위 Codex 설치·인증과 [Node.js 설치](./nvm.md)를 먼저 완료합니다.
 
 ```bash
 codex --version
@@ -36,7 +71,7 @@ $ponytail:ponytail-review 현재 커밋하지 않은 변경 내용을 검토해�
 
 ## Codex CLI 업데이트·복귀
 
-업데이트 전 `codex --version`과 설치 방식을 기록하고 개인 설정·필요한 작업 기록을 백업합니다. 인증 파일·토큰을 저장소에 넣지 않습니다. 독립 설치는 OS별 Setup에서 사용한 공식 설치 스크립트를 다시 실행합니다. npm 설치를 유지한다면 해당 Node 환경에서 `npm install -g @openai/codex@latest`로 갱신합니다. 설치 방식을 중복 적용하지 않습니다.
+업데이트 전 `codex --version`과 설치 방식을 기록하고 개인 설정·필요한 작업 기록을 백업합니다. 인증 파일·토큰을 저장소에 넣지 않습니다. 독립 설치는 위 공식 설치 스크립트를 다시 실행합니다. npm 설치를 유지한다면 해당 Node 환경에서 `npm install -g @openai/codex@latest`로 갱신합니다. 설치 방식을 중복 적용하지 않습니다.
 
 새 터미널에서 버전·인증·스킬 목록과 필요한 훅을 확인합니다. 복귀가 필요하면 이전 공식 릴리스 설치 파일 또는 npm의 기록한 버전을 사용하고 기존 설정과 호환되는지 확인합니다. CLI 업데이트와 Ponytail 플러그인 업데이트는 별개입니다. 플러그인 버전을 변경할 때는 제작자 릴리스·설치 안내와 현재 `codex plugin --help`를 확인하고 변경 전 버전·개인 설정을 보관합니다.
 

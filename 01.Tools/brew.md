@@ -1,21 +1,52 @@
-<!-- version: v1.5.2 -->
+<!-- version: v1.6.1 -->
 # Homebrew 사용 가이드
 
-확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
+확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 아래 설치 절차를 따릅니다.
 
-macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하며, 별도 JDK는 major별 Homebrew formula로 관리합니다. 같은 도구를 독립 설치와 Homebrew로 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
+macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [아래 설치 절차](#homebrew-설치path)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하며, 별도 JDK는 major별 Homebrew formula로 관리합니다. 같은 도구를 독립 설치와 Homebrew로 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
 
 ## 용도와 관리 범위
 
 `formula`는 uv·CMake 같은 도구의 설치 정의, `cask`는 VS Code 같은 앱의 설치 정의입니다. `tap`은 추가 패키지 저장소, `bottle`은 사전 빌드 패키지입니다. Homebrew는 Node·Python의 프로젝트별 버전 선택을 대신하지 않습니다. 그 용도로는 nvm·uv를 사용합니다.
 
-## 1. Homebrew 자체 설치
+## Homebrew 설치·PATH
 
-[macOS 초기 설정의 Homebrew 준비](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)에서 CPU별 설치·셸 PATH·완료 확인을 먼저 진행합니다. Intel은 아래 과거 설치기 절차와 지원 제한을 확인합니다. 패키지 설치는 Homebrew가 정상 인식된 다음 개인 Mac의 일반 사용자 터미널에서 진행합니다.
+macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서)을 마칩니다. Git·Clang에 오류가 없을 때 진행합니다.
+
+Command Line Tools 설치 후 개인 Mac의 일반 사용자 터미널에서 진행합니다. 기존 Homebrew가 있으면 재설치하지 않고 `command -v brew`·`brew --version`·`brew --prefix`로 경로와 상태를 확인합니다. PATH에 없더라도 Apple Silicon의 `/opt/homebrew/bin/brew`, Intel의 `/usr/local/bin/brew`가 존재하는지 먼저 확인합니다.
+
+| CPU | 신규 설치 경로 |
+| :--- | :--- |
+| Apple Silicon (`arm64`) | 아래 공식 최신 설치기 사용. Rosetta 터미널에서 실행하지 않음 |
+| Intel (`x86_64`) | 최신 설치기는 Intel을 거부하므로 [과거 공식 설치기 절차](#과거-공식-설치-스크립트로-신규-설치-시도)를 사용. 설치·패키지 지원은 제한됨 |
+
+아래 명령은 **Apple Silicon 전용**입니다. [공식 OS·CPU 지원 조건](https://docs.brew.sh/Installation)을 확인하고 설치 안내를 읽은 뒤 진행합니다. 설치기가 필요할 때 관리자 암호를 요청하며 전체 명령에 `sudo`를 붙이지 않습니다.
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+설치기가 출력한 Next steps를 우선합니다. 기본 경로로 설치했다면 아래에서 **자신의 CPU에 해당하는 한 줄만** `~/.zprofile` 또는 사용하는 `~/.zshrc` 한 곳에 추가합니다. 이미 있으면 중복 추가하지 않습니다.
+
+```zsh
+# Apple Silicon 기본 경로
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+```zsh
+# Intel 기본 경로: 기존 설치 또는 과거 설치기 설치가 성공한 경우만
+eval "$(/usr/local/bin/brew shellenv)"
+```
+
+새 터미널에서 `brew --version`·`brew --prefix`·`brew doctor`로 확인합니다. 경고는 내용을 읽고 대응하며 기존 디렉터리를 일괄 삭제하거나 소유권을 일괄 변경하지 않습니다. Intel에서 Homebrew 준비가 막혀도 다른 독립 설치 도구는 각자의 공식 절차로 계속 준비할 수 있습니다.
+
+Homebrew 자체 준비가 끝나면 [공통 필수 준비](#2-공통-필수-준비)를 확인하고, CMake 기반 개발·시리얼 통신 등 필요한 작업에 따라 [용도별 필수 패키지](#3-용도별-필수-설치)를 설치합니다. IINA 같은 편의 앱은 [선택 설치](#4-선택-설치)에서 고릅니다. Node·uv·FVM·Docker는 각 Tools 문서의 공식 독립 설치 경로를 유지합니다.
+
+설치기 CPU 제한·PATH 안내·minicom 배포 조건 확인일: 2026-10-30. 실제 Homebrew 설치·패키지 설치는 수행하지 않았습니다. 일상 사용·업데이트·백업·복귀는 [Homebrew 가이드](brew.md)를 따릅니다.
 
 ## 2. 공통 필수 준비
 
-이 저장소에서는 **Homebrew 자체를 보조 패키지 관리용 기본 준비 항목**으로 둡니다. 모든 PC에 공통으로 설치해야 하는 추가 formula·cask는 현재 지정하지 않습니다. Node·uv·FVM·Docker 등은 OS Setup에서 정한 설치 경로를 사용합니다.
+이 저장소에서는 **Homebrew 자체를 보조 패키지 관리용 기본 준비 항목**으로 둡니다. 모든 PC에 공통으로 설치해야 하는 추가 formula·cask는 현재 지정하지 않습니다. Node·uv·FVM·Docker 등은 각 Tools 문서에서 정한 설치 경로를 사용합니다.
 
 ```bash
 brew --version
