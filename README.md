@@ -16,10 +16,14 @@
 
 ## 00.Setup — PC 개발 환경
 
-- macOS: [개발 환경 설정](./00.Setup/macOS_Dev_Setting.md)
-- macOS 설치 이후: [프로젝트 시작·업데이트 안내](00.Setup/macOS_Dev_Setting.md#프로젝트-시작업데이트)에서 해당 Tools 문서로 이동
-- [Windows 11](./00.Setup/Windows_Dev_Setting.md)
-- [Linux — Ubuntu / Debian](./00.Setup/Linux_Dev_Setting.md)
+| 환경 | 설정 문서 | 문서 버전 | 문서 점검 | 실제 설치·실행 | 점검일 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Windows 11 x64 | [Windows 설정](./00.Setup/Windows_Dev_Setting.md) | v5.1.0 | 구조·링크 검사 통과 | 미검증 | 2026-11-03 |
+| macOS Apple Silicon | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Apple Silicon 기기 미검증 | 2026-11-03 |
+| macOS Intel | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Intel Mac·macOS 13.7.8 확인, 전체 설치 흐름 미검증 | 2026-11-03 |
+| Linux Ubuntu / Debian x86_64 | [Linux 설정](./00.Setup/Linux_Dev_Setting.md) | v5.0.0 | 구조·링크 검사 통과 | 미검증 | 2026-11-03 |
+
+문서 점검은 버전·코드 블록·내부 링크를 확인한 결과입니다. 실제 설치·빌드 성공을 뜻하지 않습니다. macOS 설치 이후 프로젝트별 시작·업데이트는 [안내](./00.Setup/macOS_Dev_Setting.md#프로젝트-시작업데이트)에서 Tools 문서로 이어집니다.
 
 각 OS 문서의 설치 명령·PATH·확인 순서를 따라 설정합니다. 상세 사용·버전 관리는 Tools에서, 새 프로젝트 시작은 해당 보일러플레이트에서 진행합니다. 기존 프로젝트는 요구 버전과 잠금 파일을 우선합니다.
 
@@ -52,7 +56,7 @@
 ## 03.Utilities — 편의 앱
 
 - [ComfyUI](./03.Utilities/comfyui.md): GitHub 설치·모델 환경·실행·업데이트
-- [Craft 도구](./03.Utilities/craft.md): PhotoCraft·VectorCraft·EffectCraft·FilmCraft 공통 관리
+- [ArtCraft Launcher·Craft 도구](./03.Utilities/craft.md): Craft 앱 설치·업데이트와 소스 빌드
 - [Firefox·Chrome](./03.Utilities/browsers.md): OS별 설치·실행·업데이트
 
 ## 04.Servers — 외부 서버

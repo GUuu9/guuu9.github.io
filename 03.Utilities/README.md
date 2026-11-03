@@ -6,7 +6,7 @@
 | :--- | :--- |
 | [ComfyUI](./comfyui.md) | GitHub 수동 설치·실행·업데이트·데이터 보존 |
 | [Firefox·Chrome](./browsers.md) | OS별 설치·실행·업데이트 |
-| [Craft 도구](./craft.md) | PhotoCraft·VectorCraft·EffectCraft·FilmCraft 설치·실행·업데이트 |
+| [Craft 앱](./craft.md) | 일반 사용은 Launcher, 소스 수정·기여는 Rust 빌드 |
 
 
 각 문서는 용도, 공식 배포처, 지원 OS·CPU, 설치 방식, 실행·종료, 업데이트·복귀, 사용자 데이터 보관 위치를 기록합니다. 동일 앱을 패키지 관리자·직접 다운로드로 중복 설치하지 않고 설치 경로에 맞게 업데이트합니다.

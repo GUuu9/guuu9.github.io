@@ -185,7 +185,7 @@ document_navigation:
         path: "03.Utilities/comfyui.md"
       - title: "Firefox·Google Chrome 설치·실행·업데이트"
         path: "03.Utilities/browsers.md"
-      - title: "Craft 도구 설치·실행·업데이트"
+      - title: "Craft 앱 설치·실행·개발"
         path: "03.Utilities/craft.md"
   - title: "Servers"
     path: "04.Servers/"
