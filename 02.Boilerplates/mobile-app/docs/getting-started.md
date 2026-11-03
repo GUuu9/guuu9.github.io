@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.1.2 -->
 # Mobile-app 가져오기부터 실행까지
 
 새 PC·새 폴더에서 **유형 받기 → 프로젝트 복사 → Flutter 복원 → 플랫폼 도구 설치 → 프로젝트 환경 적용 → 의존성 복원 → 기기 실행·검증** 순서로 진행합니다. Android·iOS 중 필요한 플랫폼만 준비합니다. 기존 앱 복원이라면 다운로드·새 폴더 복사를 건너뛰고 해당 앱의 README·CI·버전 파일을 우선합니다.
@@ -120,6 +120,8 @@ fvm flutter run -d 기기ID
 `기기ID`를 실제 출력값으로 바꾸며 프로젝트 flavor·환경 인자가 있다면 추가합니다. 인사말 버튼의 정상·대기·오류 동작을 확인하고 터미널의 `q` 또는 Ctrl+C로 실행을 종료합니다. Android APK는 `fvm flutter build apk --debug`, iOS의 서명 없는 컴파일 확인은 Mac에서 `fvm flutter build ios --no-codesign`입니다. CocoaPods 프로젝트는 iOS 명령에 `bundle exec`를 추가합니다. 기기 실행·서명 archive·App Store/Play 업로드는 각각 별도 검증이며 자동으로 진행하지 않습니다.
 
 ## 7. 다음 개발·업데이트·정리
+
+배포할 때는 [빌드 산출물·스토어 배포](./build-and-release.md)를 이어서 읽습니다. 로컬 기기 실행 성공과 스토어 제출 검증은 구분합니다.
 
 이제 [아키텍처·기능 작성 설명서](./boilerplate.md)를 읽고 화면·ViewModel·Service·DI를 확장합니다. 환경 변경 후에는 프로젝트 진입·하위 폴더·이탈·다른 프로젝트에서 도구 선택이 복원되는지 확인하고 docs/environment.md·update.md에 결과를 기록합니다. 불필요한 도구 삭제는 다른 프로젝트 참조와 이전 버전 복귀 수단을 먼저 확인하며 앱 데이터·서명 자료·공유 SDK를 함께 삭제하지 않습니다.
 

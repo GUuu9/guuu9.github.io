@@ -1,4 +1,4 @@
-<!-- version: v1.2.0 -->
+<!-- version: v1.3.0 -->
 # TypeScript · React · Phaser · Electron 게임 보일러플레이트
 
 역할별 폴더와 프로세스 경계를 갖춘 독립 Electron 샘플입니다. React Renderer에서 연결 확인 버튼을 누르면 고정된 플레이어 이름을 Preload API와 IPC로 Main에 보내고, Main이 요청을 검증해 인사말 또는 오류를 돌려줍니다.
@@ -59,3 +59,7 @@
 ## 보안·버전 점검 (2026-10-29)
 
 앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(3개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. Electron 45.1.0·Vite 6.4.5·Vitest 5.0.5와 Node 타입 24.19.2를 사용합니다. Electron 45.1.0의 창 기동·종료, preload IPC 인사말, 임시 userData의 저장·조회, Phaser 캔버스 생성은 자동 점검했습니다. 직접 게임 클릭·앱 재실행 후 저장 복원·다른 OS는 미검증입니다. 버전 변경 이유·적용/복귀는 [update.md](update.md)에서 관리합니다.
+
+## 빌드 산출물과 배포
+
+로컬 검증 후 [Electron·Phaser 패키징·배포](docs/build-and-release.md)에서 배포 준비·산출물·서명 또는 운영 설정·검증·업데이트·복귀를 확인합니다. 문서 추가는 샘플에 배포 기능이 구현되었다는 뜻이 아닙니다.

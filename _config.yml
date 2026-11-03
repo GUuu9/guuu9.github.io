@@ -104,6 +104,8 @@ document_navigation:
                 path: "02.Boilerplates/mobile-app/docs/android-build.md"
               - title: "iOS 프로젝트 빌드·버전 관리"
                 path: "02.Boilerplates/mobile-app/docs/ios-build.md"
+              - title: "Mobile-app 빌드 산출물·스토어 배포"
+                path: "02.Boilerplates/mobile-app/docs/build-and-release.md"
               - title: "1. 적용 범위"
                 path: "02.Boilerplates/mobile-app/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"
@@ -128,6 +130,8 @@ document_navigation:
             children:
               - title: "Server-WUI 가져오기부터 실행까지"
                 path: "02.Boilerplates/server-wui/docs/getting-started.md"
+              - title: "Server-WUI 빌드·운영 배포"
+                path: "02.Boilerplates/server-wui/docs/build-and-release.md"
               - title: "1. 적용 범위"
                 path: "02.Boilerplates/server-wui/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"
@@ -152,6 +156,8 @@ document_navigation:
             children:
               - title: "Electron·Phaser 가져오기부터 실행까지"
                 path: "02.Boilerplates/electron-phaser/docs/getting-started.md"
+              - title: "Electron·Phaser 패키징·배포"
+                path: "02.Boilerplates/electron-phaser/docs/build-and-release.md"
               - title: "로컬 전용 Electron React 최소 보일러플레이트"
                 path: "02.Boilerplates/electron-phaser/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"

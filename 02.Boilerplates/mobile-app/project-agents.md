@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # 1. 범위와 작업 루트
 
 이 지침은 `boilerplates/minimal/` Flutter 샘플을 수정하는 새 프로젝트용 보관본이며 이 저장소에 자동 적용되지 않는다. 명령은 샘플 루트에서 실행한다. 전체 실행 안내는 실행 루트의 `README.md`, 역할·흐름은 [설명서](docs/boilerplate.md)를 따른다.
@@ -59,3 +59,7 @@ Android/iOS 기능·플러그인 변경 시 권한 선언·런타임 동의·거
 공유 환경 양식은 `.env.example`, 개인 실제 값은 Git 제외 `.env`로 관리한다. 새 앱에는 Git에 기록된 템플릿만 내보내고 캐시·빌드 결과·개인 설정을 복사하지 않는다. 명령은 패키지에서는 minimal, 적용 후에는 새 프로젝트 루트에서 실행한다.
 
 Ruby는 프로젝트 `.ruby-version`으로 선택하고 `rbenv shell`·global을 기본 전환에 사용하지 않는다. CocoaPods가 필요한 경우 Gemfile·Gemfile.lock과 Bundler로 고정하고, iOS Flutter 실행·빌드도 `bundle exec` 안에서 수행한다. direnv·특정 Flutter 버전용 로컬 실행기는 선택 사항으로 유지한다.
+
+## 빌드·배포 작업
+
+배포 관련 변경은 [빌드·배포 가이드](docs/build-and-release.md)에 대상·식별자·버전·산출물·서명/운영 설정·검증·보관·복귀를 함께 갱신합니다. 미구현 패키징·운영 설정을 완료로 주장하지 않고 로컬 빌드와 실제 배포 검증을 구분합니다. 자격증명은 Git에 넣지 않으며 원격 게시·업로드·배포는 요청받은 범위에서만 수행합니다.

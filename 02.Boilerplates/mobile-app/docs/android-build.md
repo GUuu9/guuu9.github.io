@@ -1,4 +1,4 @@
-<!-- version: v1.5.0 -->
+<!-- version: v1.5.1 -->
 # Android 프로젝트 빌드·버전 관리
 
 Flutter 앱의 Android 빌드가 PC·IDE 업데이트 뒤 깨지거나 새 개발 PC에서 재현되지 않을 때 사용하는 가이드입니다. 개인 PC의 macOS·Windows·Linux와 CI에서 **기존 프로젝트가 사용하는 버전 조합을 먼저 복원**합니다. Flutter 선택은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands), 기기 연결은 [Android 실기기 연결 공식 안내](https://developer.android.com/studio/run/device)을 따릅니다. 아래 명령은 별도 표시가 없으면 Flutter 프로젝트 루트의 일반 사용자 터미널에서 실행합니다. 아래는 기본 FVM 명령입니다. 선택적 프로젝트 실행기를 도입한 경우에만 해당 호출로 대체합니다. `android` 폴더의 직접 Wrapper 호출은 작업 셸 환경을 상속합니다.
@@ -129,3 +129,5 @@ ADB 연결 성공과 Android 빌드 성공은 별도입니다. 휴대폰이 `dev
 - [Gradle Java 호환 표](https://docs.gradle.org/current/userguide/compatibility.html)
 - [Gradle Wrapper 갱신](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
 - [Flutter Java·Gradle 문제 진단](https://docs.flutter.dev/release/breaking-changes/android-java-gradle-migration-guide): 과거 릴리스의 예시 버전을 현재 프로젝트에 그대로 적용하지 않음
+
+스토어 제출용 산출물·서명·등록·테스트 배포·업데이트는 [Mobile-app 빌드·스토어 배포](./build-and-release.md)에서 이어서 확인합니다.
