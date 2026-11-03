@@ -1,4 +1,4 @@
-<!-- version: v1.3.3 -->
+<!-- version: v1.3.4 -->
 # uv·Python 가상환경 사용 가이드
 
 확인일: 2026-10-28. uv는 Python 버전, 가상환경, 패키지 의존성, 잠금 파일과 CLI 도구 환경을 관리합니다. 기존 requirements.txt 방식과 pyproject.toml·uv.lock 방식 중 프로젝트가 사용하는 흐름을 따릅니다. pip와 유사한 명령이 있지만 모든 동작·옵션이 완전히 같지는 않습니다.
@@ -62,8 +62,9 @@ pytest는 해당 프로젝트에 선언돼 있을 때 실행합니다. `--locked
 
 ## requirements.txt·pip 방식 유지
 
+먼저 [가상환경 생성·선택](#가상환경-생성활성화와-인터프리터-확인)으로 프로젝트에 맞는 환경을 준비한 뒤 복원합니다.
+
 ```bash
-uv venv --python 3.12 .venv
 uv pip install -r requirements.txt
 uv pip list
 uv pip check

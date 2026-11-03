@@ -1,4 +1,4 @@
-<!-- version: v1.0.3 -->
+<!-- version: v1.1.0 -->
 # 로컬 전용 Electron React 최소 보일러플레이트
 
 ## 1. 적용 범위
@@ -18,48 +18,49 @@
 - 직접 의존성: Electron `45.1.0`, React/React DOM `19.1.1`, TypeScript `5.9.3`, Vite `6.4.5`, Vitest `5.0.5`, esbuild `0.25.12`, cross-env `7.0.3`.
 - 앱 package 버전: `1.0.1`. Node 타입은 Electron 내장 Node와 개발 Node 24 기준의 `@types/node 24.19.2`입니다.
 - React 타입 패키지: `@types/react 19.1.10`, `@types/react-dom 19.1.7`.
-- 버전 기준 파일은 `boilerplates/minimal/.nvmrc`, `package.json`, `package-lock.json`입니다. 직접 의존성은 정확한 버전으로 고정합니다.
+- 버전 기준 파일은 `.nvmrc`, `package.json`, `package-lock.json`입니다. 직접 의존성은 정확한 버전으로 고정합니다.
 
 ## 3. 폴더·파일명과 전체 직접 관리 파일 목록
 
 | 샘플 기준 경로 | 폴더/파일 역할 및 처리 | 주요 내보내기·사용처 |
 |---|---|---|
-| `boilerplates/minimal/src/shared/ipc/persistence.ts` | GameSave 버전·score 검증과 저장 IPC 계약 / Main과 Renderer | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/backend/services/persistence/persistence.service.ts` | userData 고정 파일을 조회하고 순차 임시파일 쓰기 후 rename / PersistenceUsecase | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/backend/services/persistence/persistence.service.test.ts` | 초기값·재생성 후 복원·손상 및 음수 거부 / Vitest | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/backend/bridge/persistence/persistence.usecase.ts` | 발신 창 검사와 load/save 결과·오류 변환 / MainRegistry | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/backend/bridge/persistence/persistence.bridge.ts` | 허용된 load/save IPC 호출 / Preload | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/renderer/src/apis/persistence.api.ts` | 저장 IPC 오류 처리와 반환 데이터 검증 / React App | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/renderer/src/resource/assets.ts` | Vite asset URL과 Phaser 텍스처 키 관리 / LoadingScene·MainScene | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/renderer/src/resource/target.svg` | 원 타겟 이미지 원본 / Vite 및 Phaser loader | 저장·리소스 흐름 |
-| `boilerplates/minimal/src/renderer/src/scenes/loading/loading.scene.ts` | 로딩 진행률·실패 표시 후 텍스처 존재 시 게임 진입 / createScenes | 저장·리소스 흐름 |
-| `boilerplates/minimal/README.md` | 샘플 단독 복사 시 요구 런타임, 설치·실행·테스트·빌드·종료 안내 | 새 프로젝트 개발자 |
-| `boilerplates/minimal/.gitignore` | 의존성, 빌드 결과, 로그, OS 파일을 Git에서 제외 | Git |
-| `boilerplates/minimal/.nvmrc` | Node.js `24.22.1` 기준 | nvm |
-| `boilerplates/minimal/package.json` | 앱 이름, Electron Main 진입 파일, 의존성, 실행·검사 명령 | npm/Electron |
-| `boilerplates/minimal/package-lock.json` | 의존성 전체 해석 버전·무결성 잠금 | `npm ci` |
-| `boilerplates/minimal/tsconfig.json` | React JSX 포함 Renderer/shared strict 검사 설정 | typecheck/Vite |
-| `boilerplates/minimal/tsconfig.electron.json` | Main 및 Preload 관련 TS를 NodeNext JS로 컴파일 | `build:electron` |
-| `boilerplates/minimal/vite.config.ts` | `src/renderer/src`를 Renderer 루트로, 상대경로 asset과 개발 포트를 지정 | Vite |
-| `boilerplates/minimal/vitest.config.ts` | Vitest 검색 루트를 샘플 저장소로 고정하고 Node 환경을 지정 | `npm test` |
-| `boilerplates/minimal/src/backend/main.ts` | Electron ready 이후 보안 옵션으로 창 생성, dev URL 또는 빌드 HTML 로드, Registry 초기화 | package `main` |
-| `boilerplates/minimal/src/backend/preload.ts` | `contextBridge`로 `API.greeting`과 `API.persistence` 제공 | BrowserWindow preload |
-| `boilerplates/minimal/src/backend/core/backend-module.ts` | IPC 모듈의 `setupHandlers(window)` 계약 | GreetingUsecase 구현 |
-| `boilerplates/minimal/src/backend/core/di/registry.ts` | GreetingUsecase·PersistenceService·PersistenceUsecase를 생성·등록해 Main 조립 | `main.ts` |
-| `boilerplates/minimal/src/backend/bridge/greeting/greeting.usecase.ts` | 채널 등록, WebContents 발신자 검사, 요청 검증 호출, 성공/오류 응답 생성 | Registry, Preload 채널 |
-| `boilerplates/minimal/src/backend/bridge/greeting/greeting.bridge.ts` | `ipcRenderer.invoke`를 `GreetingBridge.greet`로 감싼다 | Preload |
-| `boilerplates/minimal/src/backend/services/greeting/greeting.service.ts` | unknown 입력을 문자열/공백/길이 기준으로 검증하고 인사말 문자열 반환 | Usecase, 테스트 |
-| `boilerplates/minimal/src/backend/services/greeting/greeting.service.test.ts` | 정상 공백 정리와 타입·빈 값·길이 오류 검증 | Vitest |
-| `boilerplates/minimal/src/renderer/src/index.html` | React root와 TSX 진입점 선언 | Vite 입력 문서 |
-| `boilerplates/minimal/src/renderer/src/main.tsx` | React root를 생성해 App 컴포넌트를 연결 | HTML 진입 스크립트 |
-| `boilerplates/minimal/src/renderer/src/core/scene.registry.ts` | createScenes가 LoadingScene과 초기 점수·콜백을 받는 MainScene 배열을 조립 | createGameConfig |
-| `boilerplates/minimal/src/renderer/src/core/game.config.ts` | 부모 DOM과 점수 콜백을 받아 640×360 FIT 설정과 씬 목록을 반환 | React App effect |
-| `boilerplates/minimal/src/renderer/src/scenes/main/main.scene.ts` | 원 클릭 입력을 받아 점수를 증가시키고 위치를 바꾼 뒤 콜백 전달 | MainScene, createGameConfig |
-| `boilerplates/minimal/src/renderer/src/app.tsx` | Phaser 수명주기, 점수·재시작 상태, IPC 결과를 화면에 표시 | `main.tsx`, GreetingApi |
-| `boilerplates/minimal/src/renderer/src/style.css` | 폼·레이아웃의 기본 스타일 및 버튼 호버 | `main.tsx` import |
-| `boilerplates/minimal/src/renderer/src/apis/greeting.api.ts` | `window.API.greeting` 존재를 확인하고 IPC bridge 호출 | React App |
-| `boilerplates/minimal/src/renderer/src/apis/window.d.ts` | Renderer의 `window.API`에 shared bridge 타입 부여 | Renderer TS compiler |
-| `boilerplates/minimal/src/shared/ipc/greeting.ts` | 채널 상수, 결과 union, `GreetingBridge`/`AppBridge` 계약 공유 | Usecase, bridge, Renderer |
+| `.env.example` | 비밀값 없는 환경 변수 양식. 실제 `.env`는 Git 제외 | 프로젝트 환경 준비 |
+| `src/shared/ipc/persistence.ts` | GameSave 버전·score 검증과 저장 IPC 계약 / Main과 Renderer | 저장·리소스 흐름 |
+| `src/backend/services/persistence/persistence.service.ts` | userData 고정 파일을 조회하고 순차 임시파일 쓰기 후 rename / PersistenceUsecase | 저장·리소스 흐름 |
+| `src/backend/services/persistence/persistence.service.test.ts` | 초기값·재생성 후 복원·손상 및 음수 거부 / Vitest | 저장·리소스 흐름 |
+| `src/backend/bridge/persistence/persistence.usecase.ts` | 발신 창 검사와 load/save 결과·오류 변환 / MainRegistry | 저장·리소스 흐름 |
+| `src/backend/bridge/persistence/persistence.bridge.ts` | 허용된 load/save IPC 호출 / Preload | 저장·리소스 흐름 |
+| `src/renderer/src/apis/persistence.api.ts` | 저장 IPC 오류 처리와 반환 데이터 검증 / React App | 저장·리소스 흐름 |
+| `src/renderer/src/resource/assets.ts` | Vite asset URL과 Phaser 텍스처 키 관리 / LoadingScene·MainScene | 저장·리소스 흐름 |
+| `src/renderer/src/resource/target.svg` | 원 타겟 이미지 원본 / Vite 및 Phaser loader | 저장·리소스 흐름 |
+| `src/renderer/src/scenes/loading/loading.scene.ts` | 로딩 진행률·실패 표시 후 텍스처 존재 시 게임 진입 / createScenes | 저장·리소스 흐름 |
+| `README.md` | 샘플 단독 복사 시 요구 런타임, 설치·실행·테스트·빌드·종료 안내 | 새 프로젝트 개발자 |
+| `.gitignore` | 의존성, 빌드 결과, 로그, OS 파일을 Git에서 제외 | Git |
+| `.nvmrc` | Node.js `24.22.1` 기준 | nvm |
+| `package.json` | 앱 이름, Electron Main 진입 파일, 의존성, 실행·검사 명령 | npm/Electron |
+| `package-lock.json` | 의존성 전체 해석 버전·무결성 잠금 | `npm ci` |
+| `tsconfig.json` | React JSX 포함 Renderer/shared strict 검사 설정 | typecheck/Vite |
+| `tsconfig.electron.json` | Main 및 Preload 관련 TS를 NodeNext JS로 컴파일 | `build:electron` |
+| `vite.config.ts` | `src/renderer/src`를 Renderer 루트로, 상대경로 asset과 개발 포트를 지정 | Vite |
+| `vitest.config.ts` | Vitest 검색 루트를 샘플 저장소로 고정하고 Node 환경을 지정 | `npm test` |
+| `src/backend/main.ts` | Electron ready 이후 보안 옵션으로 창 생성, dev URL 또는 빌드 HTML 로드, Registry 초기화 | package `main` |
+| `src/backend/preload.ts` | `contextBridge`로 `API.greeting`과 `API.persistence` 제공 | BrowserWindow preload |
+| `src/backend/core/backend-module.ts` | IPC 모듈의 `setupHandlers(window)` 계약 | GreetingUsecase 구현 |
+| `src/backend/core/di/registry.ts` | GreetingUsecase·PersistenceService·PersistenceUsecase를 생성·등록해 Main 조립 | `main.ts` |
+| `src/backend/bridge/greeting/greeting.usecase.ts` | 채널 등록, WebContents 발신자 검사, 요청 검증 호출, 성공/오류 응답 생성 | Registry, Preload 채널 |
+| `src/backend/bridge/greeting/greeting.bridge.ts` | `ipcRenderer.invoke`를 `GreetingBridge.greet`로 감싼다 | Preload |
+| `src/backend/services/greeting/greeting.service.ts` | unknown 입력을 문자열/공백/길이 기준으로 검증하고 인사말 문자열 반환 | Usecase, 테스트 |
+| `src/backend/services/greeting/greeting.service.test.ts` | 정상 공백 정리와 타입·빈 값·길이 오류 검증 | Vitest |
+| `src/renderer/src/index.html` | React root와 TSX 진입점 선언 | Vite 입력 문서 |
+| `src/renderer/src/main.tsx` | React root를 생성해 App 컴포넌트를 연결 | HTML 진입 스크립트 |
+| `src/renderer/src/core/scene.registry.ts` | createScenes가 LoadingScene과 초기 점수·콜백을 받는 MainScene 배열을 조립 | createGameConfig |
+| `src/renderer/src/core/game.config.ts` | 부모 DOM과 점수 콜백을 받아 640×360 FIT 설정과 씬 목록을 반환 | React App effect |
+| `src/renderer/src/scenes/main/main.scene.ts` | 원 클릭 입력을 받아 점수를 증가시키고 위치를 바꾼 뒤 콜백 전달 | MainScene, createGameConfig |
+| `src/renderer/src/app.tsx` | Phaser 수명주기, 점수·재시작 상태, IPC 결과를 화면에 표시 | `main.tsx`, GreetingApi |
+| `src/renderer/src/style.css` | 폼·레이아웃의 기본 스타일 및 버튼 호버 | `main.tsx` import |
+| `src/renderer/src/apis/greeting.api.ts` | `window.API.greeting` 존재를 확인하고 IPC bridge 호출 | React App |
+| `src/renderer/src/apis/window.d.ts` | Renderer의 `window.API`에 shared bridge 타입 부여 | Renderer TS compiler |
+| `src/shared/ipc/greeting.ts` | 채널 상수, 결과 union, `GreetingBridge`/`AppBridge` 계약 공유 | Usecase, bridge, Renderer |
 
 직접 관리 목록은 위 표 전체입니다. `node_modules`, `dist`, `dist-electron`, 설치 캐시, 실행파일, vendor는 포함하지 않습니다.
 
@@ -256,6 +257,8 @@ Main/Preload/shared를 분리해 프로세스 권한 경계를 드러내고, `co
 
 ## 6. 정확한 명령과 실행 방법
 
+처음 준비하는 환경은 [가져오기부터 실행까지](./getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
+
 모든 경로와 명령은 `boilerplates/minimal/`을 작업 루트로 합니다.
 
 ```bash
@@ -288,11 +291,9 @@ npm run build
 
 ## 8. 새 프로젝트로 복사·치환
 
-1. `boilerplates/minimal/`의 내용물을 새 프로젝트 루트에 복사합니다. 패키지 폴더 이름 자체를 내부 경로로 만들지 않습니다.
-2. 이 문서의 형제 파일인 `project-agents.md`를 새 프로젝트 루트의 `AGENTS.md`로 복사합니다. 보관 중에는 자동 적용되지 않는 이름입니다.
-3. 지침 내 `boilerplates/minimal/src/...` 링크를 새 루트 기준 `src/...`로 바꿉니다. `project-agents.md`의 `docs/boilerplate.md` 링크도 문서를 새 프로젝트에 복사하거나 상대 경로를 조정해야 유효합니다.
-4. `package.json`의 name/version과 화면 이름, 기능을 변경하고 의존성 변경 후 `npm install`로 lockfile을 갱신합니다.
-5. 계약 → Bridge/Usecase → Service/테스트 → Renderer API/React UI를 연동하고 전체 명령을 다시 확인합니다.
+[시작 가이드 2절](./getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 코드·docs·지침·이력을 함께 가져온다. 문서 링크는 수정하지 않고 에이전트 사용 시 지침 보관본만 같은 루트의 AGENTS.md로 복사한다. 파일 역할 표의 경로는 실행 루트 기준이다.
+
+그다음 package 이름·버전·화면과 기능을 제품에 맞게 바꾼다. 의존성을 바꾼 경우에만 npm으로 lockfile을 갱신한다. 계약 → Bridge/Usecase → Service/테스트 → Renderer API/React UI를 연동하고 전체 검사를 수행한다.
 
 ### 기능 하나를 끝까지 추가하는 작업 순서
 

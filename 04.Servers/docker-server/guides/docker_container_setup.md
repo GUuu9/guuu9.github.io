@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v2.1.1 -->
 # 2. 서버에서 사용자 작업 영역 생성·개인 PC 접속
 
 ## 1. 서버 관리자가 생성
@@ -10,15 +10,7 @@
 3. .env에 고유 COMPOSE_PROJECT_NAME·BIND_ADDRESS·SSH_PORT·WORKSPACE_IMAGE를 지정합니다.
 4. 이미지 한 버전을 빌드·검증한 뒤 사용자 영역에 배포합니다. 같은 버전 태그를 덮어쓰지 않습니다.
 
-```bash
-# 서버 관리자: 해당 사용자 Compose 디렉터리에서
-sudo docker compose config --quiet
-sudo docker compose build workspace
-sudo docker compose run --rm --no-deps workspace /usr/sbin/sshd -t -h /etc/workspace-ssh/host_key
-sudo docker compose up -d --no-build --pull never
-sudo docker compose ps
-sudo docker compose logs --tail=100 workspace
-```
+실제 명령은 [공통 구축 안내의 생성·검증·시작](../README.md#3-사용자별-구성-파일과-ssh-공개키)에 한 번만 둡니다. 이 문서는 그 구성을 완료한 후 개인 PC 연결과 언어별 작업을 이어가는 안내입니다. 새 이미지 배포·복귀는 [운영 절차](../operations.md#3-새-버전-배포와-복귀)를 따릅니다.
 
 공통 Compose는 이미지 태그를 환경 변수로 요구하고 개인 home을 named volume으로 보관합니다. authorized_keys·host key는 읽기 전용으로 연결합니다. 사용자별 포트·프로젝트명·볼륨·키는 분리하며 공유 /data/projects나 고정 컨테이너 이름을 일괄 사용하지 않습니다.
 

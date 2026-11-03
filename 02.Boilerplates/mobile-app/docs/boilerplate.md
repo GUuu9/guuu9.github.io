@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.4.0 -->
 # 1. 적용 범위
 
 Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플의 작업 루트는 이 패키지의 `boilerplates/minimal/`이다.
@@ -34,6 +34,7 @@ Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCa
 | `.metadata` | Flutter 프로젝트 생성 정보·플랫폼 목록 | Flutter CLI의 프로젝트 관리 |
 | `README.md` | 선행 조건·복원·검사·실행·종료 안내 | 독립 샘플 시작점 |
 | `analysis_options.yaml` | `flutter_lints` 권장 규칙 포함 | `fvm flutter analyze` |
+| `.env.example` | 비밀값 없는 환경 변수 양식. 실제 `.env`는 Git 제외 | 프로젝트 환경 준비 |
 | `pubspec.yaml` | 앱 이름·버전·Dart 범위·Flutter/lint 의존성 | Pub 복원·앱 package 이름 |
 | `pubspec.lock` | Flutter Pub이 해석한 정확한 의존 트리 | `fvm flutter pub get`, 테스트 |
 | `lib/main.dart` | `main()`에서 조립 함수 호출 후 앱 실행 | 앱 진입점; DI에 연결 |
@@ -205,6 +206,8 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 ## 플랫폼별 권한·패키지·버전 업데이트
 
+프로젝트별 버전 파일·개인 환경·실행 범위는 [환경 정의·격리](./project-environment.md)를 따른다. 프로젝트 빌드 환경의 설치·버전 선택·복귀는 [Android 빌드 관리](./android-build.md)와 [iOS 빌드 관리](./ios-build.md)를 따른다. 아래 절은 앱 권한·패키지·플랫폼 설정의 책임을 설명한다.
+
 ### 권한을 추가할 때
 
 현재 로컬 인사 샘플에는 카메라·위치·마이크 같은 보호 자원 권한이 없다. 기능이나 플러그인을 추가할 때 아래 항목을 해당 기능 설명과 함께 기록한다. 패키지 설치만으로 권한 설정과 사용자 동의가 끝나는 것은 아니다.
@@ -250,22 +253,11 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 # 8. 새 프로젝트로 복사·치환
 
-이 유형 패키지 전체를 재배치할 때는 `02.Boilerplates/mobile-app/` 폴더 하나를 통째로 복사한다. 실제 앱 작업을 시작할 때는 샘플 폴더 내용(숨김 파일 포함)을 새 대상 폴더에 복사한다. 대상 경로는 비어 있거나 아직 존재하지 않아야 한다.
-
-macOS·Linux 예시(유형 패키지 루트에서):
-
-```sh
-mkdir -p "$HOME/Developer"
-test ! -e "$HOME/Developer/my_app"
-cp -R boilerplates/minimal "$HOME/Developer/my_app"
-cd "$HOME/Developer/my_app"
-fvm install
-fvm flutter pub get
-```
+유형 패키지 전체 보관과 실제 새 앱 생성을 구분한다. 새 앱은 [시작 가이드 2절](./getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 코드·docs·지침·이력을 함께 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
 
 FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --version`으로 확인한다. Android Studio의 Flutter SDK 경로를 새 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. VS Code는 새 루트를 열고 Flutter 확장 SDK가 `.fvm/flutter_sdk`를 사용하는지 확인한다. `dart.flutterSdkPath`를 팀과 공유하면 기기별 경로가 아닌 프로젝트 상대 경로를 사용한다. IDE가 심볼릭 링크를 해석하면 SDK 표시 버전을 직접 다시 확인한다.
 
-프로젝트 이름을 바꿀 때는 `pubspec.yaml`의 패키지 이름과 테스트의 `package:mobile_app_sample/...` import를 함께 바꾼다. Android 앱 ID를 바꿀 때는 `android/app/build.gradle.kts`, `MainActivity.kt` package·경로를 맞춘다. iOS Bundle Identifier·표시 이름은 `ios/Runner.xcodeproj/project.pbxproj`, `ios/Runner/Info.plist`에서 바꾼다. `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 상세 문서를 새 프로젝트에 보관할 경우 README·설명서 상대 링크를 실제 위치로 맞춘다.
+프로젝트 이름을 바꿀 때는 `pubspec.yaml`의 패키지 이름과 테스트의 `package:mobile_app_sample/...` import를 함께 바꾼다. Android 앱 ID를 바꿀 때는 `android/app/build.gradle.kts`, `MainActivity.kt` package·경로를 맞춘다. iOS Bundle Identifier·표시 이름은 `ios/Runner.xcodeproj/project.pbxproj`, `ios/Runner/Info.plist`에서 바꾼다. `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 시작 가이드의 표준 배치를 유지하면 문서 링크를 수정할 필요가 없다.
 
 일반 Flutter 프로젝트를 Android Studio 새 프로젝트 마법사에서 임의 경로로 만드는 흐름, FVM SDK 복원과 IDE 연결의 공통 설명은 [FVM 공식 Android Studio 안내](https://fvm.app/documentation/guides/android-studio) 및 [Flutter 새 프로젝트 안내](https://docs.flutter.dev/reference/create-new-app)를 참고한다. 이 패키지는 새 경로에 샘플을 복사해 시작하므로 기존 제품 폴더나 기존 Flutter 프로젝트 안에 덮어쓰지 않는다.
 

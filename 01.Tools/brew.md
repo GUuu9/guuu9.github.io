@@ -1,9 +1,9 @@
-<!-- version: v1.4.2 -->
+<!-- version: v1.5.1 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 [OS 설정 안내](../00.Setup/OS_Dev_Setting.md)를 따릅니다.
 
-macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하고 Homebrew와 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
+macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [macOS 공통 설치](../00.Setup/macOS_Common_Dev_Setting.md#homebrew-준비)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하며, 별도 JDK는 major별 Homebrew formula로 관리합니다. 같은 도구를 독립 설치와 Homebrew로 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
 
 ## 용도와 관리 범위
 
@@ -30,8 +30,24 @@ brew doctor
 
 | 작업 | 필요한 패키지 | 설치 후 확인 |
 | :--- | :--- | :--- |
+| 프로젝트에서 요구하는 별도 JDK | `openjdk@17` 등 요구 major의 formula | 해당 JDK의 `java -version`·`javac -version` |
 | CMake 기반 C/C++ 프로젝트 구성 | `cmake` | `cmake --version` |
 | USB 시리얼 장치와 터미널 통신 | `minicom` | `brew list --versions minicom` |
+
+### 프로젝트용 JDK 설치
+
+Android Studio 포함 JDK가 프로젝트 요구에 맞으면 별도 설치하지 않아도 됩니다. 다른 버전이 필요할 때만 개인 Mac의 일반 사용자 터미널에서 아래처럼 설치합니다. 17은 예시이며 프로젝트의 AGP·Gradle 호환 조건을 먼저 확인합니다.
+
+```bash
+brew info openjdk@17
+HOMEBREW_NO_INSTALL_UPGRADE=1 HOMEBREW_NO_INSTALL_CLEANUP=1 brew install openjdk@17
+brew list --versions openjdk@17
+"$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home/bin/java" -version
+```
+
+위 설치 명령은 해당 실행에서 기존 formula 자동 업그레이드·자동 cleanup을 막습니다. 호환 JDK가 이미 있으면 재사용하며 연관 패키지까지 완전히 격리되는 것은 아닙니다. JDK 21이 필요한 다른 프로젝트는 `openjdk@21`을 추가할 수 있습니다. 시스템 Java 링크나 공용 PATH를 바꾸지 않고 프로젝트 로컬 JAVA_HOME에서 선택합니다. 일반적인 갱신·pin·제거는 이 문서의 해당 절을 따릅니다. 프로젝트에 적용하는 예시는 [mobile-app Android 빌드 관리](../02.Boilerplates/mobile-app/docs/android-build.md#jdk-설치선택)에 있으며 해당 보일러플레이트를 사용할 필요는 없습니다.
+
+공식 formula 확인일: 2026-11-03. [openjdk@17](https://formulae.brew.sh/formula/openjdk@17) · [openjdk@21](https://formulae.brew.sh/formula/openjdk@21). 현재 Intel·Ventura용 macOS bottle은 없으므로 설치 성공을 보장하지 않습니다. 기존 PKG·SDKMAN·brew cask 설치가 있다면 사용 경로와 관리 방식을 먼저 확인해 중복 설치를 피합니다.
 
 ### CMake 설치
 

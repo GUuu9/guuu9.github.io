@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.1.2 -->
 # 외부 서버의 Docker 개인 작업 영역 구성
 
 확인일: 2026-10-28. Ubuntu Server 24.04 LTS와 Docker Engine·Compose 플러그인을 기준으로 합니다. 관리자가 사용자별 컨테이너와 접속 포트를 만들고 사용자는 개인 PC의 SSH·VS Code로 작업합니다. GUI·브라우저 IDE·GPU·Windows VM은 필요한 시점에 별도 구성합니다.
@@ -110,7 +110,7 @@ WORKSPACE_IMAGE=personal-workspace:1.0.0
 sudo docker compose config --quiet
 sudo docker compose build
 sudo docker compose run --rm --no-deps workspace /usr/sbin/sshd -t -h /etc/workspace-ssh/host_key
-sudo docker compose up -d
+sudo docker compose up -d --no-build --pull never
 sudo docker compose ps
 sudo docker compose logs --tail=100 workspace
 ```

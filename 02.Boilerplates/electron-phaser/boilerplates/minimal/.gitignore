@@ -4,3 +4,7 @@ dist-electron/
 release/
 .DS_Store
 *.log
+
+# 개인 환경과 로컬 도구 상태
+.env
+.local/

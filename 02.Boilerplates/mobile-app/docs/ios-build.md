@@ -1,0 +1,222 @@
+<!-- version: v1.3.0 -->
+# iOS 프로젝트 빌드·버전 관리
+
+Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
+
+이 문서는 mobile-app 패키지의 프로젝트 빌드 절차입니다. [프로젝트 환경 정의·격리](./project-environment.md)에 따라 개인 경로·도구 선택을 프로젝트에 한정합니다. 기본은 표준 FVM 호출이며 로컬 실행기는 필요한 경우에만 선택합니다. Android 환경은 [Android 빌드·버전 관리](./android-build.md)를 참고합니다.
+
+## 설치 도구와 버전 기준
+
+| 구성 | 역할 | 선택·기록 위치 |
+| :--- | :--- | :--- |
+| Flutter·Dart | 앱 빌드·Dart 실행 | `.fvmrc`, pubspec.yaml·pubspec.lock |
+| Xcode | iOS 빌드·서명·기기 디버깅 | 앱 버전·빌드 번호·선택한 Developer 경로, CI의 Xcode 설정 |
+| iOS SDK·Swift | iOS API·Swift 컴파일 | 선택한 Xcode에 포함. 독립 설치한 Swift를 Flutter iOS 빌드에 임의 주입하지 않음 |
+| Deployment Target | 앱이 지원하는 최소 iOS | Runner의 Minimum Deployments/Build Settings, 의존성이 요구하면 Podfile 등도 대조 |
+| Simulator runtime | 가상 기기의 iOS 실행 환경 | Xcode Settings의 Components/Platforms에서 필요한 버전만 설치 |
+| CocoaPods | Pod 기반 네이티브 의존성 | 사용하는 경우 Podfile·Podfile.lock, 도구 버전은 Gemfile·Gemfile.lock |
+| Swift Package Manager | Swift package 의존성 | Xcode 통합 기능, 실제 사용 프로젝트의 Package.resolved·패키지 선언 |
+| 서명·Capabilities | 개발·배포 권한과 앱 식별 | Bundle Identifier·Team·entitlements, 인증서·profile은 안전한 별도 보관 |
+
+**iOS SDK 버전과 Deployment Target은 다릅니다.** 새 SDK로 빌드하면서 더 오래된 iOS를 지원할 수 있지만 Xcode·Flutter·플러그인이 허용하는 최소 버전을 함께 확인해야 합니다. 최소 지원 버전을 올리면 기존 구형 기기 사용자가 업데이트를 받지 못할 수 있습니다. [Xcode 지원 표의 SDK·Deployment Target 구분](https://developer.apple.com/xcode/system-requirements/).
+
+## Xcode 설치·선택·확인
+
+1. 기존 프로젝트의 정상 빌드 Xcode·Flutter·macOS·CPU 기록과 현재 Mac이 설치할 수 있는 Xcode를 확인합니다. [Apple 공식 Xcode 다운로드](https://developer.apple.com/xcode/)와 [과거 배포판](https://developer.apple.com/download/all/)을 사용합니다. 과거 버전은 Apple 계정 로그인이 필요할 수 있습니다.
+2. 전체 Xcode 설치·라이선스·초기화는 위 Flutter 공식 iOS 환경 설정을 따릅니다. iOS 플랫폼 지원을 준비하고 Simulator runtime은 사용할 때만 추가합니다.
+3. App Store 설치는 Xcode의 **받기/설치**를 사용합니다. 과거 `.xip` 배포판은 다운로드 후 열어 압축을 풀고 Xcode 앱을 `/Applications`에 옮깁니다. 여러 버전을 보존할 때는 앱 이름을 구분합니다. 비공식 재배포 파일을 사용하지 않습니다.
+4. Xcode를 한 번 실행한 뒤 개인 Mac의 임의 폴더에서 아래 초기화를 수행합니다. 전체 Xcode 설치가 선행되어야 하며 아래 두 초기화 명령은 관리자 권한을 사용하지만 전역 Xcode 선택은 바꾸지 않습니다. 경로가 다르면 실제 설치 위치로 바꿉니다.
+
+```bash
+sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -license
+sudo env DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -runFirstLaunch
+```
+
+라이선스는 내용을 읽고 동의합니다. iOS 플랫폼 지원·Simulator runtime은 Xcode의 Settings → Components/Platforms에서 필요한 버전을 선택해 받습니다. 선택 Xcode가 지원하는 경우 `xcodebuild -downloadPlatform iOS`로도 받을 수 있지만 Simulator runtime까지 다운로드할 수 있으므로 필요한 경우에만 사용합니다.
+
+5. 프로젝트 터미널에서 선택 상태를 확인합니다.
+
+```bash
+xcode-select -p
+xcodebuild -version
+xcodebuild -showsdks
+xcrun --find swift
+xcrun swift --version
+fvm flutter doctor -v
+```
+
+`xcode-select -p`가 CommandLineTools를 가리키거나 다른 Xcode가 선택되어 있으면 공식 iOS 환경 설정의 Xcode 선택 절차를 확인합니다. 프로젝트별 Xcode는 아래처럼 **현재 터미널만** 지정하고 실제 개발 시 `.env`에서 관리합니다. 경로는 별도로 설치한 실제 앱 이름으로 바꿉니다.
+
+```bash
+export DEVELOPER_DIR="/Applications/Xcode_Project.app/Contents/Developer"
+xcodebuild -version
+fvm flutter doctor -v
+```
+
+`Xcode_Project.app`은 예시입니다. `DEVELOPER_DIR`는 터미널에서 전역 선택보다 우선하므로 복귀할 때 이전 값을 복원하고, 원래 없었다면 `unset DEVELOPER_DIR` 후 확인합니다. Dock에서 연 Xcode·VS Code는 이 셸 설정을 자동 상속하지 않습니다. GUI에서 연 Xcode 앱과 CLI·CI의 Xcode 버전도 비교합니다. 전역 `xcode-select`를 바꾸면 다른 프로젝트에 영향을 줄 수 있습니다.
+
+## CocoaPods·Swift Package Manager 복원
+
+프로젝트가 실제 사용하는 방식을 먼저 확인합니다. Flutter 버전·플러그인에 따라 SwiftPM·CocoaPods 또는 혼합 구성이 가능하며, 최신 Flutter 가이드만 보고 기존 프로젝트를 일괄 전환하지 않습니다. FVM의 Flutter 3.35.7 고정도 네이티브 의존성 관리자와 Xcode 버전까지 고정하지는 않습니다. [Flutter SwiftPM 지원·CocoaPods fallback](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers).
+
+### CocoaPods를 사용하는 프로젝트
+
+Homebrew와 중복 설치하지 않고 [공식 RubyGems·Bundler 절차](https://guides.cocoapods.org/using/getting-started.html)를 사용합니다. macOS 시스템 Ruby 대신 프로젝트가 지정한 별도 Ruby 환경을 먼저 준비합니다. 기존 Ruby 관리자를 유지하고 없다면 공식 가이드에 나온 [rbenv Git 설치](https://github.com/rbenv/rbenv#installation)를 사용할 수 있습니다. 시스템 Ruby에 `sudo gem install`로 설치하지 않습니다.
+
+별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
+
+```bash
+git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
+"$HOME/.rbenv/bin/rbenv" init
+```
+
+`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
+
+```bash
+rbenv --version
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
+rbenv install -l
+```
+
+Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
+
+```bash
+brew install openssl@3 readline libyaml gmp autoconf
+```
+
+프로젝트 `.ruby-version`·Gemfile의 Ruby 조건에 맞는 **실제 버전**을 설치합니다. `목표Ruby버전`은 자리표시자입니다. CocoaPods를 위해 새 Ruby를 선택하는 경우 Ruby·CocoaPods 지원 범위와 macOS 빌드 조건을 확인하고 선택 버전을 기록합니다.
+
+```bash
+rbenv install 목표Ruby버전
+rbenv local 목표Ruby버전
+```
+
+위 `local`은 새 프로젝트 루트에서 `.ruby-version`을 처음 만들 때만 실행합니다. 기존 파일이 있으면 값을 바꾸지 말고 프로젝트 루트에서 `rbenv install`로 그 버전을 복원합니다. `rbenv shell`·`rbenv global`은 프로젝트 전환 절차에 사용하지 않습니다. 이전 `RBENV_VERSION`이 남아 있으면 버전 파일보다 우선하므로 작업 자식 셸에서 `unset RBENV_VERSION` 후 확인합니다. 자동 전환을 쓰면 환경 가이드의 `.envrc`가 프로젝트 안에서 해제·이탈 시 복원합니다.
+
+```bash
+ruby --version
+rbenv version
+command -v ruby
+```
+
+### CocoaPods 도구 버전을 프로젝트에 고정
+
+CocoaPods를 쓰는 프로젝트는 **Gemfile·Gemfile.lock으로 도구 버전도 관리**합니다. Ruby가 같아도 CocoaPods 요구 버전은 프로젝트마다 다를 수 있습니다. 기존 Gemfile·잠금 파일은 그대로 복원합니다. 파일이 없는 프로젝트에서 CocoaPods를 새로 도입할 때만 프로젝트 루트에 다음 Gemfile을 작성합니다. `목표CocoaPods버전`은 검증할 실제 버전으로 바꾸며 SwiftPM 전용 샘플에는 만들지 않습니다.
+
+```ruby
+source 'https://rubygems.org'
+gem 'cocoapods', '= 목표CocoaPods버전'
+```
+
+기존 Gemfile.lock의 `BUNDLED WITH`에서 Bundler 버전을 확인해 선택한 Ruby에 설치합니다. 새 프로젝트는 선택 Ruby와 호환되는 실제 Bundler 버전을 정해 기록합니다. 설치할 때 `sudo`를 사용하지 않습니다.
+
+```bash
+gem install bundler -v Bundler버전
+bundle --version
+bundle config set --local path .local/bundle
+bundle install
+bundle exec pod --version
+```
+
+모두 **Gemfile이 있는 프로젝트 루트**에서 실행합니다. `.local/bundle`과 `.bundle/`은 Git 제외 로컬 상태이며 Gemfile·Gemfile.lock은 공유합니다. 다른 프로젝트의 `BUNDLE_GEMFILE`·`BUNDLE_PATH`가 강제되어 있다면 작업 자식 셸에서 원인을 확인·해제하고 이 프로젝트의 설정을 사용합니다. 일반 `gem install cocoapods -v …` 후 `pod`만 실행하는 방식은 특정 프로젝트 버전을 선택해 주지 않으므로 기본 절차에서 제외합니다.
+
+### Flutter 빌드까지 같은 CocoaPods 환경 사용
+
+Flutter도 필요한 경우 내부에서 `pod install`을 호출합니다. 수동 Pod 복원만 Bundler로 감싸고 Flutter 빌드는 일반 호출로 바꾸면 도구 버전이 달라질 수 있습니다. **CocoaPods 사용 프로젝트의 iOS 명령은 프로젝트 루트에서 다음처럼 통일**합니다.
+
+```bash
+bundle exec fvm flutter pub get
+bundle exec fvm flutter doctor -v
+bundle exec fvm flutter build ios --no-codesign
+```
+
+직접 Pod를 복원해야 할 때는 Podfile이 있는 `ios`에서 `bundle exec pod install`을 실행합니다. Bundler가 상위 프로젝트 Gemfile을 찾는지 확인하며 별도 배치는 해당 프로젝트의 `BUNDLE_GEMFILE` 설정을 따릅니다. 선택적 로컬 Flutter 실행기를 쓰면 `bundle exec ./scripts/flutter …`로 실행합니다. 기기 실행·IPA 빌드에도 같은 규칙을 적용하고 IDE가 이 환경을 자동 사용하는 것으로 간주하지 않습니다.
+
+복원은 `bundle install`·`bundle exec pod install`, 특정 Pod 업데이트는 `bundle exec pod update Pod이름`입니다. CocoaPods 도구 갱신은 Gemfile 제약 변경과 `bundle update cocoapods` 결과를 검토합니다. 잠금 파일 삭제로 전체 갱신하지 않습니다. [CocoaPods Gemfile·실행 규칙](https://guides.cocoapods.org/using/a-gemfile.html) · [Pod install과 update](https://guides.cocoapods.org/using/pod-install-vs-update.html) · [Flutter의 Pod 호출 구현](https://github.com/flutter/flutter/blob/3.35.7/packages/flutter_tools/lib/src/macos/cocoapods.dart).
+
+### Swift Package Manager를 사용하는 프로젝트
+
+Xcode에 포함되어 있어 별도 CLI 패키지를 설치하지 않습니다. 프로젝트가 정한 패키지 요구 범위·Package.resolved를 유지하고 Xcode의 패키지 해석 결과를 확인합니다. 초기 복원에서 **Update to Latest Package Versions**로 전체 갱신하지 않습니다. 프로젝트가 CocoaPods와 혼합되어 있다면 Podfile·Podfile.lock도 계속 관리합니다. 의존성 관리자 전환은 별도 작업으로 검증하고 기존 설정을 먼저 삭제하지 않습니다. 이 저장소 샘플처럼 해당 파일이 아직 없다면 버전 관리 목적으로 임의 생성하지 않습니다.
+
+## Simulator·iPhone 실행과 서명
+
+### Simulator에서 먼저 실행
+
+Xcode에서 필요한 iOS Simulator runtime과 가상 기기를 준비한 뒤 Simulator 앱을 실행합니다. 실기기용 provisioning·Developer Mode 없이 앱 기본 동작을 확인할 수 있지만 푸시·카메라 등 실제 기능의 지원 범위는 다릅니다.
+
+```bash
+fvm flutter devices
+fvm flutter run -d 기기ID
+```
+
+`기기ID`는 목록의 실제 Simulator ID로 교체합니다. Simulator와 실기기의 빌드 아키텍처·플러그인 지원이 다르므로 Simulator 성공만으로 실기기 검증을 마치지 않습니다.
+
+### iPhone을 USB로 연결
+
+1. 데이터 전송 케이블로 iPhone과 Mac을 직접 연결하고 잠금을 해제합니다. Mac·iPhone에서 연결·컴퓨터 신뢰를 요청하면 본인 장치인지 확인하고 승인합니다.
+2. Xcode의 **Window → Devices and Simulators**에서 iPhone이 보이고 준비가 끝났는지 확인합니다. 기기 iOS와 선택 Xcode의 Device Support가 맞아야 합니다.
+3. iOS 16 이상에서 개발용 실행이 필요하면 **설정 → 개인정보 보호 및 보안 → 개발자 모드**를 켜고 재시작·승인을 완료합니다. 메뉴가 없다면 Xcode 연결·페어링부터 확인합니다. [Apple Developer Mode](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+4. 기본 Flutter 앱은 `ios/Runner.xcworkspace`를 Xcode에서 엽니다. CocoaPods 통합 프로젝트는 `.xcodeproj`만 열지 않습니다. 프로젝트가 다른 workspace·scheme을 지정하면 그 설정을 따릅니다.
+5. Xcode 계정 설정에 개발용 Apple 계정을 추가하고 Runner target의 **Signing & Capabilities**에서 Team·고유 Bundle Identifier를 선택합니다. 자동 서명을 쓰면 **Automatically manage signing**을 확인하고 필요한 capability가 계정·profile과 맞는지 확인합니다. 기존 배포 앱의 Bundle ID·Team을 새 예시값으로 바꾸지 않습니다.
+6. `fvm flutter devices`에서 iPhone의 실제 ID를 확인하고 `fvm flutter run -d 기기ID`로 실행합니다. CocoaPods 사용 프로젝트는 `bundle exec`를 앞에 붙입니다. 기기에서 개발자 앱 신뢰를 추가 요구하면 설정 안내에 따라 승인합니다.
+
+개인 무료 계정은 제한된 기기 테스트에 사용할 수 있지만 기능·provisioning 제약이 있습니다. TestFlight·App Store 배포에는 Apple Developer Program 등 해당 배포 자격이 필요합니다. 계정 비밀번호·개인 키·인증서 export 비밀번호를 Git·셸 설정·공유 로그에 기록하지 않습니다. [Flutter iOS 기기 설정·서명](https://docs.flutter.dev/platform-integration/ios/setup).
+
+VS Code는 FVM SDK 경로를 지정한 로컬 Flutter 창에서 **Flutter: Select Device**로 iPhone을 선택하고 F5를 사용합니다. Android Studio도 프로젝트의 FVM SDK를 선택한 뒤 실행 대상에서 iPhone을 고릅니다. 두 IDE가 Xcode의 서명·기기 준비를 대신하지는 않습니다.
+
+이후 예시의 Flutter 명령에도 CocoaPods 사용 시 `bundle exec`를 추가합니다.
+
+## 앱 권한·버전·배포 확인
+
+- **권한**: 플러그인 공식 iOS 안내에 따라 Info.plist의 자원별 UsageDescription과 실제 사용 이유를 작성합니다. Capabilities·entitlements·privacy manifest가 필요한지도 확인합니다. 선언과 런타임 사용자 동의는 별도이며 허용·거부·철회·복귀를 기기에서 검사합니다. 서명 오류를 해결하려고 capability를 임의 제거하지 않습니다.
+- **앱 버전**: `pubspec.yaml`의 `version: 이름+빌드번호`와 CI의 build-name/build-number 인자를 확인하고 archive 결과의 CFBundleShortVersionString·CFBundleVersion을 대조합니다. 이미 업로드한 빌드번호를 그대로 재사용하지 않습니다.
+- **서명 빌드·배포**: 개발 기기 실행, archive 생성, App Store Connect 업로드·심사는 각각 별도 확인입니다. 인증서를 안전하게 준비한 환경에서 프로젝트 flavor·export 설정에 맞춰 `fvm flutter build ipa`를 사용하고 생성 archive·IPA를 확인합니다. TestFlight 설치·권한·기존 데이터 유지도 확인합니다. 이 문서 작성은 업로드 권한을 뜻하지 않습니다.
+
+[Flutter iOS 배포](https://docs.flutter.dev/deployment/ios) · [Apple 보호 자원 접근](https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources).
+
+## 업데이트·검증·복귀와 Intel Mac 제약
+
+1. 정상 커밋·미커밋 변경과 macOS/CPU·Flutter·Xcode 버전/빌드 번호·iOS SDK·Deployment Target·의존성 잠금 파일을 기록합니다. 서명 인증서의 개인 키와 계정 복구 수단은 별도로 안전하게 백업하고 키체인 항목을 먼저 삭제하지 않습니다.
+2. macOS → 사용 가능한 Xcode → Flutter·플러그인 지원 → 기기 iOS 지원 → App Store 제출 요구를 대조합니다. 구형 macOS에서 과거 Xcode를 설치할 수 있다는 것과 현재 스토어에 제출할 수 있다는 것은 다릅니다.
+3. Xcode·Flutter·Dart 패키지·CocoaPods/SwiftPM 의존성 변경을 구분합니다. 필요하면 구버전 Xcode를 보존한 채 새 버전을 별도 설치·선택합니다. 기존 잠금 파일로 복원하고 언어·최소 OS·권한·privacy 변경을 검토합니다.
+4. 프로젝트 루트에서 분석·테스트 후 Simulator·서명 실기기·배포 빌드를 각각 확인합니다.
+
+```bash
+fvm flutter doctor -v
+fvm flutter pub get
+fvm flutter analyze
+fvm flutter test
+fvm flutter build ios --no-codesign
+```
+
+`--no-codesign`은 서명 없는 컴파일 확인이며 iPhone 설치·App Store 제출 성공을 뜻하지 않습니다. 테스트가 없는 프로젝트는 실제 검사 범위를 기록합니다. 실제 기기의 권한·플러그인·기존 설치본 위 업데이트·데이터 보존과 필요 시 release archive·TestFlight를 따로 검증합니다.
+
+5. 실패하면 미커밋 작업을 보존하고 코드·pubspec/lock·Podfile/lock·Gemfile/lock·SPM 설정·Xcode 프로젝트를 변경 전 기준으로 되돌립니다. FVM·Xcode 선택도 복원합니다. 앱 데이터 형식을 바꿨다면 도구 복귀와 별도로 데이터 복구·하위 호환을 검토합니다. 이미 배포했다면 과거 IPA를 단순 덮어쓰는 대신 새 빌드번호로 수정 배포합니다. `ios/` 재생성·lockfile 삭제·인증서 폐기·DerivedData 전체 삭제를 첫 해결책으로 사용하지 않습니다.
+
+2026-11-03 확인 시 Apple은 **2026-04-28부터 Xcode 26 이상·iOS 26 SDK 이상**으로 빌드한 앱을 업로드하도록 요구합니다. 이는 Deployment Target을 iOS 26으로 올리라는 뜻은 아닙니다. 실제 제출 직전에 [Apple의 현재·예정 요구](https://developer.apple.com/news/upcoming-requirements/)를 다시 확인합니다.
+
+사용 중인 Intel MacBook의 Flutter 3.35.7 고정만으로 새 Xcode·스토어 요구를 충족하지는 않습니다. 해당 Mac이 요구 macOS/Xcode를 지원하지 않으면 지원되는 다른 Mac·macOS CI에서 빌드하는 경로가 필요하며, 그 환경에서도 같은 Flutter·플러그인의 새 Xcode 호환성을 검증해야 합니다. 현재 Intel Mac 전체의 최종 지원 버전을 단정하지 않습니다. [Xcode 시스템·기기 지원 표](https://developer.apple.com/xcode/system-requirements/) · [2026년 SDK 제출 요구](https://developer.apple.com/news/upcoming-requirements/?id=04282026a).
+
+## 문제 해결 순서
+
+| 증상 | 먼저 확인 |
+| :--- | :--- |
+| Xcode를 못 찾거나 라이선스 오류 | 전체 Xcode 설치, xcode-select·DEVELOPER_DIR·초기화 상태 |
+| iPhone이 목록에 없음·사용 불가 | 케이블·잠금·신뢰·Developer Mode, Xcode와 기기 iOS 지원 범위 |
+| 서명·provisioning 실패 | Team·Bundle ID·기기 등록·계정 자격·profile·entitlements |
+| Pod 버전 충돌 | Flutter 플러그인 요구·Deployment Target·Podfile.lock·CocoaPods/Ruby 선택 |
+| Swift package 해석 실패 | 선택 Xcode, 패키지 요구·Package.resolved·네트워크·인증 설정 |
+| 지원 iOS 최소 버전 오류 | 앱·확장 target·의존성 요구 비교. 올릴 때 지원 기기 범위 검토 |
+| Simulator만 성공 | 실기기 아키텍처·플러그인·서명·기기 OS 조건을 별도 확인 |
+| 스토어 업로드 거부 | SDK/Xcode 제출 요구·앱/빌드번호·서명·privacy·capability 검증 결과 |
+
+## 공식 참고
+
+확인일: 2026-11-03. 공식 문서와 대조했으며 Xcode 설치·기기 연결·서명 빌드·업로드는 수행하지 않았습니다.
+
+- [Flutter iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup)
+- [Flutter iOS 빌드·배포](https://docs.flutter.dev/deployment/ios)
+- [Flutter Swift Package Manager](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers)
+- [CocoaPods 시작·Ruby 환경](https://guides.cocoapods.org/using/getting-started.html)
+- [CocoaPods install과 update](https://guides.cocoapods.org/using/pod-install-vs-update.html)
+- [Xcode 지원 조건](https://developer.apple.com/xcode/system-requirements/)

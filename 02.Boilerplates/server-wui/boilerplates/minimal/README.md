@@ -1,7 +1,29 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.3.0 -->
 # Minimal Server-WUI
 
 Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
+
+## 시작 순서·Node 준비
+
+이 minimal 폴더를 숨김 파일·`.nvmrc`·잠금 파일 포함해 새 프로젝트 루트로 복사한다. 기존 node_modules·dist·개인 설정·`.git`은 복사하지 않는다. 유형 패키지 전체를 받은 경우 유형 패키지의 시작 가이드를 먼저 읽는다. 이 폴더만 전달받았다면 아래 Node 준비 후 본문의 설치·실행 순서로 진행할 수 있다.
+
+macOS·Linux에서 nvm이 없을 때만 개인 일반 터미널에서 공식 설치기를 실행한다.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+```
+
+새 터미널의 **복사한 프로젝트 루트**에서 Node를 준비한다.
+
+```bash
+nvm install --no-use
+nvm exec "$(cat .nvmrc)" node --version
+nvm exec "$(cat .nvmrc)" npm --version
+```
+
+아래 모든 npm 명령은 `nvm exec "$(cat .nvmrc)" npm …`로 실행하면 부모 셸의 Node 선택을 바꾸지 않는다. 두 터미널 실행도 각각 같은 프로젝트 루트에서 적용한다. npm 전역 갱신·공용 Node default 변경은 하지 않는다. 네이티브 Windows는 [Node 공식 배포](https://nodejs.org/en/download)의 해당 버전 ZIP을 설치해 작업 자식 PowerShell의 PATH에서만 선택하고 같은 npm 명령을 실행한다. nvm-windows의 공용 링크 전환을 프로세스 격리로 설명하지 않는다. 자세한 설치·체크섬·자식 셸 명령은 유형 시작 가이드에 있다. [nvm 공식 설치·사용](https://github.com/nvm-sh/nvm).
+
+현재 샘플에는 비밀 환경 변수·외부 서비스가 필요하지 않다. 필요한 값이 생기면 프로젝트 docs/environment.md와 비밀값 없는 예시·Git 제외 로컬 설정으로 관리한다. 먼저 아래 요구 버전과 OS/CPU를 확인한 뒤 의존성 복원·검사·실행으로 진행한다.
 
 ## 필요한 환경과 버전
 
@@ -107,3 +129,5 @@ HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 
 ## 보안·버전 점검 (2026-10-29)
 
 앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(7개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. 실행 기준에 맞춰 Node 타입을 24.19.2로 정렬했고 나머지 직접 의존성은 유지했습니다. 실제 브라우저·다른 OS는 이번에 확인하지 않았습니다. 버전 변경 이유·적용/복귀는 유형 폴더의 update.md에서 관리합니다.
+
+환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 유형 시작 가이드의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.

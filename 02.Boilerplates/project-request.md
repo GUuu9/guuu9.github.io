@@ -22,7 +22,7 @@ boilerplate-export/유형명/
   boilerplates/minimal/의 실제 소스·버전·의존성·잠금·실행·테스트 설정
 
 - project-agents.md는 샘플 프로젝트 작업용 AGENTS 지침의 보관 파일명이야. 문서 저장소에 복사할 때 자동 적용되지 않게 이 이름을 사용해줘. 실제 새 프로젝트에 적용할 때 루트 AGENTS.md로 복사하는 방법을 README에 적어줘.
-- 지침의 코드 경로와 명령은 boilerplates/minimal/을 작업 루트로 삼아 적고, 문서 링크는 project-agents.md 파일 위치에서 유효하게 연결해줘. 적용 시에는 샘플 코드를 새 프로젝트 루트로 복사하고 지침 링크도 그 배치에 맞춰 조정하도록 안내해줘.
+- 지침의 코드 경로와 명령은 boilerplates/minimal/을 작업 루트로 삼아 적고, 문서 링크는 project-agents.md 파일 위치에서 유효하게 연결해줘. 적용 시에는 Git에 기록한 코드·docs·지침·이력을 함께 새 루트에 내보내고 링크를 다시 작성하지 않아도 되도록 구성해줘. `.env.example`은 공유하고 실제 `.env`·캐시·빌드 결과는 제외해줘.
 
 3. 추출할 내용과 제외할 내용
 - 대표 기능의 연결된 코드·버전 파일·manifest·lockfile·CI·빌드/테스트 설정을 읽고 실제 반복되는 구조·파일명·역할·의존 방향을 추출해줘.

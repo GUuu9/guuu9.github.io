@@ -1,4 +1,4 @@
-<!-- version: v1.0.2 -->
+<!-- version: v1.1.0 -->
 # 샘플 프로젝트 작업 지침
 
 이 파일은 보관용 지침입니다. 이 패키지를 문서 저장소에 복사해도 자동 적용되지 않습니다. 새 앱에 적용할 때만 이 파일을 새 프로젝트 루트의 `AGENTS.md`로 복사하세요.
@@ -7,7 +7,7 @@
 
 - `electron-phaser / local-only`로 분류되는 로컬 전용 Electron 앱의 구조를 기준으로 작업합니다.
 - 외부 API 연동은 현재 지원 범위에 포함되지 않습니다. 통신 기능을 추가할 때는 별도 통신 프로필과 요구사항을 정하고 인증·오류 계약·타임아웃 등 필요한 경계를 함께 설계합니다. localhost 개발 서버와 앱 내부 IPC를 원격 API 계층으로 취급하지 않습니다.
-- 핵심 예제는 [`boilerplates/minimal/src/renderer/src/app.tsx`](boilerplates/minimal/src/renderer/src/app.tsx)에서 `GreetingApi`를 호출하고, [`boilerplates/minimal/src/backend/bridge/greeting/greeting.usecase.ts`](boilerplates/minimal/src/backend/bridge/greeting/greeting.usecase.ts)가 검증된 결과를 반환하는 흐름입니다.
+- 핵심 예제는 `src/renderer/src/app.tsx`에서 `GreetingApi`를 호출하고, `src/backend/bridge/greeting/greeting.usecase.ts`가 검증된 결과를 반환하는 흐름입니다.
 - 문서 세부사항: [`docs/boilerplate.md`](docs/boilerplate.md).
 
 ## 2. 작업 전 확인
@@ -64,3 +64,7 @@ React는 UI와 Phaser 인스턴스 수명주기를, Phaser Scene은 게임 입�
 확장 작업에서는 docs/boilerplate.md 5절과 8절을 확인합니다. 정적 정의·영구 저장·실행 중 상태를 분리하고 ID로 연결합니다. 저장 변경은 검증과 쓰기 성공 뒤 확정하며 미래 버전·손상 파일은 자동 덮어쓰지 않습니다. 씬/리소스 등록과 메뉴 연결을 각각 확인하고 종료 후 비동기 응답·이벤트·사용 중 텍스처 해제를 점검합니다. 확장 예시의 save/Store·마이그레이션·제작 도구는 아직 구현되지 않았으므로 필요한 기능을 추가할 때 실제 코드·테스트·문서를 함께 작성합니다.
 
 샘플 코드·설정·의존성·문서를 갱신하면 유형 폴더 루트의 `update.md`에 날짜·변경 이유·버전 전후(미변경 포함)·적용/복귀 영향·실제 검증과 미검증을 기록합니다. 새 프로젝트에 지침을 적용할 때는 해당 프로젝트의 갱신 이력 파일 위치에 맞춥니다.
+
+시작 안내는 가져오기·새 폴더 복사 → 도구 설치·프로젝트 환경 선택 → 잠금 파일로 의존성 복원 → 실행·종료 → 검증 순서를 유지한다. 처음 사용하는 사람의 진입점은 docs/getting-started.md이며 구조 설명·개발 규칙은 이후에 연결한다. 필요한 설치 명령·위치·권한·버전 확인은 프로젝트 안에서 문서화하고, 기존 프로젝트의 공용 설정·잠금 파일을 초기 복원을 위해 바꾸지 않는다. 샘플만 분리해도 필요한 최소 준비와 실행 절차가 README에 남도록 한다.
+
+공유 환경 양식은 `.env.example`, 개인 실제 값은 Git 제외 `.env`로 관리한다. 새 앱에는 Git에 기록된 템플릿만 내보내고 캐시·빌드 결과·개인 설정을 복사하지 않는다. 명령은 패키지에서는 minimal, 적용 후에는 새 프로젝트 루트에서 실행한다.

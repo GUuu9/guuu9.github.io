@@ -1,4 +1,4 @@
-<!-- version: v1.0.3 -->
+<!-- version: v1.2.0 -->
 # TypeScript · React · Phaser · Electron 게임 보일러플레이트
 
 역할별 폴더와 프로세스 경계를 갖춘 독립 Electron 샘플입니다. React Renderer에서 연결 확인 버튼을 누르면 고정된 플레이어 이름을 Preload API와 IPC로 Main에 보내고, Main이 요청을 검증해 인사말 또는 오류를 돌려줍니다.
@@ -7,29 +7,19 @@
 
 원을 클릭해 점수를 올리는 로컬 게임입니다. React가 점수·재시작 버튼을, Phaser가 캔버스·입력·게임 씬을 담당합니다. 데스크톱 연결 확인 버튼은 Preload/IPC/Main의 검증된 왕복 예제입니다.
 
+처음 사용한다면 [가져오기부터 실행까지](docs/getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
+
 ## 빠른 시작
 
-```bash
-cd boilerplates/minimal
-npm ci
-npm test
-npm run typecheck
-npm run build
-```
+[가져오기부터 실행까지](docs/getting-started.md)를 다음 순서로 따른다.
 
-개발 실행은 두 터미널에서 합니다.
+1. Git으로 유형 받기·새 프로젝트 폴더에 복사.
+2. `.nvmrc`의 Node·npm 준비와 데스크톱 OS/CPU 조건 확인.
+3. `npm ci`로 프로젝트 의존성·Electron 바이너리 복원.
+4. 테스트·타입 검사·빌드.
+5. 두 터미널에서 Vite·Electron 실행, 게임·IPC·저장 확인, 종료.
 
-```bash
-# 터미널 1
-npm run dev
-```
-
-```bash
-# 터미널 2
-npm run electron:dev
-```
-
-기본 Renderer URL은 `http://127.0.0.1:5173`입니다. 창에서 **데스크톱 연결 확인**을 누르면 IPC 결과가 표시됩니다. 종료는 Electron 창을 닫고 Vite 터미널에서 `Ctrl+C`를 누릅니다. 포트 변경은 `vite.config.ts`의 포트와 `src/backend/main.ts`의 개발 URL을 함께 수정합니다.
+각 단계의 명령·작업 위치와 포트·저장 데이터는 시작 가이드와 [샘플 README](boilerplates/minimal/README.md)에서 확인한다. GUI가 없는 서버에서 실행 성공을 가정하지 않는다.
 
 ## 버전·구조
 
@@ -50,7 +40,7 @@ npm run electron:dev
 
 임시 복사본에서 설치, 2개 테스트, 타입 검사, 빌드, Electron 프로세스 기동 및 종료를 확인했습니다. 버튼을 눌러 IPC 응답이 표시되는 GUI 상호작용은 자동화 연결을 사용할 수 없어 미검증입니다. 현재 셸의 Node 경로 문제로 검증 시 Node 24.22.1을 PATH 앞에 지정했습니다.
 
-새 프로젝트에는 `boilerplates/minimal/`의 내용물을 루트로 복사하고, 필요하면 `project-agents.md`를 새 루트의 `AGENTS.md`로 복사합니다. 지침의 `boilerplates/minimal/...` 링크를 새 루트의 `src/...` 기준으로 바꿔야 합니다.
+새 프로젝트는 시작 가이드의 Git archive로 코드·docs·지침·이력을 함께 가져옵니다. 에이전트를 쓰는 경우에만 지침 보관본을 같은 루트의 AGENTS.md로 복사하며 기본 배치의 링크를 다시 수정할 필요는 없습니다.
 
 게임 로직과 리소스 관리 규칙은 상세 문서 4절의 게임 관리 규칙을 따릅니다. 이번 게임 전환 후 GUI 직접 클릭·점수 갱신 검증은 미검증입니다.
 

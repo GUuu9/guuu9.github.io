@@ -1,7 +1,7 @@
-<!-- version: v1.2.2 -->
+<!-- version: v1.3.0 -->
 # 1. 적용 범위
 
-이 패키지는 server-wui 유형의 독립 실행 샘플이다. [진입 README](../README.md), [작업 지침 보관본](../project-agents.md), [샘플 실행 안내](../boilerplates/minimal/README.md)가 함께 포함된다.
+이 패키지는 server-wui 유형의 독립 실행 샘플이다. 유형 패키지 README, [작업 지침 보관본](../project-agents.md), 실행 루트의 `README.md`가 함께 포함된다.
 
 이번 문서 갱신은 이 패키지의 소스·설정·테스트를 기준으로 수행했다. 현재 포함된 기능은 이름 조회의 정상·오류 흐름, 파일 기반 공개 config 읽기·검증, 상태 구독과 입력 보존이다. 이를 모두 역할 목록·아키텍처·샘플 지침에 반영한다.
 
@@ -30,6 +30,7 @@ Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5
 
 | 파일 | 역할·주요 책임 | 연결·사용처 |
 | --- | --- | --- |
+| `.env.example` | 비밀값 없는 환경 변수 양식. 실제 `.env`는 Git 제외 | 프로젝트 환경 준비 |
 | `README.md` | 독립 설치·개발·API·검증·포트·종료 안내 | 샘플만 복사한 사용자 |
 | `package.json` | 버전·의존성·scripts, private 설정 | npm ci/check/test/build/start |
 | `package-lock.json` | 실제 npm 생성 설치 트리·무결성 | npm ci |
@@ -235,6 +236,8 @@ sequenceDiagram
 
 # 6. 정확한 실행·검증 명령
 
+처음 준비하는 환경은 [가져오기부터 실행까지](./getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
+
 작업 위치는 모두 샘플 패키지의 `boilerplates/minimal/`이다. Node 24.22.1 이상 24.x·npm이 필요하며 설치에는 registry 또는 채워진 캐시, HTTP 테스트에는 로컬 소켓 권한이 필요하다.
 
 ```sh
@@ -261,15 +264,9 @@ check는 tsc --noEmit, test는 tsx와 Node test runner, build는 check → 서�
 
 # 8. 새 프로젝트로 복사·치환하는 방법
 
-문서 보관은 이 `server-wui` 유형 폴더 전체를 `02.Boilerplates/` 아래로 복사한다. 이 경우 모든 링크·실행 경로는 변경 없이 유지된다.
+새 앱은 [시작 가이드 2절](./getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 생성한다. 코드·docs·project-agents.md·update.md를 표준 위치에 함께 내보내므로 문서 링크를 다시 바꾸지 않는다. 에이전트를 쓸 때만 지침 보관본을 같은 루트의 AGENTS.md로 복사한다.
 
-실제 프로젝트를 시작할 때는:
-
-1. `boilerplates/minimal/` 내용물(숨김 파일 포함)을 새 루트로 복사하고 npm ci를 수행한다.
-2. package 이름·버전과 greeting 모델·endpoint·문구·config를 제품 요구로 치환한다. package 변경 시 npm으로 lockfile을 동기화한다.
-3. project-agents.md를 새 루트 AGENTS.md로 복사한다. 이 설명서를 docs/boilerplate.md로 가져온다면 AGENTS의 docs 링크는 그대로 쓰고 샘플 README 링크는 README.md로 고친다. 이 설명서의 `../boilerplates/minimal/` 링크는 `../`로 바꾸며 작업 루트 문구도 조정한다.
-4. 프로젝트에 필요하지 않은 샘플 기능은 해당 호출자·DI·검사까지 함께 제거한다. 제품별 저장·권한·통신은 필요가 확인된 뒤 추가한다.
-5. 복사 후 check/test/build와 UI 정상·오류를 검증한다. 샘플 패키지 전체를 보관하는 경우와 새 프로젝트 배치 변경을 혼동하지 않는다.
+이후 package 이름·버전과 모델·endpoint·문구·config를 제품 요구로 치환한다. 의존성 변경이 필요할 때만 manifest와 lockfile을 함께 갱신하고, 필요 없는 샘플 기능은 호출자·DI·검사까지 함께 제거한다. 타입 검사·테스트·빌드와 UI 정상·오류를 검증한다. 파일 역할 표의 경로는 실행 루트 기준이며 패키지의 실행 루트는 minimal, 적용 후에는 새 앱 루트다.
 
 재사용 기준은 구조·역할 분리·주입·상태 구독·검증 경계다.
 

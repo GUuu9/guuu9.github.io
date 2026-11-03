@@ -13,14 +13,12 @@ Git의 partial clone과 sparse checkout을 함께 사용합니다. 아래는 ser
 git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
 cd devguide-samples
 git sparse-checkout set 02.Boilerplates/server-wui
-cd 02.Boilerplates/server-wui/boilerplates/minimal
-npm ci
-npm test
-npm run build
-npm start
+cd 02.Boilerplates/server-wui
 ```
 
-새 폴더 devguide-samples에서 진행하며 기존 프로젝트 안에서 실행하지 않습니다. Git은 선택한 디렉터리 구조를 유지하므로 유형 폴더가 다운로드 폴더의 루트로 평탄화되지는 않습니다. 기본 cone 모드에서는 저장소 루트와 상위 디렉터리의 파일도 함께 보일 수 있습니다. 다른 유형의 하위 코드는 체크아웃하지 않습니다.
+새 폴더 devguide-samples에서 진행하며 기존 프로젝트 안에서 실행하지 않습니다. 다운로드가 끝나면 아래 유형별 시작 가이드에서 새 프로젝트 복사·도구 설치·환경 선택·의존성 복원·실행을 순서대로 진행합니다.
+
+Git은 선택한 디렉터리 구조를 유지하므로 유형 폴더가 다운로드 폴더의 루트로 평탄화되지는 않습니다. 기본 cone 모드에서는 저장소 루트와 상위 디렉터리의 파일도 함께 보일 수 있습니다. 다른 유형의 하위 코드는 체크아웃하지 않습니다.
 
 --depth 1은 가져올 이력을 줄이고 --filter=blob:none은 파일 본문을 필요할 때 받도록 요청합니다. 전체 저장소 메타데이터까지 유형별로 분리하는 기능은 아닙니다. 서버가 filter를 지원하지 않으면 전송량이 줄지 않을 수 있습니다.
 
@@ -39,6 +37,16 @@ npm start
 새 프로젝트로 시작하려면 받은 샘플의 내용물(숨김 파일 포함)을 별도 빈 디렉터리에 복사합니다. 원본 다운로드의 .git·node_modules·dist는 복사하지 않고 새 디렉터리에서 의존성을 복원합니다. 다운로드 저장소 자체를 새 프로젝트로 착각해 origin에 push하지 않습니다. 지침·설명서 적용은 유형 README를 따릅니다.
 
 공식 참고: [git clone](https://git-scm.com/docs/git-clone), [git sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
+
+## 처음 실행하는 순서
+
+| 유형 | 시작 문서 | 진행 흐름 |
+| :--- | :--- | :--- |
+| mobile-app | [가져오기부터 실행](./mobile-app/docs/getting-started.md) | 받기·복사 → FVM·Flutter → 필요한 플랫폼 설치 → 프로젝트 환경 → 복원·기기 실행 |
+| server-wui | [가져오기부터 실행](./server-wui/docs/getting-started.md) | 받기·복사 → Node 환경 → npm ci → 검사·빌드 → 서버·화면 실행 |
+| electron-phaser | [가져오기부터 실행](./electron-phaser/docs/getting-started.md) | 받기·복사 → Node·GUI 환경 → npm ci → 검사·빌드 → Electron 실행 |
+
+server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이드를 만들거나 실행 가능한 샘플처럼 안내하지 않습니다. 처음 읽는 문서는 다운로드에서 종료·검증까지 이어져야 하며 구조·아키텍처·갱신 이력은 그 이후의 참고 자료로 배치합니다.
 
 ## 만들고 가져오는 방법
 

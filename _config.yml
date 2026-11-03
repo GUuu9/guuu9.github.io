@@ -92,6 +92,14 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/mobile-app/docs/"
             children:
+              - title: "Mobile-app 가져오기부터 실행까지"
+                path: "02.Boilerplates/mobile-app/docs/getting-started.md"
+              - title: "프로젝트 환경 정의·복원·격리"
+                path: "02.Boilerplates/mobile-app/docs/project-environment.md"
+              - title: "Android 프로젝트 빌드·버전 관리"
+                path: "02.Boilerplates/mobile-app/docs/android-build.md"
+              - title: "iOS 프로젝트 빌드·버전 관리"
+                path: "02.Boilerplates/mobile-app/docs/ios-build.md"
               - title: "1. 적용 범위"
                 path: "02.Boilerplates/mobile-app/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"
@@ -114,6 +122,8 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/server-wui/docs/"
             children:
+              - title: "Server-WUI 가져오기부터 실행까지"
+                path: "02.Boilerplates/server-wui/docs/getting-started.md"
               - title: "1. 적용 범위"
                 path: "02.Boilerplates/server-wui/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"
@@ -136,6 +146,8 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/electron-phaser/docs/"
             children:
+              - title: "Electron·Phaser 가져오기부터 실행까지"
+                path: "02.Boilerplates/electron-phaser/docs/getting-started.md"
               - title: "로컬 전용 Electron React 최소 보일러플레이트"
                 path: "02.Boilerplates/electron-phaser/docs/boilerplate.md"
           - title: "실행 샘플 · boilerplates"

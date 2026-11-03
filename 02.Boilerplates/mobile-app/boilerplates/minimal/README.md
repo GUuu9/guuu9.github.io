@@ -2,6 +2,12 @@
 
 Flutter 3.35.7 기반 Android·iOS용 최소 MVVM 샘플이다. 고정 인사말을 불러오는 버튼 하나로 DI 조립, ViewModel 상태, View 갱신과 오류 처리를 확인한다.
 
+## 처음 시작할 때
+
+유형 패키지 전체가 있다면 유형 패키지의 시작 가이드에서 다운로드·새 폴더 복사·플랫폼 도구 설치·프로젝트 환경 적용을 먼저 진행한다. 이 minimal 폴더만 받은 경우에도 아래 준비 조건을 확인한 뒤 복원·검사·기기 실행 순서로 읽는다. FVM이 없다면 macOS·Linux의 일반 터미널에서 `curl -fsSL https://fvm.app/install.sh | bash`로 공식 설치하고 새 터미널에서 `fvm --version`을 확인한다. Windows 독립 설치와 지원 조건은 [FVM 공식 안내](https://fvm.app/documentation/getting-started/installation)를 따른다.
+
+[Android 공식 SDK·기기 준비](https://docs.flutter.dev/platform-integration/android/setup), [iOS 공식 Xcode·기기 준비](https://docs.flutter.dev/platform-integration/ios/setup)에서 필요한 플랫폼만 설치한다. 전체 패키지의 환경·Android·iOS 가이드에는 프로젝트 격리와 구체적인 설치 명령이 있다. 다른 프로젝트의 공용 JDK·Flutter 설정·Xcode 선택을 바꾸는 대신 로컬 설정을 준비한다. 격리 실행기를 도입했다면 아래 `fvm flutter` 호출을 프로젝트의 실행기로 대체하며 IDE Run도 같은 환경인지 따로 확인한다.
+
 ## 준비 조건
 
 - Flutter 3.35.7 / Dart 3.9.2. `.fvmrc`로 선택한다.
@@ -35,7 +41,7 @@ fvm flutter devices
 fvm flutter run -d 기기ID
 ```
 
-`-d 기기ID`는 `devices`에 출력된 ID로 바꾼다. 종료는 터미널에서 Ctrl+C다. iOS는 macOS에서 Xcode 초기화·서명·기기를 별도로 준비한 뒤 `fvm flutter run -d 기기ID`로 실행한다.
+`-d 기기ID`는 `devices`에 출력된 ID로 바꾼다. 종료는 터미널에서 Ctrl+C다. iOS는 macOS에서 Xcode 초기화·서명·기기를 별도로 준비한 뒤 `fvm flutter run -d 기기ID`로 실행한다. CocoaPods를 쓰는 프로젝트는 Gemfile·lock으로 복원하고 Flutter의 iOS 실행·빌드에도 `bundle exec`를 붙여 같은 도구 버전을 사용한다.
 
 Android APK 빌드:
 
@@ -47,8 +53,10 @@ fvm flutter build apk --debug
 
 ## 구조와 변경
 
-`lib/main.dart`에서 `core/di/app_dependencies.dart`를 통해 인사 Service와 ViewModel을 만들고 `app.dart`가 ViewModel 수명을 관리한다. `features/greeting/presentation/`의 View는 상태를 표시하고 동작을 ViewModel에 전달한다. 자세한 파일 책임·의존 규칙·새 프로젝트 복사는 [유형 설명서](../../docs/boilerplate.md)를 참고한다.
+`lib/main.dart`에서 `core/di/app_dependencies.dart`를 통해 인사 Service와 ViewModel을 만들고 `app.dart`가 ViewModel 수명을 관리한다. `features/greeting/presentation/`의 View는 상태를 표시하고 동작을 ViewModel에 전달한다. 자세한 파일 책임·의존 규칙·새 프로젝트 복사는 유형 패키지의 설명서를 참고한다.
 
 Android application ID·앱 이름과 iOS Bundle Identifier·표시 이름은 새 프로젝트에 맞춰 바꾼다. `.fvm/`, `android/local.properties`, `ios/Flutter/Generated.xcconfig`, `.dart_tool/`, `build/` 및 서명 키는 버전 관리에 넣지 않는다.
 
 실제 Android/iOS 기동과 IDE GUI는 이 패키지 생성 과정에서 검증하지 않았다.
+
+환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 유형 시작 가이드의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.

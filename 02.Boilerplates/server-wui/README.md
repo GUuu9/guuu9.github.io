@@ -1,5 +1,7 @@
-<!-- version: v1.2.2 -->
+<!-- version: v1.4.0 -->
 # Server-WUI 최소 보일러플레이트
+
+처음 사용한다면 [가져오기부터 실행까지](docs/getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
 
 ## 1. 목적과 핵심 동작
 
@@ -13,27 +15,19 @@ Node 24.22.1 이상 24.x, npm, TypeScript·Express·React·Vite를 사용한다.
 
 ## Git으로 이 유형만 받기
 
-```sh
-git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
-cd devguide-samples
-git sparse-checkout set 02.Boilerplates/server-wui
-cd 02.Boilerplates/server-wui
-```
-
-이후 아래 빠른 시작을 진행한다. 원격 저장소에 이 패키지가 push돼 있어야 하며 루트·상위 디렉터리의 안내 파일도 함께 보일 수 있다. 갱신은 다운로드 저장소 루트에서 작업 상태를 확인한 뒤 git pull --ff-only로 진행한다. 다른 유형 선택 방법은 이 저장소의 보일러플레이트 목록을 참고하며, 이 패키지의 설치·실행에는 상위 문서가 필요하지 않다.
+[시작 가이드 1절](docs/getting-started.md#1-유형-패키지-가져오기)에서 Git 다운로드 명령부터 진행한다. 기존 다운로드와 새 앱 폴더를 구분하고, 앱을 받을 때 Node나 의존성 업데이트를 섞지 않는다.
 
 ## 3. 빠른 시작
 
-이 샘플 패키지 루트에서:
+[가져오기부터 실행까지](docs/getting-started.md)를 다음 순서로 따른다.
 
-```sh
-cd boilerplates/minimal
-npm ci
-npm run build
-npm start
-```
+1. 유형 다운로드·새 프로젝트 폴더 복사.
+2. `.nvmrc`에 맞는 Node·npm 준비와 프로젝트 실행 환경 확인.
+3. `npm ci`로 의존성 복원.
+4. 타입 검사·테스트·빌드.
+5. 서버·화면 실행, 정상/오류 동작 확인, 종료.
 
-http://127.0.0.1:3101 에 접속해 Send를 누른다. 종료는 Ctrl+C다. 개발 모드의 두 터미널 실행 순서와 포트 변경은 [샘플 README](boilerplates/minimal/README.md)에 있다.
+개발 모드·포트·환경 변수는 시작 가이드의 해당 단계에서 [샘플 README](boilerplates/minimal/README.md)로 연결한다. 환경 준비 이전에 npm 명령을 실행하지 않는다.
 
 ## 4. 핵심 구조
 
@@ -82,13 +76,7 @@ npm run build
 
 [project-agents.md](project-agents.md)는 문서 저장소에서 자동 적용되지 않도록 보관한 이름이다. 새 프로젝트에 적용할 때:
 
-1. `boilerplates/minimal/`의 내용물(숨김 파일 포함)을 새 프로젝트 루트에 복사한다.
-2. `project-agents.md`를 새 프로젝트 루트의 `AGENTS.md`로 복사한다.
-3. `docs/boilerplate.md`를 새 프로젝트의 같은 경로로 복사한다.
-4. 새 AGENTS의 문서 링크 `docs/boilerplate.md`는 그대로 유효하다. `boilerplates/minimal/README.md` 링크는 새 배치에 맞춰 `README.md`로 바꾸고, `작업 루트` 설명도 새 루트로 수정한다.
-5. 복사한 설명서의 파일 링크는 현재 `../boilerplates/minimal/` 기준이므로 새 프로젝트에서는 `../` 기준으로 바꾼다. 문서를 다른 위치에 두면 실제 배치에 맞춰 함께 조정한다.
-
-샘플 패키지 그대로 보관·실행할 때는 이 수정이 필요 없다. 코드 경로·명령은 항상 샘플 작업 루트 기준이다.
+[시작 가이드](docs/getting-started.md)의 내보내기 절차는 코드와 docs·project-agents.md·update.md를 새 앱 루트에 배치한다. 에이전트 사용 시 보관본만 같은 루트의 AGENTS.md로 복사한다. 기본 문서 배치에서 링크 수정은 필요하지 않으며 실행 루트는 패키지의 minimal 또는 새 앱 루트다.
 
 ## 8. 상세 안내
 

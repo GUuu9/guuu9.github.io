@@ -47,7 +47,7 @@
 
 준비 중인 [server](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/server)·[electron-app](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/electron-app)은 GitHub 폴더에서 확인합니다.
 
-[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 현재 server-wui의 독립 실행 샘플과 설명서·작업 지침을 제공합니다. 다른 유형은 대상 프로젝트 조사 후 추가합니다.
+[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 현재 mobile-app·server-wui·electron-phaser의 실행 샘플·시작 가이드·설명서·작업 지침을 제공합니다. server·electron-app은 준비 중입니다.
 
 ## 03.Utilities — 편의 앱
 
