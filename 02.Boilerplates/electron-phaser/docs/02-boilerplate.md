@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v2.0.0 -->
 # 로컬 전용 Electron React 최소 보일러플레이트
 
 ## 1. 적용 범위
@@ -257,7 +257,7 @@ Main/Preload/shared를 분리해 프로세스 권한 경계를 드러내고, `co
 
 ## 6. 정확한 명령과 실행 방법
 
-처음 준비하는 환경은 [가져오기부터 실행까지](./getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
+처음 준비하는 환경은 [가져오기부터 실행까지](./01-getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
 
 모든 경로와 명령은 `boilerplates/minimal/`을 작업 루트로 합니다.
 
@@ -291,7 +291,7 @@ npm run build
 
 ## 8. 새 프로젝트로 복사·치환
 
-[시작 가이드 2절](./getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 코드·docs·지침·이력을 함께 가져온다. 문서 링크는 수정하지 않고 에이전트 사용 시 지침 보관본만 같은 루트의 AGENTS.md로 복사한다. 파일 역할 표의 경로는 실행 루트 기준이다.
+[시작 가이드 2절](./01-getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 코드·docs·지침·이력을 함께 가져온다. 문서 링크는 수정하지 않고 에이전트 사용 시 지침 보관본만 같은 루트의 AGENTS.md로 복사한다. 파일 역할 표의 경로는 실행 루트 기준이다.
 
 그다음 package 이름·버전·화면과 기능을 제품에 맞게 바꾼다. 의존성을 바꾼 경우에만 npm으로 lockfile을 갱신한다. 계약 → Bridge/Usecase → Service/테스트 → Renderer API/React UI를 연동하고 전체 검사를 수행한다.
 
@@ -324,7 +324,7 @@ npm run build
 | 요구사항 | 실제 파일·절 위치 | 검증 방법·결과 | 상태 |
 |---|---|---|---|
 | 갱신 이력 | update.md | 확인 가능한 커밋·버전·검증 결과 및 현재 문서 변경 기록 | 충족 |
-| 유형 폴더에 목적 README·보관용 지침·상세 문서·샘플 | 유형 폴더 `README.md`, `project-agents.md`, `docs/boilerplate.md`, `boilerplates/minimal/` | 산출물 경로 및 파일 존재 대조 | 충족 |
+| 유형 폴더에 목적 README·보관용 지침·상세 문서·샘플 | 유형 폴더 `README.md`, `project-agents.md`, `docs/02-boilerplate.md`, `boilerplates/minimal/` | 산출물 경로 및 파일 존재 대조 | 충족 |
 | 샘플 전체 직접 관리 파일 역할 | 3절 직접 관리 파일 표 | 샘플 파일 트리와 표 대조 | 충족 |
 | 폴더·파일 이름 규칙 | 3절 이름 규칙 | 실제 파일명 및 접미사 대조 | 충족 |
 | 구성과 실행 경계 | 4절 `구성과 실행 경계` | Main/Renderer/Preload/shared의 실제 소유 코드 대조 | 충족 |

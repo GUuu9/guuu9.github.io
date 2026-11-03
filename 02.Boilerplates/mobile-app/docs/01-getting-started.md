@@ -1,11 +1,11 @@
-<!-- version: v1.2.2 -->
+<!-- version: v2.0.0 -->
 # Mobile-app 가져오기부터 실행까지
 
 새 PC·새 폴더에서 **유형 받기 → 프로젝트 복사 → Flutter 복원 → 플랫폼 도구 설치 → 프로젝트 환경 적용 → 의존성 복원 → 기기 실행·검증** 순서로 진행합니다. Android·iOS 중 필요한 플랫폼만 준비합니다. 기존 앱 복원이라면 다운로드·새 폴더 복사를 건너뛰고 해당 앱의 README·CI·버전 파일을 우선합니다.
 
 ## 0. 선행 도구·준비 순서
 
-개발 도구 설치 전에 [서비스 OS 지원 범위](./build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
+개발 도구 설치 전에 [서비스 OS 지원 범위](./06-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
 
 코드를 받기 위한 PC 공통 준비와 프로젝트를 받은 뒤의 도구 설치를 구분합니다. 모든 도구를 다운로드 전에 설치할 필요는 없지만, 각 명령의 선행 도구가 준비된 뒤 다음 단계로 진행합니다.
 
@@ -112,16 +112,16 @@ fvm flutter --version
 
 ## 4. 필요한 플랫폼 도구 설치
 
-먼저 [프로젝트 환경 파일의 책임](./project-environment.md#프로젝트에-보관할-파일)을 읽고, 선택 플랫폼에 필요한 실제 버전·개인 경로를 확인합니다. 이 단계에서는 설치까지만 진행하고 앱 실행·업데이트는 아직 하지 않습니다.
+먼저 [프로젝트 환경 파일의 책임](./02-project-environment.md#프로젝트에-보관할-파일)을 읽고, 선택 플랫폼에 필요한 실제 버전·개인 경로를 확인합니다. 이 단계에서는 설치까지만 진행하고 앱 실행·업데이트는 아직 하지 않습니다.
 
-- **Android**: [Android 빌드 가이드](./android-build.md)의 역할·기존 환경 확인·공통 설치 안내·프로젝트 JDK 선택·SDK 복원·호환 조합 확인 순서로 진행합니다. Android Studio의 SDK Manager에서 요구 SDK·Platform-Tools를 준비합니다. Mac의 별도 JDK는 Homebrew의 요구 major formula로 설치하고 프로젝트 환경 파일에서 선택합니다. Gradle·AGP는 프로젝트 파일에서 복원하므로 전역 Gradle을 설치하지 않습니다.
-- **iOS**: Mac에서만 [iOS 빌드 가이드](./ios-build.md)의 공통 Xcode 설치 안내·프로젝트별 선택을 진행합니다. 프로젝트에 CocoaPods 의존성이 있을 때만 Ruby·Bundler·CocoaPods를 준비하고, SwiftPM만 사용하면 불필요한 Podfile을 만들지 않습니다. iOS 앱 실행이 필요하지 않은 PC에 Xcode·CocoaPods를 설치하지 않습니다.
+- **Android**: [Android 빌드 가이드](./03-android-build.md)의 역할·기존 환경 확인·공통 설치 안내·프로젝트 JDK 선택·SDK 복원·호환 조합 확인 순서로 진행합니다. Android Studio의 SDK Manager에서 요구 SDK·Platform-Tools를 준비합니다. Mac의 별도 JDK는 Homebrew의 요구 major formula로 설치하고 프로젝트 환경 파일에서 선택합니다. Gradle·AGP는 프로젝트 파일에서 복원하므로 전역 Gradle을 설치하지 않습니다.
+- **iOS**: Mac에서만 [iOS 빌드 가이드](./04-ios-build.md)의 공통 Xcode 설치 안내·프로젝트별 선택을 진행합니다. 프로젝트에 CocoaPods 의존성이 있을 때만 Ruby·Bundler·CocoaPods를 준비하고, SwiftPM만 사용하면 불필요한 Podfile을 만들지 않습니다. iOS 앱 실행이 필요하지 않은 PC에 Xcode·CocoaPods를 설치하지 않습니다.
 
 개인 경로·설치 버전은 프로젝트 문서와 로컬 파일에 기록하며 공용 JAVA_HOME·Xcode 선택·Ruby 기본값을 바꾸지 않습니다. 샘플의 Android APK·iOS 빌드는 아직 검증되지 않았으므로 문서의 조합만으로 성공을 보장하지 않습니다.
 
 ## 5. 프로젝트 환경 확인·의존성 복원
 
-[환경 가이드 2절](./project-environment.md#2-기본-환경과-선택적-폴더별-로딩)의 작업 자식 셸에서 실제 SDK·JDK·Xcode를 선택합니다. macOS·Linux·네이티브 Windows 모두 아래 **기본 FVM 명령**으로 시작합니다. direnv와 로컬 실행기 작성은 필수가 아닙니다.
+[환경 가이드 2절](./02-project-environment.md#2-기본-환경과-선택적-폴더별-로딩)의 작업 자식 셸에서 실제 SDK·JDK·Xcode를 선택합니다. macOS·Linux·네이티브 Windows 모두 아래 **기본 FVM 명령**으로 시작합니다. direnv와 로컬 실행기 작성은 필수가 아닙니다.
 
 ```bash
 fvm flutter doctor -v
@@ -130,15 +130,15 @@ fvm flutter analyze
 fvm flutter test
 ```
 
-doctor의 실제 Java·SDK가 프로젝트와 맞지 않으면 공용 사용자 설정부터 바꾸지 않습니다. [필요한 경우의 Flutter 설정 분리](./project-environment.md#3-선택적-flutter-사용자-설정-분리) 또는 지원되는 별도 빌드 환경을 선택합니다. 선택적 실행기를 도입했다면 위·아래 Flutter 호출을 모두 그 실행기로 바꾸고 혼용하지 않습니다.
+doctor의 실제 Java·SDK가 프로젝트와 맞지 않으면 공용 사용자 설정부터 바꾸지 않습니다. [필요한 경우의 Flutter 설정 분리](./02-project-environment.md#3-선택적-flutter-사용자-설정-분리) 또는 지원되는 별도 빌드 환경을 선택합니다. 선택적 실행기를 도입했다면 위·아래 Flutter 호출을 모두 그 실행기로 바꾸고 혼용하지 않습니다.
 
-iOS 프로젝트가 CocoaPods를 사용하면 [Ruby·Bundler·Pod 복원](./ios-build.md#cocoapodsswift-package-manager-복원)을 수행하고 **이후 Flutter의 iOS 실행·빌드도** 프로젝트 루트에서 `bundle exec fvm flutter …`로 실행합니다. SwiftPM만 쓰는 프로젝트와 Android 작업은 이 접두부가 필요하지 않습니다. 잠금 파일을 삭제하거나 초기 복원 중 전체 업그레이드하지 않습니다.
+iOS 프로젝트가 CocoaPods를 사용하면 [Ruby·Bundler·Pod 복원](./04-ios-build.md#cocoapodsswift-package-manager-복원)을 수행하고 **이후 Flutter의 iOS 실행·빌드도** 프로젝트 루트에서 `bundle exec fvm flutter …`로 실행합니다. SwiftPM만 쓰는 프로젝트와 Android 작업은 이 접두부가 필요하지 않습니다. 잠금 파일을 삭제하거나 초기 복원 중 전체 업그레이드하지 않습니다.
 
 ## 6. IDE·기기 연결·실행
 
 복사한 **my_app 루트**를 IDE에서 엽니다. Android Studio의 Flutter SDK 경로와 VS Code의 `dart.flutterSdkPath`를 이 프로젝트의 `.fvm/flutter_sdk`로 지정합니다. IDE의 doctor·Gradle JDK·Xcode가 터미널의 정상 조합과 같으면 표준 Run을 사용합니다. 선택적 실행기·CocoaPods Bundler를 사용하는 프로젝트는 같은 환경의 통합 터미널 명령을 먼저 사용하고 IDE Run도 그 환경을 상속하는지 별도 검증합니다.
 
-Android는 휴대폰 USB 디버깅·컴퓨터 승인을 준비하거나 에뮬레이터를 시작합니다. Mac의 기기 인식 자체에는 Windows OEM USB 드라이버가 필요하지 않습니다. iPhone은 [iOS 기기 연결·서명](./ios-build.md#simulatoriphone-실행과-서명)에 따라 신뢰·Developer Mode·Team을 준비합니다. Simulator와 실기기는 선택 가능한 대안입니다.
+Android는 휴대폰 USB 디버깅·컴퓨터 승인을 준비하거나 에뮬레이터를 시작합니다. Mac의 기기 인식 자체에는 Windows OEM USB 드라이버가 필요하지 않습니다. iPhone은 [iOS 기기 연결·서명](./04-ios-build.md#simulatoriphone-실행과-서명)에 따라 신뢰·Developer Mode·Team을 준비합니다. Simulator와 실기기는 선택 가능한 대안입니다.
 
 ```bash
 fvm flutter devices
@@ -149,8 +149,8 @@ fvm flutter run -d 기기ID
 
 ## 7. 다음 개발·업데이트·정리
 
-배포할 때는 [빌드 산출물·스토어 배포](./build-and-release.md)를 이어서 읽습니다. 로컬 기기 실행 성공과 스토어 제출 검증은 구분합니다.
+이제 [아키텍처·기능 작성 설명서](./05-boilerplate.md)를 읽고 화면·ViewModel·Service·DI를 확장합니다. 환경 변경 후에는 프로젝트 진입·하위 폴더·이탈·다른 프로젝트에서 도구 선택이 복원되는지 확인하고 docs/environment.md·update.md에 결과를 기록합니다. 불필요한 도구 삭제는 다른 프로젝트 참조와 이전 버전 복귀 수단을 먼저 확인하며 앱 데이터·서명 자료·공유 SDK를 함께 삭제하지 않습니다.
 
-이제 [아키텍처·기능 작성 설명서](./boilerplate.md)를 읽고 화면·ViewModel·Service·DI를 확장합니다. 환경 변경 후에는 프로젝트 진입·하위 폴더·이탈·다른 프로젝트에서 도구 선택이 복원되는지 확인하고 docs/environment.md·update.md에 결과를 기록합니다. 불필요한 도구 삭제는 다른 프로젝트 참조와 이전 버전 복귀 수단을 먼저 확인하며 앱 데이터·서명 자료·공유 SDK를 함께 삭제하지 않습니다.
+배포할 때는 [빌드 산출물·스토어 배포](./06-build-and-release.md)를 이어서 읽습니다. 로컬 기기 실행 성공과 스토어 제출 검증은 구분합니다.
 
 확인일: 2026-11-03. 실제 샘플 버전 파일·설치 공식 문서·문서 연결을 확인했습니다. 이번 변경에서 FVM 설치·Flutter 분석/테스트·플랫폼 빌드·실기기·IDE를 새로 검증하지 않았습니다. 과거 검증 결과는 유형 README·update.md에서 확인합니다.

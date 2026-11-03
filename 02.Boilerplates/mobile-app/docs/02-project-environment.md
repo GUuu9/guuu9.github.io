@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v2.0.0 -->
 # 프로젝트 환경 정의·복원·격리
 
 필요한 도구 버전·설치·환경 변수·복원 절차는 프로젝트 안에 보관합니다. **기본 실행은 FVM과 프로젝트 버전 파일을 사용**하며 direnv·사용자 설정 분리는 필요한 경우에만 추가합니다. 현재 샘플에 임의의 JDK·Ruby·Xcode 버전을 추가하거나 PC 전역 기본값을 변경하는 절차가 아닙니다.
@@ -17,7 +17,7 @@
 
 ## 1. 필요한 요소를 확인하고 설치
 
-먼저 [시작 가이드](./getting-started.md)에서 유형 받기·프로젝트 내보내기·FVM 복원을 수행합니다. [Android](./android-build.md#jdk-설치선택) 또는 [iOS](./ios-build.md) 중 필요한 플랫폼만 준비하고 실제 버전·설치 경로 선택 방법을 docs/environment.md에 기록합니다. 폴더 진입 시 설치·업데이트·삭제하지 않습니다.
+먼저 [시작 가이드](./01-getting-started.md)에서 유형 받기·프로젝트 내보내기·FVM 복원을 수행합니다. [Android](./03-android-build.md#jdk-설치선택) 또는 [iOS](./04-ios-build.md) 중 필요한 플랫폼만 준비하고 실제 버전·설치 경로 선택 방법을 docs/environment.md에 기록합니다. 폴더 진입 시 설치·업데이트·삭제하지 않습니다.
 
 macOS의 JDK는 필요한 major의 brew formula를 설치하고 `brew --prefix openjdk@17`로 실제 위치를 확인합니다. `.env`에는 그 결과를 바탕으로 완성한 절대 경로를 적습니다. 같은 formula의 patch 갱신은 다른 프로젝트에도 적용될 수 있으므로 Android 가이드의 유지·복귀 기준을 따릅니다.
 

@@ -1,7 +1,13 @@
-<!-- version: v1.5.0 -->
+<!-- version: v1.6.0 -->
 # 갱신 이력
 
 최신 항목부터 기록합니다. 날짜·이유·변경·버전·적용/복귀·검증을 남기며 문서 버전과 앱 버전은 구분합니다. 아래 과거 실행 결과는 당시 검토 기록이며 이번에 재실행한 결과가 아닙니다.
+
+## 2026-11-03 — docs 읽기 순서 번호 적용
+
+- docs 파일을 `01-getting-started.md` → `02-boilerplate.md` → `03-build-and-release.md` 순으로 번호를 붙였습니다. README·작업 지침·샘플 안내·내부 링크·웹 메뉴를 새 경로에 맞췄습니다.
+- 문서 구조 변경으로 docs 문서 버전을 v2.0.0으로 올렸습니다. README v1.5.0·project-agents.md v1.3.2입니다.
+- 샘플 코드·런타임·의존성·잠금 파일은 변경하지 않았습니다. 내부 링크·앵커와 메뉴 순서, 설정 YAML을 점검했으며 Electron 실행은 수행하지 않았습니다.
 
 ## 2026-11-03 — 서비스 OS 지원 범위 기록
 
@@ -65,4 +71,4 @@
 - 버전: 앱 1.0.0 신규 등록. Node 24.22.1·Electron 41.10.3·React 19.1.1·Phaser 4.2.1·Vite 6.4.3·TypeScript 5.9.3·Vitest 3.2.7. 반입 검토에서 버전을 올리지 않았습니다. 정확한 의존 트리는 샘플 package-lock.json 기준.
 - 적용/복귀: npm ci·타입 검사·빌드 후 Electron으로 실행합니다. userData의 save.json은 앱 소스와 별개입니다. 복귀·재설치 전에 앱을 종료하고 저장 데이터를 백업하며, 구버전 호환성 확인 없이 파일을 지우거나 덮어쓰지 않습니다.
 - 검증: macOS x86_64, Node 24.22.1·npm 11.19.1 독립 복사본에서 설치·테스트 3개·타입 검사·빌드·문서 검사 통과. Phaser 번들 500 kB 경고. Electron 창·클릭·저장 후 재실행·다른 OS는 이번 반입 검토에서 미검증.
-- 남은 문제: 당시 npm audit에서 취약 패키지 5개(moderate 1·high 2·critical 2)를 보고했습니다. Electron·Vite·Vitest·@vitest/mocker·tinypool이 대상이며 **해결 기록이 아닙니다**. 현재 재점검 결과로 간주하지 않습니다. 사용 전 버전 갱신과 재검증이 필요하며 관련 근거는 [설명서 반입 검토](docs/boilerplate.md#반입-검토-2026-10-28)에 있습니다.
+- 남은 문제: 당시 npm audit에서 취약 패키지 5개(moderate 1·high 2·critical 2)를 보고했습니다. Electron·Vite·Vitest·@vitest/mocker·tinypool이 대상이며 **해결 기록이 아닙니다**. 현재 재점검 결과로 간주하지 않습니다. 사용 전 버전 갱신과 재검증이 필요하며 관련 근거는 [설명서 반입 검토](docs/02-boilerplate.md#반입-검토-2026-10-28)에 있습니다.

@@ -70,7 +70,7 @@ npm run electron:dev
 - `npm run typecheck`: Renderer/공유 타입 및 Main/Preload 타입 검사
 - `npm run build`: Vite, Main TypeScript, Preload 번들 생성
 - 운영 DB, 외부 API, 상위 프로젝트 경로, 사용자 자격증명은 사용하지 않습니다.
-- 세부 아키텍처 설명은 반출 유형 폴더의 `docs/boilerplate.md`에 있습니다. 이 README는 minimal 폴더만 복사해도 기본 실행 안내로 사용할 수 있습니다.
+- 세부 아키텍처 설명은 반출 유형 폴더의 `docs/02-boilerplate.md`에 있습니다. 이 README는 minimal 폴더만 복사해도 기본 실행 안내로 사용할 수 있습니다.
 
 현재 검증에서는 복사한 샘플의 `npm ci`, 테스트 2개, 타입 검사, 빌드와 `electron:start`/`electron:dev` 프로세스 기동·종료가 통과했습니다. GUI 자동화가 연결되지 않아 버튼을 눌러 응답을 확인하는 단계는 미검증입니다. 검증 플랫폼은 macOS 13 x86_64입니다.
 
@@ -80,7 +80,7 @@ Phaser 캔버스의 파란 원을 클릭하면 점수가 올라갑니다. React�
 
 게임 전환 후 독립 복사본 검증: `npm ci`, `npm run typecheck`, 기존 IPC 테스트 2개, `npm run build` 통과. Phaser 포함 번들의 500 kB 경고가 있으며 빌드는 성공했습니다. 이번 게임 UI의 실행·직접 조작은 미검증입니다.
 
-저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
+저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/02-boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
 
 ## 현재 반입 검토 결과 (2026-10-28)
 

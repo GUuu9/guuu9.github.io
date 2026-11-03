@@ -1,4 +1,4 @@
-<!-- version: v1.4.0 -->
+<!-- version: v2.0.0 -->
 # 1. 적용 범위
 
 Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플의 작업 루트는 이 패키지의 `boilerplates/minimal/`이다.
@@ -206,7 +206,7 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 ## 플랫폼별 권한·패키지·버전 업데이트
 
-프로젝트별 버전 파일·개인 환경·실행 범위는 [환경 정의·격리](./project-environment.md)를 따른다. 프로젝트 빌드 환경의 설치·버전 선택·복귀는 [Android 빌드 관리](./android-build.md)와 [iOS 빌드 관리](./ios-build.md)를 따른다. 아래 절은 앱 권한·패키지·플랫폼 설정의 책임을 설명한다.
+프로젝트별 버전 파일·개인 환경·실행 범위는 [환경 정의·격리](./02-project-environment.md)를 따른다. 프로젝트 빌드 환경의 설치·버전 선택·복귀는 [Android 빌드 관리](./03-android-build.md)와 [iOS 빌드 관리](./04-ios-build.md)를 따른다. 아래 절은 앱 권한·패키지·플랫폼 설정의 책임을 설명한다.
 
 ### 권한을 추가할 때
 
@@ -253,7 +253,7 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 # 8. 새 프로젝트로 복사·치환
 
-유형 패키지 전체 보관과 실제 새 앱 생성을 구분한다. 새 앱은 [시작 가이드 2절](./getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 코드·docs·지침·이력을 함께 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
+유형 패키지 전체 보관과 실제 새 앱 생성을 구분한다. 새 앱은 [시작 가이드 2절](./01-getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 코드·docs·지침·이력을 함께 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
 
 FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --version`으로 확인한다. Android Studio의 Flutter SDK 경로를 새 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. VS Code는 새 루트를 열고 Flutter 확장 SDK가 `.fvm/flutter_sdk`를 사용하는지 확인한다. `dart.flutterSdkPath`를 팀과 공유하면 기기별 경로가 아닌 프로젝트 상대 경로를 사용한다. IDE가 심볼릭 링크를 해석하면 SDK 표시 버전을 직접 다시 확인한다.
 
@@ -279,7 +279,7 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 | :--- | :--- | :--- | :--- |
 | 패키지 README | `README.md` 1~9절 | 목적·기술·복사·IDE·기능 추가·검증 안내 | 충족 |
 | 작업 지침 보관본 | `project-agents.md` 1~6절 | 샘플 루트·실제 경계·명령을 코드와 대조 | 충족 |
-| 상세 설명서 | `docs/boilerplate.md` 1~9절 | 필수 절과 이 대조표 포함 | 충족 |
+| 상세 설명서 | `docs/05-boilerplate.md` 1~9절 | 필수 절과 이 대조표 포함 | 충족 |
 | 갱신 이력 | `update.md` | 실제 생성·버전·변경·검증·미검증 기록 | 충족 |
 | 독립 실행 샘플 | `boilerplates/minimal/` | Flutter 생성 플랫폼 파일·소스·lock·테스트 확인 | 충족 |
 | 직접 관리 파일 역할 | 설명서 3절 표 | Git에 포함할 Android/iOS·Dart·설정·lock·테스트 경로를 실제 트리와 대조 | 충족 |

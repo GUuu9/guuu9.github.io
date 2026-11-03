@@ -1,9 +1,9 @@
-<!-- version: v1.4.3 -->
+<!-- version: v2.0.0 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
 
-이 문서는 mobile-app 패키지의 프로젝트 빌드 절차입니다. [프로젝트 환경 정의·격리](./project-environment.md)에 따라 개인 경로·도구 선택을 프로젝트에 한정합니다. 기본은 표준 FVM 호출이며 로컬 실행기는 필요한 경우에만 선택합니다. Android 환경은 [Android 빌드·버전 관리](./android-build.md)를 참고합니다.
+이 문서는 mobile-app 패키지의 프로젝트 빌드 절차입니다. [프로젝트 환경 정의·격리](./02-project-environment.md)에 따라 개인 경로·도구 선택을 프로젝트에 한정합니다. 기본은 표준 FVM 호출이며 로컬 실행기는 필요한 경우에만 선택합니다. Android 환경은 [Android 빌드·버전 관리](./03-android-build.md)를 참고합니다.
 
 ## 설치 도구와 버전 기준
 
@@ -156,4 +156,4 @@ fvm flutter build ios --no-codesign
 - [CocoaPods install과 update](https://guides.cocoapods.org/using/pod-install-vs-update.html)
 - [Xcode 지원 조건](https://developer.apple.com/xcode/system-requirements/)
 
-스토어 제출용 산출물·서명·등록·테스트 배포·업데이트는 [Mobile-app 빌드·스토어 배포](./build-and-release.md)에서 이어서 확인합니다.
+스토어 제출용 산출물·서명·등록·테스트 배포·업데이트는 [Mobile-app 빌드·스토어 배포](./06-build-and-release.md)에서 이어서 확인합니다.

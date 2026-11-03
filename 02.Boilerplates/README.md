@@ -44,9 +44,9 @@ Git은 선택한 디렉터리 구조를 유지하므로 유형 폴더가 다운�
 
 | 유형 | 시작 문서 | 진행 흐름 |
 | :--- | :--- | :--- |
-| mobile-app | [가져오기부터 실행](./mobile-app/docs/getting-started.md) | 받기·복사 → FVM·Flutter → 필요한 플랫폼 설치 → 프로젝트 환경 → 복원·기기 실행 |
-| server-wui | [가져오기부터 실행](./server-wui/docs/getting-started.md) | 받기·복사 → Node 환경 → npm ci → 검사·빌드 → 서버·화면 실행 |
-| electron-phaser | [가져오기부터 실행](./electron-phaser/docs/getting-started.md) | 받기·복사 → Node·GUI 환경 → npm ci → 검사·빌드 → Electron 실행 |
+| mobile-app | [가져오기부터 실행](./mobile-app/docs/01-getting-started.md) | 받기·복사 → FVM·Flutter → 필요한 플랫폼 설치 → 프로젝트 환경 → 복원·기기 실행 |
+| server-wui | [가져오기부터 실행](./server-wui/docs/01-getting-started.md) | 받기·복사 → Node 환경 → npm ci → 검사·빌드 → 서버·화면 실행 |
+| electron-phaser | [가져오기부터 실행](./electron-phaser/docs/01-getting-started.md) | 받기·복사 → Node·GUI 환경 → npm ci → 검사·빌드 → Electron 실행 |
 
 server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이드를 만들거나 실행 가능한 샘플처럼 안내하지 않습니다. 처음 읽는 문서는 다운로드에서 종료·검증까지 이어져야 하며 구조·아키텍처·갱신 이력은 그 이후의 참고 자료로 배치합니다.
 
@@ -60,7 +60,7 @@ server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이�
 ├── update.md
 ├── project-agents.md
 ├── docs/
-│   └── boilerplate.md
+│   └── NN-boilerplate.md
 └── boilerplates/
     └── minimal/
         ├── README.md
@@ -72,7 +72,7 @@ server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이�
 | README.md | 샘플 소개·구조·버전·빠른 시작·기능 추가 방식·문서 안내 |
 | update.md | 날짜·변경 이유·버전 전후·적용/복귀·검증 이력 |
 | project-agents.md | 샘플을 수정하는 에이전트의 규칙. 새 프로젝트 적용 시 AGENTS.md로 사용 |
-| docs/boilerplate.md | 전체 직접 관리 폴더·파일의 이름·역할·주요 구성·연결, 상세 개발·재사용 방법 |
+| docs/NN-boilerplate.md | 전체 직접 관리 폴더·파일의 이름·역할·주요 구성·연결, 상세 개발·재사용 방법 |
 | boilerplates/minimal/ | 독립 복사해 실행·테스트할 수 있는 최소 프로젝트 |
 
 project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아닙니다. 새 프로젝트로 사용할 때는 샘플 코드·필요한 문서 배치 후 지침을 AGENTS.md로 복사하고 링크를 실제 배치에 맞춥니다.

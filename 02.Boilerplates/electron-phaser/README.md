@@ -1,4 +1,4 @@
-<!-- version: v1.4.1 -->
+<!-- version: v1.5.0 -->
 # TypeScript · React · Phaser · Electron 게임 보일러플레이트
 
 역할별 폴더와 프로세스 경계를 갖춘 독립 Electron 샘플입니다. React Renderer에서 연결 확인 버튼을 누르면 고정된 플레이어 이름을 Preload API와 IPC로 Main에 보내고, Main이 요청을 검증해 인사말 또는 오류를 돌려줍니다.
@@ -7,11 +7,11 @@
 
 원을 클릭해 점수를 올리는 로컬 게임입니다. React가 점수·재시작 버튼을, Phaser가 캔버스·입력·게임 씬을 담당합니다. 데스크톱 연결 확인 버튼은 Preload/IPC/Main의 검증된 왕복 예제입니다.
 
-다운로드 전에 [선행 도구·준비 순서](docs/getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [가져오기부터 실행까지](docs/getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
+다운로드 전에 [선행 도구·준비 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [가져오기부터 실행까지](docs/01-getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
 
 ## 빠른 시작
 
-[가져오기부터 실행까지](docs/getting-started.md)를 다음 순서로 따른다.
+[가져오기부터 실행까지](docs/01-getting-started.md)를 다음 순서로 따른다.
 
 1. Git으로 유형 받기·새 프로젝트 폴더에 복사.
 2. `.nvmrc`의 Node·npm 준비와 데스크톱 OS/CPU 조건 확인.
@@ -28,15 +28,15 @@
 - 기술: Electron 45.1.0, React 19, Phaser 4.2.1, Vite 6.4.5, TypeScript 5, Vitest 5.0.5
 - 구조: `src/backend/{core,bridge,services}`, `src/renderer/src`, `src/shared/ipc`
 - 핵심 흐름: React App → Renderer API → Preload Bridge → Main Usecase → Greeting Service → React 결과 출력
-- 프로세스 경계·의존 구조·수명주기: [상세 문서 4절](docs/boilerplate.md#4-아키텍처-의존-방향과-대표-데이터-흐름)
+- 프로세스 경계·의존 구조·수명주기: [상세 문서 4절](docs/02-boilerplate.md#4-아키텍처-의존-방향과-대표-데이터-흐름)
 
 ## 새 기능 추가 순서
 
-공유 IPC 계약 정의 → Preload Bridge 노출 → Main Usecase에서 발신자와 입력 검증 → Service 로직 및 테스트 작성 → Renderer API/React 화면 연결 순서로 확장합니다. 파일별 역할은 [`docs/boilerplate.md`](docs/boilerplate.md), 보관용 작업 지침은 [`project-agents.md`](project-agents.md)입니다.
+공유 IPC 계약 정의 → Preload Bridge 노출 → Main Usecase에서 발신자와 입력 검증 → Service 로직 및 테스트 작성 → Renderer API/React 화면 연결 순서로 확장합니다. 파일별 역할은 [`docs/02-boilerplate.md`](docs/02-boilerplate.md), 보관용 작업 지침은 [`project-agents.md`](project-agents.md)입니다.
 
 ## 검증·제약
 
-`npm test`, `npm run typecheck`, `npm run build`를 사용합니다. 샘플에 포함된 실행 코드만 대상으로 검증하며, 패키징·자동 업데이트·코드 서명은 포함하지 않습니다. 현재 검증 기록과 미검증 항목은 [`docs/boilerplate.md`](docs/boilerplate.md) 9절을 갱신합니다.
+`npm test`, `npm run typecheck`, `npm run build`를 사용합니다. 샘플에 포함된 실행 코드만 대상으로 검증하며, 패키징·자동 업데이트·코드 서명은 포함하지 않습니다. 현재 검증 기록과 미검증 항목은 [`docs/02-boilerplate.md`](docs/02-boilerplate.md) 9절을 갱신합니다.
 
 임시 복사본에서 설치, 2개 테스트, 타입 검사, 빌드, Electron 프로세스 기동 및 종료를 확인했습니다. 버튼을 눌러 IPC 응답이 표시되는 GUI 상호작용은 자동화 연결을 사용할 수 없어 미검증입니다. 현재 셸의 Node 경로 문제로 검증 시 Node 24.22.1을 PATH 앞에 지정했습니다.
 
@@ -46,7 +46,7 @@
 
 게임 전환 후 독립 복사본 검증: `npm ci`, `npm run typecheck`, 기존 IPC 테스트 2개, `npm run build` 통과. Phaser 포함 번들의 500 kB 경고가 있으며 빌드는 성공했습니다. 이번 게임 UI의 실행·직접 조작은 미검증입니다.
 
-저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
+저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/02-boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
 
 확장 작업은 상세 문서 5절의 데이터 모델·저장 버전·씬 전환·리소스·게임 계산 규칙과 8절의 기능 추가 순서를 따릅니다. 구현된 기능과 앞으로 추가할 계층을 표로 구분하므로 확장 예시 경로를 현재 파일로 오인하지 않도록 합니다.
 
@@ -62,6 +62,6 @@
 
 ## 빌드 산출물과 배포
 
-로컬 검증 후 [Electron·Phaser 패키징·배포](docs/build-and-release.md)에서 배포 준비·산출물·서명 또는 운영 설정·검증·업데이트·복귀를 확인합니다. 문서 추가는 샘플에 배포 기능이 구현되었다는 뜻이 아닙니다.
+로컬 검증 후 [Electron·Phaser 패키징·배포](docs/03-build-and-release.md)에서 배포 준비·산출물·서명 또는 운영 설정·검증·업데이트·복귀를 확인합니다. 문서 추가는 샘플에 배포 기능이 구현되었다는 뜻이 아닙니다.
 
-개발 도구 설치 전에 [서비스 OS 지원 범위](docs/build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
+개발 도구 설치 전에 [서비스 OS 지원 범위](docs/03-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.

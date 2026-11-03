@@ -1,9 +1,9 @@
-<!-- version: v1.5.2 -->
+<!-- version: v2.0.0 -->
 # Android 프로젝트 빌드·버전 관리
 
 Flutter 앱의 Android 빌드가 PC·IDE 업데이트 뒤 깨지거나 새 개발 PC에서 재현되지 않을 때 사용하는 가이드입니다. 개인 PC의 macOS·Windows·Linux와 CI에서 **기존 프로젝트가 사용하는 버전 조합을 먼저 복원**합니다. Flutter 선택은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands), 기기 연결은 [Android 실기기 연결 공식 안내](https://developer.android.com/studio/run/device)을 따릅니다. 아래 명령은 별도 표시가 없으면 Flutter 프로젝트 루트의 일반 사용자 터미널에서 실행합니다. 아래는 기본 FVM 명령입니다. 선택적 프로젝트 실행기를 도입한 경우에만 해당 호출로 대체합니다. `android` 폴더의 직접 Wrapper 호출은 작업 셸 환경을 상속합니다.
 
-이 문서는 mobile-app 패키지의 프로젝트 빌드 절차입니다. 먼저 [프로젝트 환경 정의·격리](./project-environment.md)에 따라 로컬 경로·환경 변수와 실행 범위를 정합니다. Android와 iOS를 함께 관리한다면 [iOS 빌드·버전 관리](./ios-build.md)를 이어서 확인합니다.
+이 문서는 mobile-app 패키지의 프로젝트 빌드 절차입니다. 먼저 [프로젝트 환경 정의·격리](./02-project-environment.md)에 따라 로컬 경로·환경 변수와 실행 범위를 정합니다. Android와 iOS를 함께 관리한다면 [iOS 빌드·버전 관리](./04-ios-build.md)를 이어서 확인합니다.
 
 ## 무엇을 설치하고 어디에서 버전을 정하는가
 
@@ -51,11 +51,11 @@ Windows PowerShell에서는 프로젝트의 `android` 폴더로 이동해:
 
 호환 JDK가 이미 있으면 재사용합니다. 별도 설치가 필요하면 저장소의 `00.Setup/` OS별 설정 순서와 `01.Tools/jdk.md`의 OS별 설치·공통 관리 절차를 먼저 확인합니다. macOS는 Homebrew의 요구 major formula, Windows는 [공식 MSI](https://adoptium.net/installation/windows), Linux는 [공식 아카이브](https://adoptium.net/installation/archives)를 사용하며 중복 설치하지 않습니다. 이 패키지만 가져온 경우에도 해당 공식 안내에서 OS·CPU 조건을 확인할 수 있습니다.
 
-설치 후 [프로젝트 환경 정의·격리](./project-environment.md)에 실제 JAVA_HOME을 기록하고 작업 셸에서 선택합니다. 공용 셸 설정이나 다른 프로젝트의 JDK를 바꾸지 않습니다. macOS Homebrew JDK는 `$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home`처럼 실제 formula 경로를 사용하며, 17은 프로젝트 요구 버전으로 바꿉니다.
+설치 후 [프로젝트 환경 정의·격리](./02-project-environment.md)에 실제 JAVA_HOME을 기록하고 작업 셸에서 선택합니다. 공용 셸 설정이나 다른 프로젝트의 JDK를 바꾸지 않습니다. macOS Homebrew JDK는 `$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home`처럼 실제 formula 경로를 사용하며, 17은 프로젝트 요구 버전으로 바꿉니다.
 
 - 직접 Wrapper 실행: `--version`의 JVM·Java home을 확인합니다. JAVA_HOME 외에도 `org.gradle.java.home`·Daemon JVM criteria가 영향을 줄 수 있습니다.
 - Android Studio: **Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK**에서 같은 호환 JDK를 선택합니다. 필요하면 `android` 폴더를 별도 프로젝트로 엽니다.
-- Flutter: `fvm flutter doctor -v`의 Java 경로·버전을 확인합니다. JAVA_HOME과 다르면 [선택적 Flutter 설정 분리](./project-environment.md#3-선택적-flutter-사용자-설정-분리)를 검토하며 IDE Run이 자동으로 이를 사용한다고 가정하지 않습니다.
+- Flutter: `fvm flutter doctor -v`의 Java 경로·버전을 확인합니다. JAVA_HOME과 다르면 [선택적 Flutter 설정 분리](./02-project-environment.md#3-선택적-flutter-사용자-설정-분리)를 검토하며 IDE Run이 자동으로 이를 사용한다고 가정하지 않습니다.
 
 선택 후 doctor와 Wrapper를 다시 비교합니다. 기존 daemon을 중지해야 하면 실행 중인 작업을 확인한 뒤 Android 폴더에서 `./gradlew --stop`(Windows는 `.\gradlew.bat --stop`)을 사용합니다. 같은 버전의 다른 Gradle 작업도 중단될 수 있습니다. JDK 업데이트·제거는 다른 참조 프로젝트까지 확인하고 진행하며, 프로젝트별 환경 변수만으로 공유 Homebrew formula의 patch 업데이트를 격리할 수는 없습니다.
 
@@ -130,4 +130,4 @@ ADB 연결 성공과 Android 빌드 성공은 별도입니다. 휴대폰이 `dev
 - [Gradle Wrapper 갱신](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
 - [Flutter Java·Gradle 문제 진단](https://docs.flutter.dev/release/breaking-changes/android-java-gradle-migration-guide): 과거 릴리스의 예시 버전을 현재 프로젝트에 그대로 적용하지 않음
 
-스토어 제출용 산출물·서명·등록·테스트 배포·업데이트는 [Mobile-app 빌드·스토어 배포](./build-and-release.md)에서 이어서 확인합니다.
+스토어 제출용 산출물·서명·등록·테스트 배포·업데이트는 [Mobile-app 빌드·스토어 배포](./06-build-and-release.md)에서 이어서 확인합니다.
