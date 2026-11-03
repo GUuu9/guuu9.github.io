@@ -1,7 +1,9 @@
-<!-- version: v1.3.1 -->
+<!-- version: v1.3.2 -->
 # nvm·nvm-windows 사용 가이드
 
 확인일: 2026-10-28. Node.js를 프로젝트 요구 버전에 맞춰 설치·선택합니다. npm은 선택한 Node와 함께 제공되며, React·Electron·TypeScript 패키지는 프로젝트의 package.json과 잠금 파일로 관리합니다.
+
+공식 nvm 프로젝트는 [Homebrew 설치를 지원하지 않습니다](https://github.com/nvm-sh/nvm#installation-and-update). macOS에서도 아래 공식 설치 스크립트를 사용합니다.
 
 ## macOS nvm 설치
 

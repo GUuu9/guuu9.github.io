@@ -1,4 +1,4 @@
-<!-- version: v4.1.0 -->
+<!-- version: v4.1.1 -->
 # macOS 공통 개발 환경 설정
 
 처음 개발 환경을 설치하거나 기존 PC를 다시 설정할 때 사용하는 순서 안내입니다. [Apple Silicon](./macOS_AppleSilicon_Dev_Setting.md) 또는 [Intel](./macOS_Intel_Dev_Setting.md)의 OS·CPU 조건을 확인한 뒤 진행합니다. 설치 명령·권한·PATH·문제 해결은 각 Tools 문서에서 관리합니다. 개인 Mac의 일반 사용자 환경이 기준이며 설치기가 요구할 때만 관리자 권한을 사용합니다.
@@ -16,7 +16,7 @@
 
 2단계에서 라이선스·초기화 오류가 남아 있으면 Homebrew·nvm·Git 다운로드로 넘어가지 않습니다. 전체 Xcode는 iOS 개발에 필요하며 그 외 작업은 정상 Command Line Tools로 진행할 수 있습니다.
 
-Homebrew는 먼저 준비하지만 주요 도구를 모두 brew로 설치하지 않습니다. Intel에서 설치가 막히면 제한을 기록하고 각 도구의 공식 독립 설치 가능 여부를 확인합니다. 기존 Homebrew·데이터를 삭제해서 우회하지 않습니다.
+Homebrew 준비 후 각 도구의 공식 권장 방식을 따릅니다. rbenv·ruby-build는 brew, nvm·FVM 등은 해당 공식 독립 설치 절차를 사용합니다. Intel에서 설치가 막히면 제한을 기록하고 각 도구의 공식 독립 설치 가능 여부를 확인합니다. 기존 Homebrew·데이터를 삭제해서 우회하지 않습니다.
 
 ## 2. 선택 설정
 
@@ -28,7 +28,7 @@ Homebrew는 먼저 준비하지만 주요 도구를 모두 brew로 설치하지 
 | Node·웹·서버·Electron | [nvm 설치](../01.Tools/nvm.md#macos-nvm-설치) → 프로젝트 요구 Node·npm 선택 |
 | Python | [uv 설치](../01.Tools/uv.md#macoslinux-uv-설치) → 프로젝트에서 Python·가상환경 선택 |
 | Flutter Android | [FVM](../01.Tools/fvm.md#macoslinux-fvm-설치) → [Android Studio·SDK](../01.Tools/android-studio.md#macos-android-studio-설치) → 필요한 경우 [JDK](../01.Tools/jdk.md#os별-설치) |
-| Flutter iOS | [FVM](../01.Tools/fvm.md#macoslinux-fvm-설치) → [전체 Xcode](../01.Tools/xcode.md#전체-xcode-설치초기화) → CocoaPods 사용 프로젝트만 [Ruby·Bundler](../01.Tools/ruby.md#macos-rbenv-최초-설치) |
+| Flutter iOS | [FVM](../01.Tools/fvm.md#macoslinux-fvm-설치) → [전체 Xcode](../01.Tools/xcode.md#전체-xcode-설치초기화) → CocoaPods 사용 프로젝트만 Homebrew → [rbenv·Ruby·Bundler](../01.Tools/ruby.md#macos-rbenv-최초-설치) |
 | C/C++ | [Clang·CMake 준비](../01.Tools/cpp-toolchain.md#macos-초기-도구-확인), 필요한 [Homebrew 패키지](../01.Tools/brew.md#3-용도별-필수-설치) |
 | USB 시리얼 통신 | [minicom 설치](../01.Tools/brew.md#minicom-설치) |
 | Rust | [rustup](../01.Tools/rustup.md#macoslinux-rustup-설치). 네이티브 라이브러리는 프로젝트 요구에 따라 추가 |

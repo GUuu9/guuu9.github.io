@@ -1,4 +1,4 @@
-<!-- version: v1.10.1 -->
+<!-- version: v1.10.2 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -9,7 +9,7 @@ macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확�
 
 개인 PC의 일반 사용자 터미널에서 임의 폴더에서 진행합니다. Linux도 같은 독립 설치 스크립트를 사용하며 CPU·배포판 지원 조건과 설치 결과의 PATH 안내를 확인합니다.
 
-[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에 따라 설치합니다.
+[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)가 Install Script를 권장하므로 아래 방식을 사용합니다. 공식 Homebrew 경로도 있지만 단순히 brew에 패키지가 있다는 이유로 정상 설치를 교체하지 않습니다.
 
 ```bash
 curl -fsSL https://fvm.app/install.sh | bash

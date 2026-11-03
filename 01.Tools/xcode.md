@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.1.1 -->
 # Xcode·Command Line Tools 설치·선택
 
 macOS 개인 PC에서 Git·Apple Clang·SDK를 준비합니다. 기본 개발 도구는 Command Line Tools, iOS 개발은 전체 Xcode가 필요합니다. OS·CPU·프로젝트 요구 조건에 맞는 버전을 선택하고 기존 Xcode를 먼저 지우지 않습니다. 아래 명령은 임의 폴더의 개인 터미널 기준입니다.
@@ -44,7 +44,7 @@ git --version
 clang --version
 ```
 
-기본 도구가 준비되면 [Homebrew 준비](brew.md#homebrew-설치path)에서 보조 패키지 관리 환경을 먼저 구성합니다. 주요 개발 도구는 공식 스크립트·배포판으로 설치하고 Homebrew와 중복 관리하지 않습니다.
+기본 도구가 준비되면 [Homebrew 준비](brew.md#homebrew-설치path)에서 보조 패키지 관리 환경을 먼저 구성합니다. 각 개발 도구는 공식 권장 설치 방식을 따르며 Homebrew·독립 설치를 중복 적용하지 않습니다.
 
 ## 전체 Xcode 설치·초기화
 

@@ -6,7 +6,7 @@ Flutter 3.35.7 기반 Android·iOS용 최소 MVVM 샘플이다. 고정 인사말
 
 macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스 동의·최초 초기화를 먼저 완료하고 `git --version`·`clang --version`이 오류 없이 동작하는지 확인합니다. 라이선스 오류가 남아 있으면 Git·nvm·FVM 설치를 계속하지 않습니다. 공통 명령은 [Apple 개발 도구](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 라이선스·초기화](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. CLT만 사용하는 경우 전체 Xcode 전용 명령은 실행하지 않습니다.
 
-필수는 Git → FVM·프로젝트 Flutter SDK이며 Dart는 포함됩니다. Android 대상은 SDK·호환 JDK, iOS 대상은 Mac·전체 Xcode가 추가 필수입니다. CocoaPods를 사용할 때만 Ruby·Bundler·CocoaPods를 준비합니다. 편집기 확장은 IDE 선택에 따라 설치합니다.
+필수는 Git → FVM·프로젝트 Flutter SDK이며 Dart는 포함됩니다. Android 대상은 SDK·호환 JDK, iOS 대상은 Mac·전체 Xcode가 추가 필수입니다. CocoaPods를 사용할 때만 Apple 개발 도구·라이선스 확인 → Homebrew의 rbenv(ruby-build 포함) → 프로젝트 Ruby → Bundler·CocoaPods 순서로 준비합니다. [rbenv 공식 권장 설치](https://github.com/rbenv/rbenv#installation)를 따르며 Ruby·CocoaPods를 중복 설치하지 않습니다. 편집기 확장은 IDE 선택에 따라 설치합니다.
 
 ## 처음 시작할 때
 

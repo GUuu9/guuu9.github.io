@@ -1,36 +1,35 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.0 -->
 # Ruby·Bundler·CocoaPods 버전 관리
 
 Ruby 프로젝트와 CocoaPods 등 Ruby 기반 도구를 프로젝트별로 복원하는 안내입니다. macOS의 rbenv 최초 설치는 [macOS 초기 준비](#macos-rbenv-최초-설치)를 따릅니다. 기존 Ruby 관리자가 있으면 유지하며 시스템 Ruby에 sudo로 gem을 설치하지 않습니다. Windows·Linux는 [rbenv 지원 환경](https://github.com/rbenv/rbenv#installation)과 해당 프로젝트의 관리 방식을 확인합니다. iOS 로컬 빌드는 macOS·Xcode가 별도로 필요합니다.
 
 ## macOS rbenv 최초 설치
 
-macOS는 설치 전에 [개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서)을 마칩니다. Git·Clang에 오류가 없을 때 진행합니다.
+[개발 도구 선택·Xcode 라이선스·초기화 확인](./xcode.md#설치-전-개발-도구-준비-순서) → [Homebrew 설치·PATH](./brew.md#homebrew-설치path) → rbenv → 프로젝트 Ruby → Bundler·CocoaPods 순서로 준비합니다. CocoaPods·Ruby 프로젝트가 필요할 때만 설치하며 SwiftPM 전용·Android 작업에는 강제하지 않습니다.
 
-CocoaPods·Ruby 프로젝트가 필요할 때만 준비합니다. SwiftPM 전용 프로젝트나 Android 개발만 한다면 설치하지 않습니다.
-
-별도 Ruby가 없는 **신규 macOS 환경**은 아래 rbenv 방식으로 준비할 수 있습니다. 기존 rbenv·다른 Ruby 관리자가 있으면 다시 clone하지 않고 기존 설정을 사용합니다. 임의 폴더의 일반 사용자 터미널에서 실행하며 `~/.rbenv`가 이미 있다면 먼저 그 설치 상태를 확인합니다.
+[rbenv 공식 설치 안내](https://github.com/rbenv/rbenv#installation)가 Homebrew를 권장하므로 신규 macOS 환경은 brew로 설치합니다. 아래 명령은 개인 Mac의 일반 사용자 터미널·임의 폴더 기준이며 sudo를 사용하지 않습니다. 먼저 `command -v rbenv`·`which -a rbenv`로 기존 설치를 확인합니다. 기존 Git 설치·다른 Ruby 관리자가 정상 동작하면 재설치·자동 전환하지 않고 해당 관리 방식을 유지합니다.
 
 ```bash
-git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
-"$HOME/.rbenv/bin/rbenv" init
+brew info rbenv
+brew install rbenv
+brew list --versions rbenv ruby-build
+rbenv --version
+rbenv init
 ```
 
-`init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 출력된 변경 위치를 확인합니다. 새 터미널을 연 뒤 Ruby 설치 기능을 추가합니다. 이미 ruby-build 플러그인이 있다면 clone하지 않습니다.
+현재 [rbenv formula](https://formulae.brew.sh/formula/rbenv)는 [ruby-build](https://formulae.brew.sh/formula/ruby-build)를 의존성으로 설치하므로 `~/.rbenv/plugins/ruby-build`에 다시 clone하지 않습니다. `rbenv init`은 셸 시작 파일을 수정하므로 실행 전 기존 파일을 백업하고 변경 위치를 확인합니다. 새 터미널에서 다음을 확인합니다.
 
 ```bash
-rbenv --version
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
+command -v rbenv
+rbenv root
 rbenv install -l
 ```
 
-Ruby 소스 빌드에는 Xcode 컴파일 도구와 라이브러리가 필요합니다. Homebrew가 이미 준비된 Mac에서 보조 의존성만 설치하는 공식 권장 예시는 다음과 같습니다. Ruby·rbenv·CocoaPods 자체를 Homebrew로 중복 설치하는 명령은 아닙니다. 구형 Intel macOS에서는 패키지 지원·빌드 성공을 보장하지 않으므로 [ruby-build 환경 조건](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 먼저 확인합니다.
+Ruby 자체는 다음 절에서 프로젝트 요구 버전을 rbenv로 설치합니다. `brew install ruby`로 공용 최신 Ruby를 추가하거나 `brew install cocoapods`로 프로젝트별 Gemfile 선택을 대신하지 않습니다. CocoaPods 공식 안내는 시스템 Ruby 외의 별도 Ruby·버전 관리자를 허용하며, 이 저장소는 프로젝트별 버전 유지를 위해 rbenv를 선택합니다. [CocoaPods 공식 준비 안내](https://guides.cocoapods.org/using/getting-started.html).
 
-```bash
-brew install openssl@3 readline libyaml gmp autoconf
-```
+Ruby 소스 빌드의 추가 라이브러리는 [ruby-build 빌드 환경](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)과 설치 로그에 따라 필요한 것만 brew로 준비합니다. 설치 전 `brew info ruby-build`에서 현재 의존성을 확인하며 과거 OpenSSL 목록을 모든 Ruby 버전에 일괄 적용하지 않습니다.
 
-프로젝트 Ruby·Bundler·CocoaPods 선택과 복원·업데이트·제거는 [Ruby 도구 관리](ruby.md)를 따릅니다. 초기 PC 준비에서 모든 프로젝트용 Ruby·gem을 일괄 설치하지 않습니다.
+확인일: 2026-11-03. 공식 설치 권장과 formula 의존성을 확인했습니다. Intel·구형 macOS의 Homebrew·의존성 지원과 Ruby 빌드 성공은 별도이며 보장하지 않습니다. brew가 지원하지 않는 환경은 오류를 무시하지 말고 기존 환경 보존 또는 [공식 Git 설치 대안](https://github.com/rbenv/rbenv#basic-git-checkout)을 검토합니다. 두 방식으로 중복 설치하지 않고 `~/.rbenv`의 Ruby·gem·개인 파일을 일괄 삭제하지 않습니다.
 
 ## 프로젝트 Ruby 선택·복원
 
@@ -74,10 +73,22 @@ Pod 복원은 `bundle exec pod install`, 특정 Pod 갱신은 `bundle exec pod u
 
 ## 업데이트·복귀·제거
 
-rbenv와 ruby-build 자체 갱신은 각 Git 설치 경로에서 미커밋 변경·현재 커밋을 기록한 뒤 공식 릴리스와 변경 사항을 확인해 진행합니다. Ruby 버전 변경과 gem 업데이트는 별도 작업입니다. 관리 도구 갱신만으로 프로젝트 `.ruby-version`을 바꾸지 않습니다.
+Homebrew 설치의 rbenv·ruby-build는 다음처럼 갱신합니다. 먼저 현재 버전·Ruby 목록·정상 프로젝트와 셸 설정을 기록하고 작업 중인 빌드를 종료합니다. 일반 사용자 터미널의 임의 폴더에서 실행합니다.
+
+```bash
+brew list --versions rbenv ruby-build
+rbenv versions
+brew update
+brew outdated rbenv ruby-build
+brew upgrade rbenv ruby-build
+rbenv --version
+rbenv install -l
+```
+
+관리 도구 갱신은 설치한 프로젝트 Ruby·`.ruby-version`·Gemfile 업데이트와 별개입니다. 공유 의존성 갱신·cleanup과 다른 프로젝트의 영향을 검토하며 임의의 과거 formula 버전을 다시 설치할 수 있다고 보장하지 않습니다. 복귀가 필요하면 갱신 전 설치 자료·정상 도구 환경을 보존합니다. 기존 Git 설치를 유지한 경우에만 해당 Git 경로의 변경·커밋과 공식 릴리스를 확인해 갱신하며 brew와 혼용하지 않습니다.
 
 Ruby를 올릴 때는 이전 버전을 보존하고 새 버전을 병행 설치해 `.ruby-version`·Gemfile·잠금 파일 변경과 프로젝트 테스트를 함께 검토합니다. 복귀는 이전 파일과 Ruby를 선택해 `bundle install`로 복원합니다. 기존 Ruby가 없으면 먼저 재설치해야 합니다.
 
-제거 전 `rbenv versions`와 프로젝트 `.ruby-version`·CI 참조를 확인합니다. 더 이상 쓰지 않는 버전만 `rbenv uninstall 실제버전`으로 제거합니다. 해당 Ruby의 gem도 함께 사라질 수 있으므로 Gemfile·잠금 파일을 보존합니다. 프로젝트 `.local/bundle`·`.bundle`은 복원이 가능한지 확인한 뒤 선택 정리하고 소스·서명 자료는 삭제하지 않습니다. rbenv 자체 제거는 [공식 제거 안내](https://github.com/rbenv/rbenv#uninstalling-rbenv)에 따라 셸 초기화 참조와 설치 경로를 확인합니다.
+제거 전 `rbenv versions`와 프로젝트 `.ruby-version`·CI 참조를 확인합니다. 더 이상 쓰지 않는 버전만 `rbenv uninstall 실제버전`으로 제거합니다. 해당 Ruby의 gem도 함께 사라질 수 있으므로 Gemfile·잠금 파일을 보존합니다. 프로젝트 `.local/bundle`·`.bundle`은 복원이 가능한지 확인한 뒤 선택 정리하고 소스·서명 자료는 삭제하지 않습니다. Homebrew로 설치한 rbenv 자체는 `brew uninstall rbenv`로 제거합니다. ruby-build도 불필요하다면 `brew uses --installed ruby-build`로 다른 의존성을 확인한 뒤 `brew uninstall ruby-build`로 별도 제거합니다. `~/.rbenv`에 보관한 Ruby·gem은 formula와 구분하며 자동으로 삭제하지 않습니다. 셸 초기화 참조·남은 설치 경로는 [공식 제거 안내](https://github.com/rbenv/rbenv#uninstalling-rbenv)에 따라 셸 초기화 참조와 설치 경로를 확인합니다.
 
 공식 참고: [rbenv](https://github.com/rbenv/rbenv), [ruby-build](https://github.com/rbenv/ruby-build), [Bundler](https://bundler.io/), [CocoaPods Gemfile](https://guides.cocoapods.org/using/a-gemfile.html).

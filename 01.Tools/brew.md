@@ -1,9 +1,9 @@
-<!-- version: v1.6.1 -->
+<!-- version: v1.7.0 -->
 # Homebrew 사용 가이드
 
 확인일: 2026-10-28. macOS의 개발 도구·앱을 패키지로 설치하고 관리합니다. Linux에서도 사용할 수 있지만 이 저장소의 Linux 기본 설정은 apt입니다. 설치와 칩별 지원 조건은 아래 설치 절차를 따릅니다.
 
-macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [아래 설치 절차](#homebrew-설치path)를 따릅니다. 주요 개발 도구는 공식 독립 설치 경로를 유지하며, 별도 JDK는 major별 Homebrew formula로 관리합니다. 같은 도구를 독립 설치와 Homebrew로 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
+macOS 초기 설정에서 Homebrew를 보조 패키지 관리용으로 준비합니다. 칩별 설치·PATH·완료 확인은 [아래 설치 절차](#homebrew-설치path)를 따릅니다. 도구별 공식 권장 설치 방식을 따릅니다. rbenv·ruby-build는 공식 권장에 따라 Homebrew로, 별도 JDK는 major별 formula로 관리합니다. 같은 도구를 독립 설치와 Homebrew로 중복 관리하지 않습니다. Intel의 과거 설치기 절차는 이 문서 하단에 보존합니다. 설치 경로를 전환하더라도 기존 Homebrew·캐시·프로젝트를 일괄 삭제하지 않습니다.
 
 ## 용도와 관리 범위
 
@@ -61,6 +61,7 @@ brew doctor
 
 | 작업 | 필요한 패키지 | 설치 후 확인 |
 | :--- | :--- | :--- |
+| Ruby 버전 관리가 필요한 프로젝트 | `rbenv` (ruby-build 의존성 포함) | [설치·초기화·프로젝트 Ruby 선택](./ruby.md#macos-rbenv-최초-설치) |
 | 프로젝트에서 요구하는 별도 JDK | `openjdk@17` 등 요구 major의 formula | 해당 JDK의 `java -version`·`javac -version` |
 | CMake 기반 C/C++ 프로젝트 구성 | `cmake` | `cmake --version` |
 | USB 시리얼 장치와 터미널 통신 | `minicom` | `brew list --versions minicom` |

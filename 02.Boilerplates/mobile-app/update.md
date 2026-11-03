@@ -1,5 +1,10 @@
-<!-- version: v1.9.0 -->
+<!-- version: v1.10.0 -->
 # 갱신 이력
+
+## 2026-11-03 — rbenv 공식 권장 Homebrew 설치 반영
+
+- macOS의 rbenv·ruby-build 설치·갱신·제거는 Tools의 Homebrew 절차를 따르도록 시작 가이드·iOS 문서·단독 샘플 안내를 정리했습니다. 프로젝트 Ruby는 rbenv, CocoaPods는 기존 Gemfile·Bundler로 유지합니다.
+- 문서만 변경했으며 SDK·Ruby 버전 파일·앱 설정·잠금 파일은 바꾸지 않았습니다. 공식 설치 권장·formula 의존성과 문서 링크를 대조했으며 실제 brew 설치·Ruby 빌드는 수행하지 않았습니다.
 
 ## 2026-11-03 — 서비스 OS 지원 범위 기록
 

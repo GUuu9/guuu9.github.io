@@ -1,4 +1,4 @@
-<!-- version: v1.4.2 -->
+<!-- version: v1.4.3 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
@@ -51,7 +51,7 @@ fvm flutter doctor -v
 
 ### CocoaPods를 사용하는 프로젝트
 
-Homebrew와 중복 설치하지 않고 [공식 RubyGems·Bundler 절차](https://guides.cocoapods.org/using/getting-started.html)를 사용합니다. macOS 시스템 Ruby 대신 프로젝트가 지정한 별도 Ruby 환경을 먼저 준비합니다. 기존 Ruby 관리자를 유지하고 없다면 공식 가이드에 나온 [rbenv Git 설치](https://github.com/rbenv/rbenv#installation)를 사용할 수 있습니다. 시스템 Ruby에 `sudo gem install`로 설치하지 않습니다.
+CocoaPods 자체는 [공식 RubyGems·Bundler 절차](https://guides.cocoapods.org/using/getting-started.html)를 사용합니다. macOS 시스템 Ruby 대신 프로젝트가 지정한 별도 Ruby 환경을 먼저 준비합니다. 기존 Ruby 관리자를 유지하고 없다면 [rbenv 공식 권장](https://github.com/rbenv/rbenv#installation)에 따라 Homebrew로 rbenv를 설치합니다. Apple 개발 도구의 라이선스·초기화 → Homebrew → rbenv → 프로젝트 Ruby → Bundler·CocoaPods 순서이며 ruby-build는 rbenv formula의 의존성으로 설치됩니다. 시스템 Ruby에 `sudo gem install`로 설치하지 않습니다.
 
 Ruby 선택·Bundler 설치·Gemfile 고정의 공통 절차는 저장소의 `01.Tools/ruby.md`에서 관리합니다. 이 패키지만 사용한다면 [rbenv 공식 안내](https://github.com/rbenv/rbenv)와 [CocoaPods Gemfile 안내](https://guides.cocoapods.org/using/a-gemfile.html)를 따릅니다. 기존 `.ruby-version`·Gemfile·Gemfile.lock을 유지해 `rbenv install`, 잠금 파일의 Bundler 설치, `bundle install` 순서로 복원합니다. `.bundle/`과 로컬 gem 설치 경로는 Git에서 제외하며 시스템 Ruby나 전역 CocoaPods로 대체하지 않습니다.
 

@@ -1,4 +1,4 @@
-<!-- version: v1.2.1 -->
+<!-- version: v1.2.2 -->
 # Mobile-app 가져오기부터 실행까지
 
 새 PC·새 폴더에서 **유형 받기 → 프로젝트 복사 → Flutter 복원 → 플랫폼 도구 설치 → 프로젝트 환경 적용 → 의존성 복원 → 기기 실행·검증** 순서로 진행합니다. Android·iOS 중 필요한 플랫폼만 준비합니다. 기존 앱 복원이라면 다운로드·새 폴더 복사를 건너뛰고 해당 앱의 README·CI·버전 파일을 우선합니다.
@@ -15,7 +15,7 @@
 | Flutter 공통 필수 | FVM → `.fvmrc`의 Flutter·포함 Dart | 3절 SDK 복원·버전 확인. 별도 Dart·전역 Gradle 불필요 |
 | Android 선택 시 필수 | Android Studio·SDK/Platform-Tools → Gradle·AGP와 호환되는 JDK | 4절 Android 가이드 → doctor·라이선스·기기 확인. 호환 JBR이 있으면 추가 JDK 불필요 |
 | iOS 선택 시 필수 | macOS·전체 Xcode·라이선스/초기화·iOS SDK | 4절 iOS 가이드에서 선택 경로·서명·기기 준비. CLT만으로 iOS 빌드 불가 |
-| CocoaPods 사용 시만 | Xcode 빌드 도구 → 별도 Ruby → 지정 Bundler → Gemfile/lock의 CocoaPods | Ruby·gem 복원 후 Flutter iOS 명령도 bundle exec 사용 |
+| CocoaPods 사용 시만 | Xcode 빌드 도구·라이선스 → Homebrew·rbenv → 프로젝트 Ruby → 지정 Bundler → Gemfile/lock의 CocoaPods | Ruby·gem 복원 후 Flutter iOS 명령도 bundle exec 사용 |
 | 코드 편집 선택 | VS Code+Flutter 확장 또는 Android Studio+Flutter/Dart 플러그인 | 6절 프로젝트 FVM SDK 연결. CLI만 사용할 때 IDE는 필수 아님 |
 
 FVM·Android Studio·JDK·Xcode·Ruby 설치는 저장소의 `01.Tools/`에서 도구별로 관리합니다. 패키지 단독 사용 시에도 아래 단계와 Android/iOS 가이드의 공식 링크로 준비할 수 있습니다. macOS의 별도 JDK를 Homebrew로 관리한다면 Apple 개발 도구 → Homebrew → 요구 JDK formula 순서입니다.
@@ -29,7 +29,7 @@ git --version
 clang --version
 ```
 
-위 명령은 준비가 끝난 개인 Mac의 일반 터미널에서 실행합니다. Homebrew가 필요한 경우 이 확인 뒤에 준비하고, 프로젝트별 JDK·Ruby 등을 설치합니다. 설치 명령은 Tools 또는 공식 안내에서 확인하며 도구 이름만으로 이미 준비되었다고 판단하지 않습니다.
+위 명령은 준비가 끝난 개인 Mac의 일반 터미널에서 실행합니다. macOS rbenv는 공식 권장 Homebrew 방식으로 준비하며 Homebrew가 필요한 경우 이 확인 뒤에 준비하고, 프로젝트별 JDK·Ruby 등을 설치합니다. 설치 명령은 Tools 또는 공식 안내에서 확인하며 도구 이름만으로 이미 준비되었다고 판단하지 않습니다.
 
 ## 1. 유형 패키지 가져오기
 
