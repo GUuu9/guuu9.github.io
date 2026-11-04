@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.1.0 -->
 # Mobile-app 최소 Flutter 보일러플레이트
 
 ## 1. 목적
@@ -7,7 +7,7 @@ Android·iOS용 Flutter 앱을 새 경로에서 시작할 때 복사해 사용�
 
 Flutter 프로젝트 파일과 문서는 `mobile-app/`에 함께 둔다. 이 폴더 전체를 새 프로젝트 루트로 복사하면 코드와 `docs/`를 바로 사용할 수 있다.
 
-다운로드 전에 [선행 도구·준비 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [가져오기부터 실행까지](docs/01-getting-started.md)를 순서대로 읽는다. 아래 구조·버전 표는 진행 중 참고 자료다.
+프로젝트를 가져온 뒤 [요구 버전·진행 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [프로젝트 설정·실행](docs/01-getting-started.md)를 순서대로 읽는다. 아래 구조·버전 표는 진행 중 참고 자료다.
 
 ## 2. 기술과 버전 기준
 
@@ -23,28 +23,60 @@ Flutter 프로젝트 파일과 문서는 `mobile-app/`에 함께 둔다. 이 폴
 
 Flutter 3.35.7은 이 샘플의 기준 버전이지 최신 버전이나 모든 PC의 호환 보장이 아니다. SDK 버전 선택·복원은 [FVM 공식 문서](https://fvm.app/documentation/guides/basic-commands)를 따른다. `.fvmrc`의 JSON과 버전 값은 확인했지만, FVM CLI가 이 파일을 읽어 SDK를 선택하는 실행은 이 패키지 검증에서 수행하지 않았다.
 
-## 3. 가져오기부터 실행까지
+## 3. 프로젝트 가져오기
 
-처음 시작할 때는 [순서대로 진행하는 시작 가이드](docs/01-getting-started.md)를 먼저 따른다. 다운로드 전에 앱 실행 명령을 수행하거나 환경 복원 중 최신 SDK로 바꾸지 않는다.
+아래 절차는 이 문서 저장소에서 새 프로젝트를 가져올 때 사용한다. 이미 프로젝트 폴더를 받았다면 [프로젝트 설정·실행](docs/01-getting-started.md)부터 진행한다. macOS에서 Git이 라이선스 오류를 내면 시작 가이드의 Apple 개발 도구 준비를 먼저 완료한다.
 
-1. Git으로 mobile-app 유형 받기.
-2. 새 프로젝트 폴더에 샘플·문서 복사.
-3. FVM 설치와 `.fvmrc`의 Flutter 복원.
-4. 필요한 Android 또는 iOS 도구 설치.
-5. 프로젝트 환경 파일 적용·의존성 복원.
-6. IDE·기기 연결 후 실행·종료·검증.
+### 1. 유형 패키지 가져오기
 
-세부 순서와 각 단계의 실행 위치·명령은 시작 가이드 한 곳에서 관리한다. 프로젝트의 환경·개인 경로 분리는 [환경 가이드](docs/02-project-environment.md), 플랫폼별 설치는 [Android](docs/03-android-build.md)·[iOS](docs/04-ios-build.md)에서 이어서 확인한다.
+개인 PC에서 `git --version`을 확인합니다. 없다면 [공식 Git 설치](https://git-scm.com/install/)를 먼저 진행합니다. 임의 작업 부모 폴더에서 아래 명령을 실행합니다. `devguide-samples`는 기존에 없는 새 다운로드 폴더입니다. Git 명령은 macOS·Linux·Windows PowerShell에서 동일합니다.
 
-## 4. Android Studio와 VS Code에서 열기
+```sh
+git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
+cd devguide-samples
+git sparse-checkout set 02.Boilerplates/mobile-app
+cd 02.Boilerplates/mobile-app
+```
 
-복사한 Flutter 프로젝트 폴더를 연다. 이 패키지에서는 `mobile-app/` 자체가 프로젝트 루트이며, `android/` 하위 폴더만 열지 않는다.
+현재 위치는 유형 패키지 루트입니다. 공개 저장소 다운로드 명령에 토큰을 넣지 않습니다. 코드와 문서를 모두 받으며 Flutter 새 프로젝트 생성 명령으로 샘플을 덮어쓰지 않습니다. [Git sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
 
-- Android Studio: Flutter 플러그인을 설치하고 Flutter SDK 경로를 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. IDE에 표시된 버전과 `fvm flutter --version`을 맞춘다.
-- VS Code: Flutter 확장을 설치하고 Dart 확장이 `.fvm/flutter_sdk`를 선택했는지 확인한다. 필요하면 프로젝트 `.vscode/settings.json`에 `"dart.flutterSdkPath": ".fvm/flutter_sdk"`를 설정한다.
-- IDE가 FVM 심볼릭 링크를 실제 버전 캐시 경로로 바꾸면 다음 버전 선택 때 자동 반영되지 않을 수 있다. IDE 설정의 경로·표시 버전을 확인하고 프로젝트 SDK 경로를 다시 지정한다.
+### 2. 원하는 새 폴더로 복사
 
-자세한 공통 연결 안내는 [FVM의 Android Studio 안내](https://fvm.app/documentation/guides/android-studio), [VS Code 안내](https://fvm.app/documentation/guides/vscode)를 따른다. Android SDK·JDK·Xcode와 기기 준비는 시작 가이드에서 필요한 플랫폼 문서로 이어진다.
+macOS·Linux는 **유형 패키지 루트**에서 다음 묶음을 실행합니다. 기존 대상이 있으면 중단하며 다른 폴더를 선택합니다. 예시 앱 이름은 원하는 이름으로 바꿉니다.
+
+아래 명령은 **Git에 커밋된 HEAD의 템플릿만** 내보냅니다. 작업 폴더의 `.env`·캐시·빌드 결과·미커밋 변경은 가져오지 않습니다. 필요한 문서·`.env.example`도 함께 받으며 기존 대상이 있으면 중단합니다. 변경 중인 템플릿은 먼저 검토·커밋한 뒤 사용합니다.
+
+```bash
+(
+  set -euo pipefail
+  project_dir="$HOME/Developer/my_app"
+  repository_root="$(git rev-parse --show-toplevel)"
+  test ! -e "$project_dir"
+  mkdir -p "$project_dir"
+  git -C "$repository_root" archive HEAD:02.Boilerplates/mobile-app | tar -xf - -C "$project_dir"
+)
+```
+
+Windows PowerShell도 유형 패키지 루트에서 Git의 ZIP 내보내기를 사용합니다. 아래 대상 이름과 Downloads의 ZIP 이름은 예시이며 기존 파일이 있으면 중단합니다. git 명령 실패 시 이어서 압축을 풀지 않습니다.
+
+```powershell
+$ProjectDir = "$env:USERPROFILE\Developer\my_app"
+$RepositoryRoot = git rev-parse --show-toplevel
+if ($LASTEXITCODE -ne 0) { throw "Git 저장소 루트 확인 실패" }
+$PackageZip = "$env:TEMP\mobile-app.zip"
+if ((Test-Path $ProjectDir) -or (Test-Path $PackageZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
+git -C "$RepositoryRoot" archive --format=zip --output="$PackageZip" HEAD:02.Boilerplates/mobile-app
+if ($LASTEXITCODE -ne 0) { throw "mobile-app 내보내기 실패" }
+Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
+```
+
+확인 후 위에서 만든 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. mobile-app 폴더 전체를 새 프로젝트 루트로 가져오므로 `pubspec.yaml`, `lib/`, `android/`, `ios/`, `docs/`, README와 지침이 한 폴더에 놓입니다. 에이전트를 사용할 때만 `project-agents.md`를 같은 폴더의 `AGENTS.md`로 복사합니다.
+
+## 4. VS Code에서 개발
+
+프로젝트 루트를 VS Code로 엽니다. Flutter 확장(게시자 Dart Code)을 설치하면 Dart 확장도 설치됩니다. 프로젝트 `.vscode/settings.json`의 `dart.flutterSdkPath`를 `.fvm/flutter_sdk`로 지정하고 Flutter 버전을 확인합니다.
+
+코드 편집·분석·테스트·실행·디버깅·Hot Reload는 VS Code에서 수행합니다. Android Studio는 Android 가상 기기 생성·관리 용도로 사용합니다. SDK 패키지는 프로젝트 터미널의 명령행 도구로 준비합니다. 설치·기기 선택·F5 실행은 [시작 가이드 6절](docs/01-getting-started.md#6-ide기기-연결실행)을 따릅니다.
 
 ## 5. 핵심 구조와 기능 추가
 
@@ -93,7 +125,7 @@ Android·iOS 버전 조합은 별도 작업 위치에서 정상 동작을 확인
 | [update.md](update.md) | 버전·변경 이력 |
 | `lib/`, `test/`, `android/`, `ios/` | Flutter 코드·테스트·Android/iOS 프로젝트 파일 |
 
-프로젝트에 적용할 때는 시작 가이드의 Git archive로 코드·문서·지침·이력을 내보낸 뒤 `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 시작 가이드의 표준 배치로 문서도 함께 가져오면 링크를 조정할 필요가 없다. [상세 재사용 절차](docs/05-boilerplate.md#8-새-프로젝트로-복사치환)를 따른다.
+프로젝트에 적용할 때는 이 README의 Git archive로 코드·문서·지침·이력을 내보낸 뒤 `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 시작 가이드의 표준 배치로 문서도 함께 가져오면 링크를 조정할 필요가 없다. [상세 재사용 절차](docs/05-boilerplate.md#8-새-프로젝트로-복사치환)를 따른다.
 
 ## 9. 검증·제약
 

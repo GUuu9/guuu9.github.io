@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.1.0 -->
 # 프로젝트 환경 정의·복원·격리
 
 필요한 도구 버전·설치·환경 변수·복원 절차는 프로젝트 안에 보관합니다. **기본 실행은 FVM과 프로젝트 버전 파일을 사용**하며 direnv·사용자 설정 분리는 필요한 경우에만 추가합니다. 현재 샘플에 임의의 JDK·Ruby·Xcode 버전을 추가하거나 PC 전역 기본값을 변경하는 절차가 아닙니다.
@@ -7,7 +7,7 @@
 
 | 구분 | Git에 보관 | 개인 로컬 파일·상태 |
 | :--- | :--- | :--- |
-| 환경 설명 | README·docs/environment.md, OS/CPU·실제 버전·설치/확인/복귀 명령 | 비밀값을 제거한 검증 기록 |
+| 환경 설명 | README·docs/02-project-environment.md, OS/CPU·실제 버전·설치/확인/복귀 명령 | 비밀값을 제거한 검증 기록 |
 | 도구 버전 | `.fvmrc`, Gradle Wrapper·플러그인 선언, 필요 시 `.ruby-version` | 설치된 JDK·SDK·Xcode의 개인 경로 |
 | 의존성 | pubspec/lock, 실제 사용하는 Gemfile/lock·Podfile/lock·SPM 설정 | 다운로드 캐시·빌드 산출물 |
 | 환경 변수 | **`.env.example`**의 변수 이름·용도·비밀값 없는 예시 | **`.env`**의 실제 값. Git 제외 |
@@ -17,7 +17,7 @@
 
 ## 1. 필요한 요소를 확인하고 설치
 
-먼저 [시작 가이드](./01-getting-started.md)에서 유형 받기·프로젝트 내보내기·FVM 복원을 수행합니다. [Android](./03-android-build.md#jdk-설치선택) 또는 [iOS](./04-ios-build.md) 중 필요한 플랫폼만 준비하고 실제 버전·설치 경로 선택 방법을 docs/environment.md에 기록합니다. 폴더 진입 시 설치·업데이트·삭제하지 않습니다.
+먼저 [시작 가이드](./01-getting-started.md)에서 가져온 프로젝트의 요구 버전 확인·PC 기본 도구 준비·FVM 설치를 수행합니다. [Android](./03-android-build.md#jdk-설치선택) 또는 [iOS](./04-ios-build.md) 중 필요한 플랫폼만 준비하고 실제 버전·설치 경로 선택 방법을 docs/02-project-environment.md에 기록합니다. 폴더 진입 시 설치·업데이트·삭제하지 않습니다.
 
 macOS의 JDK는 필요한 major의 brew formula를 설치하고 `brew --prefix openjdk@17`로 실제 위치를 확인합니다. `.env`에는 그 결과를 바탕으로 완성한 절대 경로를 적습니다. 같은 formula의 patch 갱신은 다른 프로젝트에도 적용될 수 있으므로 Android 가이드의 유지·복귀 기준을 따릅니다.
 
@@ -100,9 +100,9 @@ exec fvm flutter "$@"
 
 ## 4. IDE·CI·외부 영향 확인
 
-기본 IDE 실행은 프로젝트 `.fvm/flutter_sdk`와 호환 Gradle JDK·Xcode를 선택하고 IDE의 doctor 결과를 터미널과 비교한 뒤 사용합니다. [VS Code 기본 실행](https://docs.flutter.dev/tools/vs-code) · [FVM Android Studio 연결](https://fvm.app/documentation/guides/android-studio).
+VS Code에서 프로젝트 `.fvm/flutter_sdk`를 선택하고 **Flutter: Run Flutter Doctor**의 Java·SDK·Xcode 결과를 작업 터미널과 비교합니다. Android Studio는 가상 기기 관리용이며 그 IDE의 Gradle JDK 설정으로 VS Code의 빌드 JDK가 바뀌지는 않습니다. [VS Code 실행](https://docs.flutter.dev/tools/vs-code).
 
-선택적 실행기·Bundler 환경은 IDE Run에 자동 적용되지 않습니다. 해당 구성을 선택한 프로젝트는 우선 같은 환경의 IDE 통합 터미널에서 명시 명령으로 실행합니다. IDE Run까지 도입하려면 그 Run/task가 같은 환경·명령을 사용하는지 검증해 docs/environment.md에 남깁니다. 네이티브 Windows에서는 이 실행기를 만들라는 선행 조건 없이 기본 FVM 절차를 사용하고, 공유 사용자 설정과 요구 JDK가 충돌하면 분리 빌드 환경이 필요하다고 명시합니다.
+선택적 실행기·Bundler 환경은 IDE Run에 자동 적용되지 않습니다. 해당 구성을 선택한 프로젝트는 우선 같은 환경의 IDE 통합 터미널에서 명시 명령으로 실행합니다. IDE Run까지 도입하려면 그 Run/task가 같은 환경·명령을 사용하는지 검증해 docs/02-project-environment.md에 남깁니다. 네이티브 Windows에서는 이 실행기를 만들라는 선행 조건 없이 기본 FVM 절차를 사용하고, 공유 사용자 설정과 요구 JDK가 충돌하면 분리 빌드 환경이 필요하다고 명시합니다.
 
 CI는 프로젝트 버전·잠금 파일로 설치하고 필요한 비밀값은 CI 비밀 저장소에서 주입합니다. direnv hook·개인 경로를 전제하지 않습니다. 공유 SDK·캐시·daemon·키체인·기기까지 프로젝트 폴더만으로 격리되지는 않습니다. 삭제 전 다른 프로젝트 참조와 복귀 가능성을 확인하며 프로젝트 삭제에 공유 도구·서명 자료를 포함하지 않습니다.
 

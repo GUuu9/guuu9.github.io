@@ -1,4 +1,4 @@
-<!-- version: v3.0.0 -->
+<!-- version: v3.2.0 -->
 # 1. 적용 범위
 
 Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플과 문서의 루트는 이 패키지 폴더다.
@@ -30,6 +30,7 @@ Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCa
 | 경로(샘플 루트 기준) | 역할·주요 구성 | 연결·검증 |
 | :--- | :--- | :--- |
 | `.fvmrc` | 프로젝트 Flutter SDK 3.35.7 선택 | FVM install/use가 읽고 SDK 링크를 준비 |
+| `Gemfile` | CocoaPods 1.16.2 고정 | 프로젝트 루트에서 Bundler로 설치·실행; 최초 생성한 Gemfile.lock도 Git 보관 |
 | `.gitignore` | FVM 링크·Dart/Flutter 캐시·빌드·개인 설정 제외 | Git 보존 경계 |
 | `.metadata` | Flutter 프로젝트 생성 정보·플랫폼 목록 | Flutter CLI의 프로젝트 관리 |
 | `README.md` | 선행 조건·복원·검사·실행·종료 안내 | 독립 샘플 시작점 |
@@ -253,13 +254,13 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 # 8. 새 프로젝트로 복사·치환
 
-이 패키지 루트가 Flutter 프로젝트 루트이자 문서 루트다. 새 앱은 [시작 가이드 2절](./01-getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 mobile-app 폴더 전체를 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
+이 패키지 루트가 Flutter 프로젝트 루트이자 문서 루트다. 새 앱은 [루트 README의 가져오기](../README.md#3-프로젝트-가져오기)에 있는 Git archive로 mobile-app 폴더 전체를 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
 
-FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --version`으로 확인한다. Android Studio의 Flutter SDK 경로를 새 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. VS Code는 새 루트를 열고 Flutter 확장 SDK가 `.fvm/flutter_sdk`를 사용하는지 확인한다. `dart.flutterSdkPath`를 팀과 공유하면 기기별 경로가 아닌 프로젝트 상대 경로를 사용한다. IDE가 심볼릭 링크를 해석하면 SDK 표시 버전을 직접 다시 확인한다.
+FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --version`으로 확인한다. VS Code는 새 루트를 열고 Flutter 확장 SDK가 `.fvm/flutter_sdk`를 사용하는지 확인한다. `dart.flutterSdkPath`를 팀과 공유하면 기기별 경로가 아닌 프로젝트 상대 경로를 사용한다. IDE가 심볼릭 링크를 해석하면 SDK 표시 버전을 직접 다시 확인한다.
 
 프로젝트 이름을 바꿀 때는 `pubspec.yaml`의 패키지 이름과 테스트의 `package:mobile_app_sample/...` import를 함께 바꾼다. Android 앱 ID를 바꿀 때는 `android/app/build.gradle.kts`, `MainActivity.kt` package·경로를 맞춘다. iOS Bundle Identifier·표시 이름은 `ios/Runner.xcodeproj/project.pbxproj`, `ios/Runner/Info.plist`에서 바꾼다. `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 시작 가이드의 표준 배치를 유지하면 문서 링크를 수정할 필요가 없다.
 
-일반 Flutter 프로젝트를 Android Studio 새 프로젝트 마법사에서 임의 경로로 만드는 흐름, FVM SDK 복원과 IDE 연결의 공통 설명은 [FVM 공식 Android Studio 안내](https://fvm.app/documentation/guides/android-studio) 및 [Flutter 새 프로젝트 안내](https://docs.flutter.dev/reference/create-new-app)를 참고한다. 이 패키지는 새 경로에 샘플을 복사해 시작하므로 기존 제품 폴더나 기존 Flutter 프로젝트 안에 덮어쓰지 않는다.
+코드 개발은 VS Code에서 진행하고 Android Studio는 가상 기기 생성·관리에 사용한다. 이 패키지는 새 경로에 복사해 시작하므로 기존 Flutter 프로젝트를 새 프로젝트 마법사로 덮어쓰지 않는다.
 
 # 9. 예외·검증 결과와 요구사항 대조표
 

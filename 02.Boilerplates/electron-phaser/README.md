@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # TypeScript · React · Phaser · Electron 게임 보일러플레이트
 
 역할별 폴더와 프로세스 경계를 갖춘 독립 Electron 샘플입니다. React Renderer에서 연결 확인 버튼을 누르면 고정된 플레이어 이름을 Preload API와 IPC로 Main에 보내고, Main이 요청을 검증해 인사말 또는 오류를 돌려줍니다.
@@ -7,13 +7,13 @@
 
 원을 클릭해 점수를 올리는 로컬 게임입니다. React가 점수·재시작 버튼을, Phaser가 캔버스·입력·게임 씬을 담당합니다. 데스크톱 연결 확인 버튼은 Preload/IPC/Main의 검증된 왕복 예제입니다.
 
-다운로드 전에 [선행 도구·준비 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [가져오기부터 실행까지](docs/01-getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
+프로젝트를 가져온 뒤 [요구 버전·준비 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [프로젝트 설정·실행](docs/01-getting-started.md)를 먼저 읽고, 환경 구성·실행을 마친 뒤 아래 구조·확장 설명으로 이어간다.
 
 ## 빠른 시작
 
-[가져오기부터 실행까지](docs/01-getting-started.md)를 다음 순서로 따른다.
+[프로젝트 설정·실행](docs/01-getting-started.md)를 다음 순서로 따른다.
 
-1. Git으로 유형 받기·새 프로젝트 폴더에 복사.
+1. 가져온 프로젝트의 버전·환경 확인.
 2. `.nvmrc`의 Node·npm 준비와 데스크톱 OS/CPU 조건 확인.
 3. `npm ci`로 프로젝트 의존성·Electron 바이너리 복원.
 4. 테스트·타입 검사·빌드.
@@ -40,7 +40,7 @@
 
 임시 복사본에서 설치, 2개 테스트, 타입 검사, 빌드, Electron 프로세스 기동 및 종료를 확인했습니다. 버튼을 눌러 IPC 응답이 표시되는 GUI 상호작용은 자동화 연결을 사용할 수 없어 미검증입니다. 현재 셸의 Node 경로 문제로 검증 시 Node 24.22.1을 PATH 앞에 지정했습니다.
 
-새 프로젝트는 시작 가이드의 Git archive로 코드·docs·지침·이력을 함께 가져옵니다. 에이전트를 쓰는 경우에만 지침 보관본을 같은 루트의 AGENTS.md로 복사하며 기본 배치의 링크를 다시 수정할 필요는 없습니다.
+새 프로젝트는 이 README의 Git archive로 코드·docs·지침·이력을 함께 가져옵니다. 에이전트를 쓰는 경우에만 지침 보관본을 같은 루트의 AGENTS.md로 복사하며 기본 배치의 링크를 다시 수정할 필요는 없습니다.
 
 게임 로직과 리소스 관리 규칙은 상세 문서 4절의 게임 관리 규칙을 따릅니다. 이번 게임 전환 후 GUI 직접 클릭·점수 갱신 검증은 미검증입니다.
 
@@ -65,3 +65,52 @@
 로컬 검증 후 [Electron·Phaser 패키징·배포](docs/04-build-and-release.md)에서 배포 준비·산출물·서명 또는 운영 설정·검증·업데이트·복귀를 확인합니다. 문서 추가는 샘플에 배포 기능이 구현되었다는 뜻이 아닙니다.
 
 개발 도구 설치 전에 [서비스 OS 지원 범위](docs/04-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
+
+## 프로젝트 가져오기
+
+이미 프로젝트 폴더를 받았다면 [프로젝트 설정·실행](docs/01-getting-started.md)부터 진행합니다. 아래는 이 문서 저장소에서 템플릿을 처음 가져오는 절차입니다. macOS Git에 라이선스 오류가 있다면 시작 가이드의 PC 기본 도구 준비를 먼저 마칩니다.
+
+### 1. 유형 패키지 가져오기
+
+개인 PC에서 `git --version`을 확인합니다. Git이 없다면 [공식 설치 안내](https://git-scm.com/install/)에 따라 OS용 Git을 먼저 준비합니다. 아래는 임의의 작업 부모 폴더에서 실행하며 `devguide-samples`는 존재하지 않는 새 폴더 이름이어야 합니다. macOS·Linux·Windows PowerShell에서 같은 Git 명령을 사용합니다.
+
+```sh
+git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
+cd devguide-samples
+git sparse-checkout set 02.Boilerplates/electron-phaser
+cd 02.Boilerplates/electron-phaser
+```
+
+이제 유형 패키지 루트입니다. 공개 저장소 다운로드에는 토큰을 명령에 넣을 필요가 없습니다. 개인 변경이 있는 다운로드 저장소의 업데이트는 먼저 보존 후 `git pull --ff-only`로 수행합니다. 복사해 독립 개발한 앱에 이 pull을 적용하는 것은 아닙니다. [Git sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
+
+### 2. 새 프로젝트 폴더 준비
+
+아래는 **유형 패키지 루트**에서 macOS·Linux 셸로 실행합니다. 예시 대상 이름을 바꾸고 다운로드 폴더나 기존 앱 안에 덮어쓰지 않습니다. 묶음 전체가 실패 즉시 중단하도록 서브셸에서 실행합니다.
+
+아래 명령은 **Git에 커밋된 HEAD의 템플릿만** 내보냅니다. 작업 폴더의 `.env`·캐시·빌드 결과·미커밋 변경은 가져오지 않습니다. 필요한 문서·`.env.example`도 함께 받으며 기존 대상이 있으면 중단합니다. 변경 중인 템플릿은 먼저 검토·커밋한 뒤 사용합니다.
+
+```bash
+(
+  set -euo pipefail
+  project_dir="$HOME/Developer/my_desktop_game"
+  repository_root="$(git rev-parse --show-toplevel)"
+  test ! -e "$project_dir"
+  mkdir -p "$project_dir"
+  git -C "$repository_root" archive HEAD:02.Boilerplates/electron-phaser | tar -xf - -C "$project_dir"
+)
+```
+
+Windows PowerShell도 유형 패키지 루트에서 Git의 ZIP 내보내기를 사용합니다. 아래 대상 이름과 Downloads의 ZIP 이름은 예시이며 기존 파일이 있으면 중단합니다. git 명령 실패 시 이어서 압축을 풀지 않습니다.
+
+```powershell
+$ProjectDir = "$env:USERPROFILE\Developer\my_desktop_game"
+$RepositoryRoot = git rev-parse --show-toplevel
+if ($LASTEXITCODE -ne 0) { throw "Git 저장소 루트 확인 실패" }
+$PackageZip = "$env:TEMP\electron-phaser.zip"
+if ((Test-Path $ProjectDir) -or (Test-Path $PackageZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
+git -C "$RepositoryRoot" archive --format=zip --output="$PackageZip" HEAD:02.Boilerplates/electron-phaser
+if ($LASTEXITCODE -ne 0) { throw "유형 내보내기 실패" }
+Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
+```
+
+확인 후 위에서 만든 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. 새 앱의 프로젝트 루트는 복사된 버전 파일·소스·README가 있는 폴더입니다. 문서는 `docs/`, 지침 보관본은 `project-agents.md`, 이력은 `update.md`로 함께 보관하며 링크를 다시 고칠 필요가 없습니다. 에이전트를 사용할 때만 보관본을 같은 폴더의 AGENTS.md로 복사합니다. 작업 루트 표기는 패키지와 새 앱 모두 프로젝트 루트를 뜻합니다.

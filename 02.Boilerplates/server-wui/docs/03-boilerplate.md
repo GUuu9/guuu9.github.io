@@ -1,4 +1,4 @@
-<!-- version: v3.0.0 -->
+<!-- version: v3.0.1 -->
 # 1. 적용 범위
 
 이 패키지는 server-wui 유형의 독립 실행 샘플이다. 유형 패키지 README, [작업 지침 보관본](../project-agents.md), 실행 루트의 `README.md`가 함께 포함된다.
@@ -236,7 +236,7 @@ sequenceDiagram
 
 # 6. 정확한 실행·검증 명령
 
-처음 준비하는 환경은 [가져오기부터 실행까지](./01-getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
+처음 준비하는 환경은 [프로젝트 설정·실행](./01-getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
 
 작업 위치는 모두 샘플 패키지의 프로젝트 루트다. Node 24.22.1 이상 24.x·npm이 필요하며 설치에는 registry 또는 채워진 캐시, HTTP 테스트에는 로컬 소켓 권한이 필요하다.
 
@@ -264,7 +264,7 @@ check는 tsc --noEmit, test는 tsx와 Node test runner, build는 check → 서�
 
 # 8. 새 프로젝트로 복사·치환하는 방법
 
-새 앱은 [시작 가이드 2절](./01-getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 생성한다. 코드·docs·project-agents.md·update.md를 표준 위치에 함께 내보내므로 문서 링크를 다시 바꾸지 않는다. 에이전트를 쓸 때만 지침 보관본을 같은 루트의 AGENTS.md로 복사한다.
+새 앱은 [루트 README의 가져오기](../README.md#프로젝트-가져오기)의 Git archive로 생성한다. 코드·docs·project-agents.md·update.md를 표준 위치에 함께 내보내므로 문서 링크를 다시 바꾸지 않는다. 에이전트를 쓸 때만 지침 보관본을 같은 루트의 AGENTS.md로 복사한다.
 
 이후 package 이름·버전과 모델·endpoint·문구·config를 제품 요구로 치환한다. 의존성 변경이 필요할 때만 manifest와 lockfile을 함께 갱신하고, 필요 없는 샘플 기능은 호출자·DI·검사까지 함께 제거한다. 타입 검사·테스트·빌드와 UI 정상·오류를 검증한다. 파일 역할 표의 경로는 실행 루트 기준이며 실행 루트는 유형 폴더 자체이며 적용 후에는 새 앱 루트다.
 

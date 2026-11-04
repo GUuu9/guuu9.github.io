@@ -1,5 +1,22 @@
-<!-- version: v1.13.0 -->
+<!-- version: v1.16.0 -->
 # 갱신 이력
+
+## 2026-11-04 — VS Code 중심 모바일 개발
+
+- VS Code의 Flutter 확장·프로젝트 SDK·기기 선택·F5 디버깅을 기본 절차로 정리했습니다. Android Studio는 가상 기기 생성·관리에 사용하고 SDK 패키지는 명령행 도구로 설치합니다.
+- Android Studio의 Flutter 플러그인·Gradle JDK 설정을 기본 개발 절차에서 제거했습니다. VS Code/Flutter의 실제 Java 선택과 Bundler 환경은 별도로 확인하도록 안내합니다.
+- 공식 문서·내부 링크·앵커·코드 블록·JSON 예시·공백을 정적으로 확인했습니다. SDK 설치·IDE·에뮬레이터·실기기 실행은 수행하지 않았습니다.
+
+## 2026-11-04 — 가져온 프로젝트의 독립 설정 가이드
+
+- 다운로드·Git archive는 루트 README로 옮기고 docs는 프로젝트 요구 버전 확인부터 시작하도록 재구성했습니다.
+- PC 기본 도구·FVM·Android Studio/SDK/JDK/PATH·Xcode 라이선스/초기화·rbenv/Ruby/Bundler/CocoaPods 설치와 확인을 패키지 내부에 직접 기록했습니다. Setup·Tools 문서 참조를 제거하고 환경·작업 지침·내부 링크를 맞췄습니다.
+- 공식 설치 문서·링크·앵커·코드 펜스·Gemfile 문법·공백을 정적으로 확인했습니다. PC에 도구를 설치하거나 네이티브 빌드·기기 실행을 수행하지 않았습니다.
+
+## 2026-11-04 — CocoaPods Gemfile 준비
+
+- 프로젝트 루트에 CocoaPods 1.16.2를 고정한 Gemfile을 추가하고 iOS 가이드에 Bundler 2.5.23 설치·최초 복원·버전 확인·Gemfile.lock 보관 절차를 기록했습니다.
+- Ruby 문법과 문서·공백을 확인했습니다. gem 설치·의존성 해석·iOS 빌드는 실행하지 않았으며 Gemfile.lock은 생성하지 않았습니다.
 
 ## 2026-11-04 — mobile-app 프로젝트 루트 평탄화
 

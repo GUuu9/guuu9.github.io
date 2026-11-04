@@ -100,7 +100,7 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/mobile-app/docs/"
             children:
-              - title: "Mobile-app 가져오기부터 실행까지"
+              - title: "Mobile-app 프로젝트 설정·실행"
                 path: "02.Boilerplates/mobile-app/docs/01-getting-started.md"
               - title: "프로젝트 환경 정의·복원·격리"
                 path: "02.Boilerplates/mobile-app/docs/02-project-environment.md"
@@ -124,7 +124,7 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/server-wui/docs/"
             children:
-              - title: "Server-WUI 가져오기부터 실행까지"
+              - title: "Server-WUI 프로젝트 설정·실행"
                 path: "02.Boilerplates/server-wui/docs/01-getting-started.md"
               - title: "설치·실행·명령 안내"
                 path: "02.Boilerplates/server-wui/docs/02-running.md"
@@ -144,7 +144,7 @@ document_navigation:
           - title: "설명서 · docs"
             path: "02.Boilerplates/electron-phaser/docs/"
             children:
-              - title: "Electron·Phaser 가져오기부터 실행까지"
+              - title: "Electron·Phaser 프로젝트 설정·실행"
                 path: "02.Boilerplates/electron-phaser/docs/01-getting-started.md"
               - title: "설치·실행·명령 안내"
                 path: "02.Boilerplates/electron-phaser/docs/02-running.md"

@@ -1,90 +1,66 @@
-<!-- version: v3.0.0 -->
-# Electron·Phaser 가져오기부터 실행까지
+<!-- version: v4.0.0 -->
+# Electron·Phaser 프로젝트 설정·실행
 
-처음 사용하는 개인 PC에서 **유형 받기 → 새 프로젝트 복사 → Node 환경 준비 → 의존성 복원 → 실행·종료 → 검증** 순서로 진행합니다. 유형 폴더 자체가 프로젝트 루트입니다. 이 폴더 전체를 원하는 프로젝트 이름의 새 폴더로 가져옵니다. 기존 프로젝트를 복원한다면 가져오기·새 폴더 복사는 건너뛰고 그 프로젝트의 버전 파일과 CI를 우선합니다.
+코드와 docs를 가져온 프로젝트에서 시작합니다. 아래 명령은 별도 표시가 없으면 `package.json`·`.nvmrc`·`package-lock.json`이 있는 프로젝트 루트의 일반 사용자 터미널에서 실행합니다. **요구 버전 확인 → PC 기본 도구 → Node·npm → 의존성 복원·검사 → 실행·종료** 순서로 진행합니다.
 
 ## 0. 선행 도구·준비 순서
 
-개발 도구 설치 전에 [서비스 OS 지원 범위](./04-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
-
-코드를 받기 위한 PC 공통 준비와 프로젝트를 받은 뒤의 도구 설치를 구분합니다. 모든 도구를 다운로드 전에 설치할 필요는 없지만, 각 명령의 선행 도구가 준비된 뒤 다음 단계로 진행합니다.
-
-| 단계·조건 | 선행 도구 | 확인·다음 작업 |
+| 항목 | 요구·기준 | 완료 확인 |
 | :--- | :--- | :--- |
-| 다운로드 전 공통 필수 | Git·다운로드/압축 도구, macOS는 아래 Apple 개발 도구 준비 | Git 동작 확인 → 1절 다운로드·2절 복사 |
-| 설치·빌드 필수 | macOS/Linux nvm 또는 Windows 프로젝트용 Node → `.nvmrc`의 Node·npm | 3절 버전 확인 → npm ci·검사·빌드 |
-| Electron 실행 필수 | 대상 Electron이 지원하는 OS/CPU·데스크톱 GUI·필요 런타임 라이브러리 | 5절 실제 창·IPC·게임·저장 확인. GUI 없는 서버의 빌드 성공과 구분 |
-| 네이티브 모듈이 요구할 때만 | OS용 C/C++ 도구·SDK 및 모듈의 요구 도구 | Electron ABI·대상 CPU 조건 확인 후 복원. 전체 Xcode·Python 등을 무조건 설치하지 않음 |
-| 코드 편집 선택 | VS Code·필요 확장 | 전역 Electron·TypeScript·Phaser는 설치하지 않음 |
-| 패키징·배포 시 추가 | 선택 maker·OS별 서명/공증 도구·배포 자격 | 로컬 검증 후 빌드·배포 가이드. macOS 서명·공증은 전체 Xcode 등 공식 선행 조건 별도 확인 |
+| 런타임 | `.nvmrc`의 Node 24.22.1, package.json의 Node 조건 | node·npm 실제 버전 확인. npm 11.19.1은 기존 검증값 |
+| 프로젝트 의존성 | package-lock.json | npm ci → 타입 검사·테스트·빌드 |
+| 실행 환경 | 지원 OS/CPU·GUI 데스크톱·Electron 런타임 | Electron 창·IPC·게임·점수 저장/재실행 확인 |
 
-Git·nvm·편집기·네이티브 빌드 도구 설치는 저장소의 `01.Tools/`에서 관리합니다. 패키지 단독 사용은 아래 공식 설치 안내를 따릅니다. [Electron 설치·바이너리 안내](https://www.electronjs.org/docs/latest/tutorial/installation)에 따라 필요한 OS 라이브러리·다운로드 조건을 확인합니다. Homebrew·Docker·DB는 이 로컬 샘플의 직접 실행 의존성이 아닙니다.
+개발 PC·사용자 OS 지원 조건과 실제 검증 범위는 [배포 가이드](./04-build-and-release.md)에서 확인합니다. TypeScript·Vite·Electron·Phaser는 프로젝트 의존성이며 전역 설치하지 않습니다.
 
-### macOS에서 다운로드 전에 확인
+## 1. 가져온 프로젝트 확인
 
-Git·nvm 등 설치 도구가 사용할 Apple 개발 도구를 먼저 준비합니다. Command Line Tools만 쓰면 설치 완료 후 Git·Clang을 확인합니다. **선택한 도구가 전체 Xcode라면 해당 Xcode의 라이선스 동의·최초 초기화를 먼저 완료**하고 같은 Developer 경로의 셸에서 확인합니다. 자세한 명령은 저장소의 `01.Tools/xcode.md`, 이 패키지만 받은 경우 [Apple 개발 도구 안내](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)와 [Xcode 초기화·라이선스 안내](https://docs.flutter.dev/platform-integration/ios/setup)를 따릅니다. 설치·라이선스 오류가 남아 있으면 Git clone·Homebrew·nvm·FVM 설치로 넘어가지 않습니다. 웹·Android 개발에 전체 Xcode를 강제하지 않습니다.
+폴더 이름을 원하는 프로젝트 이름으로 바꿔 사용합니다. 루트에 `package.json`, `package-lock.json`, `.nvmrc`, `.env.example`, `docs/`와 src/가 있는지 확인합니다. npm 패키지 이름도 바꾸려면 문서 끝의 이름 변경 절차를 따릅니다. 기존 lockfile을 삭제하거나 프로젝트를 초기화하지 않습니다.
+
+에이전트를 사용할 때만 `project-agents.md`를 같은 루트의 `AGENTS.md`로 복사합니다. 기본 샘플은 비밀값이나 `.env`가 필요하지 않습니다. 환경 변수가 생기면 `.env.example`의 양식을 Git 제외 `.env`에 복사하고 실행 프로세스에 적용할 방법을 기록합니다. `.env` 파일 자체가 Node에서 자동 로딩되지는 않습니다.
+
+## 2. PC 기본 도구 준비
+
+### macOS
+
+Command Line Tools가 없다면 다음 명령을 실행하고 설치 창을 완료합니다.
+
+```bash
+xcode-select --install
+```
+
+이미 전체 Xcode를 사용하는 Mac에서 라이선스·초기화 오류가 있다면 설치한 앱 경로로 다음을 실행합니다. 해당 관리자 명령은 라이선스 동의와 구성 요소 설치에 사용합니다.
+
+```bash
+export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+sudo env DEVELOPER_DIR="$DEVELOPER_DIR" /usr/bin/xcodebuild -license
+sudo env DEVELOPER_DIR="$DEVELOPER_DIR" /usr/bin/xcodebuild -runFirstLaunch
+```
+
+CLT만 사용하는 경우 위 전체 Xcode 명령은 생략합니다. 준비 후 확인합니다.
 
 ```bash
 git --version
 clang --version
 ```
 
-위 명령은 준비가 끝난 개인 Mac의 일반 터미널에서 실행합니다. Homebrew가 필요한 경우 이 확인 뒤에 준비하고, 프로젝트별 JDK·Ruby 등을 설치합니다. 설치 명령은 Tools 또는 공식 안내에서 확인하며 도구 이름만으로 이미 준비되었다고 판단하지 않습니다.
+오류가 없으면 다음 Node 설치로 넘어갑니다. 이 샘플의 기본 실행을 위해 전체 Xcode·Homebrew를 추가 설치할 필요는 없습니다. [Apple 개발 도구](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
 
-## 1. 유형 패키지 가져오기
+### Windows
 
-개인 PC에서 `git --version`을 확인합니다. Git이 없다면 [공식 설치 안내](https://git-scm.com/install/)에 따라 OS용 Git을 먼저 준비합니다. 아래는 임의의 작업 부모 폴더에서 실행하며 `devguide-samples`는 존재하지 않는 새 폴더 이름이어야 합니다. macOS·Linux·Windows PowerShell에서 같은 Git 명령을 사용합니다.
+[Git for Windows](https://git-scm.com/install/windows)의 OS/CPU용 설치기를 실행하고 새 PowerShell에서 `git --version`을 확인합니다. Node ZIP은 아래 절차에 따라 `D:\Developer\tools`에 보관합니다. D 드라이브는 실제 데이터 드라이브로 바꿉니다. 별도 PowerShell 7 없이 기본 Windows PowerShell로도 진행할 수 있습니다.
 
-```sh
-git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
-cd devguide-samples
-git sparse-checkout set 02.Boilerplates/electron-phaser
-cd 02.Boilerplates/electron-phaser
-```
+### Linux
 
-이제 유형 패키지 루트입니다. 공개 저장소 다운로드에는 토큰을 명령에 넣을 필요가 없습니다. 개인 변경이 있는 다운로드 저장소의 업데이트는 먼저 보존 후 `git pull --ff-only`로 수행합니다. 복사해 독립 개발한 앱에 이 pull을 적용하는 것은 아닙니다. [Git sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
-
-## 2. 새 프로젝트 폴더 준비
-
-아래는 **유형 패키지 루트**에서 macOS·Linux 셸로 실행합니다. 예시 대상 이름을 바꾸고 다운로드 폴더나 기존 앱 안에 덮어쓰지 않습니다. 묶음 전체가 실패 즉시 중단하도록 서브셸에서 실행합니다.
-
-아래 명령은 **Git에 커밋된 HEAD의 템플릿만** 내보냅니다. 작업 폴더의 `.env`·캐시·빌드 결과·미커밋 변경은 가져오지 않습니다. 필요한 문서·`.env.example`도 함께 받으며 기존 대상이 있으면 중단합니다. 변경 중인 템플릿은 먼저 검토·커밋한 뒤 사용합니다.
+Ubuntu/Debian의 일반 터미널에서 기본 도구를 준비합니다. 다른 배포판은 해당 패키지 관리자의 동등 패키지를 사용합니다.
 
 ```bash
-(
-  set -euo pipefail
-  project_dir="$HOME/Developer/my_desktop_game"
-  repository_root="$(git rev-parse --show-toplevel)"
-  test ! -e "$project_dir"
-  mkdir -p "$project_dir"
-  git -C "$repository_root" archive HEAD:02.Boilerplates/electron-phaser | tar -xf - -C "$project_dir"
-)
+sudo apt-get update
+sudo apt-get install git curl ca-certificates xz-utils
+git --version
 ```
 
-Windows PowerShell도 유형 패키지 루트에서 Git의 ZIP 내보내기를 사용합니다. 아래 대상 이름과 Downloads의 ZIP 이름은 예시이며 기존 파일이 있으면 중단합니다. git 명령 실패 시 이어서 압축을 풀지 않습니다.
-
-```powershell
-$ProjectDir = "$env:USERPROFILE\Developer\my_desktop_game"
-$RepositoryRoot = git rev-parse --show-toplevel
-if ($LASTEXITCODE -ne 0) { throw "Git 저장소 루트 확인 실패" }
-$PackageZip = "$env:TEMP\electron-phaser.zip"
-if ((Test-Path $ProjectDir) -or (Test-Path $PackageZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
-git -C "$RepositoryRoot" archive --format=zip --output="$PackageZip" HEAD:02.Boilerplates/electron-phaser
-if ($LASTEXITCODE -ne 0) { throw "유형 내보내기 실패" }
-Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
-```
-
-확인 후 위에서 만든 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. 새 앱의 프로젝트 루트는 복사된 버전 파일·소스·README가 있는 폴더입니다. 문서는 `docs/`, 지침 보관본은 `project-agents.md`, 이력은 `update.md`로 함께 보관하며 링크를 다시 고칠 필요가 없습니다. 에이전트를 사용할 때만 보관본을 같은 폴더의 AGENTS.md로 복사합니다. 작업 루트 표기는 패키지와 새 앱 모두 프로젝트 루트를 뜻합니다.
-
-실제 환경 값이 필요할 때만 프로젝트 루트에서 `.env.example`을 `.env`로 복사해 채웁니다. 이미 있는 `.env`는 유지합니다. 예시 파일에는 키·토큰·개인 값을 넣지 않으며 `.env`는 Git에서 제외합니다. `.env`가 존재한다고 앱·Flutter·Node가 자동으로 읽는 것은 아닙니다. 필요한 로딩 방법은 해당 프로젝트 문서에 명시합니다.
-
-```bash
-if [ ! -e .env ]; then
-  cp .env.example .env
-fi
-```
-
-Windows에서는 `if (-not (Test-Path .env)) { Copy-Item .env.example .env }`를 사용합니다. 기본 샘플은 추가 비밀값이 필요하지 않아 이 단계를 생략할 수 있습니다. [Git archive](https://git-scm.com/docs/git-archive).
+네이티브 모듈을 추가해 소스 빌드가 필요해졌다면 그 모듈의 요구에 따라 C/C++·Python 등을 추가합니다. Electron 창은 실제 데스크톱 세션에서 실행합니다. 실행 시 누락된 공유 라이브러리가 표시되면 해당 배포판의 패키지를 설치한 뒤 다시 확인합니다. 샌드박스 오류를 --no-sandbox로 숨기지 않습니다. [Electron 설치 조건](https://www.electronjs.org/docs/latest/tutorial/installation).
 
 ## 3. Node·npm 환경 준비
 
@@ -98,7 +74,14 @@ nvm이 이미 있으면 재설치하지 않습니다. 없다면 일반 사용자
 curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
 ```
 
-새 터미널에서 nvm을 확인하고 **새 프로젝트 루트**로 이동해 실행합니다.
+새 터미널에서 nvm 초기화가 적용되지 않았다면 아래를 현재 셸에서 실행합니다. 설치기가 셸 설정에 같은 내용을 기록했는지도 확인합니다. 사용자 지정 NVM_DIR가 있으면 그 경로를 유지합니다.
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ ! -s "$NVM_DIR/nvm.sh" ] || . "$NVM_DIR/nvm.sh"
+```
+
+nvm을 확인하고 **새 프로젝트 루트**로 이동해 실행합니다.
 
 ```bash
 nvm --version
@@ -121,13 +104,13 @@ Get-FileHash -Algorithm SHA256 -Path $NodeZip
 공식 값과 대조한 뒤 압축을 풉니다. 이미 같은 폴더가 있으면 덮어쓰지 않고 설치 상태를 먼저 확인합니다.
 
 ```powershell
-Expand-Archive -Path $NodeZip -DestinationPath "$env:LOCALAPPDATA\dev-sdks"
+Expand-Archive -Path $NodeZip -DestinationPath "D:\Developer\tools"
 ```
 
 새 프로젝트 루트의 PowerShell에서 설치된 **실제 폴더명**으로 실행합니다. 자식 PowerShell이 종료되면 부모 PATH는 유지됩니다.
 
 ```powershell
-pwsh -NoProfile -NoExit -Command '$env:Path = "$env:LOCALAPPDATA\dev-sdks\실제Node폴더명;" + $env:Path'
+pwsh -NoProfile -NoExit -Command '$env:Path = "D:\Developer\tools\실제Node폴더명;" + $env:Path'
 ```
 
 PowerShell 7의 `pwsh`가 없다면 같은 위치에서 `powershell.exe -NoProfile -NoExit -Command`로 자식 Windows PowerShell을 엽니다. 그 안에서 `node --version`·`npm --version`과 `.nvmrc`를 대조하고 다음 단계의 npm 명령을 직접 사용합니다. 작업이 끝나면 `exit`합니다. 네이티브 Windows와 WSL의 Node·node_modules를 혼용하지 않습니다.
@@ -165,13 +148,13 @@ nvm exec "$(cat .nvmrc)" npm run electron:dev
 
 ## 6. 개발·갱신·정리
 
-새 프로젝트 README와 docs/environment.md에 실제 설치 OS/CPU·Node/npm·환경 변수 이름·복원·검증·종료·복귀를 남깁니다. 필요한 환경 변수가 생기면 `.env.example`과 Git 제외 `.env`·프로젝트 실행 범위를 함께 정의하며 시스템 PATH·전역 패키지를 변경하지 않습니다. 지금 필요하지 않은 `.env`나 SDK는 만들지 않습니다.
+새 프로젝트 README와 docs/01-getting-started.md에 실제 설치 OS/CPU·Node/npm·환경 변수 이름·복원·검증·종료·복귀를 남깁니다. 필요한 환경 변수가 생기면 `.env.example`과 Git 제외 `.env`·프로젝트 실행 범위를 함께 정의하며 시스템 PATH·전역 패키지를 변경하지 않습니다. 지금 필요하지 않은 `.env`나 SDK는 만들지 않습니다.
 
 이후에는 [구조·개발 규칙](./03-boilerplate.md)을 읽고 기능을 추가합니다. 갱신은 코드·manifest/lock의 정상 기준을 보존한 작업 브랜치에서 진행하고 검사·실행 후 [갱신 이력](../update.md)을 남깁니다. 초기 복원에 npm update·npm audit fix --force를 섞지 않습니다. 다른 프로젝트가 쓰는 Node·공유 캐시는 앱 폴더와 함께 삭제하지 않습니다.
 
 배포할 때는 [빌드 산출물·배포 가이드](./04-build-and-release.md)를 이어서 읽습니다. 로컬 실행 성공과 배포 검증은 구분합니다.
 
-확인일: 2026-11-03. 저장소 스크립트·버전 파일과 공식 설치·명령 안내를 대조했습니다. 이번 문서 변경에서 의존성 설치·앱 실행·GUI·다른 OS를 새로 검증하지 않았습니다. 과거 검증 결과는 유형 README·update.md에서 별도로 확인합니다.
+설치 절차 확인일: 2026-11-04. 프로젝트 스크립트·버전 파일과 공식 설치 안내를 대조했습니다. 이번 문서 변경에서 의존성 설치·앱 실행·GUI·다른 OS를 새로 검증하지 않았습니다. 과거 검증 결과는 유형 README·update.md에서 별도로 확인합니다.
 
 ## 프로젝트 이름 변경
 

@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v3.1.0 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
@@ -36,28 +36,22 @@ Xcode 15.2는 iOS SDK 17.2를 포함하며 macOS 13.5 이상에서 실행됩니�
 
 ## Xcode 설치·선택·확인
 
-전체 Xcode 설치·라이선스·최초 초기화는 저장소의 `01.Tools/xcode.md` 또는 [Apple 공식 설치·지원 안내](https://developer.apple.com/xcode/)와 [Flutter iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. 정상 빌드 기록과 macOS·CPU 조건에 맞는 버전을 설치하고 필요한 Simulator runtime만 준비합니다. 여러 Xcode를 보존할 때 앱 이름을 구분합니다.
+[Xcode 공식 배포](https://developer.apple.com/xcode/)에서 개발 Mac과 기기 iOS를 지원하는 Xcode를 설치합니다. App Store 또는 Apple Developer의 [과거 다운로드](https://developer.apple.com/download/all/)를 사용합니다. 과거 `.xip`을 풀어 Applications로 옮길 때 기존 Xcode를 덮어쓰지 말고 이름을 구분합니다. 예를 들어 Xcode 15.2는 `/Applications/Xcode_15.2.app`으로 보관할 수 있습니다. OS·CPU·기기 조건은 [Xcode 지원 표](https://developer.apple.com/xcode/system-requirements/)에서 확인합니다.
 
-프로젝트 터미널에서 선택 상태를 확인합니다.
+아래는 실제 설치한 앱 경로로 바꿔 프로젝트 터미널에서 실행합니다. 첫 두 관리자 명령은 해당 Xcode의 라이선스 검토·동의와 최초 구성 요소 설치를 수행합니다. 전역 xcode-select를 바꾸지 않고 이 작업 셸에서 Xcode를 선택합니다.
 
 ```bash
-xcode-select -p
+export DEVELOPER_DIR="/Applications/Xcode_15.2.app/Contents/Developer"
+sudo env DEVELOPER_DIR="$DEVELOPER_DIR" /usr/bin/xcodebuild -license
+sudo env DEVELOPER_DIR="$DEVELOPER_DIR" /usr/bin/xcodebuild -runFirstLaunch
 xcodebuild -version
 xcodebuild -showsdks
 xcrun --find swift
-xcrun swift --version
-fvm flutter doctor -v
 ```
 
-`xcode-select -p`가 CommandLineTools를 가리키거나 다른 Xcode가 선택되어 있으면 공식 iOS 환경 설정의 Xcode 선택 절차를 확인합니다. 프로젝트별 Xcode는 아래처럼 **현재 터미널만** 지정하고 실제 개발 시 `.env`에서 관리합니다. 경로는 별도로 설치한 실제 앱 이름으로 바꿉니다.
+Xcode 15.2 확인 환경을 재현한다면 출력이 Xcode 15.2·iOS SDK 17.2인지 확인합니다. 다른 Xcode를 선택했다면 실제 버전을 기록하고 Flutter·플러그인·기기 호환성을 확인합니다. Xcode를 한 번 열고 **Settings → Platforms/Components**에서 사용할 iOS Simulator runtime을 설치합니다. 메뉴 이름은 Xcode 버전에 따라 다를 수 있습니다. 라이선스·초기화 오류가 없어야 Homebrew·Ruby 설치로 넘어갑니다. [Flutter Xcode 초기화](https://docs.flutter.dev/platform-integration/ios/setup).
 
-```bash
-export DEVELOPER_DIR="/Applications/Xcode_Project.app/Contents/Developer"
-xcodebuild -version
-fvm flutter doctor -v
-```
-
-`Xcode_Project.app`은 예시입니다. `DEVELOPER_DIR`는 터미널에서 전역 선택보다 우선하므로 복귀할 때 이전 값을 복원하고, 원래 없었다면 `unset DEVELOPER_DIR` 후 확인합니다. Dock에서 연 Xcode·VS Code는 이 셸 설정을 자동 상속하지 않습니다. GUI에서 연 Xcode 앱과 CLI·CI의 Xcode 버전도 비교합니다. 전역 `xcode-select`를 바꾸면 다른 프로젝트에 영향을 줄 수 있습니다.
+실제 DEVELOPER_DIR는 Git 제외 `.env`에 기록하며 각 작업 셸에 위 export로 적용합니다. `exit`로 자식 셸을 종료하거나 이전 값을 복원합니다. Dock에서 연 IDE는 이 셸 환경을 자동 상속하지 않으므로 같은 Xcode 선택인지 확인합니다.
 
 ## CocoaPods·Swift Package Manager 복원
 
@@ -65,11 +59,72 @@ fvm flutter doctor -v
 
 ### CocoaPods를 사용하는 프로젝트
 
-CocoaPods 자체는 [공식 RubyGems·Bundler 절차](https://guides.cocoapods.org/using/getting-started.html)를 사용합니다. macOS 시스템 Ruby 대신 프로젝트가 지정한 별도 Ruby 환경을 먼저 준비합니다. 기존 Ruby 관리자를 유지하고 없다면 [rbenv 공식 권장](https://github.com/rbenv/rbenv#installation)에 따라 Homebrew로 rbenv를 설치합니다. Apple 개발 도구의 라이선스·초기화 → Homebrew → rbenv → 프로젝트 Ruby → Bundler·CocoaPods 순서이며 ruby-build는 rbenv formula의 의존성으로 설치됩니다. 시스템 Ruby에 `sudo gem install`로 설치하지 않습니다.
+[시작 가이드의 Homebrew 설치·PATH](./01-getting-started.md#2-pc-기본-도구-준비)를 마친 Mac의 일반 사용자 zsh에서 확인합니다. 기존 rbenv가 있으면 재설치하지 않습니다.
 
-Ruby 선택·Bundler 설치·Gemfile 고정의 공통 절차는 저장소의 `01.Tools/ruby.md`에서 관리합니다. 이 패키지만 사용한다면 [rbenv 공식 안내](https://github.com/rbenv/rbenv)와 [CocoaPods Gemfile 안내](https://guides.cocoapods.org/using/a-gemfile.html)를 따릅니다. 기존 `.ruby-version`·Gemfile·Gemfile.lock을 유지해 `rbenv install`, 잠금 파일의 Bundler 설치, `bundle install` 순서로 복원합니다. `.bundle/`과 로컬 gem 설치 경로는 Git에서 제외하며 시스템 Ruby나 전역 CocoaPods로 대체하지 않습니다.
+```bash
+command -v rbenv
+ruby --version
+```
+
+rbenv가 없다면 설치합니다. ruby-build도 함께 준비됩니다.
+
+```bash
+brew install rbenv
+rbenv init zsh
+```
+
+터미널을 새로 열어 프로젝트 폴더로 돌아오고, 현재 셸에 통합이 적용되지 않았다면 다음을 실행합니다.
+
+```bash
+eval "$(rbenv init - zsh)"
+type rbenv
+rbenv install -l
+```
+
+`type rbenv`가 셸 함수를 표시해야 합니다. Intel·구형 macOS에서 brew 설치가 불가능하고 rbenv가 아직 없다면 공식 Git 설치를 사용합니다. 기존 `~/.rbenv` 위에 clone하지 않습니다.
+
+```bash
+git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
+"$HOME/.rbenv/bin/rbenv" init zsh
+```
+
+새 터미널에서 rbenv를 확인하고 ruby-build가 없다면 추가합니다.
+
+```bash
+command -v rbenv
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
+rbenv install -l
+```
+
+Ruby 빌드에 필요한 라이브러리는 선택 OS·Ruby의 [ruby-build 권장 빌드 환경](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment)을 확인합니다. brew를 사용할 수 있는 Mac의 기본 라이브러리는 다음처럼 준비합니다. 구형 OS에서 이 패키지들의 설치 성공까지 보장하지는 않습니다.
+
+```bash
+brew install openssl@3 readline libyaml gmp autoconf
+```
+
+프로젝트 루트에 `.ruby-version`이 이미 있으면 `rbenv install`로 그 버전을 설치합니다. 파일이 없는 이 샘플의 첫 설정에서는 전달받은 확인 버전으로 설치·선택합니다.
+
+```bash
+rbenv install 3.3.13
+rbenv local 3.3.13
+rbenv version
+ruby --version
+command -v ruby
+```
+
+Ruby 3.3.13과 rbenv shims 경로인지 확인하고 생성한 `.ruby-version`을 Git에 보관합니다. `rbenv global`로 다른 프로젝트의 기본값을 바꾸지 않습니다. 시스템 Ruby에 `sudo gem install`을 실행하지 않습니다. [rbenv 설치·프로젝트 선택](https://github.com/rbenv/rbenv) · [CocoaPods Gemfile](https://guides.cocoapods.org/using/a-gemfile.html).
 
 ### Flutter 빌드까지 같은 CocoaPods 환경 사용
+
+샘플 루트의 [Gemfile](../Gemfile)은 전달받은 정상 동작 조합의 CocoaPods 1.16.2를 고정합니다. 프로젝트 Ruby를 선택한 뒤 같은 루트에서 처음 준비합니다.
+
+```bash
+gem install bundler -v 2.5.23
+bundle _2.5.23_ install
+bundle exec pod --version
+```
+
+마지막 출력은 `1.16.2`인지 확인합니다. 최초 설치로 생성된 `Gemfile.lock`은 Git에 함께 보관하고 이후에는 그 잠금 파일로 `bundle install`을 실행합니다. Gemfile만으로 Ruby·Bundler 버전이나 전이 의존성 전체가 고정되지는 않습니다. 이 샘플에는 아직 설치로 생성한 Gemfile.lock이 없습니다.
 
 Flutter도 필요한 경우 내부에서 `pod install`을 호출합니다. 수동 Pod 복원만 Bundler로 감싸고 Flutter 빌드는 일반 호출로 바꾸면 도구 버전이 달라질 수 있습니다. **CocoaPods 사용 프로젝트의 iOS 명령은 프로젝트 루트에서 다음처럼 통일**합니다.
 
@@ -111,7 +166,7 @@ fvm flutter run -d 기기ID
 
 개인 무료 계정은 제한된 기기 테스트에 사용할 수 있지만 기능·provisioning 제약이 있습니다. TestFlight·App Store 배포에는 Apple Developer Program 등 해당 배포 자격이 필요합니다. 계정 비밀번호·개인 키·인증서 export 비밀번호를 Git·셸 설정·공유 로그에 기록하지 않습니다. [Flutter iOS 기기 설정·서명](https://docs.flutter.dev/platform-integration/ios/setup).
 
-VS Code는 FVM SDK 경로를 지정한 로컬 Flutter 창에서 **Flutter: Select Device**로 iPhone을 선택하고 F5를 사용합니다. Android Studio도 프로젝트의 FVM SDK를 선택한 뒤 실행 대상에서 iPhone을 고릅니다. 두 IDE가 Xcode의 서명·기기 준비를 대신하지는 않습니다.
+VS Code는 FVM SDK 경로를 지정한 로컬 Flutter 창에서 **Flutter: Select Device**로 iPhone을 선택하고 F5를 사용합니다. VS Code가 Xcode의 서명·기기 준비를 대신하지는 않습니다.
 
 이후 예시의 Flutter 명령에도 CocoaPods 사용 시 `bundle exec`를 추가합니다.
 
