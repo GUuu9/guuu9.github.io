@@ -1,11 +1,11 @@
-<!-- version: v1.8.0 -->
+<!-- version: v2.0.0 -->
 # Mobile-app 최소 Flutter 보일러플레이트
 
 ## 1. 목적
 
 Android·iOS용 Flutter 앱을 새 경로에서 시작할 때 복사해 사용할 수 있는 독립 샘플이다. 인사말을 비동기로 불러오는 한 화면으로 DI·MVVM의 최소 연결을 보여준다. 서버 통신·데이터베이스·인증·배포 서명은 포함하지 않는다.
 
-패키지 폴더 `mobile-app/`을 통째로 복사해도 문서와 샘플을 사용할 수 있다. 실제 샘플은 `boilerplates/minimal/`만 따로 복사해도 실행 안내를 확인할 수 있다.
+Flutter 프로젝트 파일과 문서는 `mobile-app/`에 함께 둔다. 이 폴더 전체를 새 프로젝트 루트로 복사하면 코드와 `docs/`를 바로 사용할 수 있다.
 
 다운로드 전에 [선행 도구·준비 순서](docs/01-getting-started.md#0-선행-도구준비-순서)를 확인한다. 처음 사용한다면 [가져오기부터 실행까지](docs/01-getting-started.md)를 순서대로 읽는다. 아래 구조·버전 표는 진행 중 참고 자료다.
 
@@ -18,8 +18,8 @@ Android·iOS용 Flutter 앱을 새 경로에서 시작할 때 복사해 사용�
 | 앱 버전 | `pubspec.yaml`의 1.0.0+1 |
 | 직접 패키지 | Flutter SDK와 개발용 `flutter_lints`만 사용 |
 | 정확한 패키지 해석 | `pubspec.lock` |
-| Android | Flutter 생성 Gradle 구성, Android Gradle Plugin 8.9.1, Gradle 8.12 |
-| iOS | Flutter 생성 Xcode Runner 구성; 빌드에는 macOS·Xcode 필요 |
+| Android | AGP 8.11.1, Kotlin Plugin 2.2.20, Gradle 8.14, JDK 17; min API 28·compile/target API 36 |
+| iOS | Deployment Target 15.0; Xcode 15.2·iOS SDK 17.2 조합은 다른 작업 위치에서 확인 |
 
 Flutter 3.35.7은 이 샘플의 기준 버전이지 최신 버전이나 모든 PC의 호환 보장이 아니다. SDK 버전 선택·복원은 [FVM 공식 문서](https://fvm.app/documentation/guides/basic-commands)를 따른다. `.fvmrc`의 JSON과 버전 값은 확인했지만, FVM CLI가 이 파일을 읽어 SDK를 선택하는 실행은 이 패키지 검증에서 수행하지 않았다.
 
@@ -38,7 +38,7 @@ Flutter 3.35.7은 이 샘플의 기준 버전이지 최신 버전이나 모든 P
 
 ## 4. Android Studio와 VS Code에서 열기
 
-IDE에서 복사한 `my_app` 폴더 자체를 연다. 상위 `mobile-app` 문서 폴더나 `android/` 하위 폴더만 열지 않는다.
+복사한 Flutter 프로젝트 폴더를 연다. 이 패키지에서는 `mobile-app/` 자체가 프로젝트 루트이며, `android/` 하위 폴더만 열지 않는다.
 
 - Android Studio: Flutter 플러그인을 설치하고 Flutter SDK 경로를 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. IDE에 표시된 버전과 `fvm flutter --version`을 맞춘다.
 - VS Code: Flutter 확장을 설치하고 Dart 확장이 `.fvm/flutter_sdk`를 선택했는지 확인한다. 필요하면 프로젝트 `.vscode/settings.json`에 `"dart.flutterSdkPath": ".fvm/flutter_sdk"`를 설정한다.
@@ -64,9 +64,20 @@ ios/                                            Xcode Runner·리소스 구성
 
 ## 6. 검사·실행·빌드
 
-실행 위치·명령은 [시작 가이드 5·6절](docs/01-getting-started.md#5-프로젝트-환경-확인의존성-복원)을 따른다. 환경을 아직 준비하지 않은 상태에서 플랫폼 빌드부터 실행하지 않는다. 프로젝트 격리를 적용한 경우 FVM 직접 호출과 로컬 실행기를 섞지 않는다.
+복사한 `mobile-app` 폴더가 Flutter 프로젝트 루트다. 환경 준비를 마친 뒤 이 위치에서 실행한다. 프로젝트 격리를 적용한 경우 FVM 직접 호출과 로컬 실행기를 섞지 않는다.
 
-이 패키지 작성 당시 분석·테스트는 통과했지만 JDK 25·Gradle 8.12 조합 경고 때문에 Android APK 빌드·실제 기동은 미검증이다. iOS 빌드·서명도 별도 검증이 필요하다.
+```bash
+fvm install
+fvm flutter pub get
+fvm flutter analyze
+fvm flutter test
+fvm flutter devices
+fvm flutter run -d 기기ID
+```
+
+`기기ID`는 `fvm flutter devices` 결과로 바꾼다. 실행 종료는 Ctrl+C다. 플랫폼 도구 준비와 새 폴더로 가져오는 순서는 [시작 가이드](docs/01-getting-started.md)를 따른다.
+
+Android·iOS 버전 조합은 별도 작업 위치에서 정상 동작을 확인한 설정을 반영했다. 이 저장소의 샘플은 업데이트 후 APK·iOS 빌드를 다시 실행하지 않았다. Xcode 15.2·iOS SDK 17.2는 개발·기기 검증 기록이며 현재 App Store 제출 조건을 충족하지 않는다.
 
 ## 7. 보안·변경 경계
 
@@ -80,13 +91,13 @@ ios/                                            Xcode Runner·리소스 구성
 | [project-agents.md](project-agents.md) | 새 프로젝트에 복사해 `AGENTS.md`로 쓸 작업 지침 보관본 |
 | [docs/05-boilerplate.md](docs/05-boilerplate.md) | 파일 역할·아키텍처·재사용·검증 기록 |
 | [update.md](update.md) | 버전·변경 이력 |
-| [boilerplates/minimal/](boilerplates/minimal/README.md) | Flutter 코드·테스트·Android/iOS 플랫폼 파일 |
+| `lib/`, `test/`, `android/`, `ios/` | Flutter 코드·테스트·Android/iOS 프로젝트 파일 |
 
 프로젝트에 적용할 때는 시작 가이드의 Git archive로 코드·문서·지침·이력을 내보낸 뒤 `project-agents.md`를 새 루트 `AGENTS.md`로 복사한다. 시작 가이드의 표준 배치로 문서도 함께 가져오면 링크를 조정할 필요가 없다. [상세 재사용 절차](docs/05-boilerplate.md#8-새-프로젝트로-복사치환)를 따른다.
 
 ## 9. 검증·제약
 
-Flutter 3.35.7·Dart 3.9.2로 샘플을 생성했다. 오프라인 의존성 복원, 정적 분석, 테스트 3개가 통과했다. Android Studio GUI·에뮬레이터·실기기, Android APK 빌드, Xcode/iOS 빌드는 확인하지 않았다. 명령과 상태별 상세 결과는 [설명서 9절](docs/05-boilerplate.md#9-예외검증-결과와-요구사항-대조표)에 있다.
+Flutter 3.35.7·Dart 3.9.2로 샘플을 생성했다. 오프라인 의존성 복원, 정적 분석, 테스트 3개가 통과했다. Android Studio GUI·에뮬레이터·실기기, Android APK 빌드, Xcode/iOS 빌드는 이 저장소에서 확인하지 않았다. 별도 작업 위치의 정상 동작 조합과 현재 저장소 검증 결과는 [설명서 9절](docs/05-boilerplate.md#9-예외검증-결과와-요구사항-대조표)에 구분해 기록한다.
 
 공식 참고: [Flutter 앱 아키텍처](https://docs.flutter.dev/app-architecture/guide), [Flutter 테스트](https://docs.flutter.dev/testing/overview), [Flutter 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app), [Flutter 라이선스](https://github.com/flutter/flutter/blob/3.35.7/LICENSE).
 

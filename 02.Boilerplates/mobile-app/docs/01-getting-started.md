@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # Mobile-app 가져오기부터 실행까지
 
 새 PC·새 폴더에서 **유형 받기 → 프로젝트 복사 → Flutter 복원 → 플랫폼 도구 설치 → 프로젝트 환경 적용 → 의존성 복원 → 기기 실행·검증** 순서로 진행합니다. Android·iOS 중 필요한 플랫폼만 준비합니다. 기존 앱 복원이라면 다운로드·새 폴더 복사를 건너뛰고 해당 앱의 README·CI·버전 파일을 우선합니다.
@@ -57,8 +57,7 @@ macOS·Linux는 **유형 패키지 루트**에서 다음 묶음을 실행합니�
   repository_root="$(git rev-parse --show-toplevel)"
   test ! -e "$project_dir"
   mkdir -p "$project_dir"
-  git -C "$repository_root" archive HEAD:02.Boilerplates/mobile-app/boilerplates/minimal | tar -xf - -C "$project_dir"
-  git -C "$repository_root" archive HEAD:02.Boilerplates/mobile-app docs update.md project-agents.md | tar -xf - -C "$project_dir"
+  git -C "$repository_root" archive HEAD:02.Boilerplates/mobile-app | tar -xf - -C "$project_dir"
 )
 ```
 
@@ -68,18 +67,14 @@ Windows PowerShell도 유형 패키지 루트에서 Git의 ZIP 내보내기를 �
 $ProjectDir = "$env:USERPROFILE\Developer\my_app"
 $RepositoryRoot = git rev-parse --show-toplevel
 if ($LASTEXITCODE -ne 0) { throw "Git 저장소 루트 확인 실패" }
-$CodeZip = "$env:TEMP\mobile-app-code.zip"
-$DocsZip = "$env:TEMP\mobile-app-docs.zip"
-if ((Test-Path $ProjectDir) -or (Test-Path $CodeZip) -or (Test-Path $DocsZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
-git -C "$RepositoryRoot" archive --format=zip --output="$CodeZip" HEAD:02.Boilerplates/mobile-app/boilerplates/minimal
-if ($LASTEXITCODE -ne 0) { throw "코드 내보내기 실패" }
-git -C "$RepositoryRoot" archive --format=zip --output="$DocsZip" HEAD:02.Boilerplates/mobile-app docs update.md project-agents.md
-if ($LASTEXITCODE -ne 0) { throw "문서 내보내기 실패" }
-Expand-Archive -Path $CodeZip -DestinationPath $ProjectDir
-Expand-Archive -Path $DocsZip -DestinationPath $ProjectDir
+$PackageZip = "$env:TEMP\mobile-app.zip"
+if ((Test-Path $ProjectDir) -or (Test-Path $PackageZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
+git -C "$RepositoryRoot" archive --format=zip --output="$PackageZip" HEAD:02.Boilerplates/mobile-app
+if ($LASTEXITCODE -ne 0) { throw "mobile-app 내보내기 실패" }
+Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
 ```
 
-확인 후 위에서 만든 두 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. 새 앱의 프로젝트 루트는 복사된 버전 파일·소스·README가 있는 폴더입니다. 문서는 `docs/`, 지침 보관본은 `project-agents.md`, 이력은 `update.md`로 함께 보관하며 링크를 다시 고칠 필요가 없습니다. 에이전트를 사용할 때만 보관본을 같은 폴더의 AGENTS.md로 복사합니다. 작업 루트 표기는 패키지에서는 minimal, 새 앱에서는 새 루트를 뜻합니다.
+확인 후 위에서 만든 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. mobile-app 폴더 전체를 새 프로젝트 루트로 가져오므로 `pubspec.yaml`, `lib/`, `android/`, `ios/`, `docs/`, README와 지침이 한 폴더에 놓입니다. 에이전트를 사용할 때만 `project-agents.md`를 같은 폴더의 `AGENTS.md`로 복사합니다.
 
 실제 환경 값이 필요할 때만 프로젝트 루트에서 `.env.example`을 `.env`로 복사해 채웁니다. 이미 있는 `.env`는 유지합니다. 예시 파일에는 키·토큰·개인 값을 넣지 않으며 `.env`는 Git에서 제외합니다. `.env`가 존재한다고 앱·Flutter·Node가 자동으로 읽는 것은 아닙니다. 필요한 로딩 방법은 해당 프로젝트 문서에 명시합니다.
 

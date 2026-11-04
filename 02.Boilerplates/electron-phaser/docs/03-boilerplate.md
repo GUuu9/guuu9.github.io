@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # 로컬 전용 Electron React 최소 보일러플레이트
 
 ## 1. 적용 범위
@@ -259,7 +259,7 @@ Main/Preload/shared를 분리해 프로세스 권한 경계를 드러내고, `co
 
 처음 준비하는 환경은 [가져오기부터 실행까지](./01-getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
 
-모든 경로와 명령은 `boilerplates/minimal/`을 작업 루트로 합니다.
+모든 경로와 명령은 프로젝트 루트를 작업 루트로 합니다.
 
 ```bash
 npm ci
@@ -313,7 +313,7 @@ npm run build
 - 실제 확인 환경: macOS 13 Ventura (`Darwin 22.6.0`), x86_64, Node.js `v24.22.1`, npm `11.19.1`.
 - 이 샘플에는 프로젝트 라이선스를 지정하지 않았습니다. 배포할 때 사용할 코드와 의존성의 라이선스·저작권 고지를 확인하고 필요한 고지를 유지하세요.
 - package-lock 생성은 `npm install --package-lock-only --ignore-scripts --no-audit --no-fund`로 성공했습니다.
-- 전체 유형 폴더를 임시 위치에 복사하고 그 안의 `boilerplates/minimal/`에서 `npm ci --no-audit --no-fund`를 실행했습니다. PATH에 Node 24.22.1을 우선 지정했을 때 설치가 성공했습니다.
+- 전체 유형 폴더를 임시 위치에 복사하고 그 안의 프로젝트 루트에서 `npm ci --no-audit --no-fund`를 실행했습니다. PATH에 Node 24.22.1을 우선 지정했을 때 설치가 성공했습니다.
 - 복사본에서 `npm test` 통과(테스트 파일 1개, 2개 테스트), `npm run typecheck` 통과, `npm run build` 통과(Renderer Vite, Main TypeScript, Preload esbuild).
 - 복사본의 `npm run electron:start`와 `npm run electron:dev`가 Electron 프로세스를 띄우는 것을 확인하고 Ctrl+C로 종료했습니다. UI 자동화 서비스는 연결되지 않아 폼 입력과 결과 문구의 시각·상호작용 검증은 미완료입니다.
 - 초기 GUI 실행은 빌드 Renderer 경로 오류로 실패했습니다. `src/backend/main.ts` 경로를 수정해 재빌드한 후 프로세스 기동 및 종료가 정상 동작했습니다.
@@ -324,7 +324,7 @@ npm run build
 | 요구사항 | 실제 파일·절 위치 | 검증 방법·결과 | 상태 |
 |---|---|---|---|
 | 갱신 이력 | update.md | 확인 가능한 커밋·버전·검증 결과 및 현재 문서 변경 기록 | 충족 |
-| 유형 폴더에 목적 README·보관용 지침·상세 문서·샘플 | 유형 폴더 `README.md`, `project-agents.md`, `docs/02-boilerplate.md`, `boilerplates/minimal/` | 산출물 경로 및 파일 존재 대조 | 충족 |
+| 유형 폴더에 목적 README·보관용 지침·상세 문서·샘플 | 유형 폴더 `README.md`, `project-agents.md`, `docs/03-boilerplate.md`, `프로젝트 루트` | 산출물 경로 및 파일 존재 대조 | 충족 |
 | 샘플 전체 직접 관리 파일 역할 | 3절 직접 관리 파일 표 | 샘플 파일 트리와 표 대조 | 충족 |
 | 폴더·파일 이름 규칙 | 3절 이름 규칙 | 실제 파일명 및 접미사 대조 | 충족 |
 | 구성과 실행 경계 | 4절 `구성과 실행 경계` | Main/Renderer/Preload/shared의 실제 소유 코드 대조 | 충족 |
@@ -336,8 +336,8 @@ npm run build
 | 규모 확장·데이터·저장·리소스 관리 | 5절 확장 규칙과 8절 기능 추가 순서 | 구현/미구현 구분, 상태 소유권·실패·등록·해제 절차 확인 | 충족 |
 | 새 기능 추가 예시 | 5절 및 8절 단계 | 샘플 API/service/UI 추가 위치와 순서 확인 | 충족 |
 | 버전 관리 파일 | `.nvmrc`, `package.json`, `package-lock.json`, 2절 | npm lock 생성, package manifest·lock 의존성 확인 | 충족 |
-| 독립 설치·테스트·빌드 | 샘플 README 및 9절 | 복사본 `npm ci`, 테스트 2개, 타입 검사, 빌드 통과 | 충족 |
-| Electron 앱 기동·종료 | 샘플 README와 9절 | 복사본에서 `electron:start`·`electron:dev` 기동 후 Ctrl+C 종료 | 충족 |
+| 독립 설치·테스트·빌드 | 실행 안내 및 9절 | 복사본 `npm ci`, 테스트 2개, 타입 검사, 빌드 통과 | 충족 |
+| Electron 앱 기동·종료 | 실행 안내와 9절 | 복사본에서 `electron:start`·`electron:dev` 기동 후 Ctrl+C 종료 | 충족 |
 | 문서 링크·설정 문법·명령 일치 | 문서 전체, package/lock, TS/Vite/Vitest 설정 | 로컬 링크·JSON 파싱·스크립트와 실제 파일명 대조 | 충족 |
 | GUI 폼 입력·결과 표시 | React 화면과 IPC 호출 | UI 자동화 서비스 부재로 수동 입력/시각 결과 확인 불가 | 미검증 |
 | CI·패키징·다른 OS/CPU | 1·2·7절 범위 | CI 및 패키징 설정 없음 | 해당 없음 — 요청된 최소 로컬 샘플 범위가 아님 |

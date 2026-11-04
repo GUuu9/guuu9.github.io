@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v2.0.0 -->
 # TypeScript React Phaser Electron Game Starter
 
 통신 프로필: **local-only**. 앱 실행에는 외부 서버가 필요하지 않습니다. 내부 IPC와 개발용 localhost Vite 서버를 사용하며, 외부 API 연동 기능은 포함하지 않습니다. 최초 의존성 설치에는 인터넷 연결이 필요할 수 있습니다.
@@ -13,7 +13,7 @@ macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스
 
 ## 시작 순서·Node 준비
 
-이 minimal 폴더를 숨김 파일·`.nvmrc`·잠금 파일 포함해 새 프로젝트 루트로 복사한다. 기존 node_modules·dist·개인 설정·`.git`은 복사하지 않는다. 유형 패키지 전체를 받은 경우 유형 패키지의 시작 가이드를 먼저 읽는다. 이 폴더만 전달받았다면 아래 Node 준비 후 본문의 설치·실행 순서로 진행할 수 있다.
+이 유형 폴더를 숨김 파일·`.nvmrc`·잠금 파일 포함해 새 프로젝트 루트로 복사한다. 기존 node_modules·dist·개인 설정·`.git`은 복사하지 않는다. 유형 패키지 전체를 받은 경우 유형 패키지의 시작 가이드를 먼저 읽는다. 이 유형 폴더를 전달받았다면 아래 Node 준비 후 본문의 설치·실행 순서로 진행할 수 있다.
 
 macOS·Linux에서 nvm이 없을 때만 개인 일반 터미널에서 공식 설치기를 실행한다.
 
@@ -29,9 +29,9 @@ nvm exec "$(cat .nvmrc)" node --version
 nvm exec "$(cat .nvmrc)" npm --version
 ```
 
-아래 모든 npm 명령은 `nvm exec "$(cat .nvmrc)" npm …`로 실행하면 부모 셸의 Node 선택을 바꾸지 않는다. 두 터미널 실행도 각각 같은 프로젝트 루트에서 적용한다. npm 전역 갱신·공용 Node default 변경은 하지 않는다. 네이티브 Windows는 [Node 공식 배포](https://nodejs.org/en/download)의 해당 버전 ZIP을 설치해 작업 자식 PowerShell의 PATH에서만 선택하고 같은 npm 명령을 실행한다. nvm-windows의 공용 링크 전환을 프로세스 격리로 설명하지 않는다. 자세한 설치·체크섬·자식 셸 명령은 유형 시작 가이드에 있다. [nvm 공식 설치·사용](https://github.com/nvm-sh/nvm).
+아래 모든 npm 명령은 `nvm exec "$(cat .nvmrc)" npm …`로 실행하면 부모 셸의 Node 선택을 바꾸지 않는다. 두 터미널 실행도 각각 같은 프로젝트 루트에서 적용한다. npm 전역 갱신·공용 Node default 변경은 하지 않는다. 네이티브 Windows는 [Node 공식 배포](https://nodejs.org/en/download)의 해당 버전 ZIP을 설치해 작업 자식 PowerShell의 PATH에서만 선택하고 같은 npm 명령을 실행한다. nvm-windows의 공용 링크 전환을 프로세스 격리로 설명하지 않는다. 자세한 설치·체크섬·자식 셸 명령은 [시작 가이드](01-getting-started.md)에 있다. [nvm 공식 설치·사용](https://github.com/nvm-sh/nvm).
 
-현재 샘플에는 비밀 환경 변수·외부 서비스가 필요하지 않다. 필요한 값이 생기면 프로젝트 docs/environment.md와 비밀값 없는 예시·Git 제외 로컬 설정으로 관리한다. 먼저 아래 요구 버전과 OS/CPU를 확인한 뒤 의존성 복원·검사·실행으로 진행한다.
+현재 샘플에는 비밀 환경 변수·외부 서비스가 필요하지 않다. 필요한 값이 생기면 프로젝트 01-getting-started.md와 비밀값 없는 예시·Git 제외 로컬 설정으로 관리한다. 먼저 아래 요구 버전과 OS/CPU를 확인한 뒤 의존성 복원·검사·실행으로 진행한다.
 
 ## 요구 환경
 
@@ -70,7 +70,7 @@ npm run electron:dev
 - `npm run typecheck`: Renderer/공유 타입 및 Main/Preload 타입 검사
 - `npm run build`: Vite, Main TypeScript, Preload 번들 생성
 - 운영 DB, 외부 API, 상위 프로젝트 경로, 사용자 자격증명은 사용하지 않습니다.
-- 세부 아키텍처 설명은 반출 유형 폴더의 `docs/02-boilerplate.md`에 있습니다. 이 README는 minimal 폴더만 복사해도 기본 실행 안내로 사용할 수 있습니다.
+- 세부 아키텍처 설명은 반출 유형 폴더의 `docs/03-boilerplate.md`에 있습니다. 유형 폴더 전체를 가져오면 이 문서와 코드를 함께 사용할 수 있습니다.
 
 현재 검증에서는 복사한 샘플의 `npm ci`, 테스트 2개, 타입 검사, 빌드와 `electron:start`/`electron:dev` 프로세스 기동·종료가 통과했습니다. GUI 자동화가 연결되지 않아 버튼을 눌러 응답을 확인하는 단계는 미검증입니다. 검증 플랫폼은 macOS 13 x86_64입니다.
 
@@ -80,7 +80,7 @@ Phaser 캔버스의 파란 원을 클릭하면 점수가 올라갑니다. React�
 
 게임 전환 후 독립 복사본 검증: `npm ci`, `npm run typecheck`, 기존 IPC 테스트 2개, `npm run build` 통과. Phaser 포함 번들의 500 kB 경고가 있으며 빌드는 성공했습니다. 이번 게임 UI의 실행·직접 조작은 미검증입니다.
 
-저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/02-boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
+저장·리소스 흐름: 시작 시 userData의 GameSave를 IPC로 불러와 검증한 뒤 LoadingScene에서 이미지 리소스를 로드하고 게임에 진입합니다. 점수 저장 버튼으로 현재 점수를 저장하며 다음 실행에 복원합니다. 저장/로드 오류를 표시하고 손상 파일은 자동 초기화하지 않습니다. 상세 경로와 관리 규칙은 docs/03-boilerplate.md의 저장 데이터와 리소스 수명주기를 참고하세요.
 
 ## 현재 반입 검토 결과 (2026-10-28)
 
@@ -90,4 +90,4 @@ Phaser 캔버스의 파란 원을 클릭하면 점수가 올라갑니다. React�
 
 앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(3개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. Electron 45.1.0·Vite 6.4.5·Vitest 5.0.5와 Node 타입 24.19.2를 사용합니다. Electron 45.1.0의 창 기동·종료, preload IPC 인사말, 임시 userData의 저장·조회, Phaser 캔버스 생성은 자동 점검했습니다. 직접 게임 클릭·앱 재실행 후 저장 복원·다른 OS는 미검증입니다. 버전 변경 이유·적용/복귀는 유형 폴더의 update.md에서 관리합니다.
 
-환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 유형 시작 가이드의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.
+환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 [시작 가이드](01-getting-started.md)의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.

@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # iOS 프로젝트 빌드·버전 관리
 
 Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·서명·기기 연결을 관리하는 가이드입니다. **iOS 로컬 빌드는 macOS와 전체 Xcode가 필요**합니다. Command Line Tools만으로는 부족하며 Windows·Linux의 Flutter 설치만으로 iOS를 빌드할 수 없습니다. 아래 명령은 표시가 없으면 개인 Mac의 Flutter 프로젝트 루트에서 일반 사용자로 실행합니다. 실제 설치는 [Flutter 공식 iOS 환경 설정](https://docs.flutter.dev/platform-integration/ios/setup), Flutter 복원은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands)을 먼저 따릅니다.
@@ -19,6 +19,20 @@ Flutter 앱의 iOS 개발 환경을 복원하고 Xcode·네이티브 의존성·
 | 서명·Capabilities | 개발·배포 권한과 앱 식별 | Bundle Identifier·Team·entitlements, 인증서·profile은 안전한 별도 보관 |
 
 **iOS SDK 버전과 Deployment Target은 다릅니다.** 새 SDK로 빌드하면서 더 오래된 iOS를 지원할 수 있지만 Xcode·Flutter·플러그인이 허용하는 최소 버전을 함께 확인해야 합니다. 최소 지원 버전을 올리면 기존 구형 기기 사용자가 업데이트를 받지 못할 수 있습니다. [Xcode 지원 표의 SDK·Deployment Target 구분](https://developer.apple.com/xcode/system-requirements/).
+
+## 별도 작업 위치에서 정상 동작 확인된 환경
+
+아래 도구 조합은 사용자가 다른 작업 위치에서 정상 동작을 확인한 값입니다. 이 보일러플레이트 사본에서 Xcode·iOS 빌드를 다시 실행한 결과는 아닙니다.
+
+| 항목 | 확인된 값 |
+| :--- | :--- |
+| iOS 최소 Deployment Target | 15.0 |
+| Xcode / iOS SDK | 15.2 / 17.2 |
+| Ruby / CocoaPods / Bundler | 3.3.13 / 1.16.2 / 2.5.23 |
+
+Xcode 15.2는 iOS SDK 17.2를 포함하며 macOS 13.5 이상에서 실행됩니다. [Xcode 15.2 릴리스 노트](https://developer.apple.com/documentation/xcode-release-notes/xcode-15_2-release-notes). CocoaPods를 사용하지 않는 프로젝트에는 Ruby·Bundler·CocoaPods가 필요하지 않습니다.
+
+이 조합은 개발·기기 테스트의 확인 기록입니다. 2026-04-28부터 App Store Connect 업로드에는 Xcode 26 이상과 iOS 26 SDK 이상이 필요하므로, 이 조합으로 현재 스토어 제출을 진행할 수 없습니다. 제출 직전에는 [Apple의 SDK 최소 요구사항](https://developer.apple.com/news/upcoming-requirements/?id=04282026a)을 다시 확인합니다.
 
 ## Xcode 설치·선택·확인
 

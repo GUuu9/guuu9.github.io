@@ -1,11 +1,11 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # Electron·Phaser 가져오기부터 실행까지
 
-처음 사용하는 개인 PC에서 **유형 받기 → 새 프로젝트 복사 → Node 환경 준비 → 의존성 복원 → 실행·종료 → 검증** 순서로 진행합니다. 프로젝트 루트는 복사한 `boilerplates/minimal`의 내용물이 있는 폴더이며 다운로드 저장소나 상위 문서 폴더에서 npm 명령을 실행하지 않습니다. 기존 프로젝트를 복원한다면 가져오기·새 폴더 복사는 건너뛰고 그 프로젝트의 버전 파일과 CI를 우선합니다.
+처음 사용하는 개인 PC에서 **유형 받기 → 새 프로젝트 복사 → Node 환경 준비 → 의존성 복원 → 실행·종료 → 검증** 순서로 진행합니다. 유형 폴더 자체가 프로젝트 루트입니다. 이 폴더 전체를 원하는 프로젝트 이름의 새 폴더로 가져옵니다. 기존 프로젝트를 복원한다면 가져오기·새 폴더 복사는 건너뛰고 그 프로젝트의 버전 파일과 CI를 우선합니다.
 
 ## 0. 선행 도구·준비 순서
 
-개발 도구 설치 전에 [서비스 OS 지원 범위](./03-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
+개발 도구 설치 전에 [서비스 OS 지원 범위](./04-build-and-release.md#서비스-os-지원-범위)에서 최소 OS·최대 지원 상태·실제 검증 범위를 확인합니다. SDK·패키지 변경 시 이 범위를 다시 대조합니다.
 
 코드를 받기 위한 PC 공통 준비와 프로젝트를 받은 뒤의 도구 설치를 구분합니다. 모든 도구를 다운로드 전에 설치할 필요는 없지만, 각 명령의 선행 도구가 준비된 뒤 다음 단계로 진행합니다.
 
@@ -57,8 +57,7 @@ cd 02.Boilerplates/electron-phaser
   repository_root="$(git rev-parse --show-toplevel)"
   test ! -e "$project_dir"
   mkdir -p "$project_dir"
-  git -C "$repository_root" archive HEAD:02.Boilerplates/electron-phaser/boilerplates/minimal | tar -xf - -C "$project_dir"
-  git -C "$repository_root" archive HEAD:02.Boilerplates/electron-phaser docs update.md project-agents.md | tar -xf - -C "$project_dir"
+  git -C "$repository_root" archive HEAD:02.Boilerplates/electron-phaser | tar -xf - -C "$project_dir"
 )
 ```
 
@@ -68,18 +67,14 @@ Windows PowerShell도 유형 패키지 루트에서 Git의 ZIP 내보내기를 �
 $ProjectDir = "$env:USERPROFILE\Developer\my_desktop_game"
 $RepositoryRoot = git rev-parse --show-toplevel
 if ($LASTEXITCODE -ne 0) { throw "Git 저장소 루트 확인 실패" }
-$CodeZip = "$env:TEMP\electron-phaser-code.zip"
-$DocsZip = "$env:TEMP\electron-phaser-docs.zip"
-if ((Test-Path $ProjectDir) -or (Test-Path $CodeZip) -or (Test-Path $DocsZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
-git -C "$RepositoryRoot" archive --format=zip --output="$CodeZip" HEAD:02.Boilerplates/electron-phaser/boilerplates/minimal
-if ($LASTEXITCODE -ne 0) { throw "코드 내보내기 실패" }
-git -C "$RepositoryRoot" archive --format=zip --output="$DocsZip" HEAD:02.Boilerplates/electron-phaser docs update.md project-agents.md
-if ($LASTEXITCODE -ne 0) { throw "문서 내보내기 실패" }
-Expand-Archive -Path $CodeZip -DestinationPath $ProjectDir
-Expand-Archive -Path $DocsZip -DestinationPath $ProjectDir
+$PackageZip = "$env:TEMP\electron-phaser.zip"
+if ((Test-Path $ProjectDir) -or (Test-Path $PackageZip)) { throw "기존 대상이 있습니다. 새 경로를 선택하세요." }
+git -C "$RepositoryRoot" archive --format=zip --output="$PackageZip" HEAD:02.Boilerplates/electron-phaser
+if ($LASTEXITCODE -ne 0) { throw "유형 내보내기 실패" }
+Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
 ```
 
-확인 후 위에서 만든 두 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. 새 앱의 프로젝트 루트는 복사된 버전 파일·소스·README가 있는 폴더입니다. 문서는 `docs/`, 지침 보관본은 `project-agents.md`, 이력은 `update.md`로 함께 보관하며 링크를 다시 고칠 필요가 없습니다. 에이전트를 사용할 때만 보관본을 같은 폴더의 AGENTS.md로 복사합니다. 작업 루트 표기는 패키지에서는 minimal, 새 앱에서는 새 루트를 뜻합니다.
+확인 후 위에서 만든 임시 ZIP만 정리합니다. 다른 앱·SDK·캐시는 삭제하지 않습니다. 새 앱의 프로젝트 루트는 복사된 버전 파일·소스·README가 있는 폴더입니다. 문서는 `docs/`, 지침 보관본은 `project-agents.md`, 이력은 `update.md`로 함께 보관하며 링크를 다시 고칠 필요가 없습니다. 에이전트를 사용할 때만 보관본을 같은 폴더의 AGENTS.md로 복사합니다. 작업 루트 표기는 패키지와 새 앱 모두 프로젝트 루트를 뜻합니다.
 
 실제 환경 값이 필요할 때만 프로젝트 루트에서 `.env.example`을 `.env`로 복사해 채웁니다. 이미 있는 `.env`는 유지합니다. 예시 파일에는 키·토큰·개인 값을 넣지 않으며 `.env`는 Git에서 제외합니다. `.env`가 존재한다고 앱·Flutter·Node가 자동으로 읽는 것은 아닙니다. 필요한 로딩 방법은 해당 프로젝트 문서에 명시합니다.
 
@@ -166,14 +161,20 @@ nvm exec "$(cat .nvmrc)" npm run electron:dev
 
 기본 Renderer URL은 `http://127.0.0.1:5173`이며 이 주소만 브라우저에서 여는 것으로 Electron IPC를 검증하지 않습니다. Electron 창에서 데스크톱 연결 확인·원 클릭·점수 저장을 확인하고 재실행 후 복원도 확인합니다. 종료는 Electron 창을 닫고 두 터미널에 남은 프로세스를 Ctrl+C로 종료합니다. 빌드 화면의 로컬 실행은 `npm run electron:start`입니다. 패키징·설치기·배포 서명은 아직 포함하지 않습니다.
 
-별도 DB·외부 API·비밀값·`.env`는 필요하지 않습니다. userData의 저장 파일은 소스나 node_modules와 다르므로 업데이트·프로젝트 삭제 전에 저장 경로를 확인해 백업합니다. 실제 위치·포트 변경·샘플 구조는 프로젝트 루트의 `README.md`와 [상세 설명서](./02-boilerplate.md)를 따릅니다.
+별도 DB·외부 API·비밀값·`.env`는 필요하지 않습니다. userData의 저장 파일은 소스나 node_modules와 다르므로 업데이트·프로젝트 삭제 전에 저장 경로를 확인해 백업합니다. 실제 위치·포트 변경·샘플 구조는 프로젝트 루트의 `README.md`와 [상세 설명서](./03-boilerplate.md)를 따릅니다.
 
 ## 6. 개발·갱신·정리
 
 새 프로젝트 README와 docs/environment.md에 실제 설치 OS/CPU·Node/npm·환경 변수 이름·복원·검증·종료·복귀를 남깁니다. 필요한 환경 변수가 생기면 `.env.example`과 Git 제외 `.env`·프로젝트 실행 범위를 함께 정의하며 시스템 PATH·전역 패키지를 변경하지 않습니다. 지금 필요하지 않은 `.env`나 SDK는 만들지 않습니다.
 
-이후에는 [구조·개발 규칙](./02-boilerplate.md)을 읽고 기능을 추가합니다. 갱신은 코드·manifest/lock의 정상 기준을 보존한 작업 브랜치에서 진행하고 검사·실행 후 [갱신 이력](../update.md)을 남깁니다. 초기 복원에 npm update·npm audit fix --force를 섞지 않습니다. 다른 프로젝트가 쓰는 Node·공유 캐시는 앱 폴더와 함께 삭제하지 않습니다.
+이후에는 [구조·개발 규칙](./03-boilerplate.md)을 읽고 기능을 추가합니다. 갱신은 코드·manifest/lock의 정상 기준을 보존한 작업 브랜치에서 진행하고 검사·실행 후 [갱신 이력](../update.md)을 남깁니다. 초기 복원에 npm update·npm audit fix --force를 섞지 않습니다. 다른 프로젝트가 쓰는 Node·공유 캐시는 앱 폴더와 함께 삭제하지 않습니다.
 
-배포할 때는 [빌드 산출물·배포 가이드](./03-build-and-release.md)를 이어서 읽습니다. 로컬 실행 성공과 배포 검증은 구분합니다.
+배포할 때는 [빌드 산출물·배포 가이드](./04-build-and-release.md)를 이어서 읽습니다. 로컬 실행 성공과 배포 검증은 구분합니다.
 
 확인일: 2026-11-03. 저장소 스크립트·버전 파일과 공식 설치·명령 안내를 대조했습니다. 이번 문서 변경에서 의존성 설치·앱 실행·GUI·다른 OS를 새로 검증하지 않았습니다. 과거 검증 결과는 유형 README·update.md에서 별도로 확인합니다.
+
+## 프로젝트 이름 변경
+
+가져온 폴더 이름을 원하는 프로젝트 이름으로 바꾸고 그 폴더에서 명령을 실행합니다. 폴더 이름 변경만으로 실행 경로를 수정할 필요는 없습니다. npm 패키지 이름도 바꾸려면 `package.json`의 `name`과 `package-lock.json`의 최상위 `name`·`packages[""].name`을 같은 npm 이름(예: `my-project`)으로 맞춥니다. 잠금 파일을 삭제하거나 의존성 버전을 바꾸지 않습니다.
+
+Electron 앱 이름은 userData 저장 경로에도 영향을 줄 수 있습니다. 기존 앱의 패키지 이름을 바꾸기 전 저장 데이터를 백업하고 새 경로로의 이전을 준비합니다. 배포용 제품 이름·아이콘·앱 식별자는 배포 가이드에서 따로 설정합니다.

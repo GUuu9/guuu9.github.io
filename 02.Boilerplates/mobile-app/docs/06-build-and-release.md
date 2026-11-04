@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # Mobile-app 빌드 산출물·스토어 배포
 
 Android·iOS 앱의 로컬 검증을 마친 뒤 배포할 때 읽습니다. [시작 가이드](./01-getting-started.md)와 [Android](./03-android-build.md)·[iOS](./04-ios-build.md)의 호환 환경을 먼저 준비합니다. 아래 명령은 복사한 Flutter 프로젝트 루트의 일반 사용자 터미널 기준입니다. iOS는 Mac이 필요하며 CocoaPods 사용 시 iOS 명령에 `bundle exec`를 붙입니다. flavor·진입점이 있는 제품은 기존 CI의 인자를 함께 사용합니다.
@@ -11,14 +11,14 @@ Android·iOS 앱의 로컬 검증을 마친 뒤 배포할 때 읽습니다. [시
 
 | 서비스 대상 | 현재 최소 OS 기준 | 최대 지원 OS | 실제 검증 범위·상태 |
 | :--- | :--- | :--- | :--- |
-| Android | Android 7.0·API 24. `minSdk = flutter.minSdkVersion`과 Flutter 3.35.7의 기본값 | 서비스 정책 미확정. 샘플에 maxSdkVersion 미선언 | APK·AAB 빌드와 실기기 미검증. 지원 확정 전 최소 OS·최신 대상으로 검증 필요 |
-| iOS | iOS 13.0. Runner의 IPHONEOS_DEPLOYMENT_TARGET 및 AppFrameworkInfo.plist의 MinimumOSVersion | 서비스 정책 미확정. 배포 가능한 최신 OS와 검증한 최고 OS를 별도 기록 | Simulator·실기기·서명 archive 미검증 |
+| Android | Android 9·API 28. `android/app/build.gradle.kts`의 minSdk | 최대 지원 OS 미확정. 샘플에 maxSdkVersion 미선언 | 사용자가 별도 작업 위치의 도구 조합이 정상 동작함을 확인. 이 저장소 사본의 APK·AAB·기기 검증은 미실행 |
+| iOS | iOS 15.0. Runner의 IPHONEOS_DEPLOYMENT_TARGET 및 AppFrameworkInfo.plist의 MinimumOSVersion | 최대 지원 OS 미확정 | 사용자가 별도 작업 위치에서 Xcode 15.2 조합을 확인. 이 저장소 사본의 Simulator·실기기·archive는 미검증 |
 
-Android 값의 근거는 [Flutter 3.35.7의 FlutterExtension](https://github.com/flutter/flutter/blob/3.35.7/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt)입니다. 같은 SDK의 compileSdk·targetSdk 기본값은 36이며 **최대 실행 OS가 아닙니다**. 샘플의 AGP 호환성 제약은 [Android 버전 조합](./03-android-build.md#호환되는-버전-조합-고르기)을 확인합니다. [Android min/target/max 구분](https://developer.android.com/guide/topics/manifest/uses-sdk-element)에 따라 검증한 최고 OS를 기록하려고 maxSdkVersion을 새로 추가하지 않습니다.
+Android 빌드 조합과 SDK 패키지 목록은 [Android 버전 조합](./03-android-build.md#호환되는-버전-조합-고르기)을 따릅니다. compileSdk·targetSdk 36은 **최대 실행 OS가 아닙니다**. [Android min/target/max 구분](https://developer.android.com/guide/topics/manifest/uses-sdk-element)에 따라 검증한 최고 OS를 기록하려고 maxSdkVersion을 새로 추가하지 않습니다.
 
 [Flutter 현재 지원 표](https://docs.flutter.dev/reference/supported-platforms)는 표시된 Flutter 버전의 정책입니다. 이를 고정된 3.35.7의 지원 범위로 그대로 옮기지 않습니다. Flutter·플러그인·Xcode를 바꾸면 최소 OS가 높아질 수 있으므로 각 릴리스에서 앱 설정·네이티브 의존성·실제 산출물을 다시 확인합니다.
 
-개발 환경은 기존 기록상 macOS 13.7.8·Intel x86_64에서 Flutter 분석·테스트를 확인한 범위입니다. 이것은 iOS 서비스 지원 범위나 현재 App Store 제출 가능한 Xcode·SDK 조건이 아닙니다. OS를 올리지 못하면 지원되는 별도 빌드 환경이 필요한지도 검토합니다.
+기존 기록의 macOS 13.7.8·Intel x86_64에서는 Flutter 분석·테스트를 확인했습니다. 별도 작업 위치에서 정상 동작을 확인한 Xcode 15.2·iOS SDK 17.2는 개발·기기 테스트 조합이며 현재 스토어 제출 도구가 아닙니다. 2026-04-28부터 App Store Connect 업로드에 Xcode 26 이상·iOS 26 SDK 이상이 필요합니다. [Apple SDK 최소 요구사항](https://developer.apple.com/news/upcoming-requirements/?id=04282026a).
 
 ## 1. 앱 식별자·버전·의존성 확정
 

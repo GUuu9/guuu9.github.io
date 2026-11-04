@@ -61,10 +61,8 @@ server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이�
 ├── project-agents.md
 ├── docs/
 │   └── NN-boilerplate.md
-└── boilerplates/
-    └── minimal/
-        ├── README.md
-        └── 실제 소스·버전·의존성·실행·테스트 설정
+├── 버전·의존성·잠금·실행 설정
+└── 실제 소스·테스트
 ```
 
 | 파일 | 책임 |
@@ -73,7 +71,7 @@ server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이�
 | update.md | 날짜·변경 이유·버전 전후·적용/복귀·검증 이력 |
 | project-agents.md | 샘플을 수정하는 에이전트의 규칙. 새 프로젝트 적용 시 AGENTS.md로 사용 |
 | docs/NN-boilerplate.md | 전체 직접 관리 폴더·파일의 이름·역할·주요 구성·연결, 상세 개발·재사용 방법 |
-| boilerplates/minimal/ | 독립 복사해 실행·테스트할 수 있는 최소 프로젝트 |
+| 유형 루트 | 독립 복사해 실행·테스트할 수 있는 최소 프로젝트 |
 
 project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아닙니다. 새 프로젝트로 사용할 때는 샘플 코드·필요한 문서 배치 후 지침을 AGENTS.md로 복사하고 링크를 실제 배치에 맞춥니다.
 
@@ -90,3 +88,5 @@ project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아�
 mobile-app·server-wui·electron-phaser에는 실행 샘플이 있으며, server와 electron-app은 준비 단계입니다. mobile-app은 Android/iOS GUI·실기기가 미검증이며 새 반출본은 검증 후 반입합니다.
 
 각 실행 샘플의 갱신 이력은 [mobile-app/update.md](mobile-app/update.md), [server-wui/update.md](server-wui/update.md), [electron-phaser/update.md](electron-phaser/update.md)에 기록합니다. 앞으로의 작성·갱신 기준은 [작성 규칙 10절](authoring-rules.md#10-updatemd-갱신-이력)을 따릅니다.
+
+유형 폴더 자체를 실행 가능한 프로젝트 루트로 사용합니다. 소스·버전·잠금·실행 설정은 README·docs와 같은 루트에 두며 중첩된 boilerplates/minimal 폴더를 만들지 않습니다. 폴더 이름만 바꿔 실행할 수 있도록 절대 경로와 유형 폴더명 의존을 제거합니다. 패키지 이름·앱 식별자·저장 데이터 경로를 변경할 때 필요한 파일과 영향은 시작 가이드에 명시합니다.

@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # 1. 적용 범위
 
 이 패키지는 server-wui 유형의 독립 실행 샘플이다. 유형 패키지 README, [작업 지침 보관본](../project-agents.md), 실행 루트의 `README.md`가 함께 포함된다.
@@ -7,7 +7,7 @@
 
 # 2. 버전 기준
 
-모든 아래 경로는 **샘플 루트 `boilerplates/minimal/` 기준**이다. 본문의 문서 링크만 설명서 위치에서 계산한다.
+모든 아래 경로는 **샘플 루트 프로젝트 루트 기준**이다. 본문의 문서 링크만 설명서 위치에서 계산한다.
 
 | 기준 파일 | 내용과 책임 |
 | --- | --- |
@@ -75,7 +75,7 @@ Express 5.2.1, React/React DOM 19.3.0, TypeScript 7.0.2, tsx 4.23.12, Vite 8.3.5
 | `webui/src/scenes/greeting/greeting.page.css` | Greeting 화면·입력·버튼·오류·disabled 스타일 | GreetingPage import |
 | `webui/test/greeting.test.ts` | Node test: URL encoding·응답 파싱·오류 envelope·중복 제출·실패 입력 보존 | npm test |
 
-이 표 외 샘플 패키지의 직접 관리 파일은 루트 README.md, project-agents.md, update.md, 이 docs/02-boilerplate.md다. 각각 안내·보관용 지침·갱신 이력·전체 설명을 맡으며 샘플 실행에는 필요하지 않다.
+이 표 외 샘플 패키지의 직접 관리 파일은 루트 README.md, project-agents.md, update.md, 이 docs/03-boilerplate.md다. 각각 안내·보관용 지침·갱신 이력·전체 설명을 맡으며 샘플 실행에는 필요하지 않다.
 
 # 4. 아키텍처와 대표 데이터 흐름
 
@@ -238,7 +238,7 @@ sequenceDiagram
 
 처음 준비하는 환경은 [가져오기부터 실행까지](./01-getting-started.md)를 먼저 따른다. 아래 npm 명령은 Node 준비가 끝난 프로젝트 루트 기준이며, 부모 환경을 유지하려면 시작 가이드의 `nvm exec` 또는 Windows 자식 셸 범위에서 실행한다.
 
-작업 위치는 모두 샘플 패키지의 `boilerplates/minimal/`이다. Node 24.22.1 이상 24.x·npm이 필요하며 설치에는 registry 또는 채워진 캐시, HTTP 테스트에는 로컬 소켓 권한이 필요하다.
+작업 위치는 모두 샘플 패키지의 프로젝트 루트다. Node 24.22.1 이상 24.x·npm이 필요하며 설치에는 registry 또는 채워진 캐시, HTTP 테스트에는 로컬 소켓 권한이 필요하다.
 
 ```sh
 npm ci
@@ -266,7 +266,7 @@ check는 tsc --noEmit, test는 tsx와 Node test runner, build는 check → 서�
 
 새 앱은 [시작 가이드 2절](./01-getting-started.md#2-새-프로젝트-폴더-준비)의 Git archive로 생성한다. 코드·docs·project-agents.md·update.md를 표준 위치에 함께 내보내므로 문서 링크를 다시 바꾸지 않는다. 에이전트를 쓸 때만 지침 보관본을 같은 루트의 AGENTS.md로 복사한다.
 
-이후 package 이름·버전과 모델·endpoint·문구·config를 제품 요구로 치환한다. 의존성 변경이 필요할 때만 manifest와 lockfile을 함께 갱신하고, 필요 없는 샘플 기능은 호출자·DI·검사까지 함께 제거한다. 타입 검사·테스트·빌드와 UI 정상·오류를 검증한다. 파일 역할 표의 경로는 실행 루트 기준이며 패키지의 실행 루트는 minimal, 적용 후에는 새 앱 루트다.
+이후 package 이름·버전과 모델·endpoint·문구·config를 제품 요구로 치환한다. 의존성 변경이 필요할 때만 manifest와 lockfile을 함께 갱신하고, 필요 없는 샘플 기능은 호출자·DI·검사까지 함께 제거한다. 타입 검사·테스트·빌드와 UI 정상·오류를 검증한다. 파일 역할 표의 경로는 실행 루트 기준이며 실행 루트는 유형 폴더 자체이며 적용 후에는 새 앱 루트다.
 
 재사용 기준은 구조·역할 분리·주입·상태 구독·검증 경계다.
 
@@ -302,8 +302,8 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 | 갱신 이력 | update.md | 확인 가능한 커밋·버전·검증 결과 및 현재 문서 변경 기록 | 충족 |
 | 패키지 소개 README | README.md 1~9절 | 샘플 목적·버전·구조·기능 추가·링크 확인 | 충족 |
 | 작업 지침 보관본 | project-agents.md 1~6절 | 샘플 경계·작업 루트·실제 scripts 대조 | 충족 |
-| 상세 설명서 | docs/02-boilerplate.md 1~9절 | 고정 절·샘플 기능·재사용 범위 확인 | 충족 |
-| 독립 실행 샘플 | boilerplates/minimal/ | 버전·설정·소스·테스트 포함 확인 | 충족 |
+| 상세 설명서 | docs/03-boilerplate.md 1~9절 | 고정 절·샘플 기능·재사용 범위 확인 | 충족 |
+| 독립 실행 샘플 |  | 버전·설정·소스·테스트 포함 확인 | 충족 |
 | 전체 파일 역할 | 설명서 3절 | 직접 관리 파일 33개와 표 대조 | 충족 |
 | 명명 규칙 | 설명서 3·5절 | 대소문자·접미사·실제 파일명 대조 | 충족 |
 | 구성과 실행 경계 | 설명서 4절 같은 소제목 | 브라우저·Node·Vite·빌드/테스트 영역 대조 | 충족 |
@@ -315,13 +315,13 @@ Mermaid 원문과 코드의 노드·호출 관계는 대조했지만 실제 Merm
 | Mermaid 렌더링 | 설명서 4절 두 코드 블록 | 렌더러에서 표시 여부는 확인하지 않음 | 미검증 |
 | 새 기능 추가 | README 5절·설명서 5절 | Bridge·DI·Page·Service·테스트 연결 순서 확인 | 충족 |
 | 버전 관리 | 설명서 2절·샘플 package/.nvmrc/lockfile | 실제 값·설치 단위와 대조 | 충족 |
-| 독립 설치 | 샘플 README 설치 절 | 이전 임시 복사본 npm ci 캐시 복원 통과, 이번 소스 동일 | 충족 |
+| 독립 설치 | 실행 안내 설치 절 | 이전 임시 복사본 npm ci 캐시 복원 통과, 이번 소스 동일 | 충족 |
 | API·상태 테스트 | 샘플 server/test·webui/test | 이전 검토 npm test 6개 통과, 이번 소스 동일 | 충족 |
 | 타입 검사·빌드 | 샘플 package.json의 check/build | 이전 검토 tsc·Vite·config 복사 통과, 이번 소스 동일 | 충족 |
 | 빌드 서버 실행 | 샘플 server/src/index.ts | 이전 검토 API·HTML·JS/CSS 제공 확인, 이번 소스 동일 | 충족 |
 | 종료 | 샘플 server/src/index.ts | 이전 검토 SIGTERM 정상 종료 확인, 이번 소스 동일 | 충족 |
-| 개발 모드 | 샘플 README 개발 절 | 기존 실행 기록의 Vite proxy·두 프로세스 실행 결과 보존 | 충족 |
-| 브라우저 UI·다른 OS | 샘플 README 검증 절 | 실제 클릭·렌더링·Windows/Linux 실행 미확인 | 미검증 |
+| 개발 모드 | 실행 안내 개발 절 | 기존 실행 기록의 Vite proxy·두 프로세스 실행 결과 보존 | 충족 |
+| 브라우저 UI·다른 OS | 실행 안내 검증 절 | 실제 클릭·렌더링·Windows/Linux 실행 미확인 | 미검증 |
 | 내부 링크·설정 문법 | 패키지 Markdown·샘플 JSON | 이번 복사본에서 상대 링크·앵커·펜스·JSON 검사 | 충족 |
 | 패키지 외부 파일 의존 | 내부 링크·샘플 import·파일 읽기 경로 | 외부 필수 문서 링크를 패키지 안으로 정리 | 충족 |
 

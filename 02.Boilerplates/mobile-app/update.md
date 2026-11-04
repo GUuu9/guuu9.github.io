@@ -1,5 +1,18 @@
-<!-- version: v1.11.0 -->
+<!-- version: v1.13.0 -->
 # 갱신 이력
+
+## 2026-11-04 — mobile-app 프로젝트 루트 평탄화
+
+- `boilerplates/minimal/`의 Git 관리 Flutter 프로젝트 파일을 mobile-app 폴더로 옮겼습니다. 이제 `mobile-app/` 하나를 새 프로젝트 폴더로 가져오면 앱 코드·Android/iOS 파일·docs·README를 함께 사용할 수 있습니다.
+- README·작업 지침·시작/구조 문서·웹 메뉴의 경로와 Git archive 절차를 갱신했습니다. 별도 샘플 README는 루트 README와 시작 가이드에 통합했습니다.
+- 구조 변경에 따라 README v2.0.0, 시작·구조 문서 v3.0.0, 작업 지침 v2.0.0, 이력 v1.13.0으로 갱신했습니다.
+- 이동 후 남은 리소스 README도 새 경로에 보존하고, 사용자 요청에 따라 이전 위치의 IDE 생성 파일·Gradle 캐시와 불필요해진 `boilerplates/` 폴더를 제거했습니다. 앱 소스·의존성·lock 내용은 변경하지 않았으며 Flutter 빌드·테스트는 실행하지 않았습니다. 링크·메뉴·공백 검사를 수행했습니다.
+
+## 2026-11-04 — 확인된 모바일 빌드 버전 반영
+
+- 사용자가 다른 작업 위치에서 확인한 Flutter/Dart, Android Gradle·SDK·JDK, iOS·Ruby 도구 조합을 샘플 설정과 Android·iOS 빌드·배포 문서에 반영했습니다. Android 최소 API는 28, iOS Deployment Target은 15.0으로 맞췄습니다.
+- 확인값은 별도 작업 위치의 사용자 제공 기록입니다. 이 저장소 사본의 APK/AAB·Xcode 빌드나 기기 검증은 실행하지 않았습니다. Xcode 15.2·iOS SDK 17.2는 현재 App Store 제출 요구를 충족하지 않습니다.
+- 샘플 소스·의존성·잠금 파일은 변경하지 않았습니다. 공식 AGP·Kotlin·Gradle 호환 표와 Apple의 Xcode 요구를 확인하고 문서·plist 설정 및 공백을 정적으로 점검했습니다.
 
 ## 2026-11-03 — docs 읽기 순서 번호 적용
 

@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 # Android 프로젝트 빌드·버전 관리
 
 Flutter 앱의 Android 빌드가 PC·IDE 업데이트 뒤 깨지거나 새 개발 PC에서 재현되지 않을 때 사용하는 가이드입니다. 개인 PC의 macOS·Windows·Linux와 CI에서 **기존 프로젝트가 사용하는 버전 조합을 먼저 복원**합니다. Flutter 선택은 [FVM 공식 가이드](https://fvm.app/documentation/guides/basic-commands), 기기 연결은 [Android 실기기 연결 공식 안내](https://developer.android.com/studio/run/device)을 따릅니다. 아래 명령은 별도 표시가 없으면 Flutter 프로젝트 루트의 일반 사용자 터미널에서 실행합니다. 아래는 기본 FVM 명령입니다. 선택적 프로젝트 실행기를 도입한 경우에만 해당 호출로 대체합니다. `android` 폴더의 직접 Wrapper 호출은 작업 셸 환경을 상속합니다.
@@ -66,9 +66,20 @@ Windows PowerShell에서는 프로젝트의 `android` 폴더로 이동해:
 3. 해당 Gradle의 Java 호환 표에서 **Gradle 실행용 JDK** 지원 범위를 확인합니다. AGP의 최소 조건만 맞추고 JDK를 무조건 최신으로 올리지 않습니다.
 4. Kotlin 플러그인과 Android Studio의 AGP 지원 범위, SDK·NDK 요구 사항도 대조합니다.
 
-현재 저장소 mobile-app 샘플 파일은 **AGP 8.9.1·Gradle 8.12·Kotlin 2.1.0**을 선언합니다. AGP 8.9 공식 조건은 Gradle 최소 8.11.1·JDK 17이며, Gradle 8.12는 JDK 25로 실행하는 조합을 지원하지 않습니다. 이 샘플의 JDK 25 경고를 해결하려면 도구 전체를 올리기 전에 호환 JDK 17을 선택하는 것이 첫 확인 단계입니다. 이는 실제 APK 빌드 성공이 검증된 조합이라는 뜻은 아닙니다.
+현재 샘플 설정은 별도 작업 위치에서 정상 동작을 확인한 조합을 반영합니다. 이 저장소 사본의 Android 빌드는 다시 실행하지 않았습니다.
 
-AGP 8.9의 공식 최대 지원 API는 35입니다. 앱 설정이 `flutter.compileSdkVersion`처럼 Flutter 기본값을 참조하면 실제 값도 확인해야 합니다. 더 높은 API를 요구할 때 AGP·Gradle·JDK를 함께 검토하며 샘플을 최신 정책에 맞는 완성 조합으로 간주하지 않습니다. [AGP 8.9 호환 조건](https://developer.android.com/build/releases/agp-8-9-0-release-notes) · [Gradle Java 호환 표](https://docs.gradle.org/current/userguide/compatibility.html).
+| 항목 | 샘플 설정·확인값 |
+| :--- | :--- |
+| Flutter / Dart | 3.35.7 / 3.9.2 (`.fvmrc`, `pubspec.lock`) |
+| AGP / Kotlin Plugin / Gradle Wrapper | 8.11.1 / 2.2.20 / 8.14 |
+| Gradle 실행 JDK | 17 |
+| Android API | minSdk 28, compileSdk 36, targetSdk 36 |
+| SDK Manager 패키지 | Platform 36 (rev. 2), Build-Tools 35.0.0, NDK 27.0.12077973, Command-line Tools 12.0 (`apkanalyzer` 포함) |
+| 추가 설치 패키지 | Platform 33 (rev. 3), Platform 34 (rev. 3) |
+
+AGP 8.11은 Gradle 최소 8.13·JDK 17·API 36을 요구하며 기본 Build-Tools 35.0.0·NDK 27.0.12077973을 사용합니다. Kotlin Plugin 2.2.20은 Gradle 8.14·AGP 8.11.1까지 fully supported 범위에 포함됩니다. Gradle 8.14는 JDK 17로 실행할 수 있습니다. [AGP 8.11 호환 조건](https://developer.android.com/build/releases/agp-8-11-0-release-notes) · [Kotlin Gradle 호환 표](https://kotlinlang.org/docs/gradle-configure-project.html) · [Gradle Java 호환 표](https://docs.gradle.org/current/userguide/compatibility.html).
+
+Platform 36·Build-Tools·Command-line Tools는 SDK Manager에서 준비합니다. `apkanalyzer`를 직접 사용한다면 Command-line Tools 설치 경로의 `apkanalyzer` 실행 파일도 확인합니다. Platform 33·34는 확인된 작업 환경에 추가로 설치돼 있었으며 이 샘플은 API 36으로 빌드합니다.
 
 프로젝트 README나 CI에는 정상 확인한 조합을 다음처럼 기록합니다. 빈칸은 실제 확인값으로 채우며 예시를 그대로 정상 상태로 표시하지 않습니다.
 
@@ -122,7 +133,7 @@ ADB 연결 성공과 Android 빌드 성공은 별도입니다. 휴대폰이 `dev
 
 ## 공식 참고
 
-확인일: 2026-11-03. 공식 문서·저장소 샘플 설정을 대조했습니다. 이 문서 작성 중 JDK 설치·Gradle 다운로드·APK 빌드는 수행하지 않았습니다.
+확인일: 2026-11-04. 공식 호환 문서와 샘플 설정을 대조했습니다. 버전 조합은 사용자가 다른 작업 위치에서 정상 동작을 확인한 기록입니다. 이 저장소 사본에서 JDK 설치·Gradle 다운로드·APK 빌드는 수행하지 않았습니다.
 
 - [Android Java·Gradle JDK 선택](https://developer.android.com/build/jdks)
 - [AGP 릴리스·호환 정보](https://developer.android.com/build/releases)

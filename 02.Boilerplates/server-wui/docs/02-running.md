@@ -1,7 +1,7 @@
-<!-- version: v1.4.0 -->
+<!-- version: v2.0.0 -->
 # Minimal Server-WUI
 
-Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 이 디렉터리만 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
+Express 서버와 React 화면의 독립 실행 예제다. Name 입력 → Send → HTTP 조회 → 결과 또는 오류 표시를 제공한다. services·utils·config 예제도 포함한다. 유형 프로젝트 폴더 전체를 복사해 사용할 수 있으며 상위 소스·node_modules·운영 계정은 필요하지 않다.
 
 ## 설치 명령 전 선행 확인
 
@@ -11,7 +11,7 @@ macOS는 Command Line Tools 설치 또는 선택한 전체 Xcode의 라이선스
 
 ## 시작 순서·Node 준비
 
-이 minimal 폴더를 숨김 파일·`.nvmrc`·잠금 파일 포함해 새 프로젝트 루트로 복사한다. 기존 node_modules·dist·개인 설정·`.git`은 복사하지 않는다. 유형 패키지 전체를 받은 경우 유형 패키지의 시작 가이드를 먼저 읽는다. 이 폴더만 전달받았다면 아래 Node 준비 후 본문의 설치·실행 순서로 진행할 수 있다.
+이 유형 폴더를 숨김 파일·`.nvmrc`·잠금 파일 포함해 새 프로젝트 루트로 복사한다. 기존 node_modules·dist·개인 설정·`.git`은 복사하지 않는다. 유형 패키지 전체를 받은 경우 유형 패키지의 시작 가이드를 먼저 읽는다. 이 유형 폴더를 전달받았다면 아래 Node 준비 후 본문의 설치·실행 순서로 진행할 수 있다.
 
 macOS·Linux에서 nvm이 없을 때만 개인 일반 터미널에서 공식 설치기를 실행한다.
 
@@ -27,9 +27,9 @@ nvm exec "$(cat .nvmrc)" node --version
 nvm exec "$(cat .nvmrc)" npm --version
 ```
 
-아래 모든 npm 명령은 `nvm exec "$(cat .nvmrc)" npm …`로 실행하면 부모 셸의 Node 선택을 바꾸지 않는다. 두 터미널 실행도 각각 같은 프로젝트 루트에서 적용한다. npm 전역 갱신·공용 Node default 변경은 하지 않는다. 네이티브 Windows는 [Node 공식 배포](https://nodejs.org/en/download)의 해당 버전 ZIP을 설치해 작업 자식 PowerShell의 PATH에서만 선택하고 같은 npm 명령을 실행한다. nvm-windows의 공용 링크 전환을 프로세스 격리로 설명하지 않는다. 자세한 설치·체크섬·자식 셸 명령은 유형 시작 가이드에 있다. [nvm 공식 설치·사용](https://github.com/nvm-sh/nvm).
+아래 모든 npm 명령은 `nvm exec "$(cat .nvmrc)" npm …`로 실행하면 부모 셸의 Node 선택을 바꾸지 않는다. 두 터미널 실행도 각각 같은 프로젝트 루트에서 적용한다. npm 전역 갱신·공용 Node default 변경은 하지 않는다. 네이티브 Windows는 [Node 공식 배포](https://nodejs.org/en/download)의 해당 버전 ZIP을 설치해 작업 자식 PowerShell의 PATH에서만 선택하고 같은 npm 명령을 실행한다. nvm-windows의 공용 링크 전환을 프로세스 격리로 설명하지 않는다. 자세한 설치·체크섬·자식 셸 명령은 [시작 가이드](01-getting-started.md)에 있다. [nvm 공식 설치·사용](https://github.com/nvm-sh/nvm).
 
-현재 샘플에는 비밀 환경 변수·외부 서비스가 필요하지 않다. 필요한 값이 생기면 프로젝트 docs/environment.md와 비밀값 없는 예시·Git 제외 로컬 설정으로 관리한다. 먼저 아래 요구 버전과 OS/CPU를 확인한 뒤 의존성 복원·검사·실행으로 진행한다.
+현재 샘플에는 비밀 환경 변수·외부 서비스가 필요하지 않다. 필요한 값이 생기면 프로젝트 01-getting-started.md와 비밀값 없는 예시·Git 제외 로컬 설정으로 관리한다. 먼저 아래 요구 버전과 OS/CPU를 확인한 뒤 의존성 복원·검사·실행으로 진행한다.
 
 ## 필요한 환경과 버전
 
@@ -37,7 +37,7 @@ Node 24.22.1 이상 24.x와 npm이 필요하다. 개발 Node는 `.nvmrc`, 샘플
 
 ## 복사·설치·빌드 실행
 
-이 디렉터리 전체를 새 빈 폴더로 복사한다. 숨김 파일과 lockfile을 포함하고 node_modules·dist는 제외한다. 모든 명령은 복사한 샘플 루트에서 실행한다.
+유형 프로젝트 폴더 전체를 새 빈 폴더로 복사한다. 숨김 파일과 lockfile을 포함하고 node_modules·dist는 제외한다. 모든 명령은 복사한 샘플 루트에서 실행한다.
 
 ```sh
 npm ci
@@ -122,7 +122,7 @@ HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 
 
 2026-10-28, macOS 13.7.8 (Darwin), x86_64, Node v24.22.1·npm 11.19.1에서 유형 폴더 전체를 임시 위치로 복사해 검증했다. 복사본 샘플에서 npm ci(검증 캐시 사용), 테스트 6개, 타입 검사·빌드를 통과했다. 실제 클라이언트 상태→API→서버→성공/오류 상태, 빌드 서버의 API·HTML·JS/CSS 제공, 개발 모드 프록시, SIGTERM/SIGINT 종료를 확인했다. npm 설치에 esbuild/fsevents install-script 승인 경고가 있었지만 현재 플랫폼의 빌드·실행은 통과했다. 다른 플랫폼 설치 시 해당 정책을 확인한다.
 
-브라우저 접근 호스트가 사용 불가여서 실제 화면 렌더링·클릭·오류 표시의 GUI 검증은 하지 못했다. HTTP·비UI 검사로 화면 확인을 대신했다고 주장하지 않는다. Linux·Windows와 다른 CPU는 미검증이다. 이 README의 실행 안내에는 상위 문서가 필요하지 않다.
+브라우저 접근 호스트가 사용 불가여서 실제 화면 렌더링·클릭·오류 표시의 GUI 검증은 하지 못했다. HTTP·비UI 검사로 화면 확인을 대신했다고 주장하지 않는다. Linux·Windows와 다른 CPU는 미검증이다. 이 문서의 실행 안내에는 상위 문서가 필요하지 않다.
 
 ## 이번 문서 보완 범위
 
@@ -136,4 +136,4 @@ HTTP 읽기 전용 로컬 예제다. 인증·TLS·세션·영구 쓰기·외부 
 
 앱 package 버전은 1.0.1입니다. 독립 복사본에서 npm ci·테스트(7개)·타입 검사·빌드를 통과했고 전체 의존성 npm audit는 보고된 취약점 0건입니다. 이는 점검 시점의 알려진 npm 공지 기준이며 모든 보안 문제의 부재를 의미하지 않습니다. 실행 기준에 맞춰 Node 타입을 24.19.2로 정렬했고 나머지 직접 의존성은 유지했습니다. 실제 브라우저·다른 OS는 이번에 확인하지 않았습니다. 버전 변경 이유·적용/복귀는 유형 폴더의 update.md에서 관리합니다.
 
-환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 유형 시작 가이드의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.
+환경 변수 양식은 `.env.example`로 공유하고 실제 값은 Git 제외 `.env`로 관리합니다. 기본 실행에는 추가 값이 필요하지 않습니다. 새 앱은 [시작 가이드](01-getting-started.md)의 Git archive 절차로 만들며 작업 폴더의 `.env`·캐시·빌드 결과를 통째로 복사하지 않습니다.

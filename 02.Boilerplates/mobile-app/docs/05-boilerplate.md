@@ -1,7 +1,7 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # 1. 적용 범위
 
-Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플의 작업 루트는 이 패키지의 `boilerplates/minimal/`이다.
+Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플과 문서의 루트는 이 패키지 폴더다.
 
 # 2. 기술 스택과 버전 기준
 
@@ -12,8 +12,8 @@ Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. �
 | 앱 버전 | `pubspec.yaml`: 1.0.0+1 |
 | SDK·직접 의존성 | `pubspec.yaml`: Flutter SDK, 개발용 `flutter_lints: ^5.0.0` |
 | 정확한 의존성 해석 | `pubspec.lock`, Flutter Pub이 생성 |
-| Android | Android Gradle Plugin 8.9.1, Gradle 8.12; 버전은 `android/settings.gradle.kts`, `android/gradle/wrapper/gradle-wrapper.properties` |
-| iOS | Flutter CLI 생성 Xcode Runner; macOS·Xcode 필요 |
+| Android | AGP 8.11.1·Kotlin Plugin 2.2.20·Gradle 8.14, min/compile/target API 28/36/36, NDK 27.0.12077973 |
+| iOS | Runner Deployment Target 15.0; macOS·Xcode 필요 |
 
 샘플의 Android·iOS 프로젝트 파일은 Flutter 3.35.7 CLI로 생성했다. 앱 이름·버전은 Flutter SDK 버전과 다르다. 앱 의존성을 바꿀 때 manifest와 Flutter가 생성한 lockfile을 함께 검토한다. [Flutter 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app), [FVM 프로젝트 버전 선택](https://fvm.app/documentation/guides/basic-commands).
 
@@ -46,14 +46,14 @@ Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCa
 | `test/features/greeting/presentation/greeting_view_model_test.dart` | 성공·실패 상태와 오류 상세 비노출 테스트 | ViewModel과 fake Service |
 | `test/features/greeting/presentation/greeting_view_test.dart` | 버튼 탭 후 인사말 표시 위젯 테스트 | DI·앱·ViewModel·View 연결 |
 | `android/.gitignore` | Android 로컬 SDK·IDE·빌드·서명 설정 제외 | Android 전용 비밀·기계별 설정 보호 |
-| `android/settings.gradle.kts` | Flutter Gradle plugin loader·AGP 8.9.1·Kotlin 2.1.0 선언 | root Gradle 구성 |
+| `android/settings.gradle.kts` | Flutter Gradle plugin loader·AGP 8.11.1·Kotlin 2.2.20 선언 | root Gradle 구성 |
 | `android/build.gradle.kts` | 저장소·하위 프로젝트 빌드 디렉터리·clean 작업 | Android app 빌드 |
 | `android/gradle.properties` | AndroidX·Jetifier 및 Gradle JVM 옵션 | Gradle 구성 |
-| `android/gradle/wrapper/gradle-wrapper.properties` | Gradle 8.12 배포판 URL·캐시 설정 | 버전이 고정된 wrapper |
+| `android/gradle/wrapper/gradle-wrapper.properties` | Gradle 8.14 배포판 URL·캐시 설정 | 버전이 고정된 wrapper |
 | `android/gradle/wrapper/gradle-wrapper.jar` | Gradle wrapper 실행기 | `gradlew`의 Java 진입부 |
 | `android/gradlew` | macOS/Linux Gradle wrapper 시작 스크립트 | Flutter Android 빌드에서 호출 |
 | `android/gradlew.bat` | Windows Gradle wrapper 시작 스크립트 | Flutter Android 빌드에서 호출 |
-| `android/app/build.gradle.kts` | 앱 플러그인·namespace/applicationId·SDK·빌드 타입 | Flutter plugin이 Android 앱 구성 |
+| `android/app/build.gradle.kts` | 앱 플러그인·namespace/applicationId·min/compile/target API·NDK·빌드 타입 | Flutter plugin이 Android 앱 구성 |
 | `android/app/src/debug/AndroidManifest.xml` | debug 전용 Android manifest 설정 | Debug 빌드 |
 | `android/app/src/profile/AndroidManifest.xml` | profile 전용 Android manifest 설정 | Profile 빌드 |
 | `android/app/src/main/AndroidManifest.xml` | 앱 라벨·런처 Activity 등 Android 진입 설정 | MainActivity와 앱 아이콘 참조 |
@@ -71,7 +71,7 @@ Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCa
 | `ios/Flutter/AppFrameworkInfo.plist` | Flutter framework의 iOS metadata | Runner Xcode 프로젝트 |
 | `ios/Flutter/Debug.xcconfig` | debug Flutter build 설정 포함 | Debug scheme |
 | `ios/Flutter/Release.xcconfig` | release Flutter build 설정 포함 | Release scheme |
-| `ios/Runner.xcodeproj/project.pbxproj` | Runner target·빌드 설정·파일 참조 | Xcode 프로젝트·workspace |
+| `ios/Runner.xcodeproj/project.pbxproj` | Runner target·iOS 15.0 Deployment Target·빌드 설정·파일 참조 | Xcode 프로젝트·workspace |
 | `ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata` | Xcode 프로젝트 내부 workspace 선언 | Runner.xcodeproj |
 | `ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist` | Xcode workspace 검사 설정 | 프로젝트 workspace |
 | `ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings` | Xcode workspace 편집기 설정 | 프로젝트 workspace |
@@ -188,7 +188,7 @@ DI·View·ViewModel·Service만으로 작은 앱 흐름을 보이기 위해 상�
 
 # 6. 설치·실행·검증
 
-모든 명령은 샘플 루트 `boilerplates/minimal/`에서 실행한다.
+모든 명령은 `pubspec.yaml`이 있는 mobile-app 프로젝트 루트에서 실행한다.
 
 ```sh
 fvm install
@@ -202,7 +202,7 @@ fvm flutter run -d 기기ID
 
 기기 ID는 마지막 명령 출력값으로 바꾼다. 성공 시 화면 제목은 `인사 샘플`, 초기 문구는 `버튼을 눌러 인사를 불러오세요.`, 버튼은 `불러오기`, 완료 후 문구는 `안녕하세요, Flutter!`다. 실패 경로는 테스트 fake가 `인사를 불러오지 못했습니다.`를 표시하는지 검사한다. 실행은 Ctrl+C로 종료한다.
 
-Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·Build-Tools·호환 JDK가 필요하다. iOS 실행·빌드는 macOS·Xcode·서명·기기 설정이 필요하다. 이 샘플 생성 환경의 IDE JDK는 25였고 Flutter가 Gradle 8.12 호환 경고를 출력했다. Android APK·Xcode 빌드는 실행하지 않았다. GUI·실기기 성공으로 정적 테스트를 대신하지 않는다.
+Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·Build-Tools·JDK 17이 필요하다. iOS 실행·빌드는 macOS·Xcode·서명·기기 설정이 필요하다. 샘플 생성 당시의 AGP·Gradle 조합은 JDK 25와 호환 경고가 있었고, 이후 사용자가 다른 작업 위치에서 확인한 Android·iOS 버전으로 프로젝트 설정을 갱신했다. 현재 저장소 사본의 Android APK·Xcode 빌드는 실행하지 않았다. GUI·실기기 성공으로 정적 테스트를 대신하지 않는다.
 
 ## 플랫폼별 권한·패키지·버전 업데이트
 
@@ -253,7 +253,7 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 # 8. 새 프로젝트로 복사·치환
 
-유형 패키지 전체 보관과 실제 새 앱 생성을 구분한다. 새 앱은 [시작 가이드 2절](./01-getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 코드·docs·지침·이력을 함께 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
+이 패키지 루트가 Flutter 프로젝트 루트이자 문서 루트다. 새 앱은 [시작 가이드 2절](./01-getting-started.md#2-원하는-새-폴더로-복사)의 Git archive로 mobile-app 폴더 전체를 내보낸다. `.env.example`은 공유하고 실제 `.env`는 복사·추적하지 않는다. 문서 링크는 그대로 사용하며 파일 역할 표의 경로는 실행 루트 기준이다.
 
 FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --version`으로 확인한다. Android Studio의 Flutter SDK 경로를 새 프로젝트의 `.fvm/flutter_sdk` 절대 경로로 지정한다. VS Code는 새 루트를 열고 Flutter 확장 SDK가 `.fvm/flutter_sdk`를 사용하는지 확인한다. `dart.flutterSdkPath`를 팀과 공유하면 기기별 경로가 아닌 프로젝트 상대 경로를 사용한다. IDE가 심볼릭 링크를 해석하면 SDK 표시 버전을 직접 다시 확인한다.
 
@@ -265,10 +265,11 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 
 ## 검증 환경·한계
 
-- 확인일 2026-11-02. macOS 13.7.8 x86_64, Flutter 3.35.7, Dart 3.9.2, Android Studio 설치본의 JBR 25.0.4.
+- 확인일 2026-11-02. macOS 13.7.8 x86_64, Flutter 3.35.7, Dart 3.9.2, Android Studio 설치본의 JBR 25.0.4. 아래 실행 검사는 당시 Android 설정에 대한 기록이다.
 - 공식 Flutter CLI로 Android/iOS 샘플 프로젝트를 만들었다. 공식 archive 다운로드 MD5는 응답 `x-goog-hash` 값과 일치했다. Pub 의존성은 임시 캐시의 기존 패키지만 사용해 `flutter pub get --offline`을 수행했다.
 - 샘플에서 `flutter test --no-pub`: **3개 통과**(ViewModel 성공·오류, 버튼 동작 위젯). `flutter analyze`: **No issues found**.
-- Android 프로젝트 생성 시 Flutter가 Gradle 8.12에 감지 JDK 25가 맞지 않을 수 있다고 경고했다. 해당 프로젝트 Android 빌드에 필요한 JDK 17 이상 24 미만으로 전환하지 않았으므로 APK 생성·설치는 미검증이다. Android Studio GUI, 에뮬레이터·실기기, iOS/Xcode 빌드와 다른 OS/CPU도 미검증이다.
+- Android 프로젝트 생성 시 Flutter가 Gradle 8.12에 감지 JDK 25가 맞지 않을 수 있다고 경고했다. Android Studio GUI, 에뮬레이터·실기기, iOS/Xcode 빌드와 다른 OS/CPU도 당시 미검증이었다.
+- 2026-11-04에 사용자가 제공한 별도 작업 위치의 정상 동작 확인값(Flutter 3.35.7, AGP 8.11.1, Kotlin 2.2.20, Gradle 8.14, JDK 17, Xcode 15.2 등)에 맞춰 Android 설정·iOS 최소 대상 버전을 갱신했다. 이 저장소 사본에서 네이티브 빌드를 반복하지 않았다. Xcode 15.2는 현재 App Store 제출 SDK 요건을 충족하지 않는다.
 - Mermaid 관계는 소스와 대조했으나 렌더러 시각 검증은 하지 않았다. pubspec 문법·lock 일관성은 Flutter Pub 복원으로 확인했다. 사용자 PC에 Flutter/FVM을 설치하지 않고 SDK는 임시 경로에서만 사용했다.
 
 ## 요구사항 대조표
@@ -281,7 +282,7 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 | 작업 지침 보관본 | `project-agents.md` 1~6절 | 샘플 루트·실제 경계·명령을 코드와 대조 | 충족 |
 | 상세 설명서 | `docs/05-boilerplate.md` 1~9절 | 필수 절과 이 대조표 포함 | 충족 |
 | 갱신 이력 | `update.md` | 실제 생성·버전·변경·검증·미검증 기록 | 충족 |
-| 독립 실행 샘플 | `boilerplates/minimal/` | Flutter 생성 플랫폼 파일·소스·lock·테스트 확인 | 충족 |
+| 독립 실행 샘플 | mobile-app 프로젝트 루트 | Flutter 생성 플랫폼 파일·소스·lock·테스트 확인 | 충족 |
 | 직접 관리 파일 역할 | 설명서 3절 표 | Git에 포함할 Android/iOS·Dart·설정·lock·테스트 경로를 실제 트리와 대조 | 충족 |
 | 명명 규칙 | 설명서 3절 | Dart 역할 접미사·대소문자·Flutter 생성 파일명 확인 | 충족 |
 | 구성과 실행 경계 | 설명서 4절 해당 소제목 | Android/iOS host, Dart 앱, 로컬 Service 범위 대조 | 충족 |
@@ -298,8 +299,8 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 | 상태·위젯 테스트 | 샘플 `test/` | 독립 복사본 `flutter test --no-pub`, 3개 통과 | 충족 |
 | 정적 분석 | `analysis_options.yaml`, `pubspec.yaml` | 독립 복사본 `flutter analyze`, No issues | 충족 |
 | 앱 실행·종료 | 샘플 README 3절 | Android/iOS 기기·시뮬레이터를 실행하지 않아 앱 구동과 Ctrl+C 종료 미검증 | 미검증 |
-| Android APK 빌드·실기기 | `android/`, 샘플 README | JDK25/Gradle8.12 경고; 실행 안 함 | 미검증 |
-| iOS 빌드·기기 | `ios/`, 샘플 README | macOS/Xcode 서명·기기 빌드 안 함 | 미검증 |
+| Android APK 빌드·실기기 | `android/`, 샘플 README | 별도 작업 위치에서 주신 조합 정상 확인; 이 저장소 사본 빌드 미실행 | 이 사본 미검증 |
+| iOS 빌드·기기 | `ios/`, 샘플 README | 별도 작업 위치의 Xcode 15.2 조합 확인; 이 저장소 사본 빌드 미실행, 현재 스토어 제출은 Xcode 26 필요 | 이 사본 미검증 |
 | 실제 IDE GUI | README 4절 | Android Studio·VS Code를 열어 확인 안 함 | 미검증 |
 | 링크·코드 블록·설정 문법 | 유형 Markdown·샘플 JSON/XML/YAML | Markdown 8개 상대 링크·앵커·펜스 통과; JSON 3개·plist·XML 파싱, Flutter Pub YAML/lock 복원 통과 | 충족 |
 
