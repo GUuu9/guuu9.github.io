@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev:mqtt": "tsx watch src/backend/mqtt.ts",
+    "start:mqtt": "node --env-file=.env dist/backend/mqtt.js"
+  },
+  "dependencies": {
+    "mqtt": "5.16.1"
+  }
+}

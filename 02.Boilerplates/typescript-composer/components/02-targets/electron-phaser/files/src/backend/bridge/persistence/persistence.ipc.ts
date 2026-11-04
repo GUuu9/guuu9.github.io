@@ -1,8 +1,7 @@
 import { app, ipcMain, type BrowserWindow } from 'electron';
-import { PersistenceService } from '../../services/persistence/persistence.service.js';
+import type { PersistenceService } from '../../services/persistence/persistence.service.js';
 import { parseGameSave } from '../../../shared/game-save.js';
-export function registerPersistenceIpc(window: BrowserWindow, page: string, directory: string) {
-  const service = new PersistenceService(directory);
+export function registerPersistenceIpc(window: BrowserWindow, page: string, service: PersistenceService) {
   app.once('before-quit', event => {
     event.preventDefault();
     void service.flush().then(() => app.quit());

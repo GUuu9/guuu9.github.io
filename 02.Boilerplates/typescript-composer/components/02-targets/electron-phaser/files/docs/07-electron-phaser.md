@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v2.0.0 -->
 # Electron 게임 연결
 
 선행 순서는 기준 뼈대 → Phaser 화면 → electron-backend → game-persistence Service → 이 구성품입니다. 일반 frontend·web-phaser·electron-app은 필요하지 않습니다.
@@ -21,15 +21,15 @@ src/backend/electron.ts에 import를 추가합니다.
 import { registerPersistenceIpc } from './bridge/persistence/persistence.ipc.js';
 ```
 
-기존 cleanup = registerGreetingIpc(...) 줄을 다음으로 교체합니다.
+game-persistence의 DI 등록을 적용한 뒤 Main의 생성 코드를 `const { greetingUsecase, gamePersistence } = createDI(app.getPath('userData'));`로 바꿉니다. 기존 cleanup = registerGreetingIpc(...) 줄은 다음으로 교체합니다.
 
 ```typescript
 const removeGreeting = registerGreetingIpc(window, page, greetingUsecase);
-const removePersistence = registerPersistenceIpc(window, page, app.getPath('userData'));
+const removePersistence = registerPersistenceIpc(window, page, gamePersistence);
 cleanup = () => { removeGreeting(); removePersistence(); };
 ```
 
-main.ts → PersistenceApi → window.gameSave → Preload → 저장 IPC → PersistenceService 순서입니다. shared/game-save가 Main·Renderer의 저장 계약이며 frontend 모델 파일은 이 계약을 재노출합니다. Main은 신뢰한 frame·입력만 처리하고 임의 파일 경로를 받지 않습니다.
+main.ts → PersistenceApi → window.gameSave → Preload → 저장 IPC → DI에 등록한 PersistenceService 순서입니다. shared/game-save가 Main·Renderer의 저장 계약이며 frontend 모델 파일은 이 계약을 재노출합니다. Main은 신뢰한 frame·입력만 처리하고 임의 파일 경로를 받지 않습니다.
 
 ## 2. 빌드·검사
 

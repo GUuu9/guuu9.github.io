@@ -1,4 +1,4 @@
-<!-- version: v0.1.0 -->
+<!-- version: v1.1.0 -->
 # 게임 파일 저장 Service
 
 게임 저장 계약과 Node 파일 저장 처리를 제공합니다. Electron·HTTP·화면에 의존하지 않으며 호출자가 데이터 디렉터리를 전달합니다. 현재 계약은 version:1·0 이상의 안전한 정수 score입니다.
@@ -21,6 +21,27 @@ npm run build
 ```
 
 TypeScript는 Service에서 import한 shared 계약도 dist/shared로 출력합니다. Electron 조합에서는 build:electron을 사용합니다.
+
+## DI 등록
+
+자동 조합은 compose.json의 패치로 아래 연결을 적용합니다. 수동으로 추가하면 src/backend/core/di.ts에 다음 import를 넣습니다.
+
+```typescript
+import { fileURLToPath } from 'node:url';
+import { PersistenceService } from '../services/persistence/persistence.service.js';
+```
+
+createDI의 인자와 반환 객체를 확장하고 기존 greetingUsecase 조립은 유지합니다.
+
+```typescript
+export function createDI(dataDirectory = fileURLToPath(new URL('../../../.local/game-save/', import.meta.url))) {
+  // 기존 file·config·repository·usecase 생성 코드를 유지합니다.
+  const gamePersistence = new PersistenceService(dataDirectory);
+  return { greetingUsecase: usecase, gamePersistence };
+}
+```
+
+Node 기본 경로는 프로젝트의 .local/game-save이며 Git에서 제외합니다. 실제 저장은 save를 호출할 때 발생합니다. 다른 경로는 createDI(directory)로 선택하고 종료 시 gamePersistence.flush를 기다립니다. Electron 게임 target은 userData 경로를 DI에 전달한 뒤 같은 인스턴스를 IPC에 주입합니다.
 
 ## 2. 연결·사용
 
