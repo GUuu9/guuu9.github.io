@@ -1,11 +1,13 @@
-<!-- version: v1.1.1 -->
-# 구성품과 조합 설계
+<!-- version: v2.1.0 -->
+# 관리자·AI: 구성품 구조와 작성
+
+이 문서는 묶음 관리자와 구성품 작성 AI를 위한 기준입니다. 사용자는 루트 README와 사용자 가이드의 생성 명령만으로 시작할 수 있습니다.
 
 ## 1. 목표와 현재 상태
 
 `typescript-backend`를 출발점으로 소스·npm 패키지·설정을 추가하여 각 형태를 조합합니다. 결과 프로젝트는 폴더 하나로 독립하며 작업공간이나 다른 보일러플레이트를 실행 중 참조하지 않습니다. 모바일은 후속 작업입니다.
 
-현재 복사본은 Express Router를 생성하는 `core/di.ts`, HTTP 앱을 만드는 `core/web-server.ts`, 수신·종료를 담당하는 `index.ts`가 연결된 HTTP 서버입니다. 기준 샘플의 backend 경로 이동과 DI·HTTP 분리는 적용했습니다. 일반 frontend 구성품은 외부 복사·패키지 추가·개발 프록시 연결까지 제공합니다. backend-webui 구성품은 정적 화면 제공까지 구현했습니다. web-app 구성품은 공개 API 설정·정적 빌드·배포 안내까지 제공합니다. Phaser 화면과 web-phaser 저장·웹 빌드 구성품을 추가했습니다. Electron backend·일반 화면·게임 저장·TCP·UDP·MQTT·Socket.IO 구성품도 작성했습니다. 실제 적용 순서는 [구성품 목록](../components/README.md)을 따르고 검증 한계는 각 README를 확인합니다. 구체적인 연결은 [목표 형태별 연결 순서](./02-assembly-guide.md)를 따릅니다.
+현재 복사본은 Express Router를 생성하는 `core/di.ts`, HTTP 앱을 만드는 `core/web-server.ts`, 수신·종료를 담당하는 `index.ts`가 연결된 HTTP 서버입니다. 기준 샘플의 backend 경로 이동과 DI·HTTP 분리는 적용했습니다. 일반 frontend 구성품은 외부 복사·패키지 추가·개발 프록시 연결까지 제공합니다. backend-webui 구성품은 정적 화면 제공까지 구현했습니다. web-app 구성품은 공개 API 설정·정적 빌드·배포 안내까지 제공합니다. Phaser 화면과 web-phaser 저장·웹 빌드 구성품을 추가했습니다. Electron backend·일반 화면·게임 저장·TCP·UDP·MQTT·Socket.IO 구성품도 작성했습니다. 실제 적용 순서는 [구성품 목록](../../components/README.md)을 따르고 검증 한계는 각 README를 확인합니다. 구체적인 연결은 [목표 형태별 연결 순서](./02-assembly-guide.md)를 따릅니다.
 
 ## 2. 작업공간과 결과 프로젝트
 
@@ -14,6 +16,8 @@ typescript-composer/
 ├── README.md
 ├── project-agents.md
 ├── update.md
+├── package.json             사용자용 compose·검사 명령
+├── .nvmrc                   묶음 사용에 필요한 Node
 ├── docs/                    구성·조합 안내
 ├── typescript-backend/      시작 뼈대
 └── components/
@@ -22,7 +26,7 @@ typescript-composer/
     └── 03-features/         communications·services·utils·core
 ```
 
-새 구성품은 필요한 기능을 작성할 때 추가합니다. 처음에는 파일 복사와 명시적인 수정 절차로 조합합니다. 자동 설치기·플러그인 로더·공용 npm 패키지는 도입하지 않습니다.
+새 구성품은 필요한 기능을 작성할 때 추가합니다. npm compose 명령으로 파일 복사·연결 패치·패키지 설정을 적용합니다. 수동 절차도 구성품 README에 유지합니다. 생성기는 설치나 실행을 자동 수행하지 않습니다.
 
 결과 프로젝트의 공통 배치는 다음과 같습니다. 선택하지 않은 영역은 만들지 않습니다.
 
@@ -132,3 +136,28 @@ TCP·UDP는 Node 기본 모듈 사용을 우선하고 MQTT 등 외부 패키지�
 7. **추가 통신**: TCP·UDP·MQTT는 구성품별로 하나씩 진행합니다. 각 구성품의 정상·오류·해제와 기존 조합에 미치는 영향을 확인합니다.
 
 단계마다 변경 파일·의존성·연결 절차·검증 결과를 해당 프로젝트의 docs·update.md에 기록합니다. 기존 기능의 오류 처리와 입력 검증을 이동 중 유지하고, 미검증 실행 환경을 완료로 표시하지 않습니다. 계획된 모든 구성품의 코드·연결 절차를 작성했습니다. 기준 뼈대의 이력은 update.md, 구성품과 조합의 검증 결과는 각 구성품 README에 기록합니다. 실제 GUI·설치·운영 검증은 미완료입니다.
+
+## 8. 자동 조합 작성·DI 연결
+
+새 파일은 feature의 files, 패키지·명령·기존 파일 연결은 compose.json에서 관리합니다. featurePaths와 생성/충돌 검사를 함께 갱신합니다. 실제 작성 형식·코드 예시·동일 DI 패치·패키지/환경 충돌·검사 순서는 [Feature 작성 규칙](./03-feature-authoring.md)을 따릅니다.
+
+## 9. 독자별 문서 작성
+
+사용자 문서는 README와 docs/01-getting-started에 다운로드 → 형태·feature 선택 → 생성 → 설치·실행을 기록합니다. 관리자가 알아야 하는 내부 분류·파일 책임·DI·패치 작성은 이 문서와 연결 가이드·project-agents에서 관리합니다. 구성품 README는 작성 계약이고 files/docs는 생성된 앱의 사용 설명입니다. 같은 설명을 두 독자에게 모두 요구하지 않습니다.
+
+묶음 루트 package.json은 Node 기본 모듈의 생성 명령만 노출합니다. root와 typescript-backend의 .nvmrc·Node 조건을 함께 유지합니다. 구성품을 바꾸면 사용자가 연결 코드를 편집할 필요 없이 생성되도록 preset·recipe와 검사를 갱신합니다.
+
+## 10. 생성기 수정 위치
+
+| 파일 | 수정 책임 |
+| :--- | :--- |
+| 루트 package.json | 사용자가 호출할 compose·test:compose 명령 |
+| 루트·typescript-backend/.nvmrc | 생성 도구와 출력 앱의 Node 버전 일치 |
+| typescript-backend/scripts/compose.mjs | preset·featurePaths·파일 조합·target 연결·보호 검사 |
+| components/03-features/**/compose.json | 해당 기능의 패키지·명령·기존 파일 패치 |
+| components/**/files | 출력 프로젝트에 적용할 실제 코드·설정·검사·사용 설명 |
+| typescript-backend/test/compose.test.mjs | 전체 형태 생성·DI 추가·충돌·개인 환경 보호 회귀 검사 |
+
+새 결과 형태는 preset과 target 연결을, 새 독립 기능은 featurePaths와 compose.json·files를 함께 작성합니다. 관리 문서에는 변경 이유·등록 지점·검사를 남기고 사용자는 기존과 같은 생성 명령으로 선택할 수 있게 유지합니다.
+
+프로젝트 생성 인자는 형태·프로젝트명이며 결과는 복사한 Composer 루트/프로젝트명입니다. cwd·절대 경로에 따라 위치가 달라지지 않도록 유지하고 향후 프로젝트 조회 명령도 같은 기준을 사용합니다.

@@ -1,7 +1,11 @@
-<!-- version: v2.0.1 -->
+<!-- version: v3.0.0 -->
 # TypeScript Server 보일러플레이트
 
 Express HTTP API를 제공하는 기본 서버입니다. 진입점·core 조립·기능별 Bridge/Usecase·Service 경계를 유지합니다. Electron의 IPC·Preload·BrowserWindow는 전송 방식에 붙는 구성이라 이 HTTP 서버에는 포함하지 않습니다. UI·DB·인증·TLS·배포 자동화는 없습니다.
+
+## 조합 생성
+
+이 폴더에서 `npm run compose -- web-app my-web`을 실행하면 상위 Composer에 my-web 폴더가 생성됩니다. 묶음 루트의 별칭으로 실행해도 같은 위치입니다. 이 문서는 뼈대 자체를 확인·수정하는 관리자용입니다. [자동 조합 명령](../docs/01-getting-started.md)을 따릅니다. 구성품 원본은 유지하고 출력 프로젝트에서 npm install로 의존성과 잠금 파일을 준비합니다.
 
 ## 시작
 

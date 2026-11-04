@@ -1,7 +1,9 @@
-<!-- version: v1.1.0 -->
-# 구성품 선택·적용
+<!-- version: v2.0.1 -->
+# 관리자·AI: 구성품 선택·적용
 
-구성품은 기본 구조를 붙이는 base, 결과 형태로 마무리하는 targets, 독립 기능을 추가하는 features로 구분합니다. 기준 뼈대를 새 프로젝트로 복사하고 필요한 구성품의 files를 가져와 README의 패키지·DI·진입점·빌드 변경을 적용합니다.
+사용자는 루트 README의 형태·feature 명령을 사용합니다. 이 문서는 구성품을 작성·수정하는 관리자와 AI를 위한 목록입니다.
+
+구성품은 기본 구조를 붙이는 base, 결과 형태로 마무리하는 targets, 독립 기능을 추가하는 features로 구분합니다. [npm compose 명령](../docs/01-getting-started.md)으로 선택·복사·연결을 자동 적용할 수 있습니다. 수동으로 적용할 때는 아래 선행 순서와 각 구성품 README를 따릅니다.
 
 ```text
 components/
@@ -47,11 +49,13 @@ components/
 
 ## 새 구성품 추가
 
+feature 작성은 [전용 작성 규칙](../docs/maintainers/03-feature-authoring.md)을 기준으로 합니다. 폴더·코드·DI·패키지·조합 검사와 완료 기준을 한 순서로 확인합니다.
+
 기본 구조를 늘리면 base, 결과 형태의 연결·배포 차이는 targets, 선택 기능은 features의 해당 역할 아래에 둡니다. 파일이 core나 services에 들어간다는 이유만으로 분리하지 않습니다. 독립적으로 가져올 수 있는 기능 단위를 기준으로 합니다. 실행 환경에 종속된 DI·Scene 조립은 해당 base에 유지합니다.
 
 각 구성품에는 README와 files의 소스·설정·검사·반입용 docs를 둡니다. README는 선행 구성품 → 복사 경로 → npm 패키지 → 연결/해제 지점 → 확인 → 데이터 보존/복귀를 안내합니다. package.json·lock은 통째로 교체하지 않고 대상 프로젝트에서 갱신합니다. 범용 Service·util은 targets를 import하지 않으며 필요한 입력·의존성을 호출자에게 받습니다.
 
-완성 프로젝트는 외부 components 경로를 참조하지 않습니다. README·project-agents.md·update.md에도 결과 명칭·실행·배포·검증을 기록합니다. 같은 기능 코드는 features 한 곳에서 관리하고 targets는 이를 가져와 연결합니다.
+완성 프로젝트는 외부 components 경로를 참조하지 않습니다. README·project-agents.md·update.md에도 결과 명칭·실행·배포·검증을 기록합니다. 같은 기능 코드는 features 한 곳에서 관리하고 targets는 이를 가져와 연결합니다. 자동 조합용 feature는 compose.json에 DI·기존 파일의 명시적 패치와 패키지·명령을 선언합니다. files의 기존 경로 충돌은 중단하며 상세 규칙은 [관리자 작성 안내](../docs/maintainers/01-composition-design.md)를 따릅니다.
 
 ## 검증 범위
 

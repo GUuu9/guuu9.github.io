@@ -34,6 +34,11 @@ test('All target presets create independent wired projects with matching package
       await assert.rejects(access(join(output, 'scripts/compose.mjs')));
       await assert.rejects(access(join(output, 'package-lock.json')));
       await access(join(output, 'AGENTS.md'));
+      const instructions = await readFile(join(output, 'AGENTS.md'), 'utf8');
+      assert.match(instructions, /작업별 읽기 순서/);
+      for (const link of instructions.matchAll(/\]\(([^)#]+)(?:#[^)]*)?\)/g)) await access(resolve(output, link[1]));
+      assert.equal(instructions, await readFile(join(output, 'project-agents.md'), 'utf8'));
+
       if (target.startsWith('web-')) {
         await assert.rejects(access(join(output, 'src/backend')));
         assert(!pkg.dependencies.express);

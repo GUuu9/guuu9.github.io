@@ -1,7 +1,9 @@
-<!-- version: v1.1.1 -->
-# 목표 형태별 연결 순서
+<!-- version: v2.0.0 -->
+# 관리자·AI: 목표 형태별 연결
 
-현재 구현된 범위는 기준 backend의 경로 정리와 DI·HTTP 연결 분리입니다. [일반 frontend 구성품](../components/01-base/frontend/README.md)은 외부 파일 복사와 개발 HTTP 연결까지 구현했습니다. [backend-webui 구성품](../components/02-targets/backend-webui/README.md)은 정적 화면 제공과 API 경계 분리까지 구현했습니다. [web-app 구성품](../components/02-targets/web-app/README.md)은 공개 API 설정·독립 빌드·웹 배포 절차까지 제공합니다. [Phaser](../components/01-base/phaser/README.md)와 [web-phaser](../components/02-targets/web-phaser/README.md)는 게임·저장·정적 빌드까지 제공합니다. 남은 Electron·추가 통신 구성품도 제공합니다. [구성품 목록](../components/README.md)의 적용 순서와 실제 files·README를 우선합니다. 아래는 연결 구조에 대한 설명입니다. 모든 작업 위치는 가져온 프로젝트 루트입니다.
+사용자에게 수동 연결을 요구하는 문서가 아닙니다. 관리자가 자동 조합 규칙을 작성·검증할 때 연결 지점과 역할을 확인합니다. 사용자 흐름은 묶음 루트의 생성 명령을 따릅니다.
+
+현재 구현된 범위는 기준 backend의 경로 정리와 DI·HTTP 연결 분리입니다. [일반 frontend 구성품](../../components/01-base/frontend/README.md)은 외부 파일 복사와 개발 HTTP 연결까지 구현했습니다. [backend-webui 구성품](../../components/02-targets/backend-webui/README.md)은 정적 화면 제공과 API 경계 분리까지 구현했습니다. [web-app 구성품](../../components/02-targets/web-app/README.md)은 공개 API 설정·독립 빌드·웹 배포 절차까지 제공합니다. [Phaser](../../components/01-base/phaser/README.md)와 [web-phaser](../../components/02-targets/web-phaser/README.md)는 게임·저장·정적 빌드까지 제공합니다. 남은 Electron·추가 통신 구성품도 제공합니다. [구성품 목록](../../components/README.md)의 적용 순서와 실제 files·README를 우선합니다. 아래는 연결 구조에 대한 설명입니다. 모든 작업 위치는 가져온 프로젝트 루트입니다.
 
 ## 1. 기준 뼈대와 기능 연결
 
@@ -28,7 +30,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 2. backend-webui 연결
 
-먼저 외부 [frontend 구성품](../components/01-base/frontend/README.md)의 files를 프로젝트에 복사하고 패키지·명령을 연결합니다. 아래 1~3단계는 해당 구성품에서 제공하며, 4단계의 frontend 독립 빌드도 포함합니다. 그다음 [backend-webui 구성품](../components/02-targets/backend-webui/README.md)의 files를 복사하고 web-server 등록 코드를 변경합니다. 통합 빌드 후 같은 backend 주소에서 화면·자산·API를 확인합니다.
+먼저 외부 [frontend 구성품](../../components/01-base/frontend/README.md)의 files를 프로젝트에 복사하고 패키지·명령을 연결합니다. 아래 1~3단계는 해당 구성품에서 제공하며, 4단계의 frontend 독립 빌드도 포함합니다. 그다음 [backend-webui 구성품](../../components/02-targets/backend-webui/README.md)의 files를 복사하고 web-server 등록 코드를 변경합니다. 통합 빌드 후 같은 backend 주소에서 화면·자산·API를 확인합니다.
 
 추가 대상은 일반 frontend, HTTP Api, frontend 빌드 설정, backend의 정적 파일 제공 코드입니다. frontend 구현은 base/frontend의 화면·ViewModel·Service·Api를 결과 프로젝트 안으로 가져옵니다.
 
@@ -48,7 +50,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 3. web-app 연결
 
-[web-app 구성품](../components/02-targets/web-app/README.md)의 파일을 frontend 위에 적용합니다. Api·DI·Vite 설정은 변경점을 병합하고 환경 변수 양식과 프로젝트 내부 설명서도 함께 가져옵니다. 아래 절차의 명령·배포·제거 방법은 해당 구성품 문서에 있습니다.
+[web-app 구성품](../../components/02-targets/web-app/README.md)의 파일을 frontend 위에 적용합니다. Api·DI·Vite 설정은 변경점을 병합하고 환경 변수 양식과 프로젝트 내부 설명서도 함께 가져옵니다. 아래 절차의 명령·배포·제거 방법은 해당 구성품 문서에 있습니다.
 
 1. backend-webui에서 만든 일반 frontend와 HTTP Api를 재사용합니다. Vite는 frontend만 빌드하고 출력은 `dist/frontend`로 유지합니다.
 2. 로컬 처리만 필요한 앱은 로컬 Api 구현을 frontend DI에 주입합니다. 서버 기능이 필요하면 HTTP Api에 배포 backend의 주소를 주입합니다.
@@ -60,7 +62,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 4. web-phaser 연결
 
-기준 뼈대의 새 복사본에 [Phaser 화면 구성품](../components/01-base/phaser/README.md)을 먼저 적용하고, [web-phaser 구성품](../components/02-targets/web-phaser/README.md)의 저장 Api·Vite 설정을 병합합니다. 일반 frontend·web-app은 선행 조건이 아닙니다. 각 files에 반입 프로젝트용 설명서도 포함됩니다.
+기준 뼈대의 새 복사본에 [Phaser 화면 구성품](../../components/01-base/phaser/README.md)을 먼저 적용하고, [web-phaser 구성품](../../components/02-targets/web-phaser/README.md)의 저장 Api·Vite 설정을 병합합니다. 일반 frontend·web-app은 선행 조건이 아닙니다. 각 files에 반입 프로젝트용 설명서도 포함됩니다.
 
 1. `src/frontend/core`에서 Phaser 게임과 Scene 목록을 생성하고 진입점에서 게임을 시작합니다. 일반 UI용 React는 게임에서 실제 사용하는 경우에만 추가합니다.
 2. Scene과 자산을 `src/frontend/scenes`, `resource`에 둡니다. 기존 electron-phaser의 Scene·게임 설정을 참고하되 Electron 전용 import를 가져오지 않습니다.
@@ -70,7 +72,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 5. electron-backend 연결
 
-[Electron backend 구성품](../components/01-base/electron-backend/README.md)의 files와 패키지·scripts 연결을 적용합니다. Main 진입점은 backend/electron.ts로 추가하며 기존 HTTP index.ts와 독립 실행합니다. 기본 실행은 빌드된 로컬 페이지로 제한합니다.
+[Electron backend 구성품](../../components/01-base/electron-backend/README.md)의 files와 패키지·scripts 연결을 적용합니다. Main 진입점은 backend/electron.ts로 추가하며 기존 HTTP index.ts와 독립 실행합니다. 기본 실행은 빌드된 로컬 페이지로 제한합니다.
 
 1. Electron 개발 의존성과 Main·Preload 빌드 설정을 추가합니다. 버전은 구현 시 기존 샘플 및 공식 지원 조건과 대조해 선택합니다.
 2. backend의 Node HTTP 진입점을 Electron Main 진입점으로 전환합니다. `app.whenReady()` 이후 `createDI()`로 기능을 만들고 IPC handler를 등록합니다. HTTP 연결부는 실제 요구가 있는 경우에만 별도로 시작합니다.
@@ -81,7 +83,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 6. electron-app 연결
 
-[일반 화면 IPC 구성품](../components/02-targets/electron-app/README.md)을 frontend → electron-backend 순서 적용 후 가져옵니다. 실제 Vite 설정은 file URL용 상대 경로와 CSP를 사용하며 개발 URL을 Main에 로드하는 경로는 구현하지 않았습니다. 아래 개발 서버 방식은 필요 시 추가할 확장입니다.
+[일반 화면 IPC 구성품](../../components/02-targets/electron-app/README.md)을 frontend → electron-backend 순서 적용 후 가져옵니다. 실제 Vite 설정은 file URL용 상대 경로와 CSP를 사용하며 개발 URL을 Main에 로드하는 경로는 구현하지 않았습니다. 아래 개발 서버 방식은 필요 시 추가할 확장입니다.
 
 1. 일반 frontend를 `src/frontend`에 배치합니다. 기능 Service가 사용하는 Api를 HTTP 구현에서 Preload 호출 구현으로 교체하고 frontend DI에 연결합니다.
 2. Main이 BrowserWindow를 생성하며 빌드된 Preload 경로를 지정합니다. contextIsolation·sandbox를 활성화하고 Renderer의 nodeIntegration을 비활성화합니다.
@@ -98,7 +100,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 7. electron-phaser 연결
 
-[게임 IPC 구성품](../components/02-targets/electron-phaser/README.md)을 Phaser → electron-backend → [게임 파일 저장 Service](../components/03-features/services/game-persistence/README.md) 순서 적용 후 가져옵니다. 웹 저장 구성품 없이 같은 게임 코드를 연결할 수 있습니다. Preload import·Main handler 등록의 정확한 수정 코드는 구성품 문서에 있습니다.
+[게임 IPC 구성품](../../components/02-targets/electron-phaser/README.md)을 Phaser → electron-backend → [게임 파일 저장 Service](../../components/03-features/services/game-persistence/README.md) 순서 적용 후 가져옵니다. 웹 저장 구성품 없이 같은 게임 코드를 연결할 수 있습니다. Preload import·Main handler 등록의 정확한 수정 코드는 구성품 문서에 있습니다.
 
 1. electron-backend에 web-phaser의 게임·Scene·자산을 붙입니다.
 2. 게임이 사용하는 저장·조회 Api를 Preload 호출 구현으로 주입합니다. 브라우저용 저장 구현은 웹 빌드에서 계속 사용합니다.
@@ -107,7 +109,7 @@ curl 'http://127.0.0.1:3101/api/greeting?name=World'
 
 ## 8. 추가 통신 연결
 
-[공통 메시지](../components/03-features/communications/common/README.md)를 먼저 적용하고 [TCP](../components/03-features/communications/tcp/README.md)·[UDP](../components/03-features/communications/udp/README.md)·[MQTT](../components/03-features/communications/mqtt/README.md)를 선택합니다. 기본은 별도 진입점이며 한 프로세스에 합칠 때는 해당 진입점의 시작·종료 조립을 함께 수정합니다.
+[공통 메시지](../../components/03-features/communications/common/README.md)를 먼저 적용하고 [TCP](../../components/03-features/communications/tcp/README.md)·[UDP](../../components/03-features/communications/udp/README.md)·[MQTT](../../components/03-features/communications/mqtt/README.md)를 선택합니다. 기본은 별도 진입점이며 한 프로세스에 합칠 때는 해당 진입점의 시작·종료 조립을 함께 수정합니다.
 
 TCP·UDP·MQTT는 위 화면·배포 형태에 필요한 통신 기능으로 추가합니다. 서버·클라이언트·broker 역할은 구성품마다 명시합니다.
 
@@ -119,6 +121,6 @@ TCP·UDP·MQTT는 위 화면·배포 형태에 필요한 통신 기능으로 추
 
 독립 기능은 features에서 가져오고 대상 환경에 연결하는 코드만 targets에 둡니다. 서비스·순수 함수·core를 파일 위치만 보고 분리하지 않으며, 실제로 따로 적용할 수 있는 기능 단위로 추가합니다.
 
-Socket.IO는 [구성품 설명](../components/03-features/communications/socket-io/README.md)의 files를 가져와 HTTP server에 attach합니다. 기본 포트는 3104이며, 기존 HTTP와 합칠 때 같은 DI 결과를 전달하고 종료에서 io.close를 호출합니다. TCP·UDP·MQTT의 Buffer 메시지 구성품은 선행 조건이 아닙니다.
+Socket.IO는 [구성품 설명](../../components/03-features/communications/socket-io/README.md)의 files를 가져와 HTTP server에 attach합니다. 기본 포트는 3104이며, 기존 HTTP와 합칠 때 같은 DI 결과를 전달하고 종료에서 io.close를 호출합니다. TCP·UDP·MQTT의 Buffer 메시지 구성품은 선행 조건이 아닙니다.
 
 각 조합 완료 시 해당 프로젝트 안의 README·docs·project-agents.md·update.md를 갱신합니다. 이 묶음의 설계 문서를 가져온 프로젝트의 필수 외부 설명서로 남기지 않습니다.
