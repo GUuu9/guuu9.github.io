@@ -1,4 +1,4 @@
-<!-- version: v3.1.0 -->
+<!-- version: v4.1.0 -->
 # Mobile-app 최소 Flutter 보일러플레이트
 
 ## 1. 목적
@@ -81,18 +81,20 @@ Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
 ## 5. 핵심 구조와 기능 추가
 
 ```text
-lib/main.dart                                  앱 시작
-lib/core/di/app_dependencies.dart             객체 조립·수명 소유
-lib/features/greeting/data/greeting_service.dart  인사 데이터 계약·로컬 구현
-lib/features/greeting/presentation/            인사 View·ViewModel
-test/features/greeting/presentation/            상태·화면 테스트
-android/                                        Android 앱·Gradle 구성
-ios/                                            Xcode Runner·리소스 구성
+lib/main.dart                       앱 시작
+lib/core/app.dart                   앱 루트·첫 Scene·수명 관리
+lib/core/app_dependencies.dart      DI 조립
+lib/scenes/greeting/                Scene·Model·ViewModel·Service
+lib/apis/greeting_api.dart          AssetBundle 연결
+lib/resource/greeting.json          앱에 포함되는 인사말 데이터
+test/scenes/greeting/               상태·화면 테스트
+android/                           Android 앱·Gradle 구성
+ios/                               Xcode Runner·리소스 구성
 ```
 
 화면은 ViewModel의 상태와 명령을 표시하고, ViewModel은 Service 인터페이스를 사용한다. 앱 시작 지점의 DI 구성만 객체를 만든다. 상세 의존 방향·전체 파일 목록·흐름은 [보일러플레이트 설명서 3·4절](docs/05-boilerplate.md#3-폴더파일명과-전체-역할-목록)에서 확인한다.
 
-새 화면은 `lib/features/기능명/presentation/`에 View와 ViewModel을 함께 둔다. 외부 데이터 접근이 실제로 필요할 때만 `data/`에 Service 또는 Repository를 추가하고, 새 객체 생성은 DI 구성과 테스트에 연결한다. 화면에서 직접 API·파일·전역 객체를 만들지 않는다.
+새 화면은 `lib/scenes/기능명/`에 Scene과 ViewModel을 함께 둔다. 화면별 Service·Model을 같은 scenes 폴더에 두고 리소스·외부 연결은 `apis/`로 분리하며, 새 객체 생성은 DI 구성과 테스트에 연결한다. 화면에서 직접 API·파일·전역 객체를 만들지 않는다.
 
 ## 6. 검사·실행·빌드
 
@@ -113,7 +115,7 @@ Android·iOS 버전 조합은 별도 작업 위치에서 정상 동작을 확인
 
 ## 7. 보안·변경 경계
 
-인사 서비스는 외부 통신 없이 고정된 문자열을 반환한다. 실패 상세를 화면에 노출하지 않는 예제를 포함한다. 제품 데이터·비밀값·서명 키는 없다. `.fvm/`, `android/local.properties`, Xcode 생성 설정과 빌드 산출물은 Git에 넣지 않는다. Android 앱 식별자·iOS Bundle Identifier·앱 이름은 새 제품에 맞게 바꾼다.
+인사 서비스는 GreetingApi가 읽은 번들 JSON의 message를 검증해 반환한다. 실패 상세를 화면에 노출하지 않는 예제를 포함한다. 제품 데이터·비밀값·서명 키는 없다. `.fvm/`, `android/local.properties`, Xcode 생성 설정과 빌드 산출물은 Git에 넣지 않는다. Android 앱 식별자·iOS Bundle Identifier·앱 이름은 새 제품에 맞게 바꾼다.
 
 ## 8. 패키지 구성·재사용
 
@@ -129,7 +131,7 @@ Android·iOS 버전 조합은 별도 작업 위치에서 정상 동작을 확인
 
 ## 9. 검증·제약
 
-Flutter 3.35.7·Dart 3.9.2로 샘플을 생성했다. 오프라인 의존성 복원, 정적 분석, 테스트 3개가 통과했다. Android Studio GUI·에뮬레이터·실기기, Android APK 빌드, Xcode/iOS 빌드는 이 저장소에서 확인하지 않았다. 별도 작업 위치의 정상 동작 조합과 현재 저장소 검증 결과는 [설명서 9절](docs/05-boilerplate.md#9-예외검증-결과와-요구사항-대조표)에 구분해 기록한다.
+Flutter 3.35.7·Dart 3.9.2로 샘플을 생성했다. 초기 검증에서 오프라인 의존성 복원, 정적 분석, 테스트 3개가 통과했다. 리소스·API 추가 후 검증 결과는 설명서 9절에 기록한다. Android Studio GUI·에뮬레이터·실기기, Android APK 빌드, Xcode/iOS 빌드는 이 저장소에서 확인하지 않았다. 별도 작업 위치의 정상 동작 조합과 현재 저장소 검증 결과는 [설명서 9절](docs/05-boilerplate.md#9-예외검증-결과와-요구사항-대조표)에 구분해 기록한다.
 
 공식 참고: [Flutter 앱 아키텍처](https://docs.flutter.dev/app-architecture/guide), [Flutter 테스트](https://docs.flutter.dev/testing/overview), [Flutter 프로젝트 생성](https://docs.flutter.dev/reference/create-new-app), [Flutter 라이선스](https://github.com/flutter/flutter/blob/3.35.7/LICENSE).
 

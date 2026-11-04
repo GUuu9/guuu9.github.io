@@ -1,0 +1,15 @@
+appId: com.example.desktop.sample
+productName: DesktopSample
+asar: true
+directories:
+  output: release
+files:
+  - dist/**/*
+  - package.json
+mac:
+  identity: null
+  target: dmg
+win:
+  target: nsis
+linux:
+  target: AppImage

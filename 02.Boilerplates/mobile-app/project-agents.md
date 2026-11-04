@@ -1,4 +1,4 @@
-<!-- version: v3.1.0 -->
+<!-- version: v4.1.0 -->
 # 1. 범위와 작업 루트
 
 이 지침은 mobile-app Flutter 샘플을 수정하는 새 프로젝트용 보관본이며 이 저장소에 자동 적용되지 않는다. 명령은 `pubspec.yaml`이 있는 프로젝트 루트에서 실행한다. 전체 실행 안내는 실행 루트의 `README.md`, 역할·흐름은 [설명서](docs/05-boilerplate.md)를 따른다.
@@ -11,11 +11,11 @@
 
 # 3. 구조·명명·의존 경계
 
-- `lib/main.dart`는 시작, `core/di/`는 객체 조립, `features/<feature>/presentation/`은 View·ViewModel, `features/<feature>/data/`는 실제 필요한 데이터 접근을 맡는다.
+- `lib/main.dart`는 시작, `core/`는 앱 루트·객체 조립을 맡는다. `scenes/<scene>/`에 Scene·Model·ViewModel·Service를 나란히 두고 리소스 읽기·외부/네이티브 연결은 `apis/`로 분리한다.
 - View는 ViewModel의 상태를 표시하고 사용자 동작을 전달한다. ViewModel이 데이터 계층 계약을 사용한다. 데이터 계층은 Flutter 화면을 import하지 않는다.
 - DI에서 구현체를 주입한다. 화면·ViewModel이 서비스 구현을 직접 만들거나 정적 전역 상태에 의존하지 않는다.
 - 작은 앱에 없는 Repository·domain·routing·상태관리 프레임워크를 미리 추가하지 않는다. 실제 요구가 생긴 뒤 구조와 설명서를 함께 갱신한다.
-- 현재 샘플은 네트워크·저장소가 없으므로 `GreetingService`의 로컬 구현만 둔다. 이를 제품 데이터 영속성이나 API 예제로 설명하지 않는다.
+- 현재 샘플의 GreetingApi는 AssetBundle에서 resource/greeting.json을 읽고 Service가 JSON·message를 검증한다. 원격 API·제품 데이터 영속성은 포함하지 않는다.
 
 # 4. 구현 원칙
 

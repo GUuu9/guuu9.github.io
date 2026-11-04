@@ -1,4 +1,4 @@
-<!-- version: v3.2.0 -->
+<!-- version: v4.1.0 -->
 # 1. 적용 범위
 
 Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. 로컬 인사말 하나를 버튼으로 불러 화면에 표시하며, 화면(View)·상태(ViewModel)·데이터 접근 계약(Service)·생성자 주입(DI)의 연결을 보여준다. 네트워크·DB·라우팅·인증·제품 도메인 기능은 없다. 실행 샘플과 문서의 루트는 이 패키지 폴더다.
@@ -21,7 +21,7 @@ Flutter로 Android·iOS 모바일 화면을 시작하는 최소 샘플이다. �
 
 ## 명명 규칙
 
-Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCamelCase`를 쓴다. 기능별 폴더 아래 `presentation/`에 View·ViewModel, `data/`에 실제 데이터 계약·구현을 둔다. 이름은 역할을 나타내며 화면 파일은 `_view.dart`, 상태 파일은 `_view_model.dart`, 데이터 계약은 `_service.dart` 접미사를 사용한다. Android의 Kotlin·Gradle·리소스와 iOS의 Xcode 파일은 Flutter 생성 템플릿의 이름을 유지한다.
+Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCamelCase`를 쓴다. `core/`에 앱·DI를 두고 `scenes/<scene>/`에 Scene·Model·ViewModel·Service를 나란히 둔다. 외부/네이티브 통신이 생기면 저수준 연결을 `apis/`로 분리한다. 이름은 역할을 나타내며 화면 파일은 `_scene.dart`, 상태 파일은 `_view_model.dart`, 데이터 계약은 `_service.dart` 접미사를 사용한다. Android의 Kotlin·Gradle·리소스와 iOS의 Xcode 파일은 Flutter 생성 템플릿의 이름을 유지한다.
 
 ## 직접 관리 파일
 
@@ -38,14 +38,18 @@ Dart 소스는 `snake_case.dart`, 타입은 `UpperCamelCase`, 멤버는 `lowerCa
 | `.env.example` | 비밀값 없는 환경 변수 양식. 실제 `.env`는 Git 제외 | 프로젝트 환경 준비 |
 | `pubspec.yaml` | 앱 이름·버전·Dart 범위·Flutter/lint 의존성 | Pub 복원·앱 package 이름 |
 | `pubspec.lock` | Flutter Pub이 해석한 정확한 의존 트리 | `fvm flutter pub get`, 테스트 |
+| `lib/apis/greeting_api.dart` | `GreetingApi`가 주입된 AssetBundle로 문자열을 읽음 | Service에 원본 JSON 전달 |
+| `lib/resource/greeting.json` | message 문자열을 담은 번들 자산 | pubspec.yaml의 assets에 등록 |
+| `test/scenes/greeting/greeting_service_test.dart` | 자산 경로·JSON 형식·message 검증 | 정상 값과 잘못된 값 검사 |
 | `lib/main.dart` | `main()`에서 조립 함수 호출 후 앱 실행 | 앱 진입점; DI에 연결 |
-| `lib/app.dart` | `MaterialApp`·theme·첫 화면 조립; 앱 종료 때 DI 자원을 dispose | main의 `MobileApp`; View로 전달 |
-| `lib/core/di/app_dependencies.dart` | `AppDependencies`, `createAppDependencies`; 기본 구현 생성·생성자 주입·수명 종료 | main과 테스트에서 사용 |
-| `lib/features/greeting/data/greeting_service.dart` | `GreetingService` 계약과 `LocalGreetingService` 고정 문자열 구현 | ViewModel이 계약에만 의존 |
-| `lib/features/greeting/presentation/greeting_view_model.dart` | `GreetingStatus`, `GreetingViewModel`; 대기/성공/실패 상태·중복 실행 방지·오류 메시지 공개 | View의 명령·단위 테스트 |
-| `lib/features/greeting/presentation/greeting_view.dart` | `GreetingView`; 상태별 텍스트와 버튼 활성화를 렌더링하고 탭을 ViewModel에 전달 | `MobileApp`에서 주입; 위젯 테스트 |
-| `test/features/greeting/presentation/greeting_view_model_test.dart` | 성공·실패 상태와 오류 상세 비노출 테스트 | ViewModel과 fake Service |
-| `test/features/greeting/presentation/greeting_view_test.dart` | 버튼 탭 후 인사말 표시 위젯 테스트 | DI·앱·ViewModel·View 연결 |
+| `lib/core/app.dart` | `MaterialApp`·theme·첫 화면 조립; 앱 종료 때 DI 자원을 dispose | main의 `MobileApp`; View로 전달 |
+| `lib/core/app_dependencies.dart` | `AppDependencies`, `createAppDependencies`; 기본 구현 생성·생성자 주입·수명 종료 | main과 테스트에서 사용 |
+| `lib/scenes/greeting/greeting_service.dart` | `GreetingService` 계약과 `AssetGreetingService` 로컬 JSON 읽기·message 검증 구현 | ViewModel이 계약에만 의존 |
+| `lib/scenes/greeting/greeting_model.dart` | `GreetingStatus` 대기·진행·성공·실패 상태 정의 | Scene·ViewModel·테스트에서 사용 |
+| `lib/scenes/greeting/greeting_view_model.dart` | `GreetingViewModel`; 대기/성공/실패 상태·중복 실행 방지·오류 메시지 공개 | View의 명령·단위 테스트 |
+| `lib/scenes/greeting/greeting_scene.dart` | `GreetingScene`; 상태별 텍스트와 버튼 활성화를 렌더링하고 탭을 ViewModel에 전달 | `MobileApp`에서 주입; 위젯 테스트 |
+| `test/scenes/greeting/greeting_view_model_test.dart` | 성공·실패 상태와 오류 상세 비노출 테스트 | ViewModel과 fake Service |
+| `test/scenes/greeting/greeting_scene_test.dart` | 버튼 탭 후 인사말 표시 위젯 테스트 | DI·앱·ViewModel·View 연결 |
 | `android/.gitignore` | Android 로컬 SDK·IDE·빌드·서명 설정 제외 | Android 전용 비밀·기계별 설정 보호 |
 | `android/settings.gradle.kts` | Flutter Gradle plugin loader·AGP 8.11.1·Kotlin 2.2.20 선언 | root Gradle 구성 |
 | `android/build.gradle.kts` | 저장소·하위 프로젝트 빌드 디렉터리·clean 작업 | Android app 빌드 |
@@ -104,19 +108,19 @@ Android/iOS native 파일은 Flutter 3.35.7의 플랫폼 템플릿이다. `gradl
 
 ## 구성과 실행 경계
 
-Android/iOS host가 Flutter 엔진과 `main()`을 시작한다. Dart 앱은 `MaterialApp`·View·ViewModel을 소유하고, ViewModel은 주입된 Service 계약에 요청한다. 현재 Service 구현은 고정 문자열 반환만 하므로 네트워크·운영 데이터·별도 저장소는 없다. 플랫폼 디렉터리는 Flutter 앱을 Android·iOS host에서 실행시키는 생성 경계다.
+Android/iOS host가 Flutter 엔진과 `main()`을 시작한다. Dart 앱은 `MaterialApp`·View·ViewModel을 소유하고, ViewModel은 주입된 Service 계약에 요청한다. 현재 Service 구현은 번들 JSON을 읽고 message를 검증하므로 네트워크·운영 데이터·별도 저장소는 없다. 플랫폼 디렉터리는 Flutter 앱을 Android·iOS host에서 실행시키는 생성 경계다.
 
 ## 폴더와 계층의 대응
 
 | 실제 경로 | 역할·공개 구성 | import·호출 대상 |
 | :--- | :--- | :--- |
 | `lib/main.dart` | `main()` 실행 시작 | `createAppDependencies`, `MobileApp` |
-| `lib/core/di/app_dependencies.dart` | `AppDependencies`, `createAppDependencies()` 생성자 주입 | Service 계약·구현, ViewModel |
-| `lib/app.dart` | `MobileApp`, MaterialApp과 첫 View 연결; 앱 수명 종료 때 dependencies dispose | DI 객체·GreetingView |
-| `lib/features/greeting/presentation/greeting_view.dart` | `GreetingView`, 화면 표시와 사용자 입력 | `GreetingViewModel` |
-| `lib/features/greeting/presentation/greeting_view_model.dart` | `GreetingViewModel`, UI 상태·명령 | `GreetingService` 추상 계약 |
-| `lib/features/greeting/data/greeting_service.dart` | `GreetingService`, 로컬 `LocalGreetingService` 구현 | Flutter UI에 의존하지 않음 |
-| `test/features/greeting/presentation/` | fake Service·상태/위젯 테스트 | 앱의 공개 동작 검증 |
+| `lib/core/app_dependencies.dart` | `AppDependencies`, `createAppDependencies()` 생성자 주입 | Service 계약·구현, ViewModel |
+| `lib/core/app.dart` | `MobileApp`, MaterialApp과 첫 View 연결; 앱 수명 종료 때 dependencies dispose | DI 객체·GreetingScene |
+| `lib/scenes/greeting/greeting_scene.dart` | `GreetingScene`, 화면 표시와 사용자 입력 | `GreetingViewModel` |
+| `lib/scenes/greeting/greeting_view_model.dart` | `GreetingViewModel`, UI 상태·명령 | `GreetingService` 추상 계약 |
+| `lib/scenes/greeting/greeting_service.dart` | `GreetingService`, 로컬 `AssetGreetingService` 구현 | Flutter UI에 의존하지 않음 |
+| `test/scenes/greeting/` | fake Service·상태/위젯 테스트 | 앱의 공개 동작 검증 |
 | `android/`, `ios/` | 각 host의 Flutter 실행·빌드 설정 | Flutter Gradle plugin·Xcode 프로젝트 |
 
 ## 의존 규칙
@@ -128,13 +132,13 @@ Android/iOS host가 Flutter 엔진과 `main()`을 시작한다. Dart 앱은 `Mat
 
 ## 진입·조립·수명주기
 
-`lib/main.dart`의 `main()`이 `createAppDependencies()`를 호출한 뒤 `MobileApp`을 `runApp`에 전달한다. DI는 기본 로컬 Service와 ViewModel을 생성한다. `MobileApp`은 앱 루트에서 조립된 객체를 사용하고 StatefulWidget 종료 때 `AppDependencies.dispose()`로 ChangeNotifier를 해제한다. View는 ViewModel을 생성하거나 소유하지 않는다. 시작 시 로컬 상수 하나만 준비하므로 외부 초기화 실패 경로는 없다.
+`lib/main.dart`의 `main()`이 `createAppDependencies()`를 호출한 뒤 `MobileApp`을 `runApp`에 전달한다. DI는 기본 로컬 Service와 ViewModel을 생성한다. `MobileApp`은 앱 루트에서 조립된 객체를 사용하고 StatefulWidget 종료 때 `AppDependencies.dispose()`로 ChangeNotifier를 해제한다. View는 ViewModel을 생성하거나 소유하지 않는다. 자산 읽기는 버튼 요청 때 시작하며 읽기·파싱 실패는 ViewModel의 오류 상태로 전달한다.
 
 ## 정상·오류의 전체 흐름
 
-정상: `GreetingView`의 버튼 → `GreetingViewModel.loadGreeting()` → `GreetingService.loadGreeting()` → `LocalGreetingService`가 문자열 반환 → ViewModel이 loaded 상태와 greeting을 보관하고 notify → `AnimatedBuilder`가 View를 갱신한다. 요청 중 버튼은 비활성화되고 추가 호출은 무시한다.
+정상: `GreetingScene`의 버튼 → `GreetingViewModel.loadGreeting()` → `GreetingService.loadGreeting()` → `AssetGreetingService`가 GreetingApi로 번들 JSON을 읽고 검증한 문자열을 반환 → ViewModel이 loaded 상태와 greeting을 보관하고 notify → `AnimatedBuilder`가 View를 갱신한다. 요청 중 버튼은 비활성화되고 추가 호출은 무시한다.
 
-오류: fake 또는 향후 데이터 구현이 예외를 던지면 ViewModel은 failed 상태와 일반 오류 문구를 보관하고 notify한다. 원 예외·내부 상세를 화면에 전달하지 않는다. 현재 기본 로컬 구현은 정상 반환만 하며 실패는 테스트 fake로 검증한다.
+오류: 자산 읽기·JSON 검증 또는 fake Service가 예외를 던지면 ViewModel은 failed 상태와 일반 오류 문구를 보관하고 notify한다. 원 예외·내부 상세를 화면에 전달하지 않는다. 실제 번들의 정상 경로와 잘못된 JSON·message 검증은 API·Service 테스트로, 안전한 화면 오류는 ViewModel fake로 검사한다.
 
 ## 구조도와 설계 선택
 
@@ -142,13 +146,18 @@ Android/iOS host가 Flutter 엔진과 `main()`을 시작한다. Dart 앱은 `Mat
 
 ```mermaid
 flowchart TD
-  Main[lib/main.dart] --> DI[lib/core/di/app_dependencies.dart]
-  DI --> VM[lib/features/greeting/presentation/greeting_view_model.dart]
-  DI --> Service[lib/features/greeting/data/greeting_service.dart]
-  Main --> App[lib/app.dart]
-  App --> View[lib/features/greeting/presentation/greeting_view.dart]
+  Main[lib/main.dart] --> DI[lib/core/app_dependencies.dart]
+  DI --> VM[lib/scenes/greeting/greeting_view_model.dart]
+  VM --> Model[lib/scenes/greeting/greeting_model.dart]
+  DI --> Service[lib/scenes/greeting/greeting_service.dart]
+  Main --> App[lib/core/app.dart]
+  App --> View[lib/scenes/greeting/greeting_scene.dart]
+  View --> Model
   View --> VM
   VM --> Service
+  DI --> API[lib/apis/greeting_api.dart]
+  Service --> API
+  API --> Resource[lib/resource/greeting.json]
   Android[android host] --> Main
   IOS[ios host] --> Main
 ```
@@ -158,13 +167,20 @@ flowchart TD
 ```mermaid
 sequenceDiagram
   actor User
-  participant View as GreetingView
+  participant View as GreetingScene
   participant VM as GreetingViewModel
   participant Service as GreetingService
+  participant API as GreetingApi
+  participant Bundle as AssetBundle
   User->>View: 불러오기 탭
   View->>VM: loadGreeting()
   VM-->>View: loading + notifyListeners
   VM->>Service: loadGreeting()
+  Service->>API: readGreeting()
+  API->>Bundle: loadString(resource path)
+  Bundle-->>API: JSON 또는 읽기 오류
+  API-->>Service: 원본 JSON 또는 예외
+  Note over Service: JSON 형식·message 타입과 빈 값 검증
   alt 정상
     Service-->>VM: greeting 문자열
     VM-->>View: loaded + notifyListeners
@@ -178,13 +194,21 @@ sequenceDiagram
 
 DI·View·ViewModel·Service만으로 작은 앱 흐름을 보이기 위해 상태관리·DI 라이브러리나 Repository 계층을 추가하지 않았다. 외부 데이터·캐시·여러 화면이 생기면 그 필요에 맞춰 계약과 계층을 확장한다. 구조는 Flutter [앱 아키텍처 가이드](https://docs.flutter.dev/app-architecture/guide)의 View/ViewModel/Data 분리를 참고하되, 이 샘플에 없는 구성 요소는 만들지 않았다.
 
+## 리소스·API 예시
+
+`lib/resource/greeting.json`은 앱과 함께 배포하는 공개 데이터입니다. `pubspec.yaml`의 `flutter.assets`에 등록하며 비밀값·변경 가능한 사용자 데이터를 넣지 않습니다. 자산 추가 후 Pub 복원·재빌드로 번들에 반영합니다.
+
+DI가 `rootBundle`을 GreetingApi에 주입하고 API는 문자열 읽기만 맡습니다. AssetGreetingService가 JSON과 비어 있지 않은 message를 검증하고 ViewModel은 실패를 기존 오류 상태로 바꿉니다. 파일 누락·잘못된 JSON·message 오류를 기본값으로 숨기지 않습니다. 테스트는 메모리 AssetBundle과 실제 번들을 각각 사용합니다. 원격 HTTP 요청·네이티브 채널 예시는 아닙니다.
+
+[Flutter 자산 등록·읽기](https://docs.flutter.dev/ui/assets/assets-and-images) · [AssetBundle.loadString](https://api.flutter.dev/flutter/services/AssetBundle/loadString.html).
+
 # 5. 기능 작성 방식
 
 1. 화면 요구와 상태(초기·진행·성공·실패)를 정한다.
-2. 화면별 `features/<feature>/presentation/<feature>_view_model.dart`에서 상태·동작을 만든다. 외부 데이터를 가져와 변환해야 할 때만 Service 계약을 `data/`에 둔다.
-3. `presentation/<feature>_view.dart`는 ViewModel을 받아 렌더링하고 동작을 전달한다. 비즈니스·I/O를 넣지 않는다.
-4. `core/di/app_dependencies.dart`가 의존 객체를 생성·주입하고 수명 해제를 맡는다.
-5. `test/features/<feature>/presentation/`에 ViewModel 상태 테스트와 사용자 입력을 포함하는 위젯 테스트를 추가한다.
+2. 화면별 `scenes/<scene>/<scene>_view_model.dart`에서 상태·동작을 만든다. Service·Model은 같은 scene 폴더에 두고 외부 연결만 `apis/`로 분리한다.
+3. `scenes/<scene>/<scene>_scene.dart`는 ViewModel을 받아 렌더링하고 동작을 전달한다. 비즈니스·I/O를 넣지 않는다.
+4. `core/app_dependencies.dart`가 의존 객체를 생성·주입하고 수명 해제를 맡는다.
+5. `test/scenes/<scene>/`에 ViewModel 상태 테스트와 사용자 입력을 포함하는 위젯 테스트를 추가한다.
 6. `fvm flutter analyze`, `fvm flutter test`와 필요한 플랫폼 실행을 하고 이 설명서의 파일·흐름·검증표를 갱신한다.
 
 # 6. 설치·실행·검증
@@ -246,7 +270,7 @@ Android debug APK는 `fvm flutter build apk --debug`로 만든다. Android SDK·
 
 # 7. 보안·변경 경계
 
-- 기본 Service는 고정된 문자열만 반환한다. 원격 통신·인증·영구 저장·권한이 없으므로 이를 추가했다면 새로운 신뢰 경계와 검증을 설계한다.
+- 기본 Service는 번들 JSON의 message를 검증해 반환한다. 원격 통신·인증·영구 저장·권한이 없으므로 이를 추가했다면 새로운 신뢰 경계와 검증을 설계한다.
 - 사용자 표시 오류에는 예외 상세를 포함하지 않는다. 비밀값·서명 키·개인 SDK 경로를 코드·공유 설정·로그에 넣지 않는다.
 - Android `applicationId`·`namespace`, Kotlin package, iOS `PRODUCT_BUNDLE_IDENTIFIER`와 표시 이름은 제품 고유 값으로 바꾼다. 앱 서명·스토어 배포는 범위 밖이다.
 - Flutter 생성 아이콘·시작 화면 리소스는 샘플 템플릿 자산이다. 제품 브랜딩으로 교체하고 플랫폼 자산의 라이선스·고지를 확인한다. Flutter SDK는 [BSD 라이선스](https://github.com/flutter/flutter/blob/3.35.7/LICENSE)를 포함한다.
@@ -265,6 +289,10 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 # 9. 예외·검증 결과와 요구사항 대조표
 
 ## 검증 환경·한계
+
+- 2026-11-04 resource·apis 추가 후 임시 복사본에서 오프라인 Pub 복원, 정적 분석(No issues found), 테스트 6개를 통과했다. 실제 번들 읽기와 API·Service의 JSON·message 검증을 포함한다.
+
+- 2026-11-04 core·scenes 구조 변경 후 임시 독립 복사본에서 Flutter 3.35.7로 오프라인 Pub 복원, 정적 분석(No issues found), 테스트 3개 통과를 확인했다. 앱의 네이티브 빌드·실기기 실행은 수행하지 않았다.
 
 - 확인일 2026-11-02. macOS 13.7.8 x86_64, Flutter 3.35.7, Dart 3.9.2, Android Studio 설치본의 JBR 25.0.4. 아래 실행 검사는 당시 Android 설정에 대한 기록이다.
 - 공식 Flutter CLI로 Android/iOS 샘플 프로젝트를 만들었다. 공식 archive 다운로드 MD5는 응답 `x-goog-hash` 값과 일치했다. Pub 의존성은 임시 캐시의 기존 패키지만 사용해 `flutter pub get --offline`을 수행했다.
@@ -297,7 +325,7 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 | 버전·의존 관리 | `.fvmrc`, `pubspec.yaml`, `pubspec.lock`, 설명서 2·6절 | Flutter 3.35.7 pub 복원 후 분석·테스트 통과 | 충족 |
 | 독립 복사·의존 복원 | 샘플 README·설명서 8절 | 유형 폴더 임시 복사본에서 `flutter pub get --offline` 통과 | 충족 |
 | FVM `.fvmrc` SDK 선택 | `.fvmrc`·샘플 README | JSON 구조·버전 문자열 확인; FVM 실행 자체는 이 작업에서 미검증 | 미검증 |
-| 상태·위젯 테스트 | 샘플 `test/` | 독립 복사본 `flutter test --no-pub`, 3개 통과 | 충족 |
+| 상태·위젯 테스트 | 샘플 `test/` | 독립 복사본 `flutter test --no-pub`, 리소스·API 포함 6개 통과 | 충족 |
 | 정적 분석 | `analysis_options.yaml`, `pubspec.yaml` | 독립 복사본 `flutter analyze`, No issues | 충족 |
 | 앱 실행·종료 | 샘플 README 3절 | Android/iOS 기기·시뮬레이터를 실행하지 않아 앱 구동과 Ctrl+C 종료 미검증 | 미검증 |
 | Android APK 빌드·실기기 | `android/`, 샘플 README | 별도 작업 위치에서 주신 조합 정상 확인; 이 저장소 사본 빌드 미실행 | 이 사본 미검증 |
@@ -308,7 +336,7 @@ FVM에서 읽은 `.fvmrc`가 3.35.7을 설치·선택하는지 `fvm flutter --ve
 ## 독립 복사본 실행 기록
 
 - 유형 폴더 전체를 `/private/tmp/mobile-app-package-check`로 복사했다. 이 임시 복사본의 샘플 루트에서 `flutter pub get --offline`, `flutter test --no-pub`(3개), `flutter analyze`를 실행해 모두 통과했다. Flutter SDK·Pub cache는 임시 경로를 사용했고 샘플은 상위 저장소 파일 없이 복원됐다.
-- 샘플에서 Git에 포함할 76개 파일 경로가 3절 역할 표에 모두 기록됐는지 대조했다. JSON 3개, XML·plist 설정 파일 파싱, Flutter Pub manifest/lock 복원이 통과했다. Mermaid 도식 원문을 코드 관계와 대조했으며 실제 렌더링은 미검증이다.
+- 당시 샘플에서 Git에 포함할 76개 파일 경로가 3절 역할 표에 모두 기록됐는지 대조했다. JSON 3개, XML·plist 설정 파일 파싱, Flutter Pub manifest/lock 복원이 통과했다. Mermaid 도식 원문을 코드 관계와 대조했으며 실제 렌더링은 미검증이다.
 - Flutter 생성 파일·local.properties·빌드·`.dart_tool` 결과는 Git에 포함되지 않게 정리했다. Android Studio·VS Code GUI, Android APK/기기 실행·종료, iOS/Xcode 빌드는 실행하지 않았다.
 
 ## 라이선스

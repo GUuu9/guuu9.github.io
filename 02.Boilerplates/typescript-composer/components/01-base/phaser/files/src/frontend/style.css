@@ -1,0 +1,4 @@
+body { margin: 0; padding: 24px; color: #e5e7eb; background: #101827; font-family: sans-serif; }
+main { max-width: 800px; margin: auto; }
+#game { width: 100%; max-width: 640px; }
+button { padding: 8px 16px; }

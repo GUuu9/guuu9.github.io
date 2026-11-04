@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app.dart';
-import 'core/di/app_dependencies.dart';
+import 'core/app.dart';
+import 'core/app_dependencies.dart';
 
 void main() {
   runApp(MobileApp(dependencies: createAppDependencies()));

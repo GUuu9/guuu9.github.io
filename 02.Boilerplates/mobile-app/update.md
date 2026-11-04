@@ -1,5 +1,17 @@
-<!-- version: v1.16.0 -->
+<!-- version: v1.18.0 -->
 # 갱신 이력
+
+## 2026-11-04 — resource·apis 실행 예시
+
+- 인사말을 resource/greeting.json으로 옮겨 Flutter 자산으로 등록하고 GreetingApi → AssetGreetingService → ViewModel → Scene으로 연결했습니다. DI가 AssetBundle을 주입하고 Service에서 JSON·message를 검증합니다.
+- 실제 번들을 읽는 위젯 테스트와 정상·잘못된 리소스 데이터를 검사하는 Service 테스트를 추가했습니다. 외부 서버·새 패키지는 사용하지 않습니다.
+- 임시 복사본에서 Flutter 3.35.7의 오프라인 Pub 복원·정적 분석(No issues found)·테스트 6개가 통과했습니다. 문서 링크·JSON·YAML·공백도 확인했으며 네이티브 빌드·기기 실행은 수행하지 않았습니다.
+
+## 2026-11-04 — core·scenes 구조로 통일
+
+- 참고 프로젝트의 lib 역할 배치를 따라 core에 앱·DI, scenes/greeting에 Scene·Model·ViewModel·Service를 배치했습니다. 외부 연결이 없는 현재 샘플에는 apis 구현을 추가하지 않았습니다.
+- GreetingView를 GreetingScene으로 바꾸고 import·테스트 경로·문서·구조도를 함께 갱신했습니다. 인사말 동작·주입·오류 처리·의존성은 유지합니다.
+- 임시 독립 복사본에서 기존 Flutter 3.35.7로 오프라인 pub 복원·정적 분석(No issues found)·테스트 3개 통과를 확인했습니다. 네이티브 빌드·실기기는 미검증입니다.
 
 ## 2026-11-04 — VS Code 중심 모바일 개발
 

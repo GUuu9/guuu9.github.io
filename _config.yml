@@ -25,6 +25,20 @@ include:
   - 04.Servers/**/README.md
 exclude:
   - issues
+  - 02.Boilerplates/typescript-composer/components/01-base/electron-backend/files
+  - 02.Boilerplates/typescript-composer/components/01-base/frontend/files
+  - 02.Boilerplates/typescript-composer/components/01-base/phaser/files
+  - 02.Boilerplates/typescript-composer/components/02-targets/backend-webui/files
+  - 02.Boilerplates/typescript-composer/components/02-targets/electron-app/files
+  - 02.Boilerplates/typescript-composer/components/02-targets/electron-phaser/files
+  - 02.Boilerplates/typescript-composer/components/02-targets/web-app/files
+  - 02.Boilerplates/typescript-composer/components/02-targets/web-phaser/files
+  - 02.Boilerplates/typescript-composer/components/03-features/communications/common/files
+  - 02.Boilerplates/typescript-composer/components/03-features/communications/mqtt/files
+  - 02.Boilerplates/typescript-composer/components/03-features/communications/socket-io/files
+  - 02.Boilerplates/typescript-composer/components/03-features/communications/tcp/files
+  - 02.Boilerplates/typescript-composer/components/03-features/communications/udp/files
+  - 02.Boilerplates/typescript-composer/components/03-features/services/game-persistence/files
 source_url: "https://github.com/GUuu9/guuu9.github.io/blob/main/"
 document_navigation:
   - title: "개발 환경·작업 가이드"
@@ -92,6 +106,97 @@ document_navigation:
         path: "02.Boilerplates/authoring-rules.md"
       - title: "샘플 보일러플레이트 반출 패키지 작성 요청문"
         path: "02.Boilerplates/project-request.md"
+      - title: "TypeScript Composer"
+        path: "02.Boilerplates/typescript-composer/"
+        children:
+          - title: "TypeScript Composer 시작"
+            path: "02.Boilerplates/typescript-composer/README.md"
+          - title: "시작 뼈대"
+            path: "02.Boilerplates/typescript-composer/typescript-backend/"
+            children:
+              - title: "뼈대 가져오기·실행"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/README.md"
+              - title: "Node 준비·기본 실행"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/docs/01-getting-started.md"
+              - title: "backend 구조·개발"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/docs/02-boilerplate.md"
+              - title: "HTTP 빌드·배포"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/docs/03-build-and-release.md"
+              - title: "뼈대 앱 작업 지침"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/project-agents.md"
+              - title: "뼈대 변경 이력"
+                path: "02.Boilerplates/typescript-composer/typescript-backend/update.md"
+          - title: "구성품"
+            path: "02.Boilerplates/typescript-composer/components/"
+            children:
+              - title: "구성품 선택·적용"
+                path: "02.Boilerplates/typescript-composer/components/README.md"
+              - title: "01 기본 구조"
+                path: "02.Boilerplates/typescript-composer/components/01-base/"
+                children:
+                  - title: "01 기본 구조 안내"
+                    path: "02.Boilerplates/typescript-composer/components/01-base/README.md"
+                  - title: "일반 웹 화면"
+                    path: "02.Boilerplates/typescript-composer/components/01-base/frontend/README.md"
+                  - title: "Phaser 게임 화면"
+                    path: "02.Boilerplates/typescript-composer/components/01-base/phaser/README.md"
+                  - title: "Electron Main·Preload·IPC"
+                    path: "02.Boilerplates/typescript-composer/components/01-base/electron-backend/README.md"
+              - title: "02 결과 형태"
+                path: "02.Boilerplates/typescript-composer/components/02-targets/"
+                children:
+                  - title: "02 결과 형태 안내"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/README.md"
+                  - title: "backend-webui 정적 제공"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/backend-webui/README.md"
+                  - title: "web-app 정적 웹"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/web-app/README.md"
+                  - title: "web-phaser 웹 게임"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/web-phaser/README.md"
+                  - title: "electron-app 일반 화면"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/electron-app/README.md"
+                  - title: "electron-phaser 게임 연결"
+                    path: "02.Boilerplates/typescript-composer/components/02-targets/electron-phaser/README.md"
+              - title: "03 선택 기능"
+                path: "02.Boilerplates/typescript-composer/components/03-features/"
+                children:
+                  - title: "선택 기능 안내"
+                    path: "02.Boilerplates/typescript-composer/components/03-features/README.md"
+                  - title: "통신"
+                    path: "02.Boilerplates/typescript-composer/components/03-features/communications/"
+                    children:
+                      - title: "공통 메시지"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/communications/common/README.md"
+                      - title: "TCP 연결"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/communications/tcp/README.md"
+                      - title: "UDP 연결"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/communications/udp/README.md"
+                      - title: "MQTT 연결"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/communications/mqtt/README.md"
+                      - title: "Socket.IO 연결"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/communications/socket-io/README.md"
+                  - title: "Service"
+                    path: "02.Boilerplates/typescript-composer/components/03-features/services/"
+                    children:
+                      - title: "Service 안내"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/services/README.md"
+                      - title: "게임 파일 저장 Service"
+                        path: "02.Boilerplates/typescript-composer/components/03-features/services/game-persistence/README.md"
+                  - title: "util 추가 기준"
+                    path: "02.Boilerplates/typescript-composer/components/03-features/utils/README.md"
+                  - title: "core 추가 기준"
+                    path: "02.Boilerplates/typescript-composer/components/03-features/core/README.md"
+          - title: "조합 설계"
+            path: "02.Boilerplates/typescript-composer/docs/"
+            children:
+              - title: "구성품·조합 설계"
+                path: "02.Boilerplates/typescript-composer/docs/01-composition-design.md"
+              - title: "목표별 연결 안내"
+                path: "02.Boilerplates/typescript-composer/docs/02-assembly-guide.md"
+          - title: "묶음 작업 지침"
+            path: "02.Boilerplates/typescript-composer/project-agents.md"
+          - title: "묶음 변경 이력"
+            path: "02.Boilerplates/typescript-composer/update.md"
       - title: "mobile-app"
         path: "02.Boilerplates/mobile-app/"
         children:
@@ -116,46 +221,6 @@ document_navigation:
             path: "02.Boilerplates/mobile-app/project-agents.md"
           - title: "갱신 이력"
             path: "02.Boilerplates/mobile-app/update.md"
-      - title: "server-wui"
-        path: "02.Boilerplates/server-wui/"
-        children:
-          - title: "Server-WUI 최소 보일러플레이트"
-            path: "02.Boilerplates/server-wui/README.md"
-          - title: "설명서 · docs"
-            path: "02.Boilerplates/server-wui/docs/"
-            children:
-              - title: "Server-WUI 프로젝트 설정·실행"
-                path: "02.Boilerplates/server-wui/docs/01-getting-started.md"
-              - title: "설치·실행·명령 안내"
-                path: "02.Boilerplates/server-wui/docs/02-running.md"
-              - title: "1. 적용 범위"
-                path: "02.Boilerplates/server-wui/docs/03-boilerplate.md"
-              - title: "Server-WUI 빌드·운영 배포"
-                path: "02.Boilerplates/server-wui/docs/04-build-and-release.md"
-          - title: "1. 샘플 범위"
-            path: "02.Boilerplates/server-wui/project-agents.md"
-          - title: "갱신 이력"
-            path: "02.Boilerplates/server-wui/update.md"
-      - title: "electron-phaser"
-        path: "02.Boilerplates/electron-phaser/"
-        children:
-          - title: "TypeScript · React · Phaser · Electron 게임 보일러플레이트"
-            path: "02.Boilerplates/electron-phaser/README.md"
-          - title: "설명서 · docs"
-            path: "02.Boilerplates/electron-phaser/docs/"
-            children:
-              - title: "Electron·Phaser 프로젝트 설정·실행"
-                path: "02.Boilerplates/electron-phaser/docs/01-getting-started.md"
-              - title: "설치·실행·명령 안내"
-                path: "02.Boilerplates/electron-phaser/docs/02-running.md"
-              - title: "로컬 전용 Electron React 최소 보일러플레이트"
-                path: "02.Boilerplates/electron-phaser/docs/03-boilerplate.md"
-              - title: "Electron·Phaser 패키징·배포"
-                path: "02.Boilerplates/electron-phaser/docs/04-build-and-release.md"
-          - title: "샘플 프로젝트 작업 지침"
-            path: "02.Boilerplates/electron-phaser/project-agents.md"
-          - title: "갱신 이력"
-            path: "02.Boilerplates/electron-phaser/update.md"
   - title: "Utilities"
     path: "03.Utilities/"
     children:

@@ -1,92 +1,33 @@
-# 재사용 샘플 보일러플레이트
+# 재사용 보일러플레이트
 
-기존 프로젝트에서 검증된 구조·명명·기능 작성 방식을 추출해 **최소 실행 샘플과 그 샘플의 문서·작업 지침**을 관리합니다. 원본 제품의 업무 규칙·전체 소스·프로젝트 문서를 보관하는 공간이 아닙니다.
+| 묶음 | 내용 | 시작 |
+| :--- | :--- | :--- |
+| [TypeScript Composer](./typescript-composer/README.md) | backend 뼈대 + 기본 구조·결과 형태·선택 기능 조합 | [구성품 적용 순서](./typescript-composer/components/README.md) |
+| [mobile-app](./mobile-app/README.md) | Flutter 모바일 앱, 별도 프로젝트 | [환경 설정·실행](./mobile-app/docs/01-getting-started.md) |
 
-- [작성 규칙](./authoring-rules.md)
-- [다른 프로젝트에 전달할 요청문](./project-request.md)
+[작성 규칙](./authoring-rules.md) · [다른 프로젝트에 전달할 요청문](./project-request.md)
 
 ## 특정 보일러플레이트만 내려받기
 
-다운로드 전에 [OS별 필수 설정](../00.Setup/OS_Dev_Setting.md)과 사용할 유형의 시작 가이드 0절에서 선행 도구를 확인합니다. macOS는 [개발 도구 선택·Xcode 라이선스·초기화](../01.Tools/xcode.md#설치-전-개발-도구-준비-순서)를 확인한 뒤 Git을 실행합니다. Command Line Tools만 쓰는 경우 전체 Xcode를 추가 설치할 필요는 없습니다.
+개인 PC에 Git을 준비합니다. macOS는 Git 사용 전에 Command Line Tools 또는 선택한 Xcode의 라이선스·최초 초기화를 확인합니다. [OS별 설정](../00.Setup/OS_Dev_Setting.md)에서 준비할 수 있습니다.
 
-Git의 partial clone과 sparse checkout을 함께 사용합니다. 아래는 server-wui 전체 패키지(문서·지침·실행 샘플)를 받는 예시이며 macOS·Linux 셸과 Windows PowerShell에서 같은 Git 명령을 사용할 수 있습니다. Git에 sparse-checkout 지원이 필요합니다.
+새 다운로드 폴더에서 실행합니다. Git의 partial clone·sparse checkout을 사용하며 실제 템플릿 변경이 원격에 push된 후 받을 수 있습니다.
 
-```sh
+```bash
 git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
 cd devguide-samples
-git sparse-checkout set 02.Boilerplates/server-wui
-cd 02.Boilerplates/server-wui
+git sparse-checkout set 02.Boilerplates/typescript-composer
+cd 02.Boilerplates/typescript-composer
 ```
 
-새 폴더 devguide-samples에서 진행하며 기존 프로젝트 안에서 실행하지 않습니다. 다운로드가 끝나면 아래 유형별 시작 가이드에서 새 프로젝트 복사·도구 설치·환경 선택·의존성 복원·실행을 순서대로 진행합니다.
+Windows PowerShell에서도 같은 Git 명령을 사용합니다. 모바일만 받으려면 선택 경로를 02.Boilerplates/mobile-app으로 바꿉니다. sparse checkout은 저장소의 상위 폴더 구조와 일부 상위 파일을 유지하며 유형 폴더를 다운로드 루트로 평탄화하지 않습니다.
 
-Git은 선택한 디렉터리 구조를 유지하므로 유형 폴더가 다운로드 폴더의 루트로 평탄화되지는 않습니다. 기본 cone 모드에서는 저장소 루트와 상위 디렉터리의 파일도 함께 보일 수 있습니다. 다른 유형의 하위 코드는 체크아웃하지 않습니다.
+## 가져온 뒤 진행
 
---depth 1은 가져올 이력을 줄이고 --filter=blob:none은 파일 본문을 필요할 때 받도록 요청합니다. 전체 저장소 메타데이터까지 유형별로 분리하는 기능은 아닙니다. 서버가 filter를 지원하지 않으면 전송량이 줄지 않을 수 있습니다.
+TypeScript Composer는 묶음을 보관하고 typescript-backend를 새 프로젝트로 내보냅니다. Node 설치·PATH·의존성 복원·기본 실행을 확인한 뒤 base·target·필요한 feature를 적용합니다. 실행은 새 프로젝트 안에서 합니다. [묶음 README](./typescript-composer/README.md)에 내보내기와 전체 순서가 있습니다.
 
-다른 유형을 받으려면 sparse-checkout set의 경로를 아래 표에서 선택합니다. 현재 실행 샘플이 있는 유형은 server-wui와 electron-phaser입니다. 원격 저장소에 해당 변경이 push된 이후에 받을 수 있습니다.
+모바일은 유형 폴더가 실행 프로젝트 루트입니다. 해당 README의 복사·도구 설치·환경 선택·의존성 복원·기기 실행 순서를 따릅니다. 실제 GUI·실기기·다른 OS의 검증 여부는 각 묶음 기록을 확인합니다.
 
-| 유형 | 선택 경로 | 현재 상태 |
-| :--- | :--- | :--- |
-| mobile-app | `02.Boilerplates/mobile-app` | Flutter DI·MVVM 샘플 포함, GUI·실기기 미검증 |
-| server | `02.Boilerplates/server` | 준비 중 |
-| server-wui | `02.Boilerplates/server-wui` | 실행 샘플 포함, 실제 브라우저·다른 OS 미검증 |
-| electron-app | `02.Boilerplates/electron-app` | 준비 중 |
-| electron-phaser | `02.Boilerplates/electron-phaser` | Electron·React·Phaser 로컬 게임, GUI·다른 OS 미검증 |
+## 작성·갱신
 
-다운로드 저장소 루트에서 `git sparse-checkout add 다른경로`로 추가할 수 있습니다. set은 선택 목록을 교체하므로 수정한 파일이 있다면 먼저 보존합니다. 갱신은 같은 저장소에서 변경 상태를 확인한 뒤 `git pull --ff-only`로 진행합니다.
-
-새 프로젝트로 시작하려면 받은 샘플의 내용물(숨김 파일 포함)을 별도 빈 디렉터리에 복사합니다. 원본 다운로드의 .git·node_modules·dist는 복사하지 않고 새 디렉터리에서 의존성을 복원합니다. 다운로드 저장소 자체를 새 프로젝트로 착각해 origin에 push하지 않습니다. 지침·설명서 적용은 유형 README를 따릅니다.
-
-공식 참고: [git clone](https://git-scm.com/docs/git-clone), [git sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
-
-## 처음 실행하는 순서
-
-| 유형 | 시작 문서 | 진행 흐름 |
-| :--- | :--- | :--- |
-| mobile-app | [가져오기부터 실행](./mobile-app/docs/01-getting-started.md) | 받기·복사 → FVM·Flutter → 필요한 플랫폼 설치 → 프로젝트 환경 → 복원·기기 실행 |
-| server-wui | [가져오기부터 실행](./server-wui/docs/01-getting-started.md) | 받기·복사 → Node 환경 → npm ci → 검사·빌드 → 서버·화면 실행 |
-| electron-phaser | [가져오기부터 실행](./electron-phaser/docs/01-getting-started.md) | 받기·복사 → Node·GUI 환경 → npm ci → 검사·빌드 → Electron 실행 |
-
-server·electron-app은 아직 준비 중입니다. 빈 폴더에 실행 가이드를 만들거나 실행 가능한 샘플처럼 안내하지 않습니다. 처음 읽는 문서는 다운로드에서 종료·검증까지 이어져야 하며 구조·아키텍처·갱신 이력은 그 이후의 참고 자료로 배치합니다.
-
-## 만들고 가져오는 방법
-
-원본 프로젝트에서 boilerplate-export/유형명/ 안에만 결과를 작성합니다. 완료 후 유형명 폴더 하나를 이 저장소의 02.Boilerplates/ 아래로 복사합니다. 문서·샘플은 폴더 밖 원본 프로젝트에 의존하지 않고 복사 후 그대로 사용돼야 합니다.
-
-```text
-유형명/
-├── README.md
-├── update.md
-├── project-agents.md
-├── docs/
-│   └── NN-boilerplate.md
-├── 버전·의존성·잠금·실행 설정
-└── 실제 소스·테스트
-```
-
-| 파일 | 책임 |
-| :--- | :--- |
-| README.md | 샘플 소개·구조·버전·빠른 시작·기능 추가 방식·문서 안내 |
-| update.md | 날짜·변경 이유·버전 전후·적용/복귀·검증 이력 |
-| project-agents.md | 샘플을 수정하는 에이전트의 규칙. 새 프로젝트 적용 시 AGENTS.md로 사용 |
-| docs/NN-boilerplate.md | 전체 직접 관리 폴더·파일의 이름·역할·주요 구성·연결, 상세 개발·재사용 방법 |
-| 유형 루트 | 독립 복사해 실행·테스트할 수 있는 최소 프로젝트 |
-
-project-agents.md는 이 문서 저장소에 자동 적용되는 지침이 아닙니다. 새 프로젝트로 사용할 때는 샘플 코드·필요한 문서 배치 후 지침을 AGENTS.md로 복사하고 링크를 실제 배치에 맞춥니다.
-
-## 유형
-
-| 유형 | 범위 |
-| :--- | :--- |
-| [mobile-app](./mobile-app/README.md) | Flutter 모바일 앱 |
-| [server](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/server) | 독립 TypeScript 서버 |
-| [server-wui](./server-wui/README.md) | TypeScript 서버 + React 웹 UI |
-| [electron-app](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/electron-app) | Electron + React + TypeScript 앱 |
-| [electron-phaser](./electron-phaser/README.md) | Electron + React + Phaser 로컬 게임·점수 저장 |
-
-mobile-app·server-wui·electron-phaser에는 실행 샘플이 있으며, server와 electron-app은 준비 단계입니다. mobile-app은 Android/iOS GUI·실기기가 미검증이며 새 반출본은 검증 후 반입합니다.
-
-각 실행 샘플의 갱신 이력은 [mobile-app/update.md](mobile-app/update.md), [server-wui/update.md](server-wui/update.md), [electron-phaser/update.md](electron-phaser/update.md)에 기록합니다. 앞으로의 작성·갱신 기준은 [작성 규칙 10절](authoring-rules.md#10-updatemd-갱신-이력)을 따릅니다.
-
-유형 폴더 자체를 실행 가능한 프로젝트 루트로 사용합니다. 소스·버전·잠금·실행 설정은 README·docs와 같은 루트에 두며 중첩된 boilerplates/minimal 폴더를 만들지 않습니다. 폴더 이름만 바꿔 실행할 수 있도록 절대 경로와 유형 폴더명 의존을 제거합니다. 패키지 이름·앱 식별자·저장 데이터 경로를 변경할 때 필요한 파일과 영향은 시작 가이드에 명시합니다.
+반출 패키지는 README·project-agents·update·docs와 실행 소스/구성품을 포함합니다. 기존 독립 backend·웹 UI·Electron 유형은 Composer의 뼈대와 조합으로 관리합니다. 완성 프로젝트는 외부 구성품이나 저장소 Setup·Tools에 의존하지 않습니다. 공통 변경은 [Composer 이력](./typescript-composer/update.md), 모바일 변경은 [모바일 이력](./mobile-app/update.md)에 기록합니다.

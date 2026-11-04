@@ -7,10 +7,12 @@
 
 1. 작업 범위와 결과 폴더
 - 적용 AGENTS와 git status를 먼저 확인하고 사용자 변경을 보존해줘.
-- 원본 유형을 mobile-app, server, server-wui, electron-app, electron-phaser 중 실제 구현에 맞게 선택해줘. 불명확하면 조사 후 필요한 부분만 질문해줘.
-- 결과는 원본 프로젝트의 boilerplate-export/유형명/ 안에만 작성해줘. 예: boilerplate-export/server-wui/.
+- 원본 유형을 mobile-app 또는 typescript-composer 중 선택해줘. TypeScript 계열은 기존 Composer 뼈대·구성품과 비교해 필요한 base·target·feature 단위로 작성해줘. 불명확하면 조사 후 필요한 부분만 질문해줘.
+- 결과는 원본 프로젝트의 boilerplate-export/유형명/ 안에만 작성해줘. 예: boilerplate-export/typescript-composer/.
 - 원본 루트 README·AGENTS·소스·의존성·잠금 파일·워크스페이스·배포 설정은 수정하지 마. 기존 반출 폴더가 있으면 작업 내용을 확인하고 그 안에서 갱신해줘.
 - 완료 후 유형명 폴더 하나만 문서 저장소의 02.Boilerplates/ 아래로 복사할 거야. 복사 후 파일 수정·경로 변경 없이 사용할 수 있게 해줘.
+
+조립형은 typescript-backend와 components/01-base·02-targets·03-features를 한 묶음으로 보관하고 선택 구성품을 새 프로젝트에 반입해 실행하도록 해줘. 공통 README·project-agents·update·docs와 개별 구성품 files를 함께 제공해줘.
 
 2. 산출물 구조
 boilerplate-export/유형명/
@@ -55,7 +57,7 @@ boilerplate-export/유형명/
 6. 최소 실행·테스트
 - 샘플 폴더만 별도 위치로 복사해도 설치·실행·테스트할 수 있게 해줘. 상위 소스·node_modules·개인 경로·운영 DB·제품 자격증명에 의존하지 마.
 - 버전 파일·manifest·실제 도구로 생성한 lockfile을 포함하고 설치 결과·캐시·빌드 결과는 반출하지 마. 불필요한 생성기·설정 옵션·빈 계층·TODO는 넣지 마.
-- server는 정상/잘못된 요청, server-wui는 UI→서버→결과·오류 표시, mobile은 화면·상태 변화, electron은 renderer→preload/IPC→main의 핵심 흐름 하나를 실제로 구현해줘.
+- backend 뼈대는 정상/잘못된 요청, Composer의 backend-webui는 UI→서버→결과·오류 표시, mobile은 화면·상태 변화, electron은 renderer→preload/IPC→main의 핵심 흐름 하나를 실제로 구현해줘.
 - 의미 있는 작은 테스트를 포함해줘. 원본에 테스트 스크립트가 없어도 샘플에는 실제 검증 명령을 제공해줘. 샘플의 보안·입력 검증을 실행 편의를 위해 생략하지 마.
 - 서버+UI는 하나의 시작 명령 또는 두 터미널 실행 순서와 종료 방법을 제공해줘. 포트 충돌 시 변경할 설정과 연동 프록시도 함께 안내해줘.
 
@@ -72,7 +74,7 @@ boilerplate-export/유형명/
 
 ## 빌드·배포 문서 추가 기준
 
-실행 가능한 유형에는 읽기 순서에 맞는 docs/NN-build-and-release.md를 포함하고 README·시작 가이드·작업 지침에서 연결해줘. mobile-app은 Android AAB·서명·Play와 iOS archive/IPA·App Store Connect, Electron은 OS별 패키징·서명·스토어/직접 배포, server-wui는 서버·웹 산출물·운영 설정·배포·확인·복귀로 구분해줘. 식별자·앱/빌드번호·의존성 잠금·산출물 경로·계정 선행 조건·데이터/비밀 보관·업데이트·복구와 공식 근거를 기록해줘. 현재 없는 배포 설정·명령은 구현된 것으로 표현하지 말고 실제 수행하지 않은 패키징·업로드·외부 배포는 미검증으로 남겨줘. 다운로드·복사는 유형 README에 두고 docs는 가져온 프로젝트에서 시작해 설치·PATH·버전 선택·확인·실행을 직접 안내해줘. Setup·Tools 등 패키지 밖 문서에 의존하지 말고 공식 링크는 다운로드와 근거 확인용으로 사용해줘. 이 문서 작성만을 위해 배포 의존성·서명 키·원격 서비스를 새로 만들지 마.
+실행 가능한 유형에는 읽기 순서에 맞는 docs/NN-build-and-release.md를 포함하고 README·시작 가이드·작업 지침에서 연결해줘. mobile-app은 Android AAB·서명·Play와 iOS archive/IPA·App Store Connect, Electron은 OS별 패키징·서명·스토어/직접 배포, Composer의 backend-webui는 서버·웹 산출물·운영 설정·배포·확인·복귀로 구분해줘. 식별자·앱/빌드번호·의존성 잠금·산출물 경로·계정 선행 조건·데이터/비밀 보관·업데이트·복구와 공식 근거를 기록해줘. 현재 없는 배포 설정·명령은 구현된 것으로 표현하지 말고 실제 수행하지 않은 패키징·업로드·외부 배포는 미검증으로 남겨줘. 다운로드·복사는 유형 README에 두고 docs는 가져온 프로젝트에서 시작해 설치·PATH·버전 선택·확인·실행을 직접 안내해줘. Setup·Tools 등 패키지 밖 문서에 의존하지 말고 공식 링크는 다운로드와 근거 확인용으로 사용해줘. 이 문서 작성만을 위해 배포 의존성·서명 키·원격 서비스를 새로 만들지 마.
 
 각 유형의 시작 가이드에는 다운로드 전에 선행 도구 표를 두고 공통 필수·조건부 필수·선택, 준비 순서와 완료 확인을 기록해줘. 특히 macOS는 Git clone·Homebrew·nvm 설치 전에 CLT 설치 또는 실제 선택한 전체 Xcode의 라이선스·최초 초기화를 확인하게 해줘. 같은 조건을 샘플 단독 README에도 남기고, 직접 실행에 필요 없는 전체 Xcode·SDK·DB 등을 일괄 설치하지 않게 해줘.
 

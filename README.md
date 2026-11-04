@@ -47,11 +47,9 @@
 
 [특정 유형만 Git으로 내려받기](./02.Boilerplates/README.md#특정-보일러플레이트만-내려받기)
 
-[mobile-app](./02.Boilerplates/mobile-app/README.md) · [server-wui](./02.Boilerplates/server-wui/README.md) · [electron-phaser](./02.Boilerplates/electron-phaser/README.md)
+[TypeScript Composer](./02.Boilerplates/typescript-composer/README.md) · [mobile-app](./02.Boilerplates/mobile-app/README.md)
 
-준비 중인 [server](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/server)·[electron-app](https://github.com/GUuu9/guuu9.github.io/tree/main/02.Boilerplates/electron-app)은 GitHub 폴더에서 확인합니다.
-
-[작성 규칙](./02.Boilerplates/authoring-rules.md)과 [프로젝트에 전달할 요청문](./02.Boilerplates/project-request.md)에 따라 기존 프로젝트에서 재사용할 샘플의 규칙을 추출합니다. 원본의 별도 반출 폴더 하나에 문서·지침·실행 샘플을 담아 가져옵니다. [산출물·유형 안내](./02.Boilerplates/README.md)를 참고합니다. 현재 mobile-app·server-wui·electron-phaser의 실행 샘플·시작 가이드·설명서·작업 지침을 제공합니다. server·electron-app은 준비 중입니다.
+TypeScript Composer는 backend 뼈대에 웹 UI·Phaser·Electron과 통신·Service를 조합하는 하나의 묶음입니다. 모바일은 별도 유형으로 관리합니다. [작성 규칙](./02.Boilerplates/authoring-rules.md)과 [반출 요청문](./02.Boilerplates/project-request.md)을 따릅니다.
 
 ## 03.Utilities — 편의 앱
 
