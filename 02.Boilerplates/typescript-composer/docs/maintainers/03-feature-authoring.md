@@ -1,4 +1,4 @@
-<!-- version: v1.1.1 -->
+<!-- version: v1.2.0 -->
 # Feature 작성 규칙
 
 이 문서는 TypeScript Composer의 feature를 추가·수정하는 관리자와 AI가 따르는 기준입니다. 사용자는 루트의 compose 명령으로 선택하며, 생성 후 DI·import·설정 등록을 수동으로 고쳐야 하는 상태는 완료로 보지 않습니다. 실제 제품의 업무 로직 작성은 별개입니다.
@@ -153,3 +153,7 @@ test('Label formatter trims surrounding spaces', () => {
 feature 명령은 로컬 .composer/catalog로 새 조합을 재현하고 기존 생성 기준과 비교합니다. 사용자 변경이 있는 갱신 대상은 거부하며 기존 활성 기능을 유지합니다. 전체 사용자 파일을 강제로 교체하거나 충돌 검사를 우회하지 않습니다. .composer의 원본·상태·명령 스크립트도 반출 계약에 포함합니다.
 
 완료 검사에는 생성 후 추가·복수 순차 추가·중복 호출·DI 등 자동 연결·사용자 수정 보존/충돌 중단·검사 실패 시 소스/manifest/lock/상태 복구·미지원 target 거부를 포함합니다. 실제 npm install·check·test·build와 관련 실행도 별도로 확인하고 모의 npm 검사와 구분해 기록합니다. 의존성 설치 스크립트·node_modules·빌드 결과의 부작용은 rollback으로 복원된다고 설명하지 않습니다.
+
+## 버전·호환성 등록
+
+새 기능과 변경 기능은 [버전·업데이트 규칙](./04-version-and-update-policy.md)에 따라 기능 ID·구현 버전·용도·지원 target·선행/충돌 버전·패키지·데이터 계약을 등록합니다. 기능 버전과 문서 version을 구분하고 단독·복수 feature 조합의 실제 검증과 미검증 범위를 기록합니다. 보안/지원 변경은 권고 근거·이행·복귀도 함께 기록합니다.

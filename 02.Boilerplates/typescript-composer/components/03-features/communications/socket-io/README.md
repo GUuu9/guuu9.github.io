@@ -1,4 +1,4 @@
-<!-- version: v0.1.0 -->
+<!-- version: v0.2.0 -->
 # Socket.IO 통신 구성품
 
 기준 뼈대에 Socket.IO 서버를 추가합니다. HTTP 서버에 연결해 polling·WebSocket 이벤트를 받고 같은 GreetingUsecase를 호출합니다. Socket.IO 전용 client가 필요하며 일반 WebSocket client와 직접 호환되지 않습니다. 통신 공통 메시지 구성품은 필수가 아닙니다. 여기서는 Socket.IO의 객체 입력을 기존 parseName으로 직접 검증합니다.
@@ -86,3 +86,7 @@ README·project-agents.md·update.md에 추가한 포트·Origin·이벤트·실
 macOS 13.7.8 x64·Node 24.22.1의 새 임시 프로젝트에 기준 뼈대와 files를 복사하고 Socket.IO/server client 4.8.4를 설치했습니다. 타입 검사·빌드, 기존 테스트 3개와 Socket.IO 통합 테스트 2개를 통과했습니다. 실제 polling·WebSocket ack 왕복, 허용/거부 Origin, 잘못된 입력·크기 제한·내부 오류 상세 비노출·응답 callback 누락·HTTP API 유지·client 정리를 확인했습니다.
 
 빌드된 별도 진입점의 HTTP 정상/404·포트 충돌·SIGINT/SIGTERM 종료도 확인했습니다. npm 설치 감사는 0건이었고 기존 esbuild·fsevents 설치 스크립트 미승인 경고는 남았습니다. 실제 브라우저·역방향 프록시·TLS·로그인·다중 노드·부하·Windows/Linux는 미검증입니다.
+
+## 기능 버전
+
+구현·연결 계약 초기 관리 버전: 0.1.0 (2026-11-05). 문서 version과 별개이며 전체 조합 검증 완료를 뜻하지 않습니다. 변경 시 Composer의 버전·업데이트 규칙에 따라 변경점·호환 조건·검증·이행/복귀를 함께 기록합니다.

@@ -1,4 +1,4 @@
-<!-- version: v2.3.0 -->
+<!-- version: v2.4.0 -->
 # TypeScript Composer 작업 지침
 
 이 묶음 전체를 관리하는 프로젝트에서는 이 파일을 AGENTS.md로 사용합니다. 생성된 앱에서는 생성기가 출력한 AGENTS.md를 따릅니다. 이 묶음의 관리 지침을 앱 작업 지침으로 복사하지 않습니다.
@@ -7,6 +7,7 @@
 
 묶음은 typescript-backend·components·docs로 구성됩니다. 묶음 루트는 실행 프로젝트가 아닙니다. typescript-backend에서 형태·프로젝트명으로 npm run compose를 호출하고(묶음 루트 별칭도 지원), 새 프로젝트는 항상 Composer 바로 아래에 생성합니다. 출력 폴더에서 설치·실행합니다. 생성기 변경 시 npm run test:compose와 실제 조합 검사를 수행합니다. [구성품 목록](./components/README.md)·[설계](./docs/maintainers/01-composition-design.md)·[연결 안내](./docs/maintainers/02-assembly-guide.md)를 먼저 확인합니다.
 
+보안·지원 종료·버전/호환성 변경은 [버전·업데이트 규칙](./docs/maintainers/04-version-and-update-policy.md)을 먼저 읽고 feature 목록·검증 조합·복귀 기록을 함께 갱신합니다.
 
 ## 작업별 읽기 순서
 

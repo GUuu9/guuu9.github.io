@@ -1,4 +1,4 @@
-<!-- version: v3.0.0 -->
+<!-- version: v3.1.0 -->
 # TypeScript Server 보일러플레이트
 
 Express HTTP API를 제공하는 기본 서버입니다. 진입점·core 조립·기능별 Bridge/Usecase·Service 경계를 유지합니다. Electron의 IPC·Preload·BrowserWindow는 전송 방식에 붙는 구성이라 이 HTTP 서버에는 포함하지 않습니다. UI·DB·인증·TLS·배포 자동화는 없습니다.
@@ -79,3 +79,5 @@ Expand-Archive -Path $PackageZip -DestinationPath $ProjectDir
 ```
 
 내보낸 파일을 확인한 뒤 만든 임시 ZIP만 삭제합니다. 새 폴더에서 [시작 가이드](docs/01-getting-started.md)를 진행합니다.
+
+보안·지원 종료·버전 업데이트는 [버전 관리](./docs/04-version-management.md)를 따릅니다.
