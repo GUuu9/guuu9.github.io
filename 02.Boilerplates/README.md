@@ -9,7 +9,7 @@ Composer 코드·구성품·상세 개발 규칙·변경 이력은 각 독립 �
 
 ## 특정 보일러플레이트만 내려받기
 
-Git·Node/npm을 준비합니다. macOS는 Git·Homebrew·nvm 전에 선택한 CLT 또는 전체 Xcode의 라이선스·최초 초기화를 완료합니다. 설치는 [OS별 설정](../00.Setup/OS_Dev_Setting.md)을 따릅니다. Windows는 D:\Developer 등 실제 데이터 드라이브의 작업 부모 폴더에서 시작합니다.
+Git·Node/npm을 준비합니다. macOS는 Git·Homebrew·nvm 전에 선택한 CLT 또는 전체 Xcode의 라이선스·최초 초기화를 완료합니다. 설치는 선택한 Composer의 [TypeScript 환경 준비](https://github.com/GUuu9/typescript-composer/blob/main/typescript-backend/docs/01-getting-started.md) 또는 [Flutter 환경 준비](https://github.com/GUuu9/flutter-composer/blob/main/flutter-mobile-application/docs/01-getting-started.md)를 따릅니다. Windows는 D:\Developer 등 실제 데이터 드라이브의 작업 부모 폴더에서 시작합니다.
 
 필요한 Composer 하나만 선택해 받습니다. 같은 이름의 폴더가 이미 있으면 덮어쓰지 말고 기존 저장소의 remote/status를 먼저 확인합니다.
 
@@ -37,7 +37,15 @@ Bash·PowerShell에서 같은 Git/npm 명령을 사용합니다. clone한 폴더
 2. 생성 앱 폴더로 이동해 앱 내부 README의 도구/SDK·환경·의존성을 준비합니다.
 3. 앱의 npm run help로 확인한 기능을 feature add로 활성화하고 실행·검사합니다.
 
-앱은 원본 Composer와 별도 저장소로 관리하고, 생성 앱을 Composer Git에 추가하지 않습니다. Composer를 갱신해도 개발 중인 앱은 자동 변경되지 않습니다.
+앱은 원본 Composer와 별도 저장소로 관리합니다. compose는 생성 성공 시 Composer 루트 .gitignore에 /프로젝트명/을 자동 등록합니다. 앱 폴더 안에서 별도로 git init·첫 커밋·remote 연결을 수행하고 Composer Git에는 앱을 추가하지 않습니다. 이미 추적 중인 파일은 ignore만 추가해도 제외되지 않습니다.
+
+## 생성 앱과 부모 Composer
+
+현재 두 Composer는 생성 앱을 해당 Composer 바로 아래에 두고 개발합니다. 구성품 원본을 앱의 .composer/catalog 또는 .composer/features에 복사하지 않습니다. TypeScript의 기능 추가는 부모의 typescript-backend·components를, Flutter는 components/03-features를 사용합니다. 앱 Git에는 .composer/state.json의 원본 해시·활성 기능·충돌 검사 상태와 도구 스크립트를 보관합니다.
+
+앱의 실행·빌드는 원본 Composer 없이 가능합니다. 기능 추가에는 생성 당시 부모 원본이 필요하며, 뼈대·구성품의 공개 파일과 문서를 포함한 원본 해시가 다르거나 원본이 없으면 중단합니다. 앱만 다른 위치로 옮기면 기능 추가는 사용할 수 없으며 Composer 전체를 상대 배치 그대로 옮기면 계속 사용할 수 있습니다.
+
+Composer를 갱신해도 앱은 자동 변경되지 않지만 후속 기능 추가는 해시 불일치로 중단될 수 있습니다. 갱신 전에 생성 당시 원본을 보존하고 원본 복원 또는 새 앱 생성·비교·이행으로 진행합니다. 기존 사본 방식 앱은 자동 전환하거나 .composer 사본을 삭제하지 않습니다. 세부 계약과 이행 절차는 각 Composer 내부 문서를 따릅니다.
 
 ## 전체 변경 확인·업데이트
 
@@ -68,7 +76,7 @@ npm run test:compose
 
 충돌·이력 분기로 실패하면 중단하고 변경을 비교합니다. 강제 reset·전체 덮어쓰기로 해결하지 않습니다. 기존 sparse/subtree·캐시 방식은 새 저장소에 재사용하지 않고 새 경로로 clone합니다.
 
-기존 앱에 업데이트를 반영하려면 각 Composer의 버전 관리 문서대로 이전 원본·새 원본·사용자 코드를 비교합니다. 앱의 코드·lock·catalog/state·데이터를 보존하며 이행·검증하고, Composer 갱신을 앱 업데이트 완료로 표시하지 않습니다.
+기존 앱에 업데이트를 반영하려면 각 Composer의 버전 관리 문서대로 이전 원본·새 원본·사용자 코드를 비교합니다. 앱의 코드·lock·원본 해시·상태·도구·데이터와 필요한 이전 Composer 원본을 보존하며 이행·검증합니다. 기존 사본 방식 앱은 catalog도 보존하며 state 해시만 고쳐 검사를 우회하지 않습니다. Composer 갱신을 앱 업데이트 완료로 표시하지 않습니다.
 
 ## 기존 Composer 확장
 
@@ -80,7 +88,3 @@ base·target·feature의 추가/수정은 해당 Composer 저장소 내부 작�
 - [작업 요청문](./project-request.md): 작업 유형·목적·언어/플랫폼·단독형/조립형·출력 위치를 정해 개발자/AI에게 전달
 
 추출 결과는 원본 프로젝트의 boilerplate-export/유형명/에, 신규 제작은 지정한 새 폴더에 작성합니다. 결과 코드는 별도 저장소에서 관리하며 이 안내 저장소에 복제하지 않습니다. 신규 제작을 기존 Composer 확장으로 강제하거나 단독형에 생성기를 필수화하지 않습니다.
-
-## 새 메인 작업 공간의 공통 지침
-
-[전달용 AGENTS.md](./AGENTS.md)를 Composer·개발 프로젝트를 모아 둔 새 메인 폴더의 AGENTS.md로 복사합니다. 메인 폴더는 Git으로 관리하지 않고 각 Composer·프로젝트가 별도 저장소라는 기준입니다. 공통 변경은 적용 대상을 정해 저장소별로 검사·커밋하며, 개별 개발은 해당 프로젝트의 내부 지침을 따릅니다. 이 파일은 전달용이며 현재 문서 저장소의 관리 지침을 대체하지 않습니다.

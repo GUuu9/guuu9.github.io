@@ -8,3 +8,7 @@
 /_site/
 /.jekyll-cache/
 /.sass-cache/
+
+# Composer는 각 폴더의 독립 Git 저장소에서 관리
+/02.Boilerplates/flutter-composer/
+/02.Boilerplates/typescript-composer/
