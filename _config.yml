@@ -92,6 +92,8 @@ document_navigation:
         path: "02.Boilerplates/authoring-rules.md"
       - title: "보일러플레이트 추출·신규 제작 요청문"
         path: "02.Boilerplates/project-request.md"
+      - title: "작업 공간 전달용 AGENTS.md"
+        path: "02.Boilerplates/AGENTS.md"
   - title: "Utilities"
     path: "03.Utilities/"
     children:
