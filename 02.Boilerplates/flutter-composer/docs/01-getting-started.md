@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # Flutter Composer 사용 순서
 
 이미 묶음을 복사한 위치에서 시작합니다. macOS는 아래 Node 설치 전에 [Apple 개발 도구 준비](../flutter-mobile-application/docs/01-getting-started.md#2-pc-기본-도구-준비)를 먼저 완료합니다. iOS를 개발하면 전체 Xcode·라이선스·최초 초기화를 먼저 수행합니다. 다른 OS는 Git을 준비합니다.
@@ -76,3 +76,7 @@ pub get → analyze → test → Android debug APK, macOS에서는 iOS simulator
 실패하면 추가 소스·pubspec/lock·활성 내역을 복구합니다. 빌드 결과·캐시·외부 설치 부작용은 복구 범위가 아닙니다. 변경 전 상태로 pub get과 빌드를 다시 확인합니다. .composer의 원본·버전·해시·활성 내역도 Git에 포함합니다. 기능 제거·버전 자동 갱신·target 전환은 지원하지 않습니다.
 
 작업이 비정상 종료되어 잠금이 남았다면 실행 중인 feature 프로세스가 없는지 먼저 확인합니다. Git diff와 상태/소스의 일관성을 확인·복구한 뒤 .composer/feature.lock만 정리하고 재시도합니다. 활성 작업의 잠금을 삭제하지 않습니다.
+
+## 보일러플레이트 업데이트
+
+원본 Git이 갱신돼도 개발 중인 앱에는 자동 반영되지 않습니다. [원본 갱신·앱 이행 절차](../flutter-mobile-application/docs/07-version-management.md#git에서-보일러플레이트가-갱신된-경우)를 따라 기존 앱을 보존하고 별도 위치에서 같은 구성을 생성·비교·검증합니다. catalog/state만 교체하거나 앱 폴더를 덮어쓰지 않습니다.

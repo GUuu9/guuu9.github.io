@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # 버전·보안·호환성 관리
 
 base·target·feature의 구현/연결 버전은 각각 compose.json에 기록합니다. sourceDigest는 반출 파일의 SHA-256 스냅샷 식별자이며 Git revision과 별개입니다. 앱 pubspec.version·Flutter/Dart·pub/native 패키지·문서 version은 서로 구분합니다.
@@ -21,3 +21,5 @@ base·target·feature의 구현/연결 버전은 각각 compose.json에 기록�
 기존 앱의 catalog/state·스크립트 자동 업데이트는 지원하지 않습니다. 새 원본으로 별도 앱을 생성해 비교·이행합니다. state 버전/해시만 바꿔 충돌 검사를 우회하지 않습니다. 실제 코드·lock·데이터·공유 설치 요소의 호환성을 확인합니다. 취약 버전 복귀는 노출 완화와 수정 재적용 계획이 필요합니다.
 
 공식 근거: [Flutter SDK 보관](https://docs.flutter.dev/install/archive), [Android 배포](https://docs.flutter.dev/deployment/android), [iOS 배포](https://docs.flutter.dev/deployment/ios), [Dart pub](https://dart.dev/tools/pub). 확인일 2026-11-05: 특정 현재 버전의 모든 보안/지원 조건을 재검증한 것은 아닙니다.
+
+기존 앱의 원본 반영은 [원본 갱신·앱 이행 절차](../../flutter-mobile-application/docs/07-version-management.md#git에서-보일러플레이트가-갱신된-경우)를 따릅니다. 부분 버그 수정과 catalog/연결 계약을 포함한 전체 이행을 구분하고 이전 원본·새 원본·사용자 코드의 차이를 보존합니다.

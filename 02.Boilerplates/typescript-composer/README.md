@@ -1,4 +1,4 @@
-<!-- version: v4.1.0 -->
+<!-- version: v4.2.0 -->
 # TypeScript Composer
 
 웹·데스크톱·게임·backend 프로젝트를 원하는 형태와 기능으로 생성합니다. **이 폴더 전체를 복사한 뒤 typescript-backend에서 형태와 프로젝트 이름을 입력합니다.**
@@ -88,3 +88,7 @@ npm run feature -- add tcp,udp,mqtt
 .composer/catalog는 구성품 원본, .composer/state.json은 활성화 내역과 생성 기준입니다. 모두 Git에 포함하고 임의 편집하지 않습니다. 최신 구성품을 자동 다운로드하지 않습니다. 연결 대상 파일에 사용자 수정이 있으면 덮어쓰지 않고 중단합니다.
 
 실패하면 변경 소스·package.json·lock·활성화 내역을 복구합니다. npm 설치 스크립트의 외부 작업, node_modules·빌드 산출물은 복구 범위 밖입니다. 실패 후 필요하면 npm ci와 build를 다시 수행합니다. 기능 제거 명령은 지원하지 않습니다.
+
+## 보일러플레이트 업데이트
+
+원본 Git이 갱신돼도 개발 중인 앱에는 자동 반영되지 않습니다. [원본 갱신·앱 이행 절차](./typescript-backend/docs/04-version-management.md#git에서-보일러플레이트가-갱신된-경우)를 따라 기존 앱을 보존하고 별도 위치에서 같은 구성을 생성·비교·검증합니다. catalog/state만 교체하거나 앱 폴더를 덮어쓰지 않습니다.

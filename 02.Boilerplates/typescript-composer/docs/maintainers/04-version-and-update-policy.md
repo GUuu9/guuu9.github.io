@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.0.1 -->
 # 버전·호환성·보안 업데이트 관리
 
 Composer·구성품을 유지보수하는 개발자와 AI의 규칙입니다. 앱 내부의 실제 업데이트는 [프로젝트 관리 절차](../../typescript-backend/docs/04-version-management.md)를 따릅니다. 자동 업데이트·취약점 검사 서비스는 이 규칙으로 설치되지 않습니다.
@@ -62,3 +62,5 @@ feature 버전은 major.minor.patch로 관리합니다. 오류 수정은 patch, 
 - [Node 릴리스·지원 정책](https://github.com/nodejs/Release)
 - [npm audit](https://docs.npmjs.com/cli/commands/npm-audit/)
 - [npm ci](https://docs.npmjs.com/cli/commands/npm-ci/)
+
+기존 앱의 원본 반영은 [원본 갱신·앱 이행 절차](../../typescript-backend/docs/04-version-management.md#git에서-보일러플레이트가-갱신된-경우)를 따릅니다. 부분 버그 수정과 catalog/연결 계약을 포함한 전체 이행을 구분하고 이전 원본·새 원본·사용자 코드의 차이를 보존합니다.

@@ -1,4 +1,4 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # Flutter Composer
 
 이 폴더 전체를 복사해 Android 전용·iOS 전용·공용 Flutter 앱을 생성합니다. 앱 개발은 VS Code, Android Studio는 가상 기기 관리에 사용합니다.
@@ -62,3 +62,7 @@ fvm flutter run -d 기기ID
 | counter | 0.1.0 | 메모리 상태·ViewModel·화면 샘플 |
 
 [사용자 가이드](docs/01-getting-started.md)에서 명령·충돌·복구를 확인합니다. 관리자/AI는 [작업 지침](project-agents.md)을 먼저 읽습니다. [검증 이력](update.md)은 실행·배포 여부를 구분합니다.
+
+## 보일러플레이트 업데이트
+
+원본 Git이 갱신돼도 개발 중인 앱에는 자동 반영되지 않습니다. [원본 갱신·앱 이행 절차](./flutter-mobile-application/docs/07-version-management.md#git에서-보일러플레이트가-갱신된-경우)를 따라 기존 앱을 보존하고 별도 위치에서 같은 구성을 생성·비교·검증합니다. catalog/state만 교체하거나 앱 폴더를 덮어쓰지 않습니다.
