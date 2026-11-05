@@ -45,6 +45,7 @@ test('three targets generate standalone named apps with only selected native roo
       assert.match(files.get('pubspec.yaml').toString(), new RegExp(`^name: ${name}`, 'm'));
       assert.match(files.get('test/app_test.dart').toString(), new RegExp(`package:${name}/`));
       assert.equal(files.get('AGENTS.md').toString(), files.get('project-agents.md').toString());
+      assert.match(files.get('AGENTS.md').toString(), /새 이력은 제목·소개 바로 아래 맨 위/);
       for (const [path, content] of files) {
         if (!path.endsWith('.md') || path.startsWith('.composer/')) continue;
         for (const [, link] of content.toString().matchAll(/\]\(([^)]+)\)/g)) {

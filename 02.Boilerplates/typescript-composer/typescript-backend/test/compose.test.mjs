@@ -36,6 +36,7 @@ test('All target presets create independent wired projects with matching package
       await access(join(output, 'AGENTS.md'));
       const instructions = await readFile(join(output, 'AGENTS.md'), 'utf8');
       assert.match(instructions, /작업별 읽기 순서/);
+      assert.match(instructions, /최신 변경을 제목·소개 바로 아래 맨 위/);
       for (const link of instructions.matchAll(/\]\(([^)#]+)(?:#[^)]*)?\)/g)) await access(resolve(output, link[1]));
       assert.equal(instructions, await readFile(join(output, 'project-agents.md'), 'utf8'));
 
