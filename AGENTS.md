@@ -25,7 +25,7 @@
 - macOS 초기 설정에서 보조 패키지 관리용 Homebrew를 먼저 준비합니다. 도구별 공식 권장 설치 방식을 우선합니다. macOS에서 공식 문서가 Homebrew를 권장하는 rbenv·ruby-build 등은 brew로 설치·갱신·제거하고, 독립 설치를 권장하거나 brew를 지원하지 않는 도구는 해당 공식 경로를 유지합니다. macOS의 별도 JDK는 Homebrew의 major별 formula로 관리합니다. 프로젝트별 JAVA_HOME으로 선택하고 공용 Java 링크·강제 link는 기본 절차에 넣지 않습니다. 같은 도구를 Homebrew와 중복 설치하지 않습니다. Intel은 최신 설치기의 제한과 과거 공식 설치기 절차를 구분하며 설치·패키지 지원을 보장하지 않습니다.
 - Setup은 OS별 최초 설정을 한 문서에서 빠르게 끝낼 수 있도록 설치 명령·필요한 PATH/환경 변수·설치 확인을 직접 제공합니다. 명령은 표 안의 인라인 코드 대신 `bash`·`powershell` 코드 블록에 둡니다. Tools는 일상 사용·버전 관리·업데이트·복귀·제거와 예외를 관리합니다. 설치 순서에 필요한 짧은 명령은 Setup에 중복해 적고, 자세한 절차만 Tools로 연결합니다. “복원”은 기존 프로젝트·백업 환경을 다시 준비하는 절차에만 사용합니다.
 - 미완성 내용·오류 메모는 `issues/`에 보관합니다. 해당 폴더의 README 외 파일은 Git에서 제외하며 강제로 추가하거나 정식 문서에서 개별 로컬 메모로 연결하지 않습니다. 해결·검증한 내용만 주제별 정식 문서에 반영합니다.
-- `02.Boilerplates`는 mobile-app·typescript-composer로 구분합니다. TypeScript 계열은 composer의 뼈대와 01-base·02-targets·03-features에서 관리합니다. 사용자가 자료 작성을 요청하기 전에는 준비된 빈 폴더를 임의로 채우지 않습니다.
+- `02.Boilerplates`는 flutter-composer·typescript-composer로 구분합니다. TypeScript 계열은 composer의 뼈대와 01-base·02-targets·03-features에서 관리합니다. 사용자가 자료 작성을 요청하기 전에는 준비된 빈 폴더를 임의로 채우지 않습니다.
 - 개발 PC·빌드/서버 OS와 서비스 사용자 OS를 구분하고 OS/CPU별 최소 버전·최대 지원 버전 또는 상한 미명시/미확정·실제 검증 최저/최고·고정 SDK/런타임 근거·확인일을 유형별 빌드·배포 문서에 기록합니다. 웹은 사용자 OS와 브라우저 버전도 구분합니다. 패키지 업데이트 시 범위를 재검토하고 미검증 값을 지원 보장으로 표시하지 않습니다.
 - 보일러플레이트의 `docs/` 파일은 `01-name.md` 형식으로 읽는 순서에 맞게 번호를 붙입니다. 시작·환경/플랫폼·구조/개발·배포 순서를 유형별로 정하고 문서 이동 시 내부 링크·유형 README·웹 메뉴를 함께 갱신합니다. 실행 가능한 유형은 이 순서의 `NN-build-and-release.md`에 산출물·패키징/서명·스토어 제출 또는 운영 배포·검증·보관·업데이트·복귀를 기록합니다. 설치 순서는 Setup, 공통 설치 명령은 Tools로 분리하고 현재 구현된 명령과 추가 준비 항목을 구분합니다. 로컬 빌드를 배포 성공으로 표현하지 않습니다.
 - 반출되는 보일러플레이트 docs는 가져온 프로젝트에서 시작하며 설치·PATH·버전 선택·설치 확인·실행 과정을 직접 제공합니다. Setup·Tools 등 패키지 밖 문서에 의존하지 않으며 다운로드·복사는 유형 README에 둡니다. 공식 링크는 다운로드·지원 조건·근거 확인용으로 사용합니다.
@@ -35,6 +35,7 @@
 - 보일러플레이트는 원본 프로젝트의 boilerplate-export/유형명/ 안에 독립 패키지로 작성합니다. README.md·project-agents.md·update.md 갱신 이력·docs 설명서와 유형 루트의 실행 소스·설정·테스트을 포함하며 유형명 폴더 하나를 그대로 반입할 수 있어야 합니다. 단독 실행형은 유형 폴더 자체가 실행 프로젝트 루트이며 폴더 이름을 바꿔 사용할 수 있도록 경로를 작성합니다. 원본 제품 파일은 변경하지 않습니다.
 - typescript-composer는 하나의 조립형 묶음입니다. 묶음 루트의 compose 명령으로 typescript-backend와 선택 구성품을 새 프로젝트에 생성하고 앱은 출력 폴더에서 실행합니다. 공통 README·project-agents·update·docs를 유지하고 구성품의 files에는 반입용 코드·설정·테스트·docs를 둡니다. 조합 결과는 묶음 원본 참조 없이 독립 실행되어야 합니다.
 - TypeScript Composer의 feature 추가·수정은 [Feature 작성 규칙](./02.Boilerplates/typescript-composer/docs/maintainers/03-feature-authoring.md)을 먼저 확인합니다. 신규 파일·기존 파일 패치·DI/수명주기·패키지·지원 조합·회귀 검사를 함께 갱신하고 기존 구조를 통째로 교체하지 않습니다.
+- Flutter Composer는 flutter-mobile-application과 공통 base·플랫폼 target·선택 feature로 관리합니다. 변경 시 [작업 지침](./02.Boilerplates/flutter-composer/project-agents.md)과 [Feature 작성 규칙](./02.Boilerplates/flutter-composer/docs/maintainers/03-feature-authoring.md)을 먼저 읽고 생성 후 자동 연결·플랫폼/버전·충돌/복구 검사를 함께 갱신합니다.
 - 비슷한 앱은 Craft 가이드처럼 공통 절차를 묶고 차이만 표로 기록합니다. 실제 지원 조건까지 같다고 가정하지 않습니다.
 
 ## 3. 파일명·이동·정리

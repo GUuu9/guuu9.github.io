@@ -1,4 +1,4 @@
-<!-- version: v5.0.0 -->
+<!-- version: v5.1.0 -->
 # 재사용 샘플 보일러플레이트 작성 규칙
 
 ## 1. 목표와 변경 범위
@@ -30,7 +30,7 @@ git status·적용 지침·버전/잠금 파일·manifest·CI·테스트·대표
         └── 실제 소스·테스트
 ```
 
-유형명은 mobile-app·typescript-composer 중 목적에 맞게 선택합니다. TypeScript의 실행/배포 결과는 Composer 구성품 조합으로 관리합니다. 유형명 폴더만 이 저장소의 02.Boilerplates/로 복사하면 문서와 샘플이 바로 사용 가능해야 합니다. 상위 프로젝트·밖의 파일·개인 경로에 의존하거나 복사 후 링크를 고쳐야 하는 상태는 미완료입니다.
+유형명은 flutter-composer·typescript-composer 중 목적에 맞게 선택합니다. TypeScript의 실행/배포 결과는 Composer 구성품 조합으로 관리합니다. 유형명 폴더만 이 저장소의 02.Boilerplates/로 복사하면 문서와 샘플이 바로 사용 가능해야 합니다. 상위 프로젝트·밖의 파일·개인 경로에 의존하거나 복사 후 링크를 고쳐야 하는 상태는 미완료입니다.
 
 project-agents.md는 프로젝트 적용용 AGENTS 내용의 보관명입니다. 문서 저장소에서 자동 지침이 되지 않게 실제 AGENTS.md로 생성하지 않습니다. 샘플 코드의 명령·경로는 유형 폴더 자체를 작업 루트로 삼는 기준임을 명시하고 문서 링크는 보관 파일 위치에서 유효하게 작성합니다. 새 프로젝트에 적용할 때 코드·문서·지침을 같은 표준 배치로 내보내고 링크 재작성 없이 사용할 수 있게 합니다. 코드 경로는 실행 루트 기준으로 기록하고 상위 패키지의 상대 경로에 의존하지 않습니다.
 
@@ -63,7 +63,7 @@ project-agents.md는 프로젝트 적용용 AGENTS 내용의 보관명입니다.
 
 ### 빌드 산출물·배포 문서
 
-실행 가능한 각 유형에 순서에 맞는 `NN-build-and-release.md`를 포함하고 README·시작 가이드의 로컬 검증 다음 단계에서 연결합니다. mobile-app은 Android/iOS 스토어, Electron은 OS별 설치 패키지·스토어/직접 배포, Composer의 backend-webui는 서버·정적 웹 운영 배포로 구분합니다. 준비 중인 빈 유형은 실제 작성할 때 적용합니다.
+실행 가능한 각 유형에 순서에 맞는 `NN-build-and-release.md`를 포함하고 README·시작 가이드의 로컬 검증 다음 단계에서 연결합니다. Flutter Composer 출력 앱은 Android/iOS 스토어, Electron은 OS별 설치 패키지·스토어/직접 배포, Composer의 backend-webui는 서버·정적 웹 운영 배포로 구분합니다. 준비 중인 빈 유형은 실제 작성할 때 적용합니다.
 
 - 대상 OS/CPU·채널·계정/도구 선행 조건 → 앱/패키지 식별자·버전·잠금 파일 → 실제 빌드 명령·산출물 경로 → 서명/운영 설정 → 테스트 배포·제출/전환 → 보관·업데이트·복귀 순서로 작성합니다.
 - 다운로드·복사는 유형 README에 둡니다. docs는 가져온 프로젝트의 설정·설치·확인·실행 순서로 작성하고 공식 링크는 다운로드·지원 조건·근거 확인용으로 사용합니다.
@@ -133,7 +133,7 @@ project-agents.md는 프로젝트 적용용 AGENTS 내용의 보관명입니다.
 
 | 유형 | 최소 흐름 | 검증 |
 | :--- | :--- | :--- |
-| mobile-app | 화면 → 상태/조회 → 결과 | 상태 또는 위젯 테스트·실기기 검증 구분 |
+| Flutter Composer 출력 앱 | 화면 → 상태/조회 → 결과 | 상태 또는 위젯 테스트·실기기 검증 구분 |
 | Composer 뼈대 | 요청 → 검증·처리 → 응답 | 정상·잘못된 입력 응답 |
 | Composer backend-webui | UI → 서버 → 결과·오류 표시 | API·UI 대표 동작·브라우저 연결 |
 | Composer electron-app | renderer → preload/IPC → main → 결과 | IPC 검증·오류·실제 창 실행 |
@@ -202,3 +202,5 @@ project-agents.md는 프로젝트 적용용 AGENTS 내용의 보관명입니다.
 TypeScript Composer는 공통 README·project-agents.md·update.md·docs와 typescript-backend·components를 한 폴더에 보관합니다. 01-base는 화면·실행 구조, 02-targets는 결과 연결·배포, 03-features는 독립 기능입니다. 유형 목록에 조합 결과마다 별도 중복 프로젝트를 추가하지 않습니다.
 
 구성품은 README에 선행 조건·복사 대상·패키지·연결/해제·검증·데이터 보존을 적고 files에 실제 소스·설정·테스트·반입용 docs를 둡니다. 묶음 전체는 별도 복사하고 실행 프로젝트에는 뼈대와 선택 구성품만 적용합니다. 번호는 탐색 순서이며 실제 설치는 선행 조건을 따릅니다. 묶음 공통 작업 지침과 완성 앱의 작업 지침을 구분합니다.
+
+Flutter Composer는 flutter-mobile-application 뼈대와 Android/iOS/공용 target·기능으로 관리합니다. TypeScript와 같은 base→target→feature 분류를 사용하되 Dart/Flutter·native 플랫폼·권한·SDK·스토어 지원 범위와 생성 후 자동 연결/검증/복구는 자체 지침에 따라 검사합니다.

@@ -1,0 +1,13 @@
+{
+  "id": "counter",
+  "version": "0.1.0",
+  "description": "메모리 카운터·ViewModel/화면 연결",
+  "targets": [
+    "android",
+    "ios",
+    "android-ios"
+  ],
+  "entry": "scenes/counter/counter_feature.dart",
+  "factory": "createCounterFeature",
+  "assets": []
+}

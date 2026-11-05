@@ -1,4 +1,4 @@
-<!-- version: v1.2.1 -->
+<!-- version: v1.2.2 -->
 # Markdown 문서 디자인·작성 가이드
 
 이 저장소의 설치·사용·운영 문서를 GitHub에서 읽기 쉽게 구성하는 기준입니다. 내용과 명령을 먼저 정확히 작성한 뒤 제목·표·강조·접기를 적용합니다. 별도 테마나 CSS 설치는 필요하지 않습니다.
@@ -97,7 +97,7 @@ GitHub Pages에서는 루트 README와 Setup·Tools·Boilerplates·Utilities·Se
 
 README는 `_config.yml`의 `include`에 루트 및 분류별 패턴을 등록해 변환 대상에 포함합니다. 새 분류를 만들면 이 패턴도 갱신합니다. 새 Markdown 문서는 메뉴의 `document_navigation`에 제목과 `.md` 경로를 등록합니다. 웹 레이아웃은 자동으로 사용하므로 개별 문서에 스타일·front matter를 복제하지 않습니다. 문서 링크는 `.md` 상대 경로로 작성하고 `jekyll-relative-links`가 웹 링크로 변환하도록 합니다. README는 `README.html` 경로를 유지하도록 `readme_index.enabled: false`로 설정합니다. 빈 보일러플레이트 폴더는 문서가 생기기 전까지 GitHub 원문 경로로 안내합니다.
 
-사이드바는 실제 폴더 깊이를 따라 중첩합니다. 예를 들어 `Boilerplates → mobile-app → 설명서 · docs → 05-boilerplate.md`, `Servers → docker-server → 언어별 환경 · environments → python → README.md`로 탐색합니다. 그룹 클릭은 펼치기·접기, 문서 링크는 이동으로 통일하며 현재 문서를 포함한 상위 폴더를 모두 펼칩니다. 같은 제목도 구분할 수 있게 링크 아래에 파일명을 표시하고 본문 위에는 전체 경로를 표시합니다. 모바일도 같은 구조이며 스크롤은 페이지 하나를 사용합니다.
+사이드바는 실제 폴더 깊이를 따라 중첩합니다. 예를 들어 `Boilerplates → flutter-composer → flutter-mobile-application → docs → 05-boilerplate.md`, `Servers → docker-server → 언어별 환경 · environments → python → README.md`로 탐색합니다. 그룹 클릭은 펼치기·접기, 문서 링크는 이동으로 통일하며 현재 문서를 포함한 상위 폴더를 모두 펼칩니다. 같은 제목도 구분할 수 있게 링크 아래에 파일명을 표시하고 본문 위에는 전체 경로를 표시합니다. 모바일도 같은 구조이며 스크롤은 페이지 하나를 사용합니다.
 
 메뉴는 파일명 정렬 대신 `_config.yml`의 `document_navigation` 순서를 사용합니다. 폴더 노드는 끝이 `/`인 `path`와 `children`, 문서 노드는 `.md`로 끝나는 `path`와 `title`을 작성합니다. 안내 → 상세 절차 → 샘플 → 작업 지침 → 갱신 이력 순서를 기본으로 하고 서버 구축은 준비 → 사용자 영역 생성 → 운영 순서를 우선합니다. 이전·다음 문서는 트리를 위에서 아래로 펼친 순서이며, 메뉴와 별도의 순서 목록을 관리하지 않습니다. OS별 설정·언어별 환경은 필요한 항목을 선택하는 분기이므로 `다음 문서`를 모두 실행해야 한다는 뜻은 아닙니다.
 
