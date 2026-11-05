@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.1.0 -->
 <!-- {% raw %} -->
 # Docker·Compose 사용 가이드
 
@@ -295,6 +295,7 @@ docker image load -i my-dev-1.0.0.tar
 | 권한 오류 | 컨테이너 UID/GID·호스트 파일 소유자. chmod 777로 일괄 우회하지 않음 |
 | exec 실패 | 서비스 실행 여부와 셸 포함 여부 |
 | 느린 빌드 | 빌드 컨텍스트 크기·dockerignore·캐시·CPU 아키텍처 |
+| Jupyter/R 그래프 한글 깨짐 | [D2Coding 설치·Python/R 적용](../04.Servers/docker-server/workspace-types.md#jupyterr-그래프의-한글-폰트). 호스트 폰트와 구분 |
 
 로컬 접속만 필요하면 컨테이너 안에 SSH 서버를 추가하지 않고 exec 또는 VS Code Dev Containers를 사용합니다. 원격 호스트·개발 컨테이너 구성과 템플릿은 [서버 Docker 가이드](../04.Servers/docker-server/README.md)을 참고합니다. 기존 문서의 이미지 스냅샷은 볼륨 백업을 대체하지 않습니다.
 

@@ -1,4 +1,4 @@
-<!-- version: v1.0.0 -->
+<!-- version: v1.2.0 -->
 # 서버 작업 영역 종류와 이미지 선택
 
 확인일: 2026-10-28. [기본 서버 구성](./README.md)은 사용자별 SSH 작업 영역입니다. 작업 성격에 따라 RStudio·JupyterLab·브라우저 IDE를 별도 컨테이너로 제공할 수 있습니다. 하나의 이미지에 전부 설치하지 않고 필요한 환경을 선택합니다.
@@ -34,6 +34,123 @@ Jupyter Docker Stacks는 Quay.io의 프로젝트 배포 이미지를 사용합�
 초기 token 또는 설정한 비밀번호 인증을 유지합니다. token URL과 로그는 자격증명이므로 그대로 공유하지 않습니다. notebook뿐 아니라 데이터와 추가 패키지 선언도 보관합니다. 사용자별 서버로 시작하고 다수 사용자 로그인·작업 영역 생성을 한 서비스에서 관리해야 하면 JupyterHub를 별도 설계합니다.
 
 공식 참고: [이미지 선택](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html), [실행·영속 저장](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
+
+## Jupyter·R 그래프의 한글 폰트
+
+호스트에 D2Coding 같은 한글 폰트가 있어도 컨테이너에 자동 설치되지 않습니다. 먼저 깨지는 위치를 구분합니다.
+
+| 증상 | 확인할 영역 |
+| :--- | :--- |
+| 그래프·PNG·PDF의 한글이 네모이거나 Glyph missing 경고 | 컨테이너 폰트와 Python/R 렌더링 설정 |
+| Markdown·코드 편집기 글자만 깨짐 | 브라우저/개인 PC 폰트·에디터 설정 |
+| 문자열 자체가 물음표·다른 문자로 바뀜 | 파일/입출력 인코딩·locale. 폰트 설치로 손상된 문자열은 복구되지 않음 |
+
+### 1. 파생 이미지에 설치
+
+관리자가 Docker 빌드를 실행할 PC·서버에서 작업합니다. 아래는 **Debian/Ubuntu 기반 Jupyter Docker Stacks 전용** Dockerfile 예제입니다. base-notebook에 Matplotlib/R이 반드시 포함되는 것은 아니므로 현재 프로젝트에 맞는 scipy-notebook·r-notebook 등을 선택합니다. OS 패키지·그림 라이브러리는 별개입니다.
+
+빌드할 폴더에 [D2Coding 공식 배포](https://github.com/naver/d2-coding-font/releases)의 **일반형 Regular TTF**와 배포에 포함된 라이선스/저작권 문서를 준비합니다. TTC·Ligature 버전과 혼용하지 않습니다. 아래 예제에서는 받은 TTF의 파일명만 D2Coding.ttf로 맞춥니다. 이미 사용하던 D2Coding-Ver1 계열도 같은 방식으로 넣을 수 있으며 실제 파일의 내부 family 이름을 확인합니다.
+
+```text
+작업폴더/
+├── Dockerfile
+└── fonts/
+    ├── D2Coding.ttf
+    └── LICENSE.md
+```
+
+D2Coding은 SIL OFL 1.1로 배포됩니다. 이미지에 폰트를 포함해 배포할 때도 원본의 저작권·라이선스 문서를 함께 보존합니다. 폰트 파일을 이 문서 저장소에 추가하는 절차는 아닙니다.
+
+```dockerfile
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends fontconfig \
+    && rm -rf /var/lib/apt/lists/*
+COPY fonts/D2Coding.ttf fonts/LICENSE.md /usr/local/share/fonts/d2coding/
+RUN chmod 0644 /usr/local/share/fonts/d2coding/D2Coding.ttf /usr/local/share/fonts/d2coding/LICENSE.md \
+    && fc-cache -f
+USER ${NB_UID}
+```
+
+BASE_IMAGE에는 공식 배포에서 확인한 실제 태그/digest를 전달합니다. Jupyter의 기존 실행 사용자로 되돌리며 ENTRYPOINT/CMD·인증 설정은 변경하지 않습니다. Rocker의 Debian/Ubuntu 파생 이미지에도 같은 fontconfig 설치·COPY·캐시 갱신 블록을 사용할 수 있지만 USER는 해당 이미지의 기존 설정을 유지합니다. RStudio 초기화 사용자와 Jupyter의 NB_UID를 혼용하지 않습니다. Alpine 등 다른 배포판에는 apt 명령을 사용하지 않습니다.
+
+```bash
+# 빌드할 개인 PC/서버. 이미지와 태그는 실제 확인값으로 교체합니다.
+docker build --build-arg BASE_IMAGE='quay.io/jupyter/scipy-notebook:검증한태그' -t notebook-d2coding:0.1.0 .
+```
+
+새 태그로 빌드한 뒤 기존 포트·인증·사용자별 볼륨 설정을 유지해 컨테이너를 재생성합니다. 기존 notebook·R 프로젝트·패키지 선언과 데이터는 먼저 백업하고 볼륨을 삭제하지 않습니다. 실행 중인 컨테이너에만 apt로 설치하면 컨테이너 교체 때 사라지므로 최종 설정은 Dockerfile로 관리합니다. 기존 기본 SSH Dockerfile에는 이 패키지를 일괄 추가하지 않습니다.
+
+### 2. 컨테이너에서 설치 확인
+
+접속한 notebook/R 컨테이너의 일반 사용자 터미널에서:
+
+```bash
+cat /etc/os-release
+fc-list :lang=ko family file
+fc-match D2Coding
+test -r /usr/local/share/fonts/d2coding/D2Coding.ttf
+```
+
+fc-match는 요청한 폰트가 없어도 대체 폰트를 반환하므로 출력이 D2Coding인지 확인합니다. family가 다르면 아래 R 설정에도 실제 내부 이름을 사용합니다. 파일이 없으면 COPY 경로·빌드 컨텍스트·.dockerignore를 확인합니다. 폰트 설치 후 기존 Python/R 커널·세션도 재시작합니다.
+
+### 3. Python·Matplotlib
+
+notebook의 **그래프를 그리는 Python 커널**에서 먼저 실행합니다. Matplotlib이 설치된 프로젝트 환경을 사용합니다. 명시적 파일 등록은 오래된 Matplotlib 폰트 목록을 사용하더라도 해당 폰트를 현재 프로세스에 추가합니다.
+
+```python
+from pathlib import Path
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+
+font_path = Path('/usr/local/share/fonts/d2coding/D2Coding.ttf')
+if not font_path.is_file():
+    raise FileNotFoundError(font_path)
+font_manager.fontManager.addfont(str(font_path))
+font_name = font_manager.FontProperties(fname=str(font_path)).get_name()
+plt.rcParams['font.family'] = [font_name]
+# 음수 기호 글리프가 없는 폰트에서도 마이너스를 표시합니다.
+plt.rcParams['axes.unicode_minus'] = False
+
+plt.plot([-1, 0, 1], [1, 0, 1])
+plt.title('한글 그래프 확인')
+plt.xlabel('시간')
+plt.savefig('korean-font-check.png')
+plt.savefig('korean-font-check.pdf')
+plt.show()
+plt.close()
+```
+
+addfont 등록은 영구 캐시 설정이 아니므로 새 커널에서도 초기화 셀/프로젝트 설정으로 다시 실행합니다. Seaborn 테마가 rcParams를 덮어쓴다면 테마 적용 뒤 폰트를 지정합니다. 전체 캐시를 삭제하는 명령부터 실행하지 않습니다.
+
+### 4. R·ggplot2
+
+**그림을 만드는 R 커널/RStudio 세션**에서 실행합니다. 아래는 추가 R 패키지 없이 Cairo 지원 R에서 PNG·PDF를 확인하는 예입니다.
+
+```r
+stopifnot(isTRUE(capabilities('cairo')))
+
+png('korean-font-check-r.png', width = 800, height = 600,
+    type = 'cairo', family = 'D2Coding')
+plot(-1:1, c(1, 0, 1), main = '한글 그래프 확인', xlab = '시간')
+dev.off()
+
+cairo_pdf('korean-font-check-r.pdf', family = 'D2Coding')
+plot(-1:1, c(1, 0, 1), main = '한글 PDF 확인', xlab = '시간')
+dev.off()
+```
+
+ggplot2가 있는 프로젝트는 plot에 theme(text = element_text(family = 'D2Coding'))를 적용하고, PDF 저장은 ggsave의 device = grDevices::cairo_pdf를 사용합니다. 기본 pdf()와 Cairo 장치는 폰트 처리 방식이 다르므로 family만 같다고 모든 장치에서 동작한다고 가정하지 않습니다. Cairo 지원이 없으면 해당 R 이미지의 그래픽 빌드를 확인하거나 프로젝트에서 ragg/showtext 등 별도 장치를 검증합니다. 패키지는 프로젝트 잠금으로 관리합니다.
+
+### 5. 산출물·재생성 확인
+
+notebook 화면뿐 아니라 저장한 PNG/PDF를 개인 PC에서 열어 한글·굵기·음수 기호를 확인합니다. notebook 전체 PDF 내보내기는 Matplotlib/R 그래프 PDF와 별개이며 nbconvert의 LaTeX/브라우저 렌더러에도 폰트 설정이 필요할 수 있습니다. 컨테이너 재생성 뒤 같은 코드로 확인하고 base digest·OS/CPU·D2Coding 배포 버전·TTF SHA-256·Python/R·라이브러리 버전과 실제 검사일을 프로젝트에 기록합니다.
+
+절차 근거 확인일: 2026-11-05. 이번 문서 작성에서 이미지를 빌드하거나 Python/R 그래프를 실제 렌더링하지 않았습니다.
+
+공식 근거: [Jupyter 파생 이미지·환경 보존](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/faq.html), [D2Coding 공식 배포](https://github.com/naver/d2-coding-font/releases), [D2Coding 라이선스](https://github.com/naver/d2-coding-font/blob/master/LICENSE.md), [Matplotlib 폰트 등록](https://matplotlib.org/stable/api/font_manager_api.html), [R PNG 장치](https://www.stat.ethz.ch/R-manual/R-patched/library/grDevices/html/png.html), [R Cairo 장치](https://www.stat.math.ethz.ch/R-manual/R-devel/library/grDevices/html/cairo.html).
 
 ## VS Code·code-server 구분
 
