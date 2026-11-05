@@ -6,6 +6,7 @@
   },
   "scripts": {
     "compose": "node typescript-backend/scripts/compose.mjs",
-    "test:compose": "node --test typescript-backend/test/compose.test.mjs"
+    "test:compose": "node --test typescript-backend/test/compose.test.mjs",
+    "help": "node typescript-backend/scripts/compose.mjs --commands"
   }
 }

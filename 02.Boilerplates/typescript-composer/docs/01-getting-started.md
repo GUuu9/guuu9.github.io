@@ -1,7 +1,19 @@
-<!-- version: v3.0.0 -->
+<!-- version: v3.1.0 -->
 # 사용자: 형태·feature 선택과 실행
 
 TypeScript Composer 폴더 전체를 내려받거나 복사합니다. Node는 루트 .nvmrc 버전을 사용합니다. 기본 명령 위치는 typescript-backend이며, 생성 위치는 항상 이 폴더의 상위인 Composer 루트입니다. 묶음 자체의 npm install은 필요하지 않습니다.
+
+
+## 명령 도움말
+
+묶음 루트 또는 뼈대 폴더에서 Node/npm 준비 후 먼저 실행합니다.
+
+```bash
+npm run help
+npm run compose -- help
+```
+
+help는 명령 목록, compose help는 형태별 용도·이름 규칙·생성 위치·예제·후속 준비를 안내합니다. 기존 compose -- --help도 같은 상세 안내입니다. 생성 앱에서는 npm run help로 feature 명령과 검증/복구 범위를 확인합니다.
 
 ## 프로젝트 생성
 

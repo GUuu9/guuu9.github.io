@@ -161,3 +161,27 @@ test('Exported feature command adds connections, preserves edits, is idempotent 
     await assert.rejects(access(join(edited, 'src/backend/services/persistence/persistence.service.ts')));
   } finally { await rm(directory, { recursive: true }); }
 });
+
+test('Composer and exported project help explain commands without generating or installing anything', async () => {
+  const f = await fixture('compose-help-');
+  try {
+    const { readdir } = await import('node:fs/promises');
+    const before = await readdir(f.library);
+    for (const argument of ['help', '--help', '--commands']) {
+      const result = run([argument], f.script);
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, argument === '--commands' ? /명령 안내/ : /생성 위치/);
+      if (argument !== '--commands') { assert.match(result.stdout, /electron-phaser/); assert.match(result.stdout, /my-app/); }
+    }
+    assert.deepEqual(await readdir(f.library), before);
+    const seedPkg = JSON.parse(await readFile(join(f.seed, 'package.json'), 'utf8'));
+    assert.equal(seedPkg.scripts.help, 'node scripts/compose.mjs --commands');
+    assert.equal(run(['typescript-backend', 'app'], f.script).status, 0);
+    const app = join(f.library, 'app');
+    assert.equal(JSON.parse(await readFile(join(app, 'package.json'), 'utf8')).scripts.help, 'node scripts/feature.mjs help');
+    const state = await readFile(join(app, '.composer/state.json'), 'utf8');
+    const result = run(['help'], join(app, 'scripts/feature.mjs'));
+    assert.equal(result.status, 0, result.stderr); assert.match(result.stdout, /feature -- add/); assert.match(result.stdout, /복구/);
+    assert.equal(await readFile(join(app, '.composer/state.json'), 'utf8'), state);
+  } finally { await rm(f.directory, { recursive: true }); }
+});

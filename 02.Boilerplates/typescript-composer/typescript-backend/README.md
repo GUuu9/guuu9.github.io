@@ -1,7 +1,19 @@
-<!-- version: v3.1.0 -->
+<!-- version: v3.2.0 -->
 # TypeScript Server 보일러플레이트
 
 Express HTTP API를 제공하는 기본 서버입니다. 진입점·core 조립·기능별 Bridge/Usecase·Service 경계를 유지합니다. Electron의 IPC·Preload·BrowserWindow는 전송 방식에 붙는 구성이라 이 HTTP 서버에는 포함하지 않습니다. UI·DB·인증·TLS·배포 자동화는 없습니다.
+
+
+## 명령 도움말
+
+묶음 루트 또는 뼈대 폴더에서 Node/npm 준비 후 먼저 실행합니다.
+
+```bash
+npm run help
+npm run compose -- help
+```
+
+help는 명령 목록, compose help는 형태별 용도·이름 규칙·생성 위치·예제·후속 준비를 안내합니다. 기존 compose -- --help도 같은 상세 안내입니다. 생성 앱에서는 npm run help로 feature 명령과 검증/복구 범위를 확인합니다.
 
 ## 조합 생성
 

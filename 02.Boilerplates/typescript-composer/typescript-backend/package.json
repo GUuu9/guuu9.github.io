@@ -13,7 +13,8 @@
     "build": "npm run check && tsc -p tsconfig.build.json && node scripts/copy-config.mjs",
     "start": "node dist/backend/index.js",
     "compose": "node scripts/compose.mjs",
-    "test:compose": "node --test test/compose.test.mjs"
+    "test:compose": "node --test test/compose.test.mjs",
+    "help": "node scripts/compose.mjs --commands"
   },
   "dependencies": {
     "express": "5.2.1"

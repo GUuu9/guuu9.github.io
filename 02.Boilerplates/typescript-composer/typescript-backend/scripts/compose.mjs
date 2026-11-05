@@ -27,8 +27,11 @@ const [target, output, ...options] = process.argv.slice(2);
 const usage = `사용법: npm run compose -- <형태> <프로젝트명> [--features tcp,udp,mqtt,socket-io,game-persistence]\n형태: ${Object.keys(presets).join(', ')}`;
 const reservedNames = new Set(['typescript-backend', 'components', 'docs', 'node-modules', 'dist', 'release', 'con', 'prn', 'aux', 'nul', ...Array.from({ length: 9 }, (_, index) => `com${index + 1}`), ...Array.from({ length: 9 }, (_, index) => `lpt${index + 1}`)]);
 
+const detailedHelp = "TypeScript Composer 상세 도움말\n\n사용법: npm run compose -- <형태> <프로젝트명>\n\n형태:\n  typescript-backend  HTTP API backend\n  backend-webui      backend + 웹 화면\n  web-app            정적 호스팅용 웹 앱\n  web-phaser         정적 호스팅용 Phaser 게임\n  electron-backend   Electron Main·Preload·IPC 뼈대\n  electron-app       일반 데스크톱 앱\n  electron-phaser    데스크톱 게임 (game-persistence 기본 포함)\n\n프로젝트명: 영문 소문자·숫자·하이픈. 경로·예약 이름·기존 폴더는 거부합니다.\n생성 위치: 실행 cwd와 관계없이 복사한 typescript-composer 바로 아래.\n묶음 루트 또는 typescript-backend에서 호출합니다. 설치·빌드·배포는 생성 시 실행하지 않습니다.\n\n예시:\n  npm run compose -- backend-webui my-app\n  npm run compose -- electron-phaser my-game\n\n생성 후 새 프로젝트에서:\n  cd ../my-app                 # typescript-backend에서 생성한 경우\n  npm install\n  npm run help\n  npm run feature -- add socket-io\n\n루트에서 생성했다면 cd my-app을 사용합니다.\nfeature: tcp, udp, mqtt, socket-io, game-persistence.\nNode 기능은 web-app·web-phaser에 추가할 수 없습니다.\n기존 --features tcp,udp 옵션도 지원하지만 생성 후 feature add 사용을 권장합니다.\nfeature 추가는 설치·검사·테스트·빌드를 수행하며 기존 사용자 변경과 충돌하면 중단합니다.\n기존 프로젝트 덮어쓰기·형태 전환·feature 자동 업데이트/제거는 지원하지 않습니다.\n자세한 설치·환경·복구: README.md, docs/01-getting-started.md.\n";
+const commandHelp = "TypeScript Composer 명령 안내\n  npm run help                    명령 목록\n  npm run compose -- help         형태·이름·생성 위치·예제 상세\n  npm run test:compose             생성·feature 회귀 검사\n\n먼저 compose 도움말에서 형태를 선택하고 새 프로젝트를 생성합니다.\n생성 앱에서 npm run help, npm run feature -- list/add를 사용합니다.\n환경·설치·검사·복구는 README.md와 docs/01-getting-started.md를 확인합니다.";
+
 async function compose() {
-  if (target === '--help' && output === undefined) { console.log(usage); return; }
+  if (output === undefined && options.length === 0 && ['help', '--help', '--commands'].includes(target)) { console.log(target === '--commands' ? commandHelp : detailedHelp); return; }
   if (!Object.hasOwn(presets, target ?? '') || !output) throw new Error(usage);
   if (options.length && (options.length !== 2 || options[0] !== '--features')) throw new Error(usage);
   const features = options.length ? options[1].split(',') : [];
@@ -97,6 +100,7 @@ async function compose() {
   const pkg = JSON.parse(text('package.json'));
   pkg.name = output;
   const scripts = pkg.scripts;
+  delete scripts.help;
   delete scripts.compose;
   delete scripts['test:compose'];
   const dependencies = pkg.dependencies;
@@ -198,9 +202,10 @@ async function compose() {
     for (const [name, content] of catalog) put(`.composer/catalog/${name}`, content);
     put('.composer/state.json', JSON.stringify({ target, features: [...new Set([...(target === 'electron-phaser' ? ['game-persistence'] : []), ...features])], baseline }, null, 2) + '\n');
     pkg.scripts.feature = 'node scripts/feature.mjs';
+    pkg.scripts.help = 'node scripts/feature.mjs help';
     put('package.json', JSON.stringify(pkg, null, 2) + '\n');
     put('scripts/feature.mjs', originalSeed.get('scripts/feature.mjs'));
-    put('README.md', text('README.md') + '\n## 기능 추가\n\n```bash\nnpm run feature -- list\nnpm run feature -- add socket-io\n```\n\n구현·연결·의존성을 자동 반영하고 설치·검사·테스트·빌드를 수행합니다. 변경할 파일이 수정되어 있으면 중단합니다. .composer는 구성품 원본과 활성화 내역이므로 Git에 포함합니다.\n');
+    put('README.md', text('README.md') + '\n## 기능 추가\n\n```bash\nnpm run help\nnpm run feature -- list\nnpm run feature -- add socket-io\n```\n\n구현·연결·의존성을 자동 반영하고 설치·검사·테스트·빌드를 수행합니다. 변경할 파일이 수정되어 있으면 중단합니다. .composer는 구성품 원본과 활성화 내역이므로 Git에 포함합니다.\n');
   }
   await mkdir(destination);
   for (const [name, content] of files) {

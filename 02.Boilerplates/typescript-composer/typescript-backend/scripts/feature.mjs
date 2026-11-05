@@ -14,6 +14,7 @@ async function read(path) {
   } catch (error) { if (error.code === 'ENOENT') return null; throw error; }
 }
 async function main() {
+  if (process.argv.length === 3 && ['help', '--help'].includes(process.argv[2])) { console.log("생성 프로젝트 명령 안내\n  npm run help                     명령 목록\n  npm run feature -- list           활성 형태·기능 확인\n  npm run feature -- add <기능>      기능 추가·자동 연결·검증\n\n기능은 이 프로젝트에 포함된 catalog에서 가져옵니다. 자동 업데이트/제거는 지원하지 않습니다.\n기존 파일과 충돌하면 중단하며, 검증 실패 시 소스·설정·lock·상태를 복구합니다.\n캐시·빌드 산출물·외부 설치 부작용은 복구하지 않습니다.\n추가 전 README와 docs/01-getting-started.md의 도구·환경 준비를 완료합니다.\n예: npm run feature -- add socket-io\n검증: npm install → check → test → build\n"); return; }
   const state = JSON.parse(await readFile(join(root, '.composer/state.json'), 'utf8'));
   const [command, names, ...extra] = process.argv.slice(2);
   if (command === 'list' && !names) { console.log(`형태: ${state.target}\n활성 기능: ${state.features.join(', ') || '없음'}`); return; }
