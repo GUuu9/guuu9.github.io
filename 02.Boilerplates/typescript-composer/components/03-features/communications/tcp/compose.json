@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "dev:tcp": "tsx watch src/backend/tcp.ts",
-    "start:tcp": "node dist/backend/tcp.js"
-  }
-}

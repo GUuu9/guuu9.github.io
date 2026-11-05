@@ -1,33 +1,82 @@
-# 재사용 보일러플레이트
+# Composer 사용·보일러플레이트 제작
 
-| 묶음 | 내용 | 시작 |
+Composer 코드·구성품·상세 개발 규칙·변경 이력은 각 독립 저장소에서 관리합니다. 이 문서 저장소에는 선택·다운로드·업데이트와 보일러플레이트 추출/신규 제작 안내를 둡니다.
+
+| Composer | 용도 | 저장소 |
 | :--- | :--- | :--- |
-| [TypeScript Composer](./typescript-composer/README.md) | backend 뼈대 + 기본 구조·결과 형태·선택 기능 조합 | [구성품 적용 순서](./typescript-composer/components/README.md) |
-| [Flutter Composer](./flutter-composer/README.md) | Flutter 뼈대 + Android/iOS target·선택 기능 | [환경 설정·실행](./flutter-composer/docs/01-getting-started.md) |
-
-[작성 규칙](./authoring-rules.md) · [다른 프로젝트에 전달할 요청문](./project-request.md)
+| TypeScript Composer | backend·웹·Electron·Phaser 형태와 선택 기능 | [GUuu9/typescript-composer](https://github.com/GUuu9/typescript-composer) |
+| Flutter Composer | Android·iOS·공용 모바일 앱과 선택 기능 | [GUuu9/flutter-composer](https://github.com/GUuu9/flutter-composer) |
 
 ## 특정 보일러플레이트만 내려받기
 
-개인 PC에 Git을 준비합니다. macOS는 Git 사용 전에 Command Line Tools 또는 선택한 Xcode의 라이선스·최초 초기화를 확인합니다. [OS별 설정](../00.Setup/OS_Dev_Setting.md)에서 준비할 수 있습니다.
+Git·Node/npm을 준비합니다. macOS는 Git·Homebrew·nvm 전에 선택한 CLT 또는 전체 Xcode의 라이선스·최초 초기화를 완료합니다. 설치는 [OS별 설정](../00.Setup/OS_Dev_Setting.md)을 따릅니다. Windows는 D:\Developer 등 실제 데이터 드라이브의 작업 부모 폴더에서 시작합니다.
 
-새 다운로드 폴더에서 실행합니다. Git의 partial clone·sparse checkout을 사용하며 실제 템플릿 변경이 원격에 push된 후 받을 수 있습니다.
+필요한 Composer 하나만 선택해 받습니다. 같은 이름의 폴더가 이미 있으면 덮어쓰지 말고 기존 저장소의 remote/status를 먼저 확인합니다.
 
 ```bash
-git clone --depth 1 --filter=blob:none --sparse https://github.com/GUuu9/guuu9.github.io.git devguide-samples
-cd devguide-samples
-git sparse-checkout set 02.Boilerplates/typescript-composer
-cd 02.Boilerplates/typescript-composer
+git clone https://github.com/GUuu9/typescript-composer.git
+cd typescript-composer
+npm run help
+npm run compose -- help
 ```
 
-Windows PowerShell에서도 같은 Git 명령을 사용합니다. 모바일만 받으려면 선택 경로를 02.Boilerplates/flutter-composer으로 바꿉니다. sparse checkout은 저장소의 상위 폴더 구조와 일부 상위 파일을 유지하며 유형 폴더를 다운로드 루트로 평탄화하지 않습니다.
+Flutter를 사용할 때는 대신:
+
+```bash
+git clone https://github.com/GUuu9/flutter-composer.git
+cd flutter-composer
+npm run help
+npm run compose -- help
+```
+
+Bash·PowerShell에서 같은 Git/npm 명령을 사용합니다. clone한 폴더 자체가 Composer 루트이며 02.Boilerplates 상위 경로는 없습니다. .nvmrc의 Node를 사용하며 묶음 자체 npm install은 필요하지 않습니다. 상세 설치·형태·기능 목록은 해당 저장소 README를 우선합니다.
 
 ## 가져온 뒤 진행
 
-TypeScript Composer는 묶음을 보관하고 typescript-backend를 새 프로젝트로 내보냅니다. Node 설치·PATH·의존성 복원·기본 실행을 확인한 뒤 base·target·필요한 feature를 적용합니다. 실행은 새 프로젝트 안에서 합니다. [묶음 README](./typescript-composer/README.md)에 내보내기와 전체 순서가 있습니다.
+1. help로 형태·이름·출력 위치를 확인하고 compose로 새 프로젝트를 생성합니다.
+2. 생성 앱 폴더로 이동해 앱 내부 README의 도구/SDK·환경·의존성을 준비합니다.
+3. 앱의 npm run help로 확인한 기능을 feature add로 활성화하고 실행·검사합니다.
 
-Flutter Composer도 묶음을 보관하고 flutter-mobile-application에서 플랫폼과 이름으로 새 앱을 생성합니다. 새 앱에서 도구·환경을 준비하고 feature를 활성화한 뒤 기기에서 실행합니다. 실제 GUI·실기기·다른 OS의 검증 여부는 각 묶음 기록을 확인합니다.
+앱은 원본 Composer와 별도 저장소로 관리하고, 생성 앱을 Composer Git에 추가하지 않습니다. Composer를 갱신해도 개발 중인 앱은 자동 변경되지 않습니다.
 
-## 작성·갱신
+## 전체 변경 확인·업데이트
 
-반출 패키지는 README·project-agents·update·docs와 실행 소스/구성품을 포함합니다. 기존 독립 backend·웹 UI·Electron 유형은 Composer의 뼈대와 조합으로 관리합니다. 완성 프로젝트는 외부 구성품이나 저장소 Setup·Tools에 의존하지 않습니다. 공통 변경은 [Composer 이력](./typescript-composer/update.md), 모바일 변경은 [모바일 이력](./flutter-composer/update.md)에 기록합니다.
+받은 **Composer 루트**에서 실행합니다. 아래 main은 기본 브랜치 예시이며 실제 추적 브랜치가 다르면 바꿉니다.
+
+```bash
+git status --short
+git remote -v
+git fetch origin
+git log --oneline HEAD..origin/main
+git diff --stat HEAD origin/main
+git diff HEAD origin/main
+```
+
+비교 범위는 Composer 전체이므로 현재 쓰지 않는 base·target·feature의 변경도 포함합니다. 구성품만 살펴보려면:
+
+```bash
+git diff HEAD origin/main -- components/01-base components/02-targets components/03-features
+```
+
+로컬 변경을 먼저 보존하고 변경 이력·지원 조건·보안 수정·이행 방법을 검토합니다. 확인한 origin/main을 반영한 뒤 검사합니다.
+
+```bash
+git merge --ff-only origin/main
+npm run help
+npm run test:compose
+```
+
+충돌·이력 분기로 실패하면 중단하고 변경을 비교합니다. 강제 reset·전체 덮어쓰기로 해결하지 않습니다. 기존 sparse/subtree·캐시 방식은 새 저장소에 재사용하지 않고 새 경로로 clone합니다.
+
+기존 앱에 업데이트를 반영하려면 각 Composer의 버전 관리 문서대로 이전 원본·새 원본·사용자 코드를 비교합니다. 앱의 코드·lock·catalog/state·데이터를 보존하며 이행·검증하고, Composer 갱신을 앱 업데이트 완료로 표시하지 않습니다.
+
+## 기존 Composer 확장
+
+base·target·feature의 추가/수정은 해당 Composer 저장소 내부 작업 지침·작성 규칙을 따릅니다. 위 저장소 링크에서 최신 기준을 확인하며 이 문서 저장소에서 세부 확장 계약을 중복 관리하지 않습니다.
+
+## 기존 프로젝트 추출·신규 보일러플레이트 제작
+
+- [작성 규칙](./authoring-rules.md): 기존 프로젝트 추출과 신규 제작의 범위·구조·문서·검사 기준
+- [작업 요청문](./project-request.md): 작업 유형·목적·언어/플랫폼·단독형/조립형·출력 위치를 정해 개발자/AI에게 전달
+
+추출 결과는 원본 프로젝트의 boilerplate-export/유형명/에, 신규 제작은 지정한 새 폴더에 작성합니다. 결과 코드는 별도 저장소에서 관리하며 이 안내 저장소에 복제하지 않습니다. 신규 제작을 기존 Composer 확장으로 강제하거나 단독형에 생성기를 필수화하지 않습니다.

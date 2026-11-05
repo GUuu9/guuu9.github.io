@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "dev:udp": "tsx watch src/backend/udp.ts",
-    "start:udp": "node dist/backend/udp.js"
-  }
-}

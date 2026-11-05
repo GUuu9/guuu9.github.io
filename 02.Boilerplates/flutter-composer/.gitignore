@@ -1,6 +1,0 @@
-node_modules/
-.fvm/
-.dart_tool/
-build/
-.env
-.DS_Store
