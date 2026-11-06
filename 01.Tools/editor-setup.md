@@ -106,15 +106,17 @@ ESLint·Prettier·Python·Python Debugger·Flutter·C/C++·CMake Tools·rust-ana
 
 ```json
 {
-  "workbench.colorTheme": "Dark+",
-  "editor.fontFamily": "D2Coding, monospace",
-  "editor.fontSize": 13,
-  "terminal.integrated.fontFamily": "D2Coding",
-  "terminal.integrated.fontSize": 13,
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "chat.tools.global.autoApprove": false,
-  "github.copilot.chat.agent.runTasks": false,
-  "github.copilot.chat.agent.autoFix": false
+    "chat.titleBar.openInAgentsWindow.enabled": false,
+    "chat.titleBar.signIn.enabled": false,
+    "workbench.colorTheme": "Dark+",
+    "editor.fontFamily": "D2Coding, monospace",
+    "editor.fontSize": 13,
+    "terminal.integrated.fontFamily": "D2Coding",
+    "terminal.integrated.fontSize": 13,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "chat.tools.global.autoApprove": false,
+    "github.copilot.chat.agent.runTasks": false,
+    "github.copilot.chat.agent.autoFix": false
 }
 ```
 
