@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v3.0.0 -->
 # 보일러플레이트 작업 공간 공통 지침
 
 ## 1. 작업 공간과 적용 범위
@@ -9,9 +9,9 @@
 작업공간/                       Git 비관리
 ├── AGENTS.md                  이 공통 지침
 ├── typescript-composer/       독립 Git 저장소
-│   └── 생성앱/               Composer에서 제외하는 별도 Git 저장소
+│   └── project/생성앱/               Composer에서 제외하는 별도 Git 저장소
 ├── flutter-composer/          독립 Git 저장소
-│   └── 생성앱/               Composer에서 제외하는 별도 Git 저장소
+│   └── project/생성앱/               Composer에서 제외하는 별도 Git 저장소
 └── 프로젝트명/                독립 Git 저장소
 ```
 
@@ -42,7 +42,7 @@ git -C ./typescript-composer remote -v
 
 실제 remote·브랜치·추적 브랜치를 확인하며 origin/main이나 위 주소를 모든 프로젝트에 강제하지 않습니다. clone한 저장소에 init/remote add를 반복하지 않고 Composer의 .git을 생성 앱에 복사하지 않습니다. Composer 소스를 문서 저장소에 다시 추적시키지 않습니다.
 
-현재 두 Composer의 생성 앱은 해당 Composer 바로 아래에 두고 개발합니다. compose는 생성 성공 시 Composer 루트 .gitignore에 /프로젝트명/을 중복 없이 등록합니다. 앱의 Git 초기화·커밋·remote는 앱 폴더에서 별도로 수행하며 submodule로 등록하지 않습니다. 이미 추적 중인 파일은 ignore만 추가해도 제외되지 않습니다.
+현재 두 Composer의 생성 앱은 해당 Composer의 project/ 아래에 두고 개발합니다. Composer 루트 .gitignore의 고정 규칙으로 생성 앱을 제외하며 compose는 .gitignore를 수정하지 않습니다. 앱의 Git 초기화·커밋·remote는 앱 폴더에서 별도로 수행하며 submodule로 등록하지 않습니다. 이미 추적 중인 파일은 ignore만 추가해도 제외되지 않습니다.
 
 ## 3. 작업 유형별 읽기 순서
 
