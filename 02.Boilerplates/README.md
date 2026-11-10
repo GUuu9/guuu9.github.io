@@ -37,13 +37,15 @@ Bash·PowerShell에서 같은 Git/npm 명령을 사용합니다. clone한 폴더
 2. 생성 앱 폴더로 이동해 앱 내부 README의 도구/SDK·환경·의존성을 준비합니다.
 3. 앱의 npm run help로 확인한 기능을 feature add로 활성화하고 실행·검사합니다.
 
-앱은 원본 Composer와 별도 저장소로 관리합니다. compose는 생성 성공 시 Composer 루트 .gitignore에 /프로젝트명/을 자동 등록합니다. 앱 폴더 안에서 별도로 git init·첫 커밋·remote 연결을 수행하고 Composer Git에는 앱을 추가하지 않습니다. 이미 추적 중인 파일은 ignore만 추가해도 제외되지 않습니다.
+앱은 원본 Composer와 별도 저장소로 관리합니다. 생성 앱은 고정 `/project/*`·`!/project/.gitkeep` 규칙으로 제외하며 compose는 .gitignore를 수정하지 않습니다. 앱 폴더 안에서 별도로 git init·첫 커밋·remote 연결을 수행하고 Composer Git에는 앱을 추가하지 않습니다. 이미 추적 중인 파일은 ignore만 추가해도 제외되지 않습니다.
+
+Composer의 help·compose·workspace 명령은 Composer 루트에서 실행합니다. 생성 앱의 help·feature 명령은 앱 폴더에서 실행합니다. 여러 앱을 VS Code에서 함께 관리하려면 Composer 루트에서 npm run workspace로 선택합니다.
 
 ## 생성 앱과 부모 Composer
 
-현재 두 Composer는 생성 앱을 해당 Composer 바로 아래에 두고 개발합니다. 구성품 원본을 앱의 .composer/catalog 또는 .composer/features에 복사하지 않습니다. TypeScript의 기능 추가는 부모의 typescript-backend·components를, Flutter는 components/03-features를 사용합니다. 앱 Git에는 .composer/state.json의 원본 해시·활성 기능·충돌 검사 상태와 도구 스크립트를 보관합니다.
+현재 두 Composer는 생성 앱을 해당 Composer의 project/ 아래에 두고 개발합니다. 구성품 원본을 앱의 .composer/catalog 또는 .composer/features에 복사하지 않습니다. TypeScript의 기능 추가는 부모의 scripts/compose.mjs로 typescript-backend·components 조합을 재현하고, Flutter는 components/03-features를 직접 읽습니다. 앱 Git에는 .composer/state.json의 원본 해시·활성 기능·충돌 검사 상태와 도구 스크립트를 보관합니다.
 
-앱의 실행·빌드는 원본 Composer 없이 가능합니다. 기능 추가에는 생성 당시 부모 원본이 필요하며, 뼈대·구성품의 공개 파일과 문서를 포함한 원본 해시가 다르거나 원본이 없으면 중단합니다. 앱만 다른 위치로 옮기면 기능 추가는 사용할 수 없으며 Composer 전체를 상대 배치 그대로 옮기면 계속 사용할 수 있습니다.
+앱의 실행·빌드는 원본 Composer 없이 가능합니다. 기능 추가에는 생성 당시 부모 원본이 필요하며, 뼈대·구성품의 공개 파일/문서와 루트 생성 도구를 포함한 원본 해시가 다르거나 원본이 없으면 중단합니다. 앱만 다른 위치로 옮기면 기능 추가는 사용할 수 없으며 Composer 전체를 상대 배치 그대로 옮기면 계속 사용할 수 있습니다.
 
 Composer를 갱신해도 앱은 자동 변경되지 않지만 후속 기능 추가는 해시 불일치로 중단될 수 있습니다. 갱신 전에 생성 당시 원본을 보존하고 원본 복원 또는 새 앱 생성·비교·이행으로 진행합니다. 기존 사본 방식 앱은 자동 전환하거나 .composer 사본을 삭제하지 않습니다. 세부 계약과 이행 절차는 각 Composer 내부 문서를 따릅니다.
 
