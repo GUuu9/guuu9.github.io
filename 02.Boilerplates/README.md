@@ -82,6 +82,17 @@ fvm dart run scripts/compose.dart
 
 현재 버전은 사용자가 Android·iOS 실행을 확인한 조합입니다. 설치된 도구와 다르다는 이유로 일괄 갱신하지 않고, 동작 문제가 있으면 앱 문서에서 경로·설정·호환성을 확인한 뒤 필요한 버전만 변경하고 재검증합니다. 상세 버전·검증 범위는 [Flutter README](https://github.com/GUuu9/flutter-composer/blob/main/README.md)·[AGENTS](https://github.com/GUuu9/flutter-composer/blob/main/AGENTS.md)와 앱 내부 문서를 따릅니다. TypeScript의 자동 설치/검증·verify를 Flutter에 적용하지 않습니다.
 
+### Flutter 프로젝트 workspace
+
+Composer 루트에서 번호로 함께 열 프로젝트를 선택합니다. Enter로 취소하며 기존 파일은 확인 후 교체합니다.
+
+```bash
+# flutter-composer/에서 실행
+fvm dart run scripts/workspace.dart
+```
+
+생성된 `flutter-composer.local.code-workspace`를 VS Code에서 엽니다. Composer와 선택 앱을 함께 표시하는 로컬 파일이며 앱 코드·Git은 변경하지 않습니다.
+
 ## 저장소와 기존 앱 보호
 
 두 Composer는 독립 Git 저장소입니다. 생성 앱도 별도 저장소로 관리하며 부모는 `/project/*`·`!/project/.gitkeep`으로 앱을 제외합니다. 이미 추적한 파일은 ignore만 추가해도 제외되지 않습니다.

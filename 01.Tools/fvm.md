@@ -1,4 +1,4 @@
-<!-- version: v1.10.7 -->
+<!-- version: v1.10.8 -->
 # FVM 사용 가이드
 
 확인일: 2026-11-02. FVM은 프로젝트별 Flutter SDK 버전을 선택합니다. Flutter SDK에는 Dart가 포함되므로 별도 Dart 버전 관리 도구를 추가하지 않고 `fvm dart`로 프로젝트 버전을 사용합니다.
@@ -171,7 +171,7 @@ Android 기기 빌드 확인은 `fvm flutter build apk`, iOS는 Mac에서 프로
 
 macOS·Windows·Linux 모두 위 [기존 프로젝트 복원](#기존-프로젝트-복원)으로 SDK 선택·pub get을 마친 뒤 진행합니다. Android Studio SDK Manager에서 프로젝트 compileSdk·빌드 설정에 맞는 SDK Platform·Build-Tools를 추가합니다. NDK·CMake는 프로젝트나 플러그인이 요구하는 버전을 선택하고 AVD·시스템 이미지는 필요할 때만 설치합니다. USB 드라이버·udev 권한 등 OS별 준비는 [Android Studio·SDK](./android-studio.md)를 따릅니다.
 
-FVM은 Flutter SDK만 선택하며 Gradle·AGP·JDK·Android SDK를 함께 고정하지 않습니다. 기존 프로젝트의 Wrapper·플러그인 선언·CI를 우선하고 실제 JDK는 `fvm flutter doctor -v`로 확인합니다. mobile-app 샘플을 적용하는 경우의 상세 예시는 [프로젝트 Android 빌드 관리](https://github.com/GUuu9/flutter-composer/blob/main/flutter-mobile-application/docs/03-android-build.md)에 있습니다.
+FVM은 Flutter SDK만 선택하며 Gradle·AGP·JDK·Android SDK를 함께 고정하지 않습니다. 기존 프로젝트의 Wrapper·플러그인 선언·CI를 우선하고 실제 JDK는 `fvm flutter doctor -v`로 확인합니다. Flutter Composer의 Android 준비 절차는 [프로젝트 Android 빌드 관리](https://github.com/GUuu9/flutter-composer/blob/main/components/02-targets/android/files/docs/02-android.md)에 있습니다.
 
 ### Android SDK·JDK 경로 선택
 
@@ -289,7 +289,7 @@ adb devices -l
 
 Mac의 호환 Xcode·iOS SDK를 준비하고 `xcodebuild -version`·`fvm flutter doctor -v`로 실제 선택을 확인합니다. 기기 연결·서명은 [Flutter 공식 iOS 설정](https://docs.flutter.dev/platform-integration/ios/setup)을 따릅니다. CocoaPods를 사용하는 기존 프로젝트는 [Ruby·Bundler 공통 관리](./ruby.md)에 따라 Gemfile·lock과 Bundler 실행 규칙, SwiftPM 프로젝트는 해당 패키지 설정을 유지합니다. FVM은 Xcode·의존성 관리자·서명 계정을 관리하지 않습니다.
 
-mobile-app 샘플의 설치·복원·빌드 예시는 [iOS 프로젝트 가이드](https://github.com/GUuu9/flutter-composer/blob/main/flutter-mobile-application/docs/04-ios-build.md)에 있습니다. 다른 Flutter 앱이 이 보일러플레이트·direnv·별도 실행기를 도입할 필요는 없습니다.
+Flutter Composer의 iOS 설치·빌드 절차는 [iOS 프로젝트 가이드](https://github.com/GUuu9/flutter-composer/blob/main/components/02-targets/ios/files/docs/03-ios.md)에 있습니다. 다른 Flutter 앱이 이 보일러플레이트·direnv·별도 실행기를 도입할 필요는 없습니다.
 
 ## 업데이트와 되돌리기
 

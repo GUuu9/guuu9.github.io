@@ -1,11 +1,11 @@
-<!-- version: v4.0.0 -->
+<!-- version: v4.1.0 -->
 # 보일러플레이트 작업 공간 공통 지침
 
 ## 현재 Composer별 기준
 
 TypeScript v0.0.0은 `npm run compose`로 6개 기본 형태와 필수 HTTP·IPC 연결만 생성합니다. 질문은 구성 → 프로젝트 이름 → 확인입니다. `npm run workspace`는 Composer와 선택 앱의 로컬 VS Code workspace를 생성합니다. 내부 AGENTS·README·docs/contracts를 우선하고 소스 명명은 camelCase를 따릅니다. 이전 help·feature add·전체 원본 해시 일치 방식을 현재 동작으로 안내하지 않습니다.
 
-Flutter v0.0.0은 FVM/Dart 생성기로 Android·iOS·공용 빈 앱을 구성합니다. 확인된 버전 조합을 versions.json에 기록하고 선택 플랫폼만 생성합니다. 기능 소스 대신 API·BLE·TCP·UDP·MQTT·log의 수동 추가 안내를 앱에 포함합니다. `core/app.dart`는 앱 진입, `core/di.dart`는 의존성 조립을 맡습니다. 설치·분석·빌드·Git 초기화는 사용자가 별도로 진행하며 Node/npm·TypeScript의 verify를 요구하지 않습니다.
+Flutter v0.0.0은 FVM/Dart 생성기로 Android·iOS·공용 빈 앱을 구성합니다. 확인된 버전 조합을 versions.json에 기록하고 선택 플랫폼만 생성합니다. 기능 소스 대신 API·BLE·TCP·UDP·MQTT·log의 수동 추가 안내를 앱에 포함합니다. `core/app.dart`는 앱 진입, `core/di.dart`는 의존성 조립을 맡습니다. 설치·분석·빌드·Git 초기화는 사용자가 별도로 진행하며 Node/npm·TypeScript의 verify를 요구하지 않습니다. Composer 루트의 `fvm dart run scripts/workspace.dart`로 선택 앱과 Composer의 로컬 VS Code workspace를 생성합니다.
 
 TypeScript 생성은 독립 Git 초기화 후 install/check/test/build를 수행하고 성공한 구성만 활성화합니다. 실패·취소 시 소스·lock·진단을 보존하며 앱의 npm run verify로 소스 재출력 없이 재확인합니다. 생성 명령 내부 동작과 에이전트가 별도로 설치·검사할 권한을 구분합니다. 기존 project/ 앱은 수정·삭제·설치·시험에 사용하지 않습니다.
 

@@ -45,11 +45,11 @@
 
 ## 02.Boilerplates — 프로젝트 규칙
 
-[특정 유형만 Git으로 내려받기](./02.Boilerplates/README.md#특정-보일러플레이트만-내려받기)
+[Composer 내려받기·생성](./02.Boilerplates/README.md#typescript-composer-내려받기생성)
 
 [TypeScript Composer](https://github.com/GUuu9/typescript-composer) · [Flutter Composer](https://github.com/GUuu9/flutter-composer)
 
-TypeScript Composer는 backend 뼈대에 웹 UI·Phaser·Electron과 통신·Service를 조합하는 하나의 묶음입니다. Flutter Composer는 Android·iOS·공용 target과 선택 기능으로 별도 조립합니다. 코드는 각 독립 저장소에서 관리하고 이곳에는 사용·추가 안내를 둡니다. [작성 규칙](./02.Boilerplates/authoring-rules.md)과 [반출 요청문](./02.Boilerplates/project-request.md)을 따릅니다.
+TypeScript Composer v0.0.0은 6개 backend·웹·Electron·Phaser 구성에서 통신과 logger를 선택해 빈 프로젝트를 대화형으로 생성합니다. Flutter Composer는 FVM/Dart로 Android·iOS·공용 빈 앱을 별도로 생성합니다. 코드는 각 독립 저장소에서 관리하고 이곳에는 사용·추가 안내를 둡니다. [작성 규칙](./02.Boilerplates/authoring-rules.md)과 [반출 요청문](./02.Boilerplates/project-request.md)을 따릅니다.
 
 ## 03.Utilities — 편의 앱
 
