@@ -11,7 +11,7 @@ OS별 도구 설치 순서는 [00.Setup](../00.Setup/OS_Dev_Setting.md)을 참�
 | [Android Studio·SDK](./android-studio.md) | Android IDE·SDK·기기 도구 | 설치·SDK Manager·OS별 드라이버/권한 |
 | [Unity Hub·Editor](./unity.md) | Unity Editor·플랫폼 모듈 | 설치·프로젝트 버전 선택·업데이트·복귀 |
 | [편집기 설정](./editor-setup.md) | VS Code 표시 언어·D2Coding·Android Studio 폰트 | OS별 설치 후 공통 앱 설정 |
-| [Codex·Ponytail](./codex.md) | 스킬·플러그인·CLI 갱신 | Ponytail 추가·호출·문제 해결·복귀 |
+| [Codex·Ponytail·Archify](./codex.md) | 스킬·플러그인·CLI 갱신 | Ponytail·Archify 추가·호출·문제 해결·복귀 |
 | [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS·Linux zsh 설정·업데이트·복귀 |
 | [Homebrew](./brew.md) | OS에 설치하는 개발 도구·앱 | 패키지 설치·업데이트·진단 |
 | [nvm](./nvm.md) | Node.js 런타임 | TS·React·Electron·서버의 Node 버전 전환 |

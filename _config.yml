@@ -77,7 +77,7 @@ document_navigation:
         path: "01.Tools/unity.md"
       - title: "Docker·Compose 사용 가이드"
         path: "01.Tools/docker.md"
-      - title: "Codex CLI·Ponytail 관리"
+      - title: "Codex CLI·Ponytail·Archify 관리"
         path: "01.Tools/codex.md"
       - title: "도구 제거와 숨김 설정·캐시 정리"
         path: "01.Tools/uninstall-cleanup.md"
