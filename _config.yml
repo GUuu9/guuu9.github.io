@@ -112,3 +112,5 @@ document_navigation:
         path: "04.Servers/01-linux-server.md"
       - title: "Docker 개발 환경"
         path: "04.Servers/02-docker-development.md"
+      - title: "SSH Git bare 저장소 운영"
+        path: "04.Servers/03-bare-git-server.md"
