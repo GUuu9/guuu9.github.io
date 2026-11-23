@@ -38,8 +38,6 @@ document_navigation:
         path: "00.Setup/macOS_Dev_Setting.md"
       - title: "Windows 개발 환경 설정"
         path: "00.Setup/Windows_Dev_Setting.md"
-      - title: "Linux 개발 환경 설정 (Ubuntu / Debian)"
-        path: "00.Setup/Linux_Dev_Setting.md"
   - title: "Tools"
     path: "01.Tools/"
     children:
@@ -110,52 +108,7 @@ document_navigation:
     children:
       - title: "외부 서버 설정"
         path: "04.Servers/README.md"
-      - title: "docker-server"
-        path: "04.Servers/docker-server/"
-        children:
-          - title: "외부 서버의 Docker 개인 작업 영역 구성"
-            path: "04.Servers/docker-server/README.md"
-          - title: "구축 절차 · guides"
-            path: "04.Servers/docker-server/guides/"
-            children:
-              - title: "1. 서버용 PC 준비와 Docker Engine"
-                path: "04.Servers/docker-server/guides/docker_remote_dev_env.md"
-              - title: "2. 서버에서 사용자 작업 영역 생성·개인 PC 접속"
-                path: "04.Servers/docker-server/guides/docker_container_setup.md"
-          - title: "Docker 작업 영역 서버 운영·버전·복구"
-            path: "04.Servers/docker-server/operations.md"
-          - title: "서버 작업 영역 종류와 이미지 선택"
-            path: "04.Servers/docker-server/workspace-types.md"
-          - title: "언어별 환경 · environments"
-            path: "04.Servers/docker-server/environments/"
-            children:
-              - title: "ubuntu"
-                path: "04.Servers/docker-server/environments/ubuntu/"
-                children:
-                  - title: "서버 작업 영역 기본 사용"
-                    path: "04.Servers/docker-server/environments/ubuntu/README.md"
-              - title: "nodejs"
-                path: "04.Servers/docker-server/environments/nodejs/"
-                children:
-                  - title: "서버 Node.js·React·Electron 작업 영역"
-                    path: "04.Servers/docker-server/environments/nodejs/README.md"
-              - title: "typescript"
-                path: "04.Servers/docker-server/environments/typescript/"
-                children:
-                  - title: "서버 TypeScript 작업 영역"
-                    path: "04.Servers/docker-server/environments/typescript/README.md"
-              - title: "python"
-                path: "04.Servers/docker-server/environments/python/"
-                children:
-                  - title: "서버 Python 작업 영역"
-                    path: "04.Servers/docker-server/environments/python/README.md"
-              - title: "flutter"
-                path: "04.Servers/docker-server/environments/flutter/"
-                children:
-                  - title: "서버 Flutter·Android 빌드 작업 영역"
-                    path: "04.Servers/docker-server/environments/flutter/README.md"
-              - title: "rust"
-                path: "04.Servers/docker-server/environments/rust/"
-                children:
-                  - title: "서버 Rust 작업 영역"
-                    path: "04.Servers/docker-server/environments/rust/README.md"
+      - title: "Ubuntu Linux 서버 설치·초기 설정"
+        path: "04.Servers/01-linux-server.md"
+      - title: "Docker 개발 환경"
+        path: "04.Servers/02-docker-development.md"

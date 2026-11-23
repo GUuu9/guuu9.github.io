@@ -44,7 +44,7 @@ Windows 컨테이너가 필요하면 별도 지원 조건·설치 모드를 확�
 
 개인 PC PowerShell에서 `wsl --list --online`으로 배포판을 확인하고 선택한 배포판을 설치합니다. 예를 들어 Ubuntu가 목록에 있으면 `wsl --install -d Ubuntu`를 사용하고 Linux 사용자 생성을 마칩니다.
 
-WSL 안의 도구는 [Linux 문서](../00.Setup/Linux_Dev_Setting.md)를 따르되, VS Code는 Windows 설치본과 WSL 확장으로 연결하고 Docker는 Windows Docker Desktop의 해당 배포판 통합을 사용합니다. Linux GUI 앱·Docker Desktop을 중복 설치하지 않습니다. 소스는 Linux 홈 파일시스템에 두고 Windows의 `node_modules`·`.venv`를 공유하지 않습니다. Codex·Ponytail도 WSL에서 쓰려면 해당 환경에 별도 설치·인증합니다. Windows에 연결한 Android USB 기기가 WSL에 자동 전달된다고 가정하지 않습니다.
+WSL 안의 개발 도구는 필요한 도구의 공식 Linux 설치 절차를 따릅니다. VS Code는 Windows 설치본과 WSL 확장으로 연결하고 Docker는 Windows Docker Desktop의 해당 배포판 통합을 사용합니다. Linux GUI 앱·Docker Desktop을 중복 설치하지 않습니다. 소스는 Linux 홈 파일시스템에 두고 Windows의 `node_modules`·`.venv`를 공유하지 않습니다. Codex·Ponytail도 WSL에서 쓰려면 해당 환경에 별도 설치·인증합니다. Windows에 연결한 Android USB 기기가 WSL에 자동 전달된다고 가정하지 않습니다.
 
 ## Linux Docker Desktop 설치
 
@@ -58,7 +58,7 @@ docker compose version
 docker run --rm hello-world
 ```
 
-Desktop은 별도 VM·`desktop-linux` context를 사용하며 호스트 Engine의 이미지·컨테이너·볼륨을 자동 공유하지 않습니다. 포트 충돌을 피하도록 사용할 엔진을 구분합니다. GUI 없는 서버에는 Desktop 대신 [Docker Engine](https://docs.docker.com/engine/install/)과 [서버 가이드](../04.Servers/docker-server/README.md)를 사용합니다. WSL에서는 Windows Docker Desktop 통합을 사용하며 Linux Desktop을 중복 설치하지 않습니다.
+Desktop은 별도 VM·`desktop-linux` context를 사용하며 호스트 Engine의 이미지·컨테이너·볼륨을 자동 공유하지 않습니다. 포트 충돌을 피하도록 사용할 엔진을 구분합니다. GUI 없는 서버에는 Desktop 대신 [Docker Engine](https://docs.docker.com/engine/install/)과 [서버 가이드](../04.Servers/README.md)를 사용합니다. WSL에서는 Windows Docker Desktop 통합을 사용하며 Linux Desktop을 중복 설치하지 않습니다.
 
 ## Intel Ventura의 Docker Desktop 4.48.0
 
@@ -90,7 +90,7 @@ fac73a1edc91e6bce5a449e83e3d0b537f19df74c5f51af4705e479cf0d32515
 2. Docker.app을 실행하고 초기 설정·필요한 권한 안내를 완료합니다. 엔진이 준비되면 [공통 설치 문서의 확인 명령](#macos-docker-desktop-설치)을 실행합니다. `docker version`에 Client와 Server가 모두 표시되어야 합니다. Docker Desktop 앱 버전 4.48.0과 포함된 Engine·Compose 버전은 서로 다릅니다.
 3. 앱의 업데이트 설정에서 자동 다운로드·자동 설치 항목이 있으면 끄고 4.48.0을 유지합니다. macOS 13에서는 최신 버전 업데이트를 수락하지 않습니다. 새 버전 전환 전에는 OS 요구 조건과 데이터 백업을 다시 확인합니다.
 
-이 방법은 **지원이 종료된 구버전으로 로컬 개발 환경을 복원하는 방법**입니다. 최신 보안 수정은 포함되지 않습니다. 장기 사용은 해당 Mac에서 공식 지원하는 macOS로 업그레이드한 뒤 지원되는 Docker Desktop을 설치하거나, [Linux Docker 서버](../04.Servers/docker-server/README.md)에서 작업하고 Mac은 SSH·VS Code로 접속하는 구성을 검토합니다. 서버의 볼륨과 소스는 Mac의 기존 로컬 데이터와 별개입니다.
+이 방법은 **지원이 종료된 구버전으로 로컬 개발 환경을 복원하는 방법**입니다. 최신 보안 수정은 포함되지 않습니다. 장기 사용은 해당 Mac에서 공식 지원하는 macOS로 업그레이드한 뒤 지원되는 Docker Desktop을 설치하거나, [Linux Docker 서버](../04.Servers/README.md)에서 작업하고 Mac은 SSH·VS Code로 접속하는 구성을 검토합니다. 서버의 볼륨과 소스는 Mac의 기존 로컬 데이터와 별개입니다.
 
 검증 범위: 현재 Mac의 OS·CPU, 공식 지원 변경 내용, DMG HTTP 응답과 공식 체크섬 조회를 확인했습니다. 설치 파일 전체 다운로드·서명 검사·설치·엔진 실행·기존 데이터 복원은 수행하지 않았습니다.
 
@@ -190,11 +190,11 @@ VS Code의 Dev Containers 설정이 있는 프로젝트는 기존 구성을 재�
 SSH 개발 컨테이너에 연결할 때는 개인 PC에서 다음 순서로 진행합니다.
 
 1. `ssh -V`로 SSH 클라이언트를 확인하고 VS Code Extensions에서 Microsoft Remote - SSH를 설치합니다. Dev Containers 확장은 직접 SSH 방식의 필수 조건이 아닙니다.
-2. 관리자가 준 주소·포트·사용자·공개키 등록 여부·host key 지문을 확인하고 먼저 일반 터미널에서 SSH 로그인이 되는지 검사합니다. 키 생성·SSH config 예시는 [서버 접속 안내](../04.Servers/docker-server/README.md#6-개인-pc에서-sshvs-code-접속)를 따릅니다. 개인 키는 개인 PC에 보관합니다.
+2. 관리자가 준 주소·포트·사용자·공개키 등록 여부·host key 지문을 확인하고 먼저 일반 터미널에서 SSH 로그인이 되는지 검사합니다. 키 생성·SSH config 예시는 [서버 접속 안내](../04.Servers/README.md#6-개인-pc에서-sshvs-code-접속)를 따릅니다. 개인 키는 개인 PC에 보관합니다.
 3. VS Code 명령 팔레트에서 `Remote-SSH: Connect to Host...`를 실행하고 등록한 프로필을 선택합니다. 서버 플랫폼을 물으면 실제 컨테이너의 Linux를 선택합니다.
 4. 첫 연결에서 VS Code Server 구성 요소를 원격 사용자 권한으로 준비합니다. 사용자 home의 쓰기 권한·디스크 여유와 다운로드 통신 경로가 필요합니다. 별도 데스크톱 VS Code 앱을 컨테이너에 설치하지 않습니다.
 5. 원격 창에서 **Open Folder**로 컨테이너 안 프로젝트를 열고 통합 터미널의 `whoami`, `hostname`, `pwd`로 실행 위치를 확인합니다. 빌드·디버깅 명령과 패키지는 컨테이너 OS·CPU 환경을 사용합니다.
-6. 필요한 언어 확장·런타임·프로젝트 의존성을 [서버 작업 영역 가이드](../04.Servers/docker-server/guides/docker_container_setup.md#vs-code-확장과-프로젝트-패키지)에 따라 준비합니다. 웹 앱은 Ports 탭으로 필요한 포트만 전달합니다.
+6. 필요한 언어 확장·런타임·프로젝트 의존성을 [서버 작업 영역 가이드](../04.Servers/01-linux-server.md)에 따라 준비합니다. 웹 앱은 Ports 탭으로 필요한 포트만 전달합니다.
 7. 작업을 저장하고 `Remote: Close Remote Connection`으로 연결을 닫습니다. 연결 종료만으로 컨테이너가 중지되지 않습니다.
 
 컨테이너의 프로젝트·원격 확장·사용자 설정을 재생성 후 유지하려면 해당 경로가 볼륨에 있는지 확인합니다. 이 저장소의 서버 구성은 사용자 home을 볼륨으로 보관합니다. `devcontainer.json`의 postCreateCommand는 직접 SSH 연결 시 실행되지 않습니다.
@@ -295,9 +295,9 @@ docker image load -i my-dev-1.0.0.tar
 | 권한 오류 | 컨테이너 UID/GID·호스트 파일 소유자. chmod 777로 일괄 우회하지 않음 |
 | exec 실패 | 서비스 실행 여부와 셸 포함 여부 |
 | 느린 빌드 | 빌드 컨텍스트 크기·dockerignore·캐시·CPU 아키텍처 |
-| Jupyter/R 그래프 한글 깨짐 | [D2Coding 설치·Python/R 적용](../04.Servers/docker-server/workspace-types.md#jupyterr-그래프의-한글-폰트). 호스트 폰트와 구분 |
+| Jupyter/R 그래프 한글 깨짐 | [D2Coding 설치·Python/R 적용](../04.Servers/02-docker-development.md). 호스트 폰트와 구분 |
 
-로컬 접속만 필요하면 컨테이너 안에 SSH 서버를 추가하지 않고 exec 또는 VS Code Dev Containers를 사용합니다. 원격 호스트·개발 컨테이너 구성과 템플릿은 [서버 Docker 가이드](../04.Servers/docker-server/README.md)을 참고합니다. 기존 문서의 이미지 스냅샷은 볼륨 백업을 대체하지 않습니다.
+로컬 접속만 필요하면 컨테이너 안에 SSH 서버를 추가하지 않고 exec 또는 VS Code Dev Containers를 사용합니다. 원격 호스트·개발 컨테이너 구성과 템플릿은 [Docker 서버 가이드](../04.Servers/README.md)을 참고합니다. 기존 문서의 이미지 스냅샷은 볼륨 백업을 대체하지 않습니다.
 
 제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.
 <!-- {% endraw %} -->

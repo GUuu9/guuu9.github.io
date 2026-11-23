@@ -7,7 +7,6 @@
 | :--- | :--- |
 | macOS | [개발 환경 설정](./macOS_Dev_Setting.md#cpu별-확인-사항) |
 | Windows | [Windows 설정](./Windows_Dev_Setting.md) |
-| Ubuntu / Debian | [Linux 설정](./Linux_Dev_Setting.md) |
 
 ## 완료
 

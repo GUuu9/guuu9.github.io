@@ -21,7 +21,6 @@
 | Windows 11 x64 | [Windows 설정](./00.Setup/Windows_Dev_Setting.md) | v5.1.0 | 구조·링크 검사 통과 | 미검증 | 2026-11-03 |
 | macOS Apple Silicon | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Apple Silicon 기기 미검증 | 2026-11-03 |
 | macOS Intel | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Intel Mac·macOS 13.7.8 확인, 전체 설치 흐름 미검증 | 2026-11-03 |
-| Linux Ubuntu / Debian x86_64 | [Linux 설정](./00.Setup/Linux_Dev_Setting.md) | v5.0.0 | 구조·링크 검사 통과 | 미검증 | 2026-11-03 |
 
 문서 점검은 버전·코드 블록·내부 링크를 확인한 결과입니다. 실제 설치·빌드 성공을 뜻하지 않습니다. macOS 설치 이후 프로젝트별 시작·업데이트는 [안내](./00.Setup/macOS_Dev_Setting.md#프로젝트-시작업데이트)에서 Tools 문서로 이어집니다.
 
@@ -57,16 +56,14 @@ TypeScript Composer v0.0.0은 6개 backend·웹·Electron·Phaser 구성에서 �
 - [ArtCraft Launcher·Craft 도구](./03.Utilities/craft.md): Craft 앱 설치·업데이트와 소스 빌드
 - [Firefox·Chrome](./03.Utilities/browsers.md): OS별 설치·실행·업데이트
 
-## 04.Servers — 외부 서버
+## 04.Servers — 원격 개발 서버
 
-[Docker 작업 영역 서버](./04.Servers/docker-server/README.md)는 서버용 PC의 관리자가 사용자별 컨테이너를 만들고, 사용자가 개인 PC의 SSH·VS Code로 접속하는 구성입니다.
+서버 PC에 SSH로 접속해 파일·프로젝트를 사용하고, 필요하면 Docker CLI로 개발 환경을 실행합니다.
 
-1. [서버 준비](./04.Servers/docker-server/guides/docker_remote_dev_env.md)
-2. [사용자 작업 영역 생성·접속](./04.Servers/docker-server/guides/docker_container_setup.md)
-3. [작업 영역 종류·이미지 선택](./04.Servers/docker-server/workspace-types.md): RStudio·JupyterLab·브라우저 IDE·Android
-4. [버전·업데이트·백업·복구](./04.Servers/docker-server/operations.md)
+1. [Linux 원격 접속 서버](./04.Servers/01-linux-server.md): Ubuntu Server·SSH 키·VS Code Remote-SSH
+2. [Docker 개발 환경](./04.Servers/02-docker-development.md): Docker Engine·이미지·`docker run`·프로젝트 경로·포트 전달
 
-실행 설정은 공통 [Dockerfile](./04.Servers/docker-server/Dockerfile)과 [Compose](./04.Servers/docker-server/compose.yaml)를 기준으로 사용합니다. 언어별 설정은 서버 안내의 환경 목록에서 선택합니다.
+Dockerfile·Compose를 사용하지 않고 실행 명령과 이미지 버전을 기록하는 방식입니다.
 
 ## 문서 관리
 

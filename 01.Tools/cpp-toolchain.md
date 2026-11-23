@@ -141,7 +141,7 @@ CMake 타깃의 C_STANDARD·CXX_STANDARD 또는 target_compile_features로 요�
 4. 경고·ABI·배포 의존성 변경을 검토하고 프리셋·CI·개발 안내를 함께 갱신합니다.
 5. 실패하면 이전 프리셋·툴체인·의존성 설정으로 복귀합니다. 확인 전 이전 SDK·컴파일러를 제거하지 않습니다.
 
-서버 컨테이너의 apt 도구 변경은 관리자가 새 이미지 버전으로 배포합니다. OS 태그·apt 설치 명령만으로 과거 환경을 완전히 재현할 수 없으므로 검증한 이미지 ID·digest와 도구 버전을 [서버 운영 기록](../04.Servers/docker-server/operations.md)에 함께 남깁니다. macOS·Windows 빌드는 Linux 이미지로 모두 대체할 수 없습니다.
+Docker 개발 컨테이너에서 apt로 설치한 도구는 컨테이너 내부 상태에 포함됩니다. 다른 PC와 공유하려면 컨테이너를 이미지로 저장하고 이미지 태그·digest·도구 버전을 [Docker 환경 공유 절차](../04.Servers/02-docker-development.md#5-개발-환경-저장다른-pc로-전달)에 기록합니다. bind mount한 프로젝트 파일은 이미지와 별도로 보관합니다. macOS·Windows 빌드는 Linux 컨테이너로 대체할 수 없습니다.
 
 공식 참고: [CMake 툴체인](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html), [프리셋](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html), [C++ 표준](https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html), [Apple 명령줄 도구 선택](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
 
