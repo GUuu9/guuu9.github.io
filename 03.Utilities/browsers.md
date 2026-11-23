@@ -1,50 +1,22 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # Firefox·Google Chrome 설치·실행·업데이트
 
-확인일: 2026-10-28. 웹 개발 결과를 서로 다른 브라우저에서 확인하고 일반 웹 작업에 사용합니다. [Firefox 공식 배포](https://www.mozilla.org/firefox/)와 [Chrome 공식 배포](https://www.google.com/chrome/)에서 OS·CPU 지원 조건을 확인합니다. 브라우저 바이너리는 임의의 GitHub 미러에서 받지 않습니다.
+웹 개발 결과를 Firefox와 Chrome에서 확인하거나 일반 웹 작업에 사용합니다. 두 브라우저는 각 공식 메인 페이지에서 운영체제에 맞는 설치 파일을 내려받아 설치합니다.
 
-## macOS
+| 브라우저 | 공식 다운로드 페이지 | 용도 |
+| :--- | :--- | :--- |
+| Firefox | [mozilla.org/firefox](https://www.mozilla.org/firefox/) | Firefox 기반 웹 호환성 확인·일반 웹 사용 |
+| Google Chrome | [google.com/chrome](https://www.google.com/chrome/) | Chromium 기반 웹 호환성 확인·일반 웹 사용 |
 
-공식 dmg를 받아 Applications에 설치합니다. Homebrew는 기본 설치 경로로 사용하지 않습니다. 사용하는 macOS·CPU가 지원되는지 공식 배포 페이지에서 확인하고 별도의 비공식 curl 설치기를 사용하지 않습니다.
+## 설치
 
-응용 프로그램 목록에서 실행합니다. 터미널에서는:
+공식 페이지를 열고 다운로드를 선택합니다. 운영체제·CPU 선택 항목이 표시되면 현재 PC에 맞는 파일을 받습니다. 다운로드한 설치 파일을 실행하고 화면 안내를 따릅니다. Linux는 공식 페이지에서 제공하는 배포판 패키지와 설치 안내를 사용합니다. 배포판 저장소나 패키지 관리자를 통한 별도 설치 경로를 이 문서의 기본 절차로 사용하지 않습니다.
 
-```bash
-open -a Firefox http://localhost:3000
-open -a "Google Chrome" http://localhost:3000
-```
+## 업데이트
 
-앱의 자동 업데이트 또는 아래 정보 화면의 업데이트·재시작 기능으로 관리합니다. 기존 Homebrew 설치를 유지한다면 [선택용 brew 가이드](../01.Tools/brew.md)를 따르고 두 방식으로 같은 앱을 중복 설치하지 않습니다.
+브라우저의 앱 내 업데이트 기능을 사용합니다.
 
-## Windows
+- Firefox: 메뉴의 도움말 → Firefox 정보에서 버전을 확인하고 업데이트·재시작합니다. [Firefox 업데이트 안내](https://support.mozilla.org/en-US/kb/update-firefox-latest-release)
+- Chrome: `chrome://settings/help`에서 업데이트 상태를 확인하고 다시 시작합니다. [Chrome 업데이트 안내](https://support.google.com/chrome/answer/95414)
 
-공식 설치 프로그램 또는 winget으로 설치합니다.
-
-```powershell
-winget install --id Mozilla.Firefox -e --source winget
-winget install --id Google.Chrome -e --source winget
-```
-
-시작 메뉴에서 Firefox·Chrome을 실행하고 개발 서버 URL을 엽니다. winget 수동 업데이트는 해당 앱별로 `winget upgrade --id Mozilla.Firefox -e`, `winget upgrade --id Google.Chrome -e`를 사용합니다.
-
-## Linux (Ubuntu / Debian)
-
-Firefox는 배포판이 제공하는 apt·Snap 등 실제 설치 방식을 확인합니다. Ubuntu에서는 apt 패키지가 Snap 설치로 연결될 수 있으므로 설치 명령만 보고 관리 경로를 판단하지 않습니다. Chrome은 공식 사이트의 지원 아키텍처용 deb와 설치 안내를 사용합니다.
-
-앱 메뉴에서 실행하거나 설치된 실행 파일이 PATH에 있으면:
-
-```bash
-firefox http://localhost:3000
-google-chrome http://localhost:3000
-```
-
-apt 설치는 `sudo apt update` 후 실제 패키지 이름으로 갱신합니다. Chrome 공식 deb·저장소 설치는 `sudo apt install --only-upgrade google-chrome-stable`입니다. Firefox가 Snap이면 `snap list firefox`로 확인하고 `sudo snap refresh firefox`로 갱신합니다. 배포판 패키지 브라우저는 앱 내부 업데이트 대신 패키지 관리자를 따릅니다.
-
-## 앱 내부 업데이트와 확인
-
-- Firefox: 메뉴의 도움말 → Firefox 정보에서 버전을 확인하고 제공된 업데이트·재시작을 진행합니다. macOS는 Firefox 메뉴의 정보 항목을 사용합니다.
-- Chrome: `chrome://settings/help`에서 버전·업데이트 상태를 확인하고 다시 시작합니다. Linux는 패키지 관리자로 갱신합니다.
-
-업데이트 전 작성 중인 폼·다운로드 등 작업을 저장하고 재시작 후 개발 사이트의 로그인·확장 기능·표시를 확인합니다. 브라우저 앱 업데이트와 프로필 동기화는 별개입니다. 재설치·프로필 초기화 전 북마크와 필요한 데이터를 백업하며 보안 업데이트를 피하려고 구버전으로 장기 고정하지 않습니다.
-
-공식 참고: [Firefox 업데이트](https://support.mozilla.org/en-US/kb/update-firefox-latest-release), [Chrome 업데이트](https://support.google.com/chrome/answer/95414).
+업데이트 전 작성 중인 폼·다운로드 등 작업을 저장합니다. 재설치·프로필 초기화 전 북마크와 필요한 데이터를 백업합니다. 보안 업데이트를 피하려고 구버전을 장기간 고정하지 않습니다.

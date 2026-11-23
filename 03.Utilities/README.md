@@ -4,9 +4,11 @@
 
 | 문서 | 내용 |
 | :--- | :--- |
+| [ArtCraft 앱](./artcraft.md) | 창작 앱 모음의 용도와 공식 런처·소스 링크 |
+| [ChatGPT](./chatgpt.md) | 용도와 공식 웹·앱 다운로드 링크 |
 | [ComfyUI](./comfyui.md) | GitHub 수동 설치·실행·업데이트·데이터 보존 |
-| [Firefox·Chrome](./browsers.md) | OS별 설치·실행·업데이트 |
-| [Craft 앱](./craft.md) | 일반 사용은 Launcher, 소스 수정·기여는 Rust 빌드 |
+| [Firefox·Chrome](./browsers.md) | 공식 메인 페이지 다운로드·설치·업데이트 |
+
 
 
 각 문서는 용도, 공식 배포처, 지원 OS·CPU, 설치 방식, 실행·종료, 업데이트·복귀, 사용자 데이터 보관 위치를 기록합니다. 동일 앱을 패키지 관리자·직접 다운로드로 중복 설치하지 않고 설치 경로에 맞게 업데이트합니다.

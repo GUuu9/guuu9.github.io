@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.3.1 -->
 # VS Code·코딩 폰트 설치·설정
 
 macOS·Windows·Linux에서 VS Code·Android Studio와 D2Coding을 설정합니다. 설치된 서체 관리자에서 패밀리 이름을 확인해 각 앱에 지정합니다.
@@ -40,7 +40,7 @@ fc-list : family | sort -u
 
 ## macOS VS Code 설치
 
-[공식 macOS 배포판](https://code.visualstudio.com/docs/setup/mac)을 내려받아 압축을 풀고 Visual Studio Code.app을 Applications로 옮겨 실행합니다. 사용하는 OS·CPU와 호환되는 배포판을 선택합니다. 별도 비공식 curl 설치 스크립트는 사용하지 않습니다.
+[공식 macOS 배포판](https://code.visualstudio.com/docs/setup/mac)을 내려받아 압축을 풀고 Visual Studio Code.app을 Applications로 옮겨 실행합니다. Intel Mac은 `Intel chip` 또는 `Universal` 빌드를 선택하고, Apple Silicon 전용 빌드는 사용하지 않습니다. 별도 비공식 curl 설치 스크립트는 사용하지 않습니다.
 
 VS Code 명령 팔레트에서 `Shell Command: Install 'code' command in PATH`를 실행하고 새 터미널에서 `code --version`을 확인합니다.
 

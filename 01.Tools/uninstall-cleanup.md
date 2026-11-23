@@ -37,7 +37,7 @@
 | Ruby·rbenv·CocoaPods | 사용하는 설치 방식과 버전을 확인한 뒤 [Ruby 도구 관리](./ruby.md#업데이트복귀제거)에 따라 선택 제거 | `.ruby-version`·Gemfile·잠금 파일을 보존. 공유 Ruby·gem과 다른 프로젝트의 참조를 먼저 확인 |
 | Android Studio | 설치 방식에 맞춰 IDE 제거; SDK·에뮬레이터는 관리자에서 별도 제거 | IDE의 실제 설정·plugin·cache 경로를 공식 안내로 확인. `~/.android`에는 AVD·adb 키·debug keystore 등이 있을 수 있음. `~/.gradle`은 여러 프로젝트가 공유. SDK Manager의 Android SDK Location과 프로젝트 의존 확인 후 선택 정리 |
 | Docker | 컨테이너·이미지는 도구 가이드대로 선택 제거; Desktop은 공식 제거 기능 사용 | `~/.docker`는 CLI context·인증 설정을 포함할 수 있음. volume·bind mount·Desktop VM 데이터는 백업을 먼저 결정. 앱 제거를 볼륨 백업으로 간주하거나 `down -v`/일괄 prune으로 시작하지 않음 |
-| Codex·Ponytail·Archify | 플러그인·스킬만 제거하려면 [Codex 가이드](./codex.md)의 플러그인·스킬 제거 절차 | Codex 사용자 디렉터리에는 인증·설정·기록·다른 스킬이 있을 수 있으므로 플러그인·스킬 제거를 위해 통째로 삭제하지 않음. 본체는 실제 설치 방식의 제거 절차 확인 |
+| Codex·Ponytail·Archify | [Agent Skills·Plugins 안내](./agent-skills/README.md)의 해당 에이전트 제거 절차 | 사용자 디렉터리에는 인증·설정·기록·다른 스킬이 있을 수 있으므로 폴더 전체를 삭제하지 않음. 본체는 실제 설치 방식의 제거 절차 확인 |
 | Git·GitHub | Git은 실제 설치 관리자에서 제거; 인증 해제는 사용한 자격 증명 관리자에서 해당 계정만 선택 | `~/.gitconfig`, 프로젝트 `.git`, SSH 키·GitHub 토큰은 별도 데이터. 도구 제거 시 저장소·공유 키를 삭제하지 않음. 서버에 등록된 토큰·키 폐기는 로컬 파일 삭제와 별도 |
 
 ## Homebrew: 패키지와 잔여 설정 분리

@@ -1,14 +1,9 @@
-<!-- version: v6.1.0 -->
-# macOS 개발 환경 설정
+<!-- version: v6.2.0 -->
+# macOS Apple Silicon 개발 환경 설정
 
 처음 설치하거나 Mac을 다시 설정할 때 사용합니다. **시스템 설정 → 일반 → 정보**에서 칩과 macOS 버전을 확인합니다. 아래 명령은 개인 사용자 터미널에서 실행합니다. 도구의 상세 사용·업데이트는 연결한 Tools 문서를 참고합니다.
 
-## CPU별 확인 사항
-
-| CPU | 확인 사항 |
-| :--- | :--- |
-| Apple Silicon | 터미널·VS Code를 `arm64`로 실행합니다. Rosetta의 `x86_64` 도구와 혼용하지 않습니다. |
-| Intel | macOS·Xcode 지원 범위가 최신 도구 설치를 제한할 수 있습니다. Intel용 배포판이 현재 macOS에서 실행된다고 가정하지 않습니다. 기존 macOS 13.7.8 환경의 Homebrew 제한은 [Intel 설치 안내](../01.Tools/brew.md#과거-공식-설치-스크립트로-신규-설치-시도), Flutter 3.35.7은 [기존 Flutter 기준](../01.Tools/fvm.md#intel-macbook의-flutter-버전-고정), Docker Desktop 4.48.0은 [해당 버전의 제약](../01.Tools/docker.md#intel-ventura의-docker-desktop-4480)을 확인합니다. 이 기록은 모든 Intel Mac의 지원 상한이 아닙니다. |
+Apple Silicon Mac 전용 설정 순서입니다. **시스템 설정 → 일반 → 정보**에서 칩이 Apple M 계열인지 확인하고 터미널에서 `uname -m`이 `arm64`인지 확인합니다. Intel Mac은 [Intel 전용 설정](./macOS_Intel_Dev_Setting.md)을 사용합니다.
 
 ## 1. 필수 설정
 
@@ -46,7 +41,7 @@ DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" xcodebuild -version
 
 ### Homebrew
 
-Apple Silicon에서 설치합니다. Intel은 최신 설치기가 제한되므로 [Intel 절차](../01.Tools/brew.md#과거-공식-설치-스크립트로-신규-설치-시도)를 확인합니다.
+Apple Silicon에서 공식 설치기를 사용합니다.
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -55,8 +50,7 @@ Apple Silicon에서 설치합니다. Intel은 최신 설치기가 제한되므�
 설치기가 출력한 PATH 안내를 따릅니다. 기본 경로를 쓰는 경우 CPU에 맞는 한 줄을 `~/.zprofile`에 추가하고 새 터미널에서 확인합니다.
 
 ```bash
-eval "$(/opt/homebrew/bin/brew shellenv)"  # Apple Silicon
-eval "$(/usr/local/bin/brew shellenv)"    # Intel 기존 설치
+eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
 ```bash
@@ -188,8 +182,6 @@ bundle exec pod --version
 ```
 
 ### CMake·minicom
-
-Intel·Ventura는 설치 지원이 제한될 수 있습니다.
 
 ```bash
 brew install cmake minicom

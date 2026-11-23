@@ -11,10 +11,6 @@ Unity 프로젝트를 개발할 때만 설치합니다. 개인 PC의 OS·CPU·�
 
 Unity가 필요하면 [공식 Unity Hub](https://unity.com/download)를 설치하고 실행만 확인합니다. 정확한 Editor와 빌드 모듈은 프로젝트 복원 때 선택합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
 
-## Linux Unity Hub 설치
-
-Unity가 필요하면 [공식 Hub Linux 설치 안내](https://docs.unity.com/en-us/hub/install-hub)의 배포판 지원 조건에 따라 Hub를 설치하고 실행만 확인합니다. 프로젝트 Editor와 빌드 모듈은 이후 선택합니다. Unity 작업만을 위해 최신 .NET SDK를 일괄 설치하지 않습니다.
-
 ## 프로젝트 Editor 선택·업데이트·복귀
 
 Hub에서 로그인·라이선스를 활성화하고 `ProjectSettings/ProjectVersion.txt`의 정확한 Editor와 필요한 빌드 모듈을 설치합니다. Unity Android SDK·NDK·OpenJDK는 Hub 모듈을 우선하며 Flutter용 경로로 일괄 덮어쓰지 않습니다. iOS는 Xcode도 필요합니다. Unity External Tools에서 VS Code를 선택하고 Microsoft Unity 확장의 요구 조건에 맞춰 연동합니다.

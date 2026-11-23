@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.0.1 -->
 # Ruby·Bundler·CocoaPods
 
 macOS의 Ruby·CocoaPods 설치와 프로젝트별 버전 사용 안내입니다. 기존 프로젝트는 `.ruby-version`, `Gemfile`, `Gemfile.lock`을 우선합니다. 시스템 Ruby에는 `sudo gem install`을 사용하지 않습니다.
@@ -35,7 +35,7 @@ eval "$(rbenv init - zsh)"
 type rbenv
 ```
 
-Intel·구형 macOS에서 Homebrew가 동작하지 않을 때는 [rbenv 공식 Git 설치](https://github.com/rbenv/rbenv#installation)를 사용합니다. 기존 `~/.rbenv`가 있으면 그 위에 clone하지 않습니다.
+Intel Mac 신규 설정은 최신 Homebrew 설치기가 지원하지 않으므로 [Intel용 Homebrew 설치 절차](./brew.md#intel-지원-범위와-버전-선택)를 먼저 확인합니다. Homebrew 대신 rbenv를 직접 설치할 때는 [rbenv 공식 Git 설치](https://github.com/rbenv/rbenv#installation)를 사용합니다. 기존 `~/.rbenv`가 있으면 그 위에 clone하지 않습니다.
 
 ```bash
 git clone https://github.com/rbenv/rbenv.git "$HOME/.rbenv"

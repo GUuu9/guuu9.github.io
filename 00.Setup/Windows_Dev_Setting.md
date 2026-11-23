@@ -1,4 +1,4 @@
-<!-- version: v5.1.0 -->
+<!-- version: v5.1.3 -->
 # Windows 개발 환경 설정
 
 Windows 11 x64·PowerShell 기준입니다. WSL은 별도 Linux 환경으로 관리합니다. 아래 명령은 일반 PowerShell에서 실행하며 설치기가 권한 상승을 요구할 때만 승인합니다.
@@ -17,10 +17,10 @@ Git·VS Code·C++ Build Tools를 설치합니다. Build Tools 설치 뒤 Visual 
 ```powershell
 winget install --id Git.Git -e --source winget
 winget install --id Microsoft.VisualStudioCode -e --source winget
-winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
 ```
 
-새 PowerShell을 열어 확인합니다. `cl`은 **Developer PowerShell for VS**에서 확인합니다.
+Build Tools 설치기에서 **Desktop development with C++** 워크로드와 Windows SDK가 설치되었는지 확인합니다. 일반 PowerShell에는 MSVC 환경 변수가 설정되지 않으므로 시작 메뉴에서 **Developer PowerShell for VS 2022**를 열어 확인합니다.
 
 ```powershell
 git --version
@@ -41,6 +41,16 @@ $env:Path -split ';'
 Get-Command git, code -ErrorAction SilentlyContinue
 ```
 
+Chocolatey를 설치합니다. winget이 설치를 마친 뒤 새 PowerShell을 열어 확인합니다. 설치 과정에서 관리자 권한을 요청하면 승인합니다. [Chocolatey 설치 안내](https://docs.chocolatey.org/en-us/choco/setup/)
+
+```powershell
+winget install --id chocolatey.chocolatey --source winget
+```
+
+```powershell
+choco --version
+```
+
 [D2Coding 공식 릴리스](https://github.com/naver/d2codingfont/releases)에서 TTF/TTC 파일을 내려받아 우클릭 → **Install**을 선택합니다. VS Code의 `Configure Display Language`에서 Korean을 선택하고 User Settings에 아래 JSON을 적용합니다.
 
 ```json
@@ -57,39 +67,24 @@ Get-Command git, code -ErrorAction SilentlyContinue
 }
 ```
 
-## 2. 작업 공간과 데이터 드라이브
+## 2. 프로젝트 작업 폴더
 
-저장소와 용량이 큰 SDK·캐시는 OS 드라이브와 분리합니다. 아래 예시는 `D:\Dev` 기준이므로 실제 데이터 드라이브 문자로 바꿉니다. 프로그램 자체는 설치기가 정한 위치에 두고, 설정에서 저장 위치를 지정할 수 있는 데이터만 옮깁니다.
+개발 도구와 SDK는 설치기의 기본 경로인 C 드라이브에 설치합니다. 프로젝트 저장소(소스 코드와 프로젝트 문서)만 D 드라이브에 둡니다.
 
-```powershell
-$DevRoot = 'D:\Dev'
-$Repositories = Join-Path $DevRoot 'repositories'
-New-Item -ItemType Directory -Force -Path $Repositories | Out-Null
-Set-Location $Repositories
-```
+파일 탐색기에서 사용할 프로젝트 폴더를 D 드라이브에 만듭니다. 이후 프로젝트를 내려받거나 생성할 때 해당 폴더를 선택합니다.
 
-프로젝트 저장소는 `$Repositories` 아래에 clone합니다. Node·Flutter·Gradle·uv의 버전 파일과 캐시도 데이터 드라이브에 두려면 사용자 환경 변수로 지정합니다. 새 PowerShell을 연 뒤 적용됩니다.
-
-```powershell
-[Environment]::SetEnvironmentVariable('FVM_CACHE_PATH', 'D:\Dev\Flutter', 'User')
-[Environment]::SetEnvironmentVariable('GRADLE_USER_HOME', 'D:\Dev\Gradle', 'User')
-[Environment]::SetEnvironmentVariable('UV_CACHE_DIR', 'D:\Dev\uv-cache', 'User')
-```
+## 3. 개발 도구
 
 ### Node.js
 
-[nvm-windows 공식 릴리스](https://github.com/coreybutler/nvm-windows/releases)를 설치한 뒤 Node 버전 저장소를 데이터 드라이브로 지정합니다. nvm 프로그램 파일은 설치기 기본 위치에 남습니다.
+[nvm-windows 공식 릴리스](https://github.com/coreybutler/nvm-windows/releases)를 설치합니다. nvm과 Node 버전은 기본 설치 경로에 둡니다.
 
 ```powershell
-nvm config set root=D:\Dev\Node\versions
-nvm config get root
 nvm install lts
 nvm use lts
 node --version
 npm --version
 ```
-
-## 3. 개발 도구
 
 ### Python
 
@@ -105,7 +100,11 @@ uv --version
 
 ### Flutter
 
-[FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)에서 Windows 패키지를 내려받아 압축을 풀고, 실행 파일 폴더를 사용자 `Path`에 추가합니다. 새 PowerShell에서 확인합니다.
+Chocolatey로 FVM을 설치합니다. 관리자 PowerShell에서 설치하고 새 PowerShell에서 확인합니다. [FVM 공식 설치 안내](https://fvm.app/documentation/getting-started/installation)
+
+```powershell
+choco install fvm
+```
 
 ```powershell
 fvm --version
@@ -137,21 +136,19 @@ docker version
 docker compose version
 ```
 
-Docker Desktop **Settings → Resources → Advanced → Disk image location**에서 `D:\Dev\Docker`를 선택합니다. 이미지를 옮길 때도 이 설정을 사용합니다. [Docker Desktop 저장 위치 설정](https://docs.docker.com/desktop/settings-and-maintenance/settings/)
-
-WSL 배포판이 필요한 경우 설치 위치를 데이터 드라이브로 지정합니다. [WSL 설치 명령](https://learn.microsoft.com/en-us/windows/wsl/basic-commands)
+Docker Desktop과 WSL 배포판은 기본 설치 경로를 사용합니다. [WSL 설치 명령](https://learn.microsoft.com/en-us/windows/wsl/basic-commands)
 
 ```powershell
-wsl --install -d Ubuntu --location D:\Dev\WSL\Ubuntu
+wsl --install -d Ubuntu
 wsl --list --verbose
 ```
 
 ### Codex·Ponytail
 
-Node.js를 설치한 PowerShell에서 실행합니다.
+Codex CLI는 Node.js·nvm 전역 패키지와 분리해 공식 설치 스크립트로 설치합니다. 일반 PowerShell에서 실행합니다.
 
 ```powershell
-npm install -g @openai/codex
+irm https://chatgpt.com/codex/install.ps1 | iex
 codex --version
 codex plugin marketplace add DietrichGebert/ponytail
 codex plugin add ponytail@ponytail
@@ -162,14 +159,22 @@ codex plugin list
 
 [Unity Hub](https://unity.com/download)를 설치하고 프로젝트가 요구하는 Editor를 추가합니다.
 
-Unity Hub에서 **Settings → Projects → Project location**을 저장소 경로로, **Settings → Installs → Installs location**을 `D:\Dev\Unity\Editor`로 지정합니다. 새 프로젝트와 에디터에 적용됩니다. [Unity Hub 설정](https://docs.unity.com/en-us/hub/settings)
+Unity Hub와 Editor는 기본 설치 경로에 둡니다. **Settings → Projects → Project location**은 D 드라이브의 프로젝트 저장소 경로로 지정합니다. [Unity Hub 설정](https://docs.unity.com/en-us/hub/settings)
 
-Android Studio는 [공식 Windows 설치 안내](https://developer.android.com/studio/install#windows)로 설치합니다. SDK Manager에서 SDK Location을 `D:\Dev\Android\Sdk`로 지정하고 Command-line Tools·Platform-Tools를 추가합니다. 사용자 환경 변수 `ANDROID_HOME`도 같은 경로로 설정하고 사용자 `Path`에 `%ANDROID_HOME%\platform-tools`를 추가합니다. [Android Studio SDK 위치 설정](https://developer.android.com/studio/intro/studio-config)
+Android Studio와 Android SDK는 기본 설치 경로인 C 드라이브에 둡니다. SDK Manager에서 Command-line Tools·Platform-Tools와 프로젝트가 요구하는 SDK를 추가합니다. SDK Location을 확인한 뒤 사용자 환경 변수 `ANDROID_HOME`과 사용자 `Path`에 실제 경로를 등록합니다. [Android Studio SDK 위치 설정](https://developer.android.com/studio/intro/studio-config)
 
 ```powershell
-[Environment]::SetEnvironmentVariable('ANDROID_HOME', 'D:\Dev\Android\Sdk', 'User')
-adb --version
+$AndroidSdk = "$env:LOCALAPPDATA\Android\Sdk"
+[Environment]::SetEnvironmentVariable('ANDROID_HOME', $AndroidSdk, 'User')
+$UserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+$PlatformTools = Join-Path $AndroidSdk 'platform-tools'
+if (($UserPath -split ';') -notcontains $PlatformTools) {
+    [Environment]::SetEnvironmentVariable('Path', "$UserPath;$PlatformTools", 'User')
+}
+& (Join-Path $PlatformTools 'adb.exe') --version
 ```
+
+새 PowerShell에서 `adb --version`으로 사용자 `Path` 적용을 확인합니다.
 
 실기기는 제조사 USB 드라이버와 USB 디버깅 승인이 필요합니다. JDK는 Android Studio 포함 버전을 먼저 사용합니다.
 

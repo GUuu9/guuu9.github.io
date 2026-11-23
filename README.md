@@ -18,11 +18,11 @@
 
 | 환경 | 설정 문서 | 문서 버전 | 문서 점검 | 실제 설치·실행 | 점검일 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Windows 11 x64 | [Windows 설정](./00.Setup/Windows_Dev_Setting.md) | v5.1.0 | 구조·링크 검사 통과 | 미검증 | 2026-11-03 |
-| macOS Apple Silicon | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Apple Silicon 기기 미검증 | 2026-11-03 |
-| macOS Intel | [macOS 설정](./00.Setup/macOS_Dev_Setting.md#cpu별-확인-사항) | v6.1.0 | 구조·링크 검사 통과 | Intel Mac·macOS 13.7.8 확인, 전체 설치 흐름 미검증 | 2026-11-03 |
+| Windows 11 x64 | [Windows 설정](./00.Setup/Windows_Dev_Setting.md) | v5.1.3 | 구조·링크 확인 | 미검증 | 2026-11-24 |
+| macOS Apple Silicon | [Apple Silicon 설정](./00.Setup/macOS_Dev_Setting.md) | v6.2.0 | 문서 구조·링크 확인 | 미검증 | 2026-11-23 |
+| macOS Intel | [Intel 설정](./00.Setup/macOS_Intel_Dev_Setting.md) | v1.1.0 | Intel Homebrew 설치 흐름·링크 확인 | 실제 설치 미검증 | 2026-11-23 |
 
-문서 점검은 버전·코드 블록·내부 링크를 확인한 결과입니다. 실제 설치·빌드 성공을 뜻하지 않습니다. macOS 설치 이후 프로젝트별 시작·업데이트는 [안내](./00.Setup/macOS_Dev_Setting.md#프로젝트-시작업데이트)에서 Tools 문서로 이어집니다.
+문서 점검은 버전·코드 블록·내부 링크를 확인한 결과입니다. 실제 설치·빌드 성공을 뜻하지 않습니다. macOS 설치 이후 프로젝트별 시작·업데이트는 각 OS 설정 문서에서 Tools와 보일러플레이트 안내로 이어집니다.
 
 각 OS 문서의 설치 명령·PATH·확인 순서를 따라 설정합니다. 상세 사용·버전 관리는 Tools에서, 새 프로젝트 시작은 해당 보일러플레이트에서 진행합니다. 기존 프로젝트는 요구 버전과 잠금 파일을 우선합니다.
 
@@ -31,7 +31,8 @@
 | 관리 대상 | 가이드 |
 | :--- | :--- |
 | 편집기 표시 언어·폰트 | [VS Code·Android Studio](./01.Tools/editor-setup.md) |
-| Codex 스킬·플러그인 | [Codex·Ponytail·Archify](./01.Tools/codex.md) |
+| Codex CLI | [설치·인증·업데이트](./01.Tools/codex.md) |
+| 전역 Agent Skills·Plugins | [Ponytail·Archify·다중 에이전트](./01.Tools/agent-skills/README.md) |
 | zsh 테마·플러그인·셸 설정 | [Oh My Zsh](./01.Tools/oh-my-zsh.md) |
 | 보조 패키지·앱 관리(macOS 초기 준비) | [Homebrew](./01.Tools/brew.md) |
 | Node.js 버전 | [nvm·nvm-windows](./01.Tools/nvm.md) |
@@ -53,8 +54,9 @@ TypeScript Composer v0.0.0은 6개 backend·웹·Electron·Phaser 구성에서 �
 ## 03.Utilities — 편의 앱
 
 - [ComfyUI](./03.Utilities/comfyui.md): GitHub 설치·모델 환경·실행·업데이트
-- [ArtCraft Launcher·Craft 도구](./03.Utilities/craft.md): Craft 앱 설치·업데이트와 소스 빌드
-- [Firefox·Chrome](./03.Utilities/browsers.md): OS별 설치·실행·업데이트
+- [ArtCraft Launcher·Craft 도구](./03.Utilities/artcraft.md): Craft 앱 설치·업데이트와 소스 빌드
+- [Firefox·Chrome](./03.Utilities/browsers.md): 공식 페이지 다운로드·설치·업데이트
+- [ChatGPT](./03.Utilities/chatgpt.md): 용도·공식 앱 다운로드
 
 ## 04.Servers — 원격 개발 서버
 

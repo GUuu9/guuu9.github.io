@@ -1,26 +1,46 @@
-<!-- version: v1.1.0 -->
+<!-- version: v1.2.0 -->
 # JDK 설치 확인·버전 선택·유지 관리
 
 Java·Gradle 등 JDK가 필요한 프로젝트에서 사용합니다. 모든 PC에 추가 JDK가 필요한 것은 아닙니다. 기존 프로젝트의 요구 버전·배포판과 실제 실행 JDK를 먼저 확인합니다. Android Studio 포함 JBR이 요구 조건에 맞으면 재사용합니다. Gradle 실행 JDK와 Java 소스 언어 수준은 별도입니다. [Android JDK 안내](https://developer.android.com/build/jdks) · [Gradle Java 호환 표](https://docs.gradle.org/current/userguide/compatibility.html).
 
 ## Windows JDK 설치
 
-Windows x64에서 공식 `.msi`의 정확한 버전·체크섬을 확인합니다. 다른 CPU는 해당 배포판 지원 여부와 설치 형식을 먼저 확인합니다. 일반 PowerShell의 임의 폴더에서 파일명을 바꿔 실행합니다.
+Windows에서는 Microsoft Build of OpenJDK를 사용합니다. macOS의 Homebrew `openjdk@<major>`와 같은 OpenJDK 계열이지만 배포 빌드는 다릅니다. 프로젝트의 Gradle·Android Gradle Plugin 요구 major를 확인한 뒤 [Microsoft 공식 설치 안내](https://learn.microsoft.com/en-us/java/openjdk/install)에 있는 winget ID를 선택합니다. 예시는 JDK 17입니다.
 
 ```powershell
-$JdkMsi = "$env:USERPROFILE\Downloads\실제파일명.msi"
-Get-FileHash -Algorithm SHA256 -Path $JdkMsi
+winget search Microsoft.OpenJDK
+winget install --id Microsoft.OpenJDK.17 --exact
 ```
 
-공식 값과 대조한 뒤 설치 마법사를 실행합니다. 시스템 설치에 필요한 UAC 관리자 승인이 나타날 수 있습니다.
+winget이 설치한 패키지 ID와 버전을 확인하고, 시스템 설치에 UAC 승인이 필요하면 승인합니다. MSI·EXE·ZIP을 직접 사용할 경우에는 [공식 다운로드](https://learn.microsoft.com/en-us/java/openjdk/download)에서 해당 아키텍처 파일과 체크섬을 선택합니다. 한 JDK major는 winget·MSI·ZIP 중 한 방식으로만 설치합니다.
 
 ```powershell
-msiexec.exe /i "$JdkMsi"
+winget list --id Microsoft.OpenJDK.17 --exact
 ```
 
-설치 마법사의 **Custom Setup**에서 설치 경로와 PATH·JAVA_HOME 옵션을 검토합니다. 이 프로젝트 설치를 위해 공용 PATH·JAVA_HOME을 바꾸지 않도록 해당 옵션을 해제합니다. 설치 완료 후 새 PowerShell을 열어 `java -version`, `javac -version`, `$env:JAVA_HOME`을 확인합니다. 이전 버전이 나오면 프로젝트에 필요한 JDK를 [JDK 선택 기준](#터미널ide의-jdk-선택-확인)에 맞춰 지정합니다. [공식 MSI 설치·옵션](https://adoptium.net/installation/windows).
+설치기는 JDK 실행 파일을 PATH에 추가합니다. 한 버전만 쓰는 PC는 새 PowerShell에서 아래 명령으로 확인합니다. 설치 경로는 설치기에서 선택했거나 기본 경로를 확인해 사용합니다.
 
-설치 후 [JDK 선택·유지 관리](jdk.md)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
+```powershell
+java -version
+javac -version
+$env:JAVA_HOME
+Get-Command java -All
+```
+
+여러 JDK major를 병행하거나 프로젝트별로 다른 버전을 써야 하면 [Microsoft 공식 ZIP](https://learn.microsoft.com/en-us/java/openjdk/install#zip-and-targz-packages)을 `%LOCALAPPDATA%\Programs\Java\<major>`처럼 사용자 쓰기 권한이 있는 버전별 폴더에 풉니다. 압축 안의 `bin\java.exe`가 있는 폴더가 JDK 루트입니다. 프로젝트 작업에 사용할 PowerShell 세션에서 해당 경로를 선택합니다.
+
+```powershell
+$env:JAVA_HOME = "$env:LOCALAPPDATA\Programs\Java\17\jdk-실제버전"
+Test-Path "$env:JAVA_HOME\bin\java.exe"
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+java -version
+javac -version
+.\gradlew.bat --version
+```
+
+마지막 명령은 프로젝트 루트에서 실행합니다. `Get-Command java -All`에 여러 경로가 나오면 PATH에서 먼저 발견되는 Java가 실행되므로 `JAVA_HOME`과 `java -version`이 같은 설치를 가리키는지 확인합니다. 실제 Gradle 빌드는 IDE의 **Gradle JDK** 설정도 확인합니다. 터미널을 닫으면 세션별 PATH·`JAVA_HOME`은 사라집니다.
+
+설치 후 아래 [JDK 선택·유지 관리](#터미널ide의-jdk-선택-확인)에서 프로젝트별 선택과 업데이트·제거 기준을 확인합니다.
 
 ## Linux JDK 설치
 
@@ -50,7 +70,7 @@ javac -version
 ## OS별 설치
 
 - macOS: Homebrew를 준비한 뒤 [JDK formula 설치](./brew.md#프로젝트용-jdk-설치)를 따릅니다.
-- Windows: [공식 MSI 설치](#windows-jdk-설치)를 따릅니다.
+- Windows: [Microsoft Build of OpenJDK 설치](#windows-jdk-설치)를 따릅니다.
 - Linux: [공식 아카이브 설치](#linux-jdk-설치)를 따릅니다.
 
 정상 설치를 관리 방식만 바꾸기 위해 교체하지 않습니다. 새 JDK를 병행 설치하고 사용하는 프로젝트를 검증한 뒤 불필요한 이전 설치만 정리합니다.
@@ -86,9 +106,14 @@ java -version
 
 ## Windows·Linux의 업데이트·복귀·제거
 
-새 버전 설치 전에 설치 경로·배포판·정확한 버전·CPU·체크섬과 참조 프로젝트를 기록합니다. Windows MSI는 같은 설치를 갱신할 수 있으므로 독립 버전 병행이 필요하면 [공식 아카이브](https://adoptium.net/installation/archives)를 별도 경로에 보존하는 방식을 검토합니다. Linux 사용자 아카이브도 버전별 폴더를 덮어쓰지 않습니다. 새 환경을 선택해 프로젝트를 검증하고 실패하면 보존한 기존 JDK와 프로젝트 설정으로 복귀합니다.
+새 버전 설치 전에 설치 경로·배포판·정확한 버전·CPU·체크섬과 참조 프로젝트를 기록합니다. Windows winget 설치는 같은 major의 패키지를 아래처럼 갱신합니다. 여러 major나 patch 버전을 병행할 때는 공식 ZIP을 버전별 폴더에 보존하고 프로젝트 세션에서 선택합니다. winget 업데이트는 특정 이전 patch로 복귀할 파일 보존을 대신하지 않습니다. Linux 사용자 아카이브도 버전별 폴더를 덮어쓰지 않습니다. 새 환경을 선택해 프로젝트를 검증하고 실패하면 보존한 기존 JDK와 프로젝트 설정으로 복귀합니다.
 
-Windows MSI 제거는 설정의 설치된 앱에서 정확한 배포판·버전을 확인해 진행합니다. 사용자 폴더 아카이브는 더 이상 참조하지 않는 해당 버전 폴더만 선택 정리합니다. 공용 PATH·JAVA_HOME이나 IDE 참조도 확인하며 다른 JDK·Gradle 캐시·프로젝트·서명 자료를 함께 지우지 않습니다.
+```powershell
+winget upgrade --id Microsoft.OpenJDK.17 --exact
+winget list --id Microsoft.OpenJDK.17 --exact
+```
+
+Windows winget 설치는 `winget uninstall --id Microsoft.OpenJDK.17 --exact`처럼 설치한 major만 제거합니다. ZIP 설치는 더 이상 참조하지 않는 해당 버전 폴더만 선택 정리합니다. 공용 PATH·`JAVA_HOME`이나 IDE 참조도 확인하며 다른 JDK·Gradle 캐시·프로젝트·서명 자료를 함께 지우지 않습니다.
 
 ## macOS JDK 업데이트·유지·제거
 

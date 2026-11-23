@@ -1,4 +1,4 @@
-<!-- version: v2.0.0 -->
+<!-- version: v2.0.1 -->
 # uv·Python 가상환경
 
 uv로 Python 버전·프로젝트 의존성·가상환경을 관리합니다. 새 프로젝트는 `uv` 명령과 `uv.lock`을 사용하고, 기존 프로젝트는 `requirements.txt` 등 현재 선언을 유지합니다.
@@ -26,7 +26,7 @@ Get-Command uv
 uv --version
 ```
 
-Intel·Ventura에서 Homebrew formula를 설치할 수 없어도 uv 자체의 지원 여부와는 별개입니다. [공식 OS 지원](https://docs.astral.sh/uv/reference/policies/platforms/#macos-versions)을 확인합니다. 기존 설치가 있으면 `which -a uv`로 경로를 확인하고 Homebrew·독립 설치를 중복하지 않습니다.
+uv는 Intel `x86_64`와 Apple Silicon을 모두 지원하며 macOS 13 이상을 지원합니다. macOS 12는 `realpath` 설치가 필요한 알려진 동작 조건입니다. Intel에서는 Homebrew formula 대신 위의 공식 설치 스크립트를 사용할 수 있습니다. [공식 CPU·OS 지원](https://docs.astral.sh/uv/reference/policies/platforms/). 기존 설치가 있으면 `which -a uv`로 경로를 확인하고 Homebrew·독립 설치를 중복하지 않습니다.
 
 ## 2. 프로젝트 생성·복원·사용
 
