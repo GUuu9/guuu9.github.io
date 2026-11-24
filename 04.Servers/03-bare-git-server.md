@@ -196,3 +196,59 @@ bare 저장소는 커밋·브랜치·태그 기록을 보관하지만 미커밋 
 팀에 웹 화면·사용자/저장소별 권한·코드 리뷰·이슈·CI가 필요하면 bare 저장소 대신 자체 호스팅 Git 서비스를 검토합니다. Git 프로토콜은 bare 저장소와 SSH 서비스만으로 동작하며 별도의 Git 전용 포트나 `git daemon`을 열 필요가 없습니다.
 
 공식 참고: [Git 서버 설정](https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server) · [Git bare 공유 저장소](https://git-scm.com/book/en/v2/Git-on-the-Server-Getting-Git-on-a-Server) · [Microsoft OpenSSH Server](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse) · [Apple Remote Login](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac).
+
+# 사내 Git 저장소
+
+각 프로젝트는 이 폴더 바로 아래에 독립적인 bare 저장소로 둡니다. 예: `project-a.git`.
+저장소 파일을 SMB 공유 폴더에서 직접 편집하지 말고 SSH 주소로 Git을 사용하세요.
+
+## 새 저장소 만들기
+
+이 Mac에서:
+
+```sh
+git init --bare project-a.git
+```
+
+## 다른 PC에서 사용하기
+
+macOS의 **시스템 설정 → 일반 → 공유 → 원격 로그인**을 켜고, 접속할 계정을 허용하세요.
+클라이언트 PC에서 해당 계정의 SSH 접속이 가능한지 먼저 확인합니다.
+
+```sh
+ssh <계정>@<이-Mac의-LAN-IP>
+git clone <계정>@<이-Mac의-LAN-IP>:/Users/knetzmac/git-repo/project-a.git
+```
+
+기존 프로젝트를 연결하려면 프로젝트 폴더에서:
+
+```sh
+git remote add origin <계정>@<이-Mac의-LAN-IP>:/Users/knetzmac/git-repo/project-a.git
+git push -u origin --all
+git push origin --tags
+```
+
+`--all`은 로컬 브랜치를 각각 같은 이름으로 올립니다. `HEAD`는 현재 브랜치 하나만 올리며, 브랜치 이름을 바꾸는 명령은 아닙니다. 나중에 브랜치 하나만 푸시할 때는:
+
+```sh
+git push -u origin <브랜치명>
+```
+
+복제한 저장소에서 원격 브랜치와 태그를 가져오고 확인하려면:
+
+```sh
+git fetch --all --tags
+git branch -a
+git tag
+```
+
+`git branch`만 실행하면 현재 로컬 브랜치만 보입니다. 원격 브랜치를 확인하고 로컬 작업 브랜치로 전환하려면:
+
+```sh
+git branch -r
+git switch --track origin/main
+```
+
+다른 브랜치는 `origin/main` 대신 `origin/develop/v1.1.0` 또는 `origin/release/v1.0.0`을 지정하세요. 이미 복제한 뒤 원격에 브랜치가 추가됐다면 먼저 `git fetch origin`을 실행합니다.
+
+`<계정>`과 `<이-Mac의-LAN-IP>`는 실제 값으로 바꾸세요. 여러 사용자에게 쓰기 권한을 줄 때는 각 계정의 SSH 접근 권한과 저장소 폴더 권한도 설정해야 합니다.
