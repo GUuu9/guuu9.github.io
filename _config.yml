@@ -86,6 +86,8 @@ document_navigation:
             path: "01.Tools/agent-skills/ponytail.md"
           - title: "Archify 전역 스킬"
             path: "01.Tools/agent-skills/archify.md"
+          - title: "PixelFX 전역 스킬"
+            path: "01.Tools/agent-skills/pixelfx.md"
       - title: "도구 제거와 숨김 설정·캐시 정리"
         path: "01.Tools/uninstall-cleanup.md"
       - title: "Markdown 문서 디자인·작성 가이드"

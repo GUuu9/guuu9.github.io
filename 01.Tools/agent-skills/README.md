@@ -1,6 +1,6 @@
 # Agent Skills·Plugins
 
-이 폴더에서 Ponytail·Archify 같은 스킬과 에이전트 플러그인을 전역으로 설치·업데이트·제거합니다. 프로젝트 저장소에 넣는 기능은 해당 프로젝트에서만 쓸 때 선택합니다.
+이 폴더에서 Ponytail·Archify·PixelFX 같은 스킬과 에이전트 플러그인을 전역으로 설치·업데이트·제거합니다. 프로젝트 저장소에 넣는 기능은 해당 프로젝트에서만 쓸 때 선택합니다.
 
 ## 스킬과 플러그인
 
@@ -27,6 +27,7 @@ Windows는 PowerShell에서 같은 `npx` 명령을 사용합니다. `--agent`에
 | :--- | :--- |
 | Ponytail | [스킬·플러그인 안내](./ponytail.md) |
 | Archify | [전역 스킬 안내](./archify.md) |
+| PixelFX | [전역 스킬 안내](./pixelfx.md) |
 
 설치 전 출처와 권한·실행 내용을 확인합니다. 설치 경로·에이전트 지원은 해당 제품의 공식 안내와 Skills CLI 지원 목록을 다시 확인합니다.
 
