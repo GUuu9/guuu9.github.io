@@ -64,7 +64,7 @@ TypeScript Composer v0.0.0은 6개 backend·웹·Electron·Phaser 구성에서 �
 
 1. [Linux 원격 접속 서버](./04.Servers/01-linux-server.md): Ubuntu Server·SSH 키·VS Code Remote-SSH
 2. [Docker 개발 환경](./04.Servers/02-docker-development.md): Docker Engine·이미지·`docker run`·프로젝트 경로·포트 전달
-3. [SSH Git bare 저장소](./04.Servers/03-bare-git-server.md): OS별 호스트 설정·SSH 연결·내부망/VPN 접근
+3. [SSH Git bare 저장소](./04.Servers/03-bare-git-server.md): Linux bare 저장소·소유권·SSH 연결·내부망/VPN 접근
 
 Docker 개발 환경은 Dockerfile·Compose 없이 실행 명령과 이미지 버전을 기록합니다. bare Git 저장소는 SSH와 호스트 OS 계정 권한으로 접근합니다.
 

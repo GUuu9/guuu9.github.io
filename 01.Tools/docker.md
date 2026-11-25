@@ -1,4 +1,4 @@
-<!-- version: v2.1.0 -->
+<!-- version: v2.1.1 -->
 <!-- {% raw %} -->
 # Docker·Compose 사용 가이드
 
@@ -190,7 +190,7 @@ VS Code의 Dev Containers 설정이 있는 프로젝트는 기존 구성을 재�
 SSH 개발 컨테이너에 연결할 때는 개인 PC에서 다음 순서로 진행합니다.
 
 1. `ssh -V`로 SSH 클라이언트를 확인하고 VS Code Extensions에서 Microsoft Remote - SSH를 설치합니다. Dev Containers 확장은 직접 SSH 방식의 필수 조건이 아닙니다.
-2. 관리자가 준 주소·포트·사용자·공개키 등록 여부·host key 지문을 확인하고 먼저 일반 터미널에서 SSH 로그인이 되는지 검사합니다. 키 생성·SSH config 예시는 [서버 접속 안내](../04.Servers/README.md#6-개인-pc에서-sshvs-code-접속)를 따릅니다. 개인 키는 개인 PC에 보관합니다.
+2. 관리자가 준 주소·포트·사용자·공개키 등록 여부·host key 지문을 확인하고 먼저 일반 터미널에서 SSH 로그인이 되는지 검사합니다. 키 생성·SSH config 예시는 [서버 접속 안내](../04.Servers/01-linux-server.md#7-vs-code에서-원격-개발)를 따릅니다. 개인 키는 개인 PC에 보관합니다.
 3. VS Code 명령 팔레트에서 `Remote-SSH: Connect to Host...`를 실행하고 등록한 프로필을 선택합니다. 서버 플랫폼을 물으면 실제 컨테이너의 Linux를 선택합니다.
 4. 첫 연결에서 VS Code Server 구성 요소를 원격 사용자 권한으로 준비합니다. 사용자 home의 쓰기 권한·디스크 여유와 다운로드 통신 경로가 필요합니다. 별도 데스크톱 VS Code 앱을 컨테이너에 설치하지 않습니다.
 5. 원격 창에서 **Open Folder**로 컨테이너 안 프로젝트를 열고 통합 터미널의 `whoami`, `hostname`, `pwd`로 실행 위치를 확인합니다. 빌드·디버깅 명령과 패키지는 컨테이너 OS·CPU 환경을 사용합니다.
