@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # Linux에서 SSH Git bare 저장소 운영
 
 Ubuntu Server를 Git 호스트로 사용하고 Linux·macOS·Windows PC에서 SSH로 연결합니다. bare 저장소는 작업 파일 없이 Git 기록만 보관합니다. 웹 UI·Pull Request·저장소별 접근 제어·CI는 제공하지 않습니다.
@@ -12,6 +12,18 @@ Ubuntu Server를 Git 호스트로 사용하고 Linux·macOS·Windows PC에서 SS
 ## 2. 홈 디렉터리에 bare 저장소 생성
 
 bare 저장소는 SSH 접속에 사용할 Linux 계정 소유로 만듭니다. `sudo git init`으로 만들지 않습니다. 그래야 SSH로 실행되는 Git 명령의 사용자와 저장소 소유자가 일치합니다.
+
+### 대화형 스크립트로 생성
+
+[create-bare-repo.sh](./create-bare-repo.sh)를 서버로 복사하고, 저장소를 소유할 SSH 계정으로 실행합니다.
+
+```bash
+bash ./create-bare-repo.sh
+```
+
+저장소 이름과 기본 브랜치(기본값 `main`)를 입력하고 생성 경로를 확인합니다. 승인하면 `~/git/<이름>.git`을 만들고 소유권과 clone 명령을 표시합니다. 이미 있는 경로에서는 초기화하지 않습니다. clone 명령의 `git-host`는 다음 절에서 설정하는 SSH 별칭입니다. 공유 그룹 저장소는 아래 공유 절차를 사용합니다.
+
+### 직접 생성
 
 아래는 SSH 접속 계정의 홈에 `project.git`을 만드는 예입니다. 같은 이름이 이미 있으면 재초기화하지 말고 먼저 상태를 확인합니다.
 

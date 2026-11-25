@@ -1,4 +1,4 @@
-<!-- version: v1.3.0 -->
+<!-- version: v1.4.0 -->
 # 네트워크 개발용 Ubuntu Linux 서버 구성
 
 개발 PC에서 네트워크로 접속해 코드 편집·빌드·테스트하는 Ubuntu Server 구성입니다. 기본은 서버 호스트의 일반 사용자 계정과 SSH·VS Code Remote - SSH이며, Docker는 사용자별 환경 격리가 필요할 때 선택합니다.
@@ -213,6 +213,39 @@ VS Code에서 `Remote-SSH: Connect to Host...` → `dev-server`를 선택하고 
 개발 서버 주소는 VPN 또는 내부망을 우선합니다. SSH를 인터넷에 공개해야 한다면 공유기 포트 포워딩에 의존하기 전에 VPN·접근 제어를 검토하고, 공개 포트는 허용 IP와 상위 방화벽으로 제한합니다.
 
 ## 8. 접속·데이터 확인과 개발 환경 선택
+
+### SCP 전송과 소유권 확인
+
+SCP는 SSH로 로그인한 계정의 권한을 사용합니다. 업로드하려면 상위 폴더를 통과할 수 있고 대상 폴더에 쓰기 권한이 있어야 합니다. 기존 파일을 덮어쓸 때는 파일의 쓰기 권한도 확인합니다. 다운로드할 때는 서버 계정에 원본 읽기 권한이 필요합니다.
+
+```bash
+# 서버의 실제 수신 계정으로 접속해 확인
+id
+namei -l /code/proj/private-app-3000
+test -w /code/proj/private-app-3000 && echo '업로드 가능'
+```
+
+대상 폴더가 관리자 소유이거나 공유 그룹 권한이 아직 적용되지 않았다면, SSH 계정의 홈에 먼저 올립니다. 아래 `dev-server`는 작업자 계정으로 연결되는 SSH 별칭입니다.
+
+```bash
+# 송신 PC에서 실행
+ssh dev-server 'mkdir -m 0700 ~/incoming'
+scp ./payload.tar dev-server:incoming/
+ssh dev-server 'stat -c "%U:%G %a %n" ~/incoming/payload.tar'
+```
+
+`~/incoming`이 이미 있으면 소유권과 권한을 확인한 뒤 재사용합니다. 프로젝트 폴더에 쓰기 권한이 있으면 작업자가 직접 옮깁니다. 관리자가 개인 프로젝트에 대신 배치할 때는 소유자와 모드를 명시합니다. 아래 명령에서 계정·파일명·경로를 실제 값으로 바꾸고 같은 이름의 파일이 있는지 먼저 확인합니다.
+
+```bash
+# 서버 관리자
+sudo install -o dev-user -g "$(id -gn dev-user)" -m 0600 \
+  /home/dev-user/incoming/payload.tar /code/proj/private-app-3000/payload.tar
+stat -c '%U:%G %a %n' /code/proj/private-app-3000/payload.tar
+```
+
+팀 공유 파일은 프로젝트 그룹과 필요한 파일 모드를 지정합니다. 프로젝트 전체에 재귀적으로 소유권을 바꾸거나 모든 사용자에게 쓰기 권한을 부여하기 전에, 접근이 막힌 경로와 파일을 확인합니다.
+
+### 원격 접속과 작업 환경 확인
 
 개인 PC에서 새 SSH 세션을 열고 서버 정보를 확인합니다.
 
