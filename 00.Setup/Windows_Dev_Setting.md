@@ -1,7 +1,7 @@
-<!-- version: v5.1.3 -->
+<!-- version: v5.2.0 -->
 # Windows 개발 환경 설정
 
-Windows 11 x64·PowerShell 기준입니다. WSL은 별도 Linux 환경으로 관리합니다. 아래 명령은 일반 PowerShell에서 실행하며 설치기가 권한 상승을 요구할 때만 승인합니다.
+Windows 11 x64·PowerShell 7 기준입니다. WSL은 별도 Linux 환경으로 관리합니다. 최초 명령은 Windows PowerShell에서 실행하고 PowerShell 7 설치 후 나머지 설정은 `pwsh`에서 진행합니다. 설치기가 권한 상승을 요구할 때만 승인합니다.
 
 ## 1. 기본 도구·PATH
 
@@ -18,6 +18,14 @@ Git·VS Code·C++ Build Tools를 설치합니다. Build Tools 설치 뒤 Visual 
 winget install --id Git.Git -e --source winget
 winget install --id Microsoft.VisualStudioCode -e --source winget
 winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+winget install --id Microsoft.PowerShell --source winget
+```
+
+PowerShell 7을 시작 메뉴에서 열거나 `pwsh`로 실행합니다. 이후 Windows Terminal에서 기본 프로필로 **PowerShell**을 선택합니다. VS Code 통합 터미널도 `Terminal: Select Default Profile` 명령에서 **PowerShell**을 선택합니다. 버전과 실행 파일 경로로 PowerShell 7인지 확인합니다.
+
+```powershell
+$PSVersionTable.PSVersion
+(Get-Process -Id $PID).Path
 ```
 
 Build Tools 설치기에서 **Desktop development with C++** 워크로드와 Windows SDK가 설치되었는지 확인합니다. 일반 PowerShell에는 MSVC 환경 변수가 설정되지 않으므로 시작 메뉴에서 **Developer PowerShell for VS 2022**를 열어 확인합니다.
@@ -27,7 +35,7 @@ git --version
 code --version
 ```
 
-**Developer PowerShell for VS**에서 C++ 컴파일러도 확인합니다.
+**Developer PowerShell for VS**에서 C++ 컴파일러도 확인합니다. 이 프로필은 MSVC 환경이 필요할 때만 사용합니다.
 
 ```powershell
 cl
@@ -145,7 +153,7 @@ wsl --list --verbose
 
 ### Codex·Ponytail
 
-Codex CLI는 Node.js·nvm 전역 패키지와 분리해 공식 설치 스크립트로 설치합니다. 일반 PowerShell에서 실행합니다.
+Codex CLI 설치·업데이트 중 PowerShell 오류를 피하도록 PowerShell 7(`pwsh`)을 사용합니다. Windows PowerShell에서 설치한 뒤 새 PowerShell 7에서 Codex CLI를 설치·업데이트합니다. 자세한 인증·복귀는 [Codex CLI 가이드](../01.Tools/codex.md)를 따릅니다.
 
 ```powershell
 irm https://chatgpt.com/codex/install.ps1 | iex
@@ -154,6 +162,24 @@ codex plugin marketplace add DietrichGebert/ponytail
 codex plugin add ponytail@ponytail
 codex plugin list
 ```
+
+### 터미널 테마
+
+[Oh My Posh Windows 안내](https://ohmyposh.dev/docs/installation/windows)에 따라 설치합니다. PowerShell 7에서 진행합니다.
+
+```powershell
+winget install JanDeDobbeleer.OhMyPosh --source winget
+oh-my-posh font install meslo
+notepad $PROFILE
+```
+
+프로필 파일에 다음 줄을 추가해 Oh My Zsh의 `robbyrussell` 테마와 같은 이름의 Oh My Posh 테마를 적용합니다. Windows Terminal과 VS Code의 통합 터미널 글꼴도 `MesloLGM Nerd Font`로 지정합니다. VS Code의 `terminal.integrated.fontFamily`는 기존 D2Coding 설정 대신 이 글꼴로 바꿉니다.
+
+```powershell
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\robbyrussell.omp.json" | Invoke-Expression
+```
+
+프로필을 저장한 뒤 새 PowerShell 7 터미널에서 `oh-my-posh version`과 프롬프트 아이콘 표시를 확인합니다. 테마 설정 및 업데이트는 [Oh My Zsh·Oh My Posh 가이드](../01.Tools/oh-my-zsh.md)를 참고합니다.
 
 ### Unity
 
@@ -182,7 +208,7 @@ Flutter iOS 빌드는 Mac·Xcode가 필요합니다. WSL 안에서 Android USB �
 
 ## 완료 확인
 
-새 PowerShell에서 확인합니다. 프로젝트가 지정한 런타임 버전은 각 저장소의 설정 파일로 선택합니다.
+새 PowerShell 7에서 확인합니다. 프로젝트가 지정한 런타임 버전은 각 저장소의 설정 파일로 선택합니다.
 
 ```powershell
 git --version
@@ -192,6 +218,7 @@ npm --version
 uv --version
 fvm --version
 rustc --version
+oh-my-posh version
 codex --version
 ```
 

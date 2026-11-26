@@ -55,7 +55,7 @@ document_navigation:
         path: "01.Tools/github.md"
       - title: "VS Code·코딩 폰트 설치·설정"
         path: "01.Tools/editor-setup.md"
-      - title: "Oh My Zsh 사용·업데이트"
+      - title: "Oh My Zsh·Oh My Posh 사용·업데이트"
         path: "01.Tools/oh-my-zsh.md"
       - title: "nvm·nvm-windows 사용 가이드"
         path: "01.Tools/nvm.md"

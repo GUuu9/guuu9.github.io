@@ -1,7 +1,7 @@
-<!-- version: v1.2.1 -->
-# Oh My Zsh 사용·업데이트
+<!-- version: v1.3.0 -->
+# Oh My Zsh·Oh My Posh 사용·업데이트
 
-Oh My Zsh는 zsh 설정을 테마·플러그인으로 관리하는 프레임워크입니다. 이 가이드는 macOS·Linux의 기본 설치 경로를 기준으로 합니다. 명령은 개인 PC의 zsh 터미널에서 일반 사용자 권한으로 실행합니다. 초기 설치는 [macOS 공통 설치](#macos-설치) 또는 [Linux 설치](#linux-설치)를 따릅니다.
+Oh My Zsh는 zsh 설정을, Oh My Posh는 여러 셸의 프롬프트 테마를 관리합니다. Oh My Zsh 절차는 macOS·Linux, Oh My Posh 절차는 Windows PowerShell 7 기준입니다. Windows 최초 설치는 [Windows Setup](../00.Setup/Windows_Dev_Setting.md)을 따릅니다.
 
 ## macOS 설치
 
@@ -97,3 +97,25 @@ omz update
 - [공식 FAQ](https://github.com/ohmyzsh/ohmyzsh/wiki/FAQ)
 
 제거 후 숨김 설정·캐시·셸 초기화 항목까지 정리하려면 [도구별 제거·잔여 파일 관리](./uninstall-cleanup.md)를 함께 확인합니다.
+
+## Windows PowerShell 7의 Oh My Posh
+
+PowerShell 7에서 winget으로 설치하고 Meslo Nerd Font를 준비합니다. 설정은 사용자 PowerShell 프로필에 저장하며, 이미 프로필이 있으면 내용을 보존합니다.
+
+```powershell
+winget install JanDeDobbeleer.OhMyPosh --source winget
+oh-my-posh font install meslo
+notepad $PROFILE
+```
+
+프로필에 아래 초기화 줄을 추가합니다. Oh My Zsh의 `robbyrussell`과 같은 이름의 기본 테마를 사용합니다.
+
+```powershell
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\robbyrussell.omp.json" | Invoke-Expression
+```
+
+Windows Terminal과 VS Code 통합 터미널의 글꼴을 `MesloLGM Nerd Font`로 지정합니다. VS Code에서는 `Terminal: Select Default Profile`에서 **PowerShell**을 선택하고, User Settings의 `terminal.integrated.fontFamily`도 지정합니다. 새 터미널에서 `oh-my-posh version`과 아이콘 표시를 확인합니다.
+
+winget 설치를 갱신할 때는 `winget upgrade JanDeDobbeleer.OhMyPosh --source winget`을 사용합니다. 테마·초기화 줄을 바꾸지 않는 한 개인 PowerShell 프로필은 그대로 유지됩니다.
+
+공식 안내: [Windows 설치·업데이트](https://ohmyposh.dev/docs/installation/windows) · [테마](https://ohmyposh.dev/docs/themes) · [Nerd Font 설치·터미널 설정](https://ohmyposh.dev/docs/installation/fonts) · [VS Code 터미널 프로필](https://code.visualstudio.com/docs/terminal/profiles).

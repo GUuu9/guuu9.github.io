@@ -10,7 +10,7 @@ Intel Mac은 설치 파일에서 `Intel`, `x86_64` 또는 Intel을 포함한 `Un
 | :--- | :--- | :--- |
 | [기본 패키지·셸·PATH](./shell-environment.md) | OS별 공통 준비·환경 변수 | 설치 전 확인·설정 백업·OS 갱신 |
 | [Homebrew](./brew.md) | macOS 보조 패키지·앱 | 패키지 설치·업데이트·Intel 제약 |
-| [Oh My Zsh](./oh-my-zsh.md) | zsh 테마·플러그인·개인 셸 설정 | macOS·Linux zsh 설정·업데이트·복귀 |
+| [Oh My Zsh·Oh My Posh](./oh-my-zsh.md) | macOS·Linux zsh 설정과 Windows PowerShell 프롬프트 테마 | 셸 설정·테마·업데이트·복귀 |
 
 ## 편집기·플랫폼 개발 도구
 
