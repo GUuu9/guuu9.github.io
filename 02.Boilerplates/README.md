@@ -9,7 +9,7 @@ Composer 코드·구성품·상세 규칙·변경 이력은 각 독립 저장소
 
 ## TypeScript Composer 내려받기·생성
 
-Git과 Composer의 `.nvmrc`에 지정한 Node 24.22.1을 준비합니다. macOS는 Git·Homebrew·nvm 전에 선택한 CLT 또는 전체 Xcode의 라이선스·최초 초기화를 완료합니다. Windows는 D:\Developer 등 실제 데이터 드라이브의 작업 부모 폴더에서 시작합니다. 같은 이름의 폴더가 있으면 덮어쓰지 말고 기존 remote/status부터 확인합니다.
+Git과 Composer의 `.nvmrc`에 지정한 Node 24.22.1을 준비합니다. macOS는 Git·Homebrew·nvm 전에 선택한 CLT 또는 전체 Xcode의 라이선스·최초 초기화를 완료합니다. Windows 개발 도구와 SDK는 C의 기본 설치 경로를 사용합니다. D는 프로젝트 소스와 문서를 보관할 때 사용합니다. 같은 이름의 폴더가 있으면 덮어쓰지 말고 기존 remote/status부터 확인합니다.
 
 Composer 자체에는 설치할 외부 의존성이 없습니다. Composer 루트에서 실행합니다. 아래 Git/npm 명령은 Bash·PowerShell에서 같습니다.
 
