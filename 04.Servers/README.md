@@ -4,8 +4,8 @@
 
 | 순서 | 안내 | 목적 |
 | :--- | :--- | :--- |
-| 1 | [Linux 원격 접속 서버](./01-linux-server.md) | Ubuntu Server 설치, SSH 키 접속, VS Code Remote-SSH, 서버 파일 접근 |
-| 2 | [Docker 개발 환경](./02-docker-development.md) | Docker Engine 설치, `docker run`으로 컨테이너 실행, 프로젝트 경로 연결·포트 전달 |
-| 3 | [SSH Git bare 저장소](./03-bare-git-server.md) | OS별 bare 저장소 호스트 설정, SSH 연결, 내부망·VPN 접근 |
+| 1 | [Linux 원격 접속 서버](./01-linux-server.md) | Ubuntu Server 최소 설치, 고정 IP, 추가 디스크와 경로, 관리자·작업자 계정, LAN SSH |
+| 2 | [Docker 개발 환경](./02-docker-development.md) | Docker Engine, 프로젝트별 bind mount, SSH 이후 작업, 개발 포트, 환경 공유 |
+| 3 | [SSH Git bare 저장소](./03-bare-git-server.md) | Linux bare 저장소 생성, SSH 키, push·clone, 소유권, 백업·복구 |
 
 Dockerfile·Compose 파일 없이 제공되는 이미지와 `docker run` 옵션으로 컨테이너를 구성합니다. 실행 명령과 이미지 버전을 작업 기록에 남겨 같은 개발 환경을 다시 실행합니다.
