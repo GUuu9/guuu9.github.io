@@ -1,4 +1,4 @@
-<!-- version: v1.4.0 -->
+<!-- version: v1.5.0 -->
 # Linux에서 SSH Git bare 저장소 운영
 
 Ubuntu Server를 Git 호스트로 사용하고 Linux·macOS·Windows PC에서 SSH로 연결합니다. bare 저장소는 작업 파일 없이 Git 기록만 보관합니다. 웹 UI·Pull Request·저장소별 접근 제어·CI는 제공하지 않습니다.
@@ -15,13 +15,43 @@ bare 저장소는 SSH 접속에 사용할 Linux 계정 소유로 만듭니다. `
 
 ### 대화형 스크립트로 생성
 
-[create-bare-repo.sh](./create-bare-repo.sh)를 서버로 복사하고, 저장소를 소유할 SSH 계정으로 실행합니다.
+[create-bare-repo.sh](./create-bare-repo.sh)를 서버로 복사하고, 저장소를 소유할 SSH 계정으로 실행합니다. 복사한 파일의 소유자와 권한을 먼저 확인합니다. `bash ./create-bare-repo.sh`에는 파일 읽기 권한이 필요합니다.
 
 ```bash
+whoami
+stat -c '%U:%G %a %n' ./create-bare-repo.sh
 bash ./create-bare-repo.sh
 ```
 
+`./create-bare-repo.sh`로 직접 실행하려면 파일 소유자가 실행 권한을 추가합니다.
+
+```bash
+chmod u+x ./create-bare-repo.sh
+./create-bare-repo.sh
+```
+
+다른 계정이 복사해 작업자가 파일을 읽거나 권한을 바꿀 수 없다면, 작업자 계정으로 다시 복사하거나 관리자가 스크립트 파일만 작업자 소유로 변경합니다. 아래 명령의 `gituser`는 실제 저장소 소유 계정으로 바꿉니다. 홈 경로가 `/home/gituser`와 다르면 아래 경로도 실제 계정의 홈에 맞춥니다.
+
+```bash
+sudo chown "gituser:$(id -gn gituser)" ./create-bare-repo.sh
+# 소유권 변경 후 작업자 계정에서 실행
+chmod 0700 ./create-bare-repo.sh
+```
+
 저장소 이름과 기본 브랜치(기본값 `main`)를 입력하고 생성 경로를 확인합니다. 승인하면 `~/git/<이름>.git`을 만들고 소유권과 clone 명령을 표시합니다. 이미 있는 경로에서는 초기화하지 않습니다. clone 명령의 `git-host`는 다음 절에서 설정하는 SSH 별칭입니다. 공유 그룹 저장소는 아래 공유 절차를 사용합니다.
+
+스크립트는 `sudo` 없이 실행합니다. 새 저장소는 실행 계정 소유로 생성되므로 정상 생성 후 재지정할 필요가 없습니다. 기존 `~/git`에서 생성 권한 오류가 나면 `namei -l "$HOME/git"`로 경로 권한을 확인합니다. 기존 개인 저장소의 소유자가 잘못된 경우에는 아래의 소유권 교정 절차를 해당 저장소에만 적용합니다.
+
+`/home/gituser/git`이 `gituser` 전용인데 `root:root`에 권한이 `0755`라면 작업자가 하위 저장소를 생성할 수 없습니다. 서버 관리자가 상위 폴더 자체의 소유권을 바꾼 뒤, 작업자 권한으로 쓰기와 진입을 확인합니다.
+
+```bash
+sudo chown "gituser:$(id -gn gituser)" /home/gituser/git
+sudo -u gituser test -w /home/gituser/git &&
+  sudo -u gituser test -x /home/gituser/git &&
+  echo '저장소 생성 가능'
+```
+
+이 명령은 기존 파일과 저장소의 소유권을 유지합니다. 확인 후 `gituser`로 스크립트를 다시 실행합니다. 여러 계정이 사용하는 경로는 공유 그룹의 권한을 확인합니다.
 
 ### 직접 생성
 
