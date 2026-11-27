@@ -1,4 +1,4 @@
-<!-- version: v1.9.0 -->
+<!-- version: v1.10.0 -->
 # Docker로 원격 개발 환경 실행
 
 [Linux 원격 접속 서버](./01-linux-server.md)를 먼저 구성합니다. 프로젝트별로 `/code/proj/<프로젝트>-<호스트포트>` 폴더와 같은 이름의 컨테이너를 만들고, 로컬 PC는 Remote-SSH로 호스트에 접속합니다. Docker 관리 권한이 있는 계정은 Dev Containers로 실행 중인 컨테이너에 연결할 수 있습니다. 컨테이너 포트는 서버 loopback에만 공개하고, 필요한 개발 포트는 SSH 터널로 접속합니다. 이 문서는 Dockerfile·Compose 없이 Docker CLI를 사용하는 흐름입니다.
@@ -101,6 +101,44 @@ sudo docker run -dit \
 
 폴더명과 컨테이너 이름의 `3000`은 서버에서 사용할 호스트 포트입니다. 컨테이너 내부 포트는 예시에서 `3000`이며, 다르면 `호스트포트:컨테이너포트`로 지정합니다. 포트를 사용하지 않는 프로젝트는 `--publish` 줄을 빼고 생성합니다. 컨테이너 안에서 프로젝트에 필요한 도구를 설치하고 버전을 확인합니다. Ubuntu 이미지·패키지 저장소는 바뀔 수 있으므로 이미지 태그와 실제 도구 버전을 프로젝트 기록에 남깁니다.
 
+### 대화형 스크립트로 생성
+
+두 스크립트는 Docker를 관리할 수 있는 SSH 계정에서 `bash ./스크립트명.sh`로 실행합니다. 스크립트 내부에서 Docker 명령에만 `sudo`를 사용하므로 스크립트 전체에는 `sudo`를 붙이지 않습니다. 그래야 내보낸 아카이브가 SSH 계정 소유로 저장됩니다.
+
+```bash
+whoami
+stat -c '%U:%G %a %n' ./create-dev-container.sh ./export-container-image.sh
+```
+
+다른 계정이 복사해 읽기 권한이 없다면, 아래의 `server-admin`을 실제 Docker 관리자 계정으로 바꿔 스크립트 파일만 교정합니다. 한 파일만 복사했다면 그 파일만 지정합니다.
+
+```bash
+sudo chown "server-admin:$(id -gn server-admin)" ./create-dev-container.sh ./export-container-image.sh
+# 해당 계정으로 다시 접속한 뒤 실행
+chmod u+r ./create-dev-container.sh ./export-container-image.sh
+```
+
+`bash`로 실행할 때는 읽기 권한으로 충분합니다. `./create-dev-container.sh`처럼 직접 실행하려면 파일 소유자가 `chmod u+x`도 적용합니다.
+
+[create-dev-container.sh](./create-dev-container.sh)를 Ubuntu 서버에 복사하고 Docker를 관리하는 계정으로 실행합니다. 이미지(기본값 `ubuntu:24.04`), 컨테이너 이름, 포트 공개, 기존 서버 폴더의 마운트, 컨테이너 작업 경로와 실행 UID·GID를 선택합니다. 포트를 공개하면 호스트의 `127.0.0.1`에 연결합니다. 생성 전에 출력된 명령과 마운트 경로를 확인합니다.
+
+```bash
+bash ./create-dev-container.sh
+```
+
+포트나 마운트를 사용하지 않으면 해당 질문에서 Enter를 누릅니다. 마운트할 폴더는 먼저 만들고 호스트 작업자의 권한을 확인합니다. 스크립트는 Bash가 들어 있는 개발 이미지에 맞춰 백그라운드 셸을 실행합니다.
+
+아래는 개인 프로젝트 폴더가 잘못된 계정 소유일 때의 예시입니다. 실제 경로와 작업자 계정으로 바꿉니다. `chown`은 해당 폴더에만 적용하며, 팀 공유 폴더는 프로젝트 그룹 권한을 유지합니다.
+
+```bash
+namei -l /code/proj/sample
+sudo chown "dev-user:$(id -gn dev-user)" /code/proj/sample
+sudo -u dev-user test -w /code/proj/sample &&
+  sudo -u dev-user test -x /code/proj/sample
+```
+
+컨테이너에서 작업자가 수정할 파일을 만들 때는 `id -u dev-user`와 `id -g dev-user`로 확인한 값을 `UID:GID`로 입력합니다. 기존 파일의 소유권은 바뀌지 않습니다.
+
 ### 마운트와 포트 공개 없이 실행
 
 호스트와 파일을 공유할 필요가 없고 컨테이너 내부에서만 작업한다면 다음과 같이 생성합니다. 프로젝트 파일은 컨테이너 내부에 두고, 서버 관리자 SSH 세션에서 셸을 엽니다.
@@ -164,6 +202,24 @@ ssh -N -L 3000:127.0.0.1:3000 dev-server
 재현 가능한 초기 설정을 공유하려면 프로젝트 README에 Ubuntu 이미지 태그, `docker run` 옵션, Tools에서 선택한 런타임 버전, 설치·확인 명령, 필요한 포트, 프로젝트 의존성 복원 명령을 기록합니다. `.env.example`은 비밀값 없이 보관하고 실제 비밀값은 전달하지 않습니다. 수신 PC는 같은 CPU 아키텍처와 Docker 환경을 준비한 뒤 기록된 명령과 프로젝트 lock 파일로 다시 구성합니다.
 
 ### 특정 시점의 컨테이너 이미지 전달
+
+**송신 서버**에서는 [export-container-image.sh](./export-container-image.sh)로 컨테이너를 선택한 뒤 새 이미지 태그와 아직 존재하지 않는 아카이브 경로를 입력합니다. 제한된 권한으로 저장된 `.tar`와 출력된 SHA-256을 수신 측에 전달합니다. 실행 중인 컨테이너는 이미지 생성 중 잠시 일시 정지될 수 있습니다.
+
+아카이브는 SSH 계정이 쓸 수 있는 폴더에 저장하고, 전송 전에 `stat -c '%U:%G %a %n' ./dev-environment.tar`로 소유권을 확인합니다. SCP 전송 계정이 대상 위치에 쓸 수 없다면 [SCP 전송과 소유권 확인](./01-linux-server.md#scp-전송과-소유권-확인)에 따라 계정 홈에 먼저 전송합니다.
+
+```bash
+bash ./export-container-image.sh
+```
+
+**수신 서버**에서는 받은 아카이브 경로를 인자로 전달합니다. 송신 측에서 받은 SHA-256을 입력해 대조하고, 신뢰할 수 있는 이미지일 때만 불러옵니다. 로컬 이미지와 같은 태그가 있으면 그 태그가 바뀔 수 있습니다. 불러온 이미지 이름과 수신 서버에서 쓸 포트·마운트·작업 디렉터리·사용자를 선택한 뒤 컨테이너를 생성합니다.
+
+```bash
+bash ./create-dev-container.sh ./dev-environment.tar
+```
+
+이미지에는 실행 중인 세션과 마운트 데이터가 들어가지 않습니다. 프로젝트 파일은 Git이나 별도 백업으로 전달합니다.
+
+#### 수동으로 저장하고 불러오기
 
 컨테이너 내부에서 수동으로 설치·변경한 상태를 특정 시점 이미지로 전달할 수 있습니다. 컨테이너를 중지한 뒤 송신 PC에서 새 이미지 태그로 저장합니다. 이 예의 이미지는 호스트의 `/code/proj/sample`에서 bind mount한 프로젝트 데이터를 포함하지 않습니다.
 
